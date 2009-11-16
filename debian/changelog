@@ -10,7 +10,7 @@ calendar-backend (0.5-9.13) unstable; urgency=low
 
   * Week 46, 2009 - Thursday
   *
-  * Fixed: NB#145604 "Error in processing calendar event from 5800 phone"
+  * Fixed NB#145604 "Error in processing calendar event from 5800 phone"
   * Reset alarm flag if alarm is failed to set (#146267)
   * Fix CComponent::getAlarmBefore(): use CAlarm::getTimeBefore()
 
@@ -20,7 +20,7 @@ calendar-backend (0.5-9.12) unstable; urgency=low
 
   * Week 46, 2009 - Wednesday
   * 
-  * Fixes: NB#145192 Memleaks
+  * Fixes NB#145192 Memleaks
 
  -- Ilias Biris <ilias.biris@nokia.com>  Wed, 11 Nov 2009 14:57:19 +0300
 
@@ -28,7 +28,7 @@ calendar-backend (0.5-9.11) unstable; urgency=low
 
   * Week 46, 2009 - Monday
   * 
-  * Fixes: NB#140928 Friendly API to set/get alarm for events
+  * Fixes NB#140928 Friendly API to set/get alarm for events
   * Support alarms with fixed date/time
 
  -- Ilias Biris <ilias.biris@nokia.com>  Mon, 09 Nov 2009 17:40:39 +0300
