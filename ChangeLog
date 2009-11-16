@@ -1,0 +1,1430 @@
+2009-07-01 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes: NB# 124676 Alarm for repeating event spanning from 
+	past to present is not shown in RX-51.
+	
+2009-06-30 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes: NB#125292 patch applied for this bug
+	* Fixes: NB#124473 Calendar crash in memory full condition while
+	importing ICS file
+	* Fixes: NB#124106 safety Crash in CMulticalendar.cpp
+
+2009-06-29 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes:NB#121888 patch applied for this bug.
+	* Fixes:NB#124899 patch applied for this bug.
+
+2009-06-26 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Exporting event time properties in floating times 
+	for allday events and tasks.
+
+2009-06-25 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes: NB#124391 Crash in Calendar back-end API
+
+2009-06-24 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added new API in CComponent.cpp to modify until 
+	value of component.
+	* Fixes: NB#124450 - Crash in ical_recur_iterator_new.
+
+2009-06-23 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Changes related to import Note Crash. 
+	* Fixes NB#124106- Crash in CMulticalendar.cpp
+
+2008-06-23  Nandita Suri <santoshi.suri@wipro.com>
+	* Fixes NB#123062 Anniversary event details displayed in RX-51 after
+	sync are incorrect
+	* corrections done for repeating event coming from sync
+
+2009-06-22 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes:NB#117244 - Moving to event view is slower.
+	* Fixes: NB#122400 Coverity bug fixed
+	* Correction in fetching repeating events in Applet.
+
+2008-06-22  Nandita Suri <santoshi.suri@wipro.com>
+	* DB Column corrections made in localBdayEventFromRemoteId
+	* Fixes NB#123650 Done Task when Undone and sync from RX-51 to s60
+	phone is updated as Repeat Task on Phone
+	* Applied patch for bug 122400
+	* Typo fix for patch
+
+2009-06-19 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fix in security Test Cases!! 
+	* Fix: NB#121816 Integrated semaphore patch 
+
+2009-06-18 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Forward declaration  of class instead of including. 
+
+2009-06-17 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes: NB#122998 -Unable to import recurrence all-day event from ics
+	file.
+	* Limit for date range of imported event and cleaned up few queries.
+
+2009-06-16 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes: NB#122698 - Problem with import Ics file.
+	* Fixes: NB#122659 - New tasks start/End date is changed to todays
+	  date in RX-51
+	* Db retry mechanism added when sqlite autocommit off fails.
+	* Made the DB transaction IMMEDIATE.
+	* Fixes: NB#122808 - Task alarm is not proper on editing it in PC.
+	* Reverted:few changes which might cause bugs in current
+	implemnetation.
+	* Fixes : NB#123042 sending CLEARED dbusmessage when default calendar contents are
+	  deleted.
+	  
+	
+2009-06-12 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes:NB#117874 Empty Id is returned in failure sceanrio.
+	* Fixes: NB#120530 - extra rn added to description when data 
+	         is synced from PC.
+
+2009-06-11 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Security test cases fixes .
+	* Fixes: NB#122139 - Future multiple day All-day event get deleted due 
+	  to delete item rules
+	* Fixes: NB#121998 - Done task shown in month view.
+	* Increased sqlite_busy_timeout to 2 second, this should 
+	  solve the bug 121317.
+	* Fixes: NB#121934 alarm icon shown in task view.
+
+2009-06-10 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Security test cases fixes and fix for double free.
+	* Few more security fixes.
+
+2009-06-04 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes:NB#120569 isdatabase empty call is very slow.
+	* Changes related to providing timezone info to agenda applet while
+	showing allday events/task.
+	* Fixes:NB#119856 in Calendar memory leak. 
+
+2009-06-03 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes:NB#119595 incorrect data sent in TZ because of which 
+	 event is not added in NCC view.
+	* Fixes: NB# 119948 Multiday allday event is not shown in day view.
+	* Fixes NB#119393 Calendar application hangs in opening event view
+	  with specific sync data
+
+2009-06-01 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes:NB#119864 ICalConverter.cpp memory leak in toLocal function
+	* Fixed incorrect daylight information sent by calendar when TZID id 
+	  not recognized by libical.
+	* coverity fixes in ICalconverter.cp
+
+2009-05-31 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes NB#118189 Anniversary  from 5800 is not added properly. 
+
+2009-05-29 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Removed redundant reading of all calendars in getCalendarById.
+	* Icaltimezone_free_builtin_timezones called in CMulticalendar
+	destructor.
+	* Fixes: NB#104846 - Description, location and title of event created in RX-51 with special
+	                     characters display junk in Calendar view.
+	* Fixes:NB#112957 - Synchronization of content with special characters
+	                     with N80 phone results in corrupted characters.
+	* Fixes:NB#117228 - Added a DB field to put TZoffset and changed query
+	                     to include tz adjustment for task and alldays. 
+
+2009-05-28 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes:NB#112138 - allday event alarm time is shown ( 
+	fixes wrt backend are in place for it to test completely
+	we need system ui to make appropriate changes )
+
+2009-05-27 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes:NB#119105 Fixed crash in sync event with alarm.
+	
+2009-05-26 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes:NB#118757 Memory leak in icalbuiltin_timezones
+ 	CMulticalendar.cpp and ICalconverter.cpp.
+	* Fixes:NB#118674 Memory leak in Icalconverter.cpp ,asprintf()
+	ICalconverter.cpp,CAlarm.cpp,CMulticalendar.cpp.
+	* Reverting the fix 118757
+
+2009-05-25 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes:NB#114288 Crash in syncd while releasing Mc instance.
+	
+
+2009-05-24 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added a function localBdayEventFromRemoteId which
+	  takes the contact id and maps to the local id and 
+	  returns CEvent.
+	* Removed warnings from CMulicalendar.cpp
+	* Fixed warnings found in calendar-backend compilation.
+
+2009-05-22 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Minor changes in loging for CMulticalendar.
+
+2009-05-21 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Cache implementation  --- Commmented for now as 
+	it seems to be a hit on performance. 
+	* Tweaked commit in batch updates.
+	* Changes in get events using table join.
+	* Changes in progressive updation calls for import
+
+2009-05-20 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes: Memory leaks and removed autocommit in batch
+	add/modify/delete
+	* Implemented progressive logic in auto deletion.
+	* Fixes: NB#117362 - Two events with same summary on different dates
+	does not import to calendar
+	* fixes bugs found while testing progressive import or calendar
+	entries.
+
+2009-05-19 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes:NB#114362 getAllEvents is slower.
+	* Updated UTC cases.
+	* Fixes: NB# 117263 - Calendardb gets locked.
+	* Moving file across filesystems is causing problem in device so 
+	 used cp instead of rename system call
+	* ICalConverter.cpp : exporting ICAL timeZone is commented.
+	* Fixes: NB#117482 - Code review fix
+	* Fixes: NB#96851 - Birthday events are not shown in agenda applet
+	* Fixes:NB# 117677 Avoid unnecessary DB reads.
+	* Added defense to avoid scenario in 117263
+	 
+
+2009-05-17 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes: NB#116991 - Single occurance meeting synced from phone when
+	made a repeated meeting on RX-51 and resynced is not updated on Phone
+	as a repeated meeting
+	* Fixes: NB#115986 - Daylight information is not passed in VCAL
+	format.
+
+2009-05-15 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fix in Multipleday allday.
+	* Icalconverter TZ information corrected in VCAL format.
+	* Tweaked logic in ICalconverter for modified and created times 
+	and cleaned up few parts of code.
+	* Fixes: NB#116911 Code review fix.
+
+2009-05-14 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes: NB#116047 Imported birthday event repeat until date shown as
+	"1 January 2038"
+	* Fix in timezone issues with alarm 
+	* Minor fix in import Alarm.
+
+2009-05-13 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Few compilation fixes 
+	* Incorrect initialization in Vcal recurrence type. 
+	* Fix in Import crash when dtsend is not specified in ICS format.
+	* Change in Import logic, to add components swiftly.
+	* Added new API which support progressive import of events in 
+	CMulticalenadr.
+	* Added encoding  algorithm in CUtility.cpp
+
+	
+2008-05-12 Nandita <santoshi.suri@wipro.com>
+	* Added tzid parameter in copy constructor and 
+	  overloaded assignment operator.
+	* Fixes NB#116041 Single all day event is shown as two day event in
+	event view while switching between events  
+
+2009-05-12 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes:NB#112521 -allday event /task alarm times shouldn't be shifted
+	                   with change in zone information.
+	* tweak for above fix in corner cases.
+	* Fixes: NB#115986 - No daylight information.(rev 14970)
+	* Fixes: NB#114424 - Retaining exdates in recurrence pattern.
+
+2009-05-11 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes: NB#114907 - crash on importing ics file.
+	* Fixes: Nb#111066 - Complex repeat shown as normal events in Rx51.
+	* Added function for daylight correction.
+
+2008-05-07 Nandita <santoshi.suri@wipro.com>
+	* Added O_TRUNC option in file open operation.Fixes
+	  bug 90851.
+	* Fixes: NB#115406 - Calendar ID to be passed in the Dbusmessage
+	* Retaining correct calendar id while getting next/previous event.
+	* Fixes: NB#115478 - Resource leak in CCalendar.cpp
+	* Reverted fix for #114288.
+	* Fixes: NB#114805 - RX-51 created event is not synchronized with 5800.
+
+2009-05-06 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes: NB#114615 - Crash in delete birthday.
+	* Fixes: NB#114884 - Crash in applet. 
+	* Added deletion trigger
+	* Enhanced speed of autodeletion
+	* Changed signature of Alarm API to facilitate Allday alarms.
+	* Fixes: NB#110394 - Junk characters displayed for event 
+	coming from pcsuite.
+	* Fixes: NB#115394 Crash bug fixed in register Alarm for visible 
+	Calendars.
+	* Fixes:97857 Birthday events are skipped while navigating
+	        between events.
+
+2009-05-05 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixed crash in ics importing ics files.
+	* Fixes: NB#109949 - Displaying recurring event until 2037.
+	* Added support for string coming in TZ format.
+	* Changed the signature of importIcsFile Function.
+
+2009-05-04 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes: NB#98361 - Two events starting at same time are 
+	not shown in UI.
+	* Minor fix in CheckcalendarName.
+	* Minor changes to export todo complete date properly.
+	* Fixes : NB#112916 - Description contains timezone 
+	parsing info.
+	* Fixes: NB# 106538 - Description with long lines is 
+	gettting truncated.
+
+2009-05-03 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes:NB#113552 Modify Recurrence not updated.
+	* Review comment fixes chaging the parameters structure.
+
+2009-05-01 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Made corrections in expanding recursive event.
+	* Enhanced Next prev logic.
+	* updated the timezone configuration tool.
+	* Allday anniversary event fix from phone sync.
+	* Task start date retained when due date is modified.
+	* Cleanup ICalConverter code.
+	* Changes in recurrence and Icalconverter changes.
+	* Documentation updated in CMulticalendar.cpp/.h
+	* Cutility class added 
+	* Fixed crash in Next Prev.
+
+2009-04-30 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Time Zone changes in Calendar-backend.
+	* Review comment fixes in Calendar.
+
+2009-04-28 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added check for mem full condition.
+
+2009-04-27 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added  Correction in Next Prev Logic.
+
+2009-04-24 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Moved local External Id mapping to glue code.
+	* Fix:NB#111971 - alarm functionality for allday repeat event 
+	is not proper.
+
+2009-04-23 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added duplicate count parameter in importIcsFile
+
+2009-04-21 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fix : NB#111345- Auto deletion not proper.
+	* Fixed crash in Next-prev
+	* Removed redundant code from Coverity fixes.
+
+2009-04-20 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added logic to enhance Prev-Next Event 
+	* Fixed the encoding problem in import of event.
+	* Enable/Disable logging at runtime has been added in 
+	  calendar-backend .
+	* Added API to know count of visible calendars.
+	* Fixed the crash in addEvent 
+
+
+2009-04-16 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added tostring - function for all classes.
+	* Added new Macro for error cases- LOG_ERROR
+	* Test suite uptated
+	* Code review fixes
+	* Fix for 111312 
+	* Minor code review changes.
+	* Changed Macro Name from LOG_ERROR to CALENDAR_LOG_ERROR
+
+2009-04-15 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes: NB#109868 Birthday event in DST range  
+	* Fixesi: NB#109949 Recur until date > 2037 
+
+2009-04-14 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes in import of recursive alarms.
+	* Fixes for commit problem in setNextAlarm alarms.
+	* Added fix for max limit for until while importing.
+	* Fixes 110721 - Instance time should be shown instead
+	  of the datestart of event in case of recirsive event.
+	* Minor correction in CAlarm::addAlarmEvent API
+
+2009-04-13 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Provide Batch retrival API in CCalendar class 
+	 viz getEvents ,getTodos,getJournals 
+	* Import support for optional DAYLIGHT Parameter.
+	* Calendar naem added in deletion.
+	* Removed redundant code in Modify Calendar.
+
+2009-04-09 Nandita Suri <santoshi.suri@wipro.com>
+	* Fixed Alarm issues for bday event.
+	* Fixes NB#110336 Smart birthday events alarm
+	time is not retained onediting
+
+2009-04-09 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* If TZ is not obtained from mobile import event 
+	 in local timezone.(Fixes 109415)
+
+2009-04-08 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Cleaned up alarm import code and added fix for 
+	  NB#110083, NB#102297
+	* Minor change in addComponents API 
+	* pass error code by reference.
+
+2009-04-07 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Corrected error in ModifyTodo.
+	* Chnged few parameters in ICalConverter::API to pass be reference
+	* Added import Tool to svn
+	* logic change in unfolding lines
+
+2009-04-06 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Checked in Add/Modify and delete  batch API- CCalendar.cpp
+	 and CMulticalendar.cpp
+	* Reorganized Code in CCalendar, added new functions 
+	 to make code modular.
+	* Minor Change in TZ Value in VCal file type 
+
+2009-04-03 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes: NB#103996 Event/task are saved with passed alarm time
+	* Added CMulticalendar helper function to print timestamps 
+	in microsecond
+	
+
+2009-04-02 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Changes in Alarm Code to Fix NB#107618
+	* Removal of expired Alarms 
+	* Fix in imoport invali scenario
+
+2009-04-01 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Minor Changes for dayligth correction.
+	* Fixes:Nb# 107203 Bday event from lauch application.
+
+2009-03-31 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Changed  Import Logic for VCAl format 
+	* Fixes: NB#103776 Weekly recurring Event created in PC
+	is synchronized to wrong dates in RX51
+	* Fixes: NB#107361 Event with different time zone when
+	synchronized from PC is not displayed in the right time.
+	
+2009-03-30 Nandita Suri <santoshi.suri@wipro.com>
+	* Removed hard coding for the strings in alarm dialog.
+	  And added the textdomain attribute for the alarm dialog.
+	* Fixes: NB#105539 Calendar alarm localization missing: hardcoded text in
+	alarm buttons.
+
+2009-03-30 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Review comments and indentation of CMulticalendar.cpp,
+	CCalendar.cpp and VCalconverter.cpp
+	* In VCALENDAR format TZID shouldn't not be sent while exporting.
+	* Reverted few of the timezone changes 
+	
+
+2009-03-28 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Made changes in the import logic to handle both 
+	ICAL and VCAl format (sync events in different timezones)
+
+
+2009-03-26 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes: NB#103975 All Day event created for one day is
+		synchronized as two day event in PC.
+	* Fixes: NB#104589 All day events from S60 phone look like hour events in
+		the calendar week view
+	* Added timezone field while exporting in vcal format.
+	* Minor fixes.
+	* Fixes: NB#105842 Crash in calendar backend when syncing calendar data
+	* Fixes: NB#107402 Calendar crashes while importing an .ics file
+	* Fixes: NB#107512 Calendar Type not changed to sync for user defined
+		calendar.
+
+2009-03-25 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes: NB#106918 - Tasks get synced to RX-51 from PC with wrong due
+	dates.
+	* Fixes: NB#107635 - Calendar crashed on exporting 1000 tasks
+
+2009-03-24 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes: NB#103777 - sync Event not shown in Day view 
+	* Few review comment changes 
+	* Fixes: NB#105102 - from Calendar-backend point of view.
+
+2009-03-21 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes: NB#107133 - Birthday event export problem 
+	* Fixes: NB#105105 - values for an event created in RX-51 with start
+	                     and end time as 0000
+	* Re-organized export Alarm code 
+
+2009-03-20 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes: NB#103581 -Calendar doesn't give the LUID of the 
+	         duplicate Item.
+	* Internal review comment fixes in CMulticalendar.cpp
+	* Allday event Bug fix in ICalConverter.
+	* Possible fix for task with out due date
+	* Recursive event last instance not being shown.
+
+2009-03-19 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes: NB#105963 Alarm for deleted events 
+	
+2009-03-17  Laszlo Pere <ext-laszlo.pere@nokia.com>
+	* Fixes: NB#105842 ICalConverter.cpp is fixed now.
+	* Fixes: NB#106367 ICalConverter.cpp is fixed now.
+	* Fixes: NB#99638  ICalConverter.cpp is fixed now.
+	* Fixes: NB#106197 ICalConverter.cpp is fixed now.
+
+2009-03-18 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Reverted back changes made to ICalConverter.cpp
+	  while parsing extended lines.
+	* Exception dates are imported as string rather they should be 
+	 imported as time_t. Fix for same has been added in ICalConverter.cpp
+
+2009-03-17  Laszlo Pere <ext-laszlo.pere@nokia.com>
+	* Fixes: NB#104669 The icalVcalToLocal() function has been fixed.
+
+2009-03-17 Csaba Kertesz <csaba.kertesz@nokia.com>
+	* Remove the caching the the calendars.
+
+2009-03-17 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fix for crash in CMulticalendar due to 
+	duplicate check feature.
+	* Added Additional Checks in icalVcalToLocalFunction
+	so that the multiple line parameters in ICS file are not 
+	truncated.
+
+2009-03-16 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added Clear Calendar API
+	* Added Export Support for Bday Calendars 
+
+2009-03-13  Nandita Suri <santoshi.suri@wipro.com>
+	* changing the color order and default color 
+
+2009-03-13 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixed few of the comments related to import export.
+	* Fixed crashes in import 
+
+2009-03-12 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* fix for 101573- 
+	* 1) All-day flag which should be set to 1 for all-day
+	 (& bday events) was not getting right.
+	* 2) Until field check which Laszlo commented was added recently to fix
+	  a bug,where for repeating-all-day events the last instance was missing 
+	  while UI fetches the instances.
+	* Fix 105314 Notes import crash.
+
+2009-03-10 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes for Day view bug#105103
+	* Few sync fixes
+
+2009-03-09 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes in ICalconverter bugs 
+
+2009-03-06 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added timezone handling for allday events 
+	* Few crash fixes.
+	* ICalconverter crash in import is fixed
+
+2009-03-05 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Minor WCC review modifications
+
+2009-03-04 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Review comment changes 
+	* Bug fix sync bug #99866 - Recurring event is shown as N-1 
+	  in RX-51.
+	* Added fixes for PCsuite bugs.
+
+2009-03-03 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Splitting complex ICalConverter apis into smaller apis
+	* Fix in import bugs
+
+2009-03-2 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fix for alarm mismatch between two RX-51 devices 
+
+2009-02-27 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added performance tool to carry out performace test cases.
+
+2009-02-27  Laszlo Pere <ext-laszlo.pere@nokia.com>
+	* Two segfaults were fixed.
+	* Making a copy of an XProperty string fixes #102734.
+	* Segfault fix for #99905.
+
+2009-02-26 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixed Visible alarm problems.
+	* Bug fixes and code cleanup
+
+2009-02-26  Laszlo Pere <ext-laszlo.pere@nokia.com>
+	* A modified version of iCalToVCalRule() that fixes bugs #102037 
+	  #103101 #99520 #99857.
+
+2009-02-25 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* setting the next alarm with out launching the 
+	application 
+
+2009-02-24 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Review comment fixes.
+	* Fixed bug# 98119 calendar app gets launched on pressing
+	  stop button.
+
+2009-02-23 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added new wrapper functions
+	* Incorporated review comments 
+
+2009-02-20 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Minor fixes.
+	* Review comments 
+
+2009-02-19 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* clockd and alarmd added in debian control file
+	* updated testsuite
+	* Fix in calendar alarms 
+
+2009-02-18 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Updated testsuite
+	* Small modification in import function (toLocal()) in ICalConverter
+	class
+	* Change in way modify Event/todo are handled 
+	* Bug related to Complex repeat 
+
+2009-02-16 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixed NB#91776 Ics file error .
+
+2009-02-16 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixed NB#98932 Summary field is displayed differently.
+
+2009-02-11 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixed Memory leaks 
+
+2009-02-10 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Code review fixes 
+
+2009-02-09 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Code review fixes pOrg 101087 
+
+2009-02-06 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixed crashes in backend 
+	* Fixes for bug #94761 -autocleanup
+
+2009-02-02 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixed review comments / removed hardcoding 
+
+2009-02-01 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fix for review comments ( internal review)
+
+2009-01-30 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Changed the include paths as per new libical
+	* Updated debian control file, removed unnecessary include file
+	libosso.h
+	* Review changes 
+
+2009-01-29 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added changes for event margin 
+	* Pointer initialization of WCC results 
+
+2009-01-28 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixes NB#99379 - Alarm for timebased event not proper 
+
+2009-01-22 Karthik <ext-karthik.duggirala@nokia.com>
+	* Fixes NB#98433 Code review Unit tests are broken 
+	        it is not possible to compile
+	* Fixed compilation issue in tests.
+
+2009-01-22 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* bug fix NB#98846 - code review comment fix in memory leak
+
+2009-01-21 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* bug#98447 Dead code removed from calendar-backend
+	* Bug fix for NB#96753
+
+2009-01-20 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Chnaged getAllAddedEventsTodos -Api
+
+2009-01-12 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Bug Fix#94671 Automatic deletion of recursive events 
+	is not proper
+	* Added New Parameter SyncProfileType per Calendar
+
+2009-01-08 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Bug Fix NB#94687 - Automatic deletion issues
+	* Bug Fix NB#97064 - Alarm doesn't comeup with user 
+	  defined tune 
+
+2009-01-06 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Bug fix 96753 visible calendar bug 
+
+2009-01-05 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Moved updation of trash to CCalendar from CMulticalenda
+	* Added description field in addAlarmEvent API
+	
+
+2009-01-02 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Api to fetch events/Bdays/todos for a calendar 
+	  is  added
+
+2009-01-01 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added registerAlarm API for visible calendars
+
+2008-12-31 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixed issues in alarm dialog 
+
+2008-12-29 Karthik <ext-karthik.duggirala@nokia.com>
+	* Fixed compilation error in tests
+
+2008-12-29 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added API to fetch events for all calendars
+	* Added check to ensure calendar-ui doesnt refresh data 
+
+
+2008-12-24 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added fix for BUG 96688 Completed field
+	  has invalid value 
+
+2008-12-23 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added fix for Maesync Bug #96639
+	* Added fix for Bug #96101Event with same date is shown across 
+	  2 days 
+
+2008-12-22 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added new API for maesync 
+	  getAllDeleted/Events/Todos/Journals 
+	* Fixed the ID problem from maesync point of view 
+	(trash table Id gets duplicated )  
+
+2008-12-18 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added new API for changes in ebook
+
+2008-12-15 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fix for alarm dialog 
+
+2008-12-14 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fix for bug 94786 New calendar is not seen as soon 
+	  as it is created in sync applet.
+	* Added Id mappnig for birthday contacts, added 2 new API.
+	* Changed the access type for getAllCalendars 
+	* Added DBUS broadcast message in case of add/modif/delete 
+	  Calendar
+	* added fixes for alarm import.
+	* Fix for bug#95122- allday event  imported as two day event 
+	
+
+2008-12-12 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Bug NB#95113  fix in masync bug
+
+2008-12-11 Karthik <ext-karthik.duggirala@nokia.com>
+	* Corrected debian/changeLog.
+
+2008-12-10  Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Bug Fix NB#94409
+	* Bug NB # 94503 -Import of allday events 
+
+2008-12-09 Karthik <ext-karthik.duggirala@nokia.com>
+	* Fixed compilation issue in tests.
+
+2008-12-01  Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Changed signature of import Ics file data 
+	* CAlarm class chaneges
+	* getLatestComponent Api changed 
+	* Added CAlarmIface and CAlarm
+
+2008-12-05  Nandita Suri <santoshi.suri@wipro.com>
+	* Bug fix NB#94034
+
+2008-12-01  Aditya Khambampati <aditya.khambampati@wipro.com>
+	* BUG fix for NB#87209 -perv next not functioning properly
+	* made changes to crash for VALARM property in VCal to Ical 
+	  conversion
+	* Added new api in CMulticalendar to identify calid for a 
+	 given component
+
+2008-11-25  Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Changes for alarm
+	
+
+2008-11-24  Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Made fixes for Default calendar changes in spec
+
+2008-11-23  Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fix in Maesync crash bug.
+
+2008-11-21  Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added fix for maesyn crash due to null CComponent pointer
+	* Added again  MCdelete 
+	* Clean-up of Command line tool
+
+2008-11-20  Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added error codes for Maesync 
+
+2008-11-19  Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added fix for maesync
+
+2008-11-18  Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added few more checks for prev next.
+	* Added timezone changes for event 
+
+2008-11-14  Aditya Khambampati <aditya.khambampati@wipro.com>a
+	* changed Id to numeric values 
+
+2008-11-12  Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added new parameter in prev,next 
+
+2008-11-11 Karthik <ext-karthik.duggirala@nokia.com>
+	* Commited test suite changes.
+
+2008-11-11  Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Made changes in delete Birthday 
+
+2008-11-10  Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Duplicate Check API is introduced in CCalendar.cpp and 
+	  changes were made in addEvent/addTodo etc.
+
+2008-11-07  Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added new API in CMulticalendar for changes in import 
+	 logic
+
+2008-11-06  Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Clean-up of import logic 
+	* Added new API to fetch prev and next event 
+	* used new alarm API- ket them commented , need to 
+	  uncomment when official version is available
+
+2008-11-04  Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Bugfix#90692 - Calendar system packages are visible in AM 
+
+2008-10-30 Aditya <aditya.khambampati@wipro.com>
+	* Added new API to get Default and sync calendar
+	* Created two default calendars 
+
+2008-10-30 Karthik <ext-karthik.duggirala@nokia.com>
+	* Commited test suite changes.
+
+2008-10-23 Aditya <aditya.khambampati@wipro.com>
+	* fix in import bug
+
+2008-10-23 Nandita <santoshi.suri@wipro.com>
+	* implemented review comments
+
+2008-10-23 Aditya <aditya.khambampati@wipro.com>
+	* Added new API rewuired by sync isComponentExist()
+	* getDegfaultCalendarName() for maesync
+	* Minor fixes - crash in add event
+	* Commit and rollback added in add/modify/del Event/Todo/journal/Bday
+
+2008-10-22 Nandita <santoshi.suri@wipro.com>
+	* implemented review comments
+	* minor fix in rrule parsing for pcsuite sync
+
+2008-10-22 Karthik <ext-karthik.duggirala@nokia.com>
+	* Added test cases for getTodaysAllDay getNumOfUndoneTasks
+	getNumOfAllDayEventsForToday.
+
+2008-10-20 Nandita <santoshi.suri@wipro.com>
+	* Added vector <CComponent*>  getTodaysAllDay(int &pErrorCode)
+	  in CMulticalenadr
+	* Changed the API getLatestComponent()
+
+2008-10-20 Nandita <santoshi.suri@wipro.com>
+	* added api getNumOfUndoneTasks()
+	* added api getNumOfAllDayEventsForToday()
+
+2008-10-17 Aditya <aditya.khambampati@wipro.com>
+	* Removed function names from doxy comments 
+	*Fixed bug in add Birthday
+
+2008-10-17 Nandita <santoshi.suri@wipro.com>
+	* updated doxygen
+	* updated toIcalVcal() for pcsuite sync 
+
+2008-10-16 Karthik <ext-karthik.duggirala@nokia.com>
+	* Minor change in packaging.
+	* Updated Testsuite.
+	* Minor indentation in src/CToDo.cpp
+
+2008-10-16 Nandita <santoshi.suri@wipro.com>
+	* added documentation debian package for calendar backend
+
+2008-10-16 Aditya <aditya.khambampati@wipro.com>
+	* Sql Join is used in getEvent,getTodo and GetJournal 
+	* Fix in crash bug in components;
+	* Fix in crash bug in attendee 
+	* Removed Compiler warnings
+	* Fixed Bug in Delete Calendar crash observed in unit test.
+	* Change in implementation of Allday event in Backend
+	* Moved XML properties to CMulticalendar
+
+2008-10-15 Karthik <ext-karthik.duggirala@nokia.com>
+	* Modified test cases 
+
+2008-10-15 Nandita <santoshi.suri@wipro.com>
+	* added libtime apis in icalconverter
+	* considered TZID while exporting
+	* fixed bug 87521-date shown wrongly while exporting notes
+	* changed default import calendar name to imported calendar
+	* Fix in Todo status 
+
+
+2008-10-14 Karthik <ext-karthik.duggirala@nokia.com>
+	* Modified test cases 
+
+2008-10-14 Nandita <santoshi.suri@wipro.com>
+	* updated test suite for checking vcal import/export,params
+	* fix for rrule crash in vcal
+
+2008-10-13 Aditya <aditya.khambampati@wipro.com>
+	* DB cleanup and migration of few parameters from one table
+	  to another.
+
+2008-10-13 Karthik <ext-karthik.duggirala@nokia.com>
+	* Modified test cases for  (attachment type to string)
+
+2008-10-13 Nandita <santoshi.suri@wipro.com>
+	* changed attachment to string
+	* added import/export of attachment
+	* Fix timestamp in dtstart of event
+
+2008-10-12 Karthik <ext-karthik.duggirala@nokia.com>
+	* Modified test cases for new parameter added
+	  parameter version number for CCalendar.
+
+2008-10-10 Aditya <aditya.khambampati@wipro.com>
+	* Added new parameter version number for CCalendar 
+	* Checking in the Fixes for crash in add Journal 
+
+2008-10-09 Karthik <ext-karthik.duggirala@nokia.com>
+	* added test ics file and minor change in multi
+	  calendar tests
+
+2008-10-07 Nandita <santoshi.suri@wipro.com>
+	* added missing prop/params in icalconverter 
+	* Fix for compilation issues in Maesync
+
+2008-10-07 Aditya <aditya.khambampati@wipro.com>
+	* Added new schema for attendee and organizer 
+	* Checking in the changes 
+
+2008-10-07 Aditya <aditya.khambampati@wipro.com>
+	* Fix in alarm problem 
+
+2008-10-06 Karthik <ext-karthik.duggirala@nokia.com>
+	* changes in test suite for icalconverter
+
+2008-10-03 Aditya <aditya.khambampati@wipro.com>
+	* Implemented indexing on DB columns 
+	* Added fix for alarm tune
+
+2008-10-03 Nandita <santoshi.suri@wipro.com>
+	* added xprop/xparam import/export functionality 
+	* fixed bug in retrieveParameterDetails() 
+
+2008-10-01 Nandita <santoshi.suri@wipro.com>
+	* changed the icalcoverter export functionality 
+
+2008-10-01 Aditya <aditya.khambampati@wipro.com>
+	* Added doxy documentation
+
+2008-09-30 Nandita <santoshi.suri@wipro.com>
+	* changed the icalcoverter import functionality 
+	  to suite sync
+	* changed the import() api in multicalendar class
+	  to suite new import functionality 
+
+2008-09-29 Nandita <santoshi.suri@wipro.com>
+	* Updated the testsuite for xprop 
+	  and param implementation 
+
+2008-09-19 Aditya <aditya.khambampati@wipro.com>
+	* Added documentation in CMulticalendar.
+	* updated debian changelog
+
+2008-09-26 Nandita <santoshi.suri@wipro.com>
+	* Fixed bug in modifyAttendee 
+
+2008-09-25 Nandita <santoshi.suri@wipro.com>
+	* Added addXProperties() API 
+	* Added XProperty functionality 
+
+2008-09-24 Nandita <santoshi.suri@wipro.com>
+	* Added Parameters Implementation
+
+2008-09-19 Aditya <aditya.khambampati@wipro.com>
+	* Added new api for home applet.
+
+
+2008-09-15 Nandita <santoshi.suri@wipro.com>
+	* Enhanced Icalconverter test cases
+	* added error codes to ICalConverter class
+
+2008-09-12 Aditya <aditya.khambampati@wipro.com>
+	* Commented portion of code related to todo alarm.
+
+2008-09-11 Aditya <aditya.khambampati@wipro.com>
+	* Alarm changes for todo 
+
+2008-09-10 Aditya <aditya.khambampati@wipro.com>
+	* Added Changes for attendee and organizer.
+
+2008-09-09 Nandita <santoshi.suri@wipro.com>
+	* Fixed the bug in export functionality
+
+2008-09-09 Aditya <aditya.khambampati@wipro.com>
+	* Fix in UID bug reported in UTC 
+	* Minor fixes
+
+2008-09-09 Nandita <santoshi.suri@wipro.com>
+	* Fixed code review comments
+	* Added some parameters in import functionality
+	* Added some parameters in export functionality
+	* Fixed ical converter bug reported in bugzilla 
+
+2008-09-08 Aditya <aditya.khambampati@wipro.com>
+	* Fix in class parameter while adding.
+
+2008-09-07 Karthik <ext-karthik.duggirala@nokia.com>
+	* changes in test suite for modified APIs
+
+2008-09-05 Aditya <aditya.khambampati@wipro.com>
+	* Fix in GUID changes -made a workaround for base64 encoding 
+	* Added few more error codes;
+
+2008-09-04 Nandita <santoshi.suri@wipro.com>
+	* have split the getAllAddedItems and getAllModifiedItems APIs
+	* changed the names of dbcalls.h and common.h
+
+2008-09-04 Aditya <aditya.khambampati@wipro.com>
+	* Added CalendarTune as new parameter.
+	* Added check for Calendar Name 
+
+2008-09-03 Aditya <aditya.khambampati@wipro.com>
+	* Fix in Allday event 
+
+2008-09-02 Karthik <ext-karthik.duggirala@nokia.com>
+	* changes in test suite for modified APIs
+
+2008-09-03 Aditya <aditya.khambampati@wipro.com>
+	* Fix in modify Alarm
+	* Fix in getAllAdded/Deleted/Modified Id and ChangeId
+	* fix in DeleteComponents;
+
+2008-08-31 Aditya <aditya.khambampati@wipro.com>
+	* Fix in Calendar backend issues
+
+2008-08-29 Nandita <santoshi.suri@wipro.com>
+	* removed hard codings in VCalconverter and ICalconverter classes
+
+2008-08-29 Aditya <aditya.khambampati@wipro.com>
+	* Changes in Calendar, CMulticalendarAPI for error codes
+	* Added Some error Codes in CCalendar,CMulticlaendar 
+
+2008-08-29 Duggirala Karthik <ext-karthik.duggirala@nokia.com>
+	* Minor changes in test suite.
+
+2008-08-28 Saravanane <saravanane.dhandabani@wipro.com>
+	* Alarm API changes to support GUID
+
+2008-08-28 Nandita <santoshi.suri@wipro.com>
+	* fixed some valgrind memory leaks
+	* added doxygen comments for all member variables
+	* removed warnings
+
+2008-08-28 Aditya <aditya.khambampati@wipro.com>
+	* Changed entry ID for event todo and Journal  from string to integer 
+	* Changed the API signature to facilitate error handling
+
+2008-08-22 Saravanane <saravanane.dhandabani@wipro.com>
+	* Added sample programs to change the timezone instead from clock.
+	* Migration to libtime API's
+	* Removed the macros and used consts in CMulticalendar file
+	* Add CalendarErrors.h and IcalNexttime.cpp to the svn
+
+2008-08-21 Saravanane <saravanane.dhandabani@wipro.com>
+	* Function to generate UID for component class.
+	* Implement DBUS message based on changes happen in the calendar backend.
+
+2008-08-20 Duggirala Karthik <ext-karthik.duggirala@nokia.com>
+	* Minor changes in test suite.
+
+2008-08-18 Duggirala Karthik <ext-karthik.duggirala@nokia.com>
+	* Minor changes in test suite.
+
+2008-08-18 Naganand Gajula <ext-naganand.gajula@nokia.com>
+	* New function added to CAlarm class for registering a stand-alone
+	  alarm required for daily-autocleanup functionality. Note that this
+	  alarm_cookie has to be stored/managed by the application itself.
+
+2008-08-18 Saravanane <saravanane.dhandabani@wipro.com>
+	* setNextAlarm api implementation in CMulticalendar & CCalendar class
+	* Removed diablo related alarm api's from source code.
+	* Removed the macro FREMANTLE
+
+2008-08-15 Saravanane <saravanane.dhandabani@wipro.com>
+	* Once alarm triggers, backend will call the dbus method
+	* "calendar_alarm_responde" in the bus com.nokia.calendar
+	* Fixed the manageCookie api not to give incorrect timings.
+
+2008-08-15 Aditya <aditya.khambampati@wipro.com>
+	* fix in automatic deletion.
+
+2008-08-14 Saravanane <saravanane.dhandabani@wipro.com>
+	* Backend alarm implementation
+	* Fix the alarm crash
+
+2008-08-11 Aditya  <aditya.khambampati@wipro.com>
+	* Moved Calendar-Interface API to backend , added as overloaded API in
+	Cmulticalendar
+	* Removed API
+
+2008-08-10 Duggirala Karthik <ext-karthik.duggirala@nokia.com>
+	* changes in test suite.
+
+2008-08-08 Duggirala Karthik <ext-karthik.duggirala@nokia.com>
+	* Minor changes in test suite.
+
+2008-08-07 Saravanane <saravanane.dhandabani@wipro.com>
+	* Updations in getAllDeletedItems
+	* API changes for fremantle alarm.
+	* Both fremantle and diablo alarm api's are handled in the code using
+	FREMANTLE macro.
+	* configure.ac checks the environment (Fremantle/Diablo) and enable the flags
+	accordingly at compile time.
+	* Individual alarm events will be set into alarm daemon for diablo.
+	* Single alarm event will be set into alarm daemon for fremantle. Again they
+	are controlled through #define FREMANTLE
+
+2008-08-08  Naganand Gajula <ext-naganand.gajula@nokia.com>
+	* Freeing of SQL table structure elements was causing crashes when
+	application was run in Fremantle env. Commenting out these lines for
+	now, so that work for other developers is not hampered.
+
+2008-08-08 Aditya  <aditya.khambampati@wipro.com>
+	* Fix in review comments.
+	* Moved API from CComponent to CComponentDetails
+
+2008-08-07 Aditya  <aditya.khambampati@wipro.com>
+	* Integrated Alarm for todo
+	* Included libtime 
+	 Fix some of review comments
+	* Migrated API getRecurrenceProperties and getAlarmProperties to CComponent
+
+2008-08-06 Aditya  <aditya.khambampati@wipro.com>
+	* Fix in review comments
+
+2008-08-05 Nandita <santoshi.suri@wipro.com>
+	* changes made in import functionality. string functionality is implemented
+	* added setAutocommitoff, commitAllChanges apis to import functionality
+
+2008-08-05 Saravanane <saravanane.dhandabani@wipro.com>
+	* Provide API's to external applications - setAutocommitoff, commitAllChanges,
+	rollbackAllChanges. External applications will use this API's when they do
+	mass updates.  
+	* getAllAddItems, getAllModifiedItems, getAllDeletedItems are moved to
+	CCalendar class
+
+2008-08-04 Aditya Khambampati<aditya.khambampati@wipro.com>
+	* Changed Multicalendar API 
+	* Fix in backend bug due to Rtype
+	* Fix in automatic deletion
+
+2008-08-01 Aditya Khambampati<aditya.khambampati@wipro.com>
+	* Removed funambol dependency
+	* added default values for alarm parameters
+
+2008-07-31 Aditya Khambampati<aditya.khambampati@wipro.com>
+	* Added new API to support export feature 
+
+2008-07-30 Duggirala Karthik <ext-karthik.duggirala@nokia.com>
+	* Minor changes in test suite.Corrected invalid cases and updated
+	few cases.
+
+2008-07-30 Aditya Khambampati<aditya.khambampati@wipro.com>
+	* Minor compilation fixes
+	* Used a union and removed 2 layer of queries in progressive update
+
+2008-07-29 Saravanane <saravanane.dhandabani@wipro.com>
+	* Unit testing bug fixes.
+
+2008-07-29 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fix in progressive updation logic.
+
+2008-07-29 Duggirala Karthik <ext-karthik.duggirala@nokia.com>
+	* Minor changes in test suite
+
+2008-07-28 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Added API for progressive updation 
+
+2008-07-28 Saravanane <saravanane.dhandabani@wipro.com>
+	* DBus message will be sent in case of add/delete/modify the
+	event/todo/journals.
+	* DBusConnection variable declared as CCalendarDB member variable.
+	* Modified the code so that DBus will be intialized only once for process life
+	time.
+	* Trash table will be updated with calendar id, component id, component type,
+	deletedtime in case of deleteing the events/todo/journals.
+	* Function is added to set the application name.
+
+2008-07-28 Duggirala Karthik <ext-karthik.duggirala@nokia.com>
+	* Minor changes in test suite
+
+2008-07-25 Aditya Khamabmpati <aditya.khambampati@wipro.com>
+	* Added build dependencies in debian control file
+
+2008-07-24 Duggirala Karthik <ext-karthik.duggirala@nokia.com>
+	* Modified test cases
+
+2008-07-24 Saravanane <saravanane.dhandabani@wipro.com>
+	* Added dbus as dependency to send dbus message.
+	* Calendar backend will send dbus signal "dbChange" in the format 
+	<Application name> <Action> <Table> on the bus org.freedesktop.DBus.
+	* Source cpp files are indented properly.
+	* Sample code (dbus-listen.c) to listen the dbus signals are copied at tools folder.
+	Other applications like sync etc., shall refer this code to look for the
+	signals.
+
+2008-07-24 Duggirala Karthik <ext-karthik.duggirala@nokia.com>
+	* Changed test case for enum values in calendar color.
+
+2008-07-24 Aditya Khamabmpati <aditya.khambampati@wipro.com>
+	* Changed calendar color to enumeration 
+	* Removed testsuite folder from svn
+	* Moved getComponents procedure and related ones to CCalendar
+	* Provided wrapper code in CMulticalendar
+
+2008-07-23 Aditya Khamabmpati <aditya.khambampati@wipro.com>
+	* Fix review comments 
+
+2008-07-23 Duggirala Karthik <ext-karthik.duggirala@nokia.com>
+	* Modifications in caltest tests for changes in api.
+
+2008-07-22 Nandita Suri<santoshi.suri@wipro.com>
+	* added code for importfrom web functionality
+	* Fix in Import Calendar
+
+2008-07-22 Saravanane <saravanane.dhandabani@wipro.com>
+	* Code review comments
+	* Removed bSyncRoute from getComponents function.
+	* Changed naming convention for member attributes in CRecurrenceRule.h
+	* ICAL Enum data type for the week_start member variable in CRecurrenceRule.h
+	* Fixed certain deviations in CRecurrenceRule member variables.
+	* CRecurrenceRule -  Member variable "type" is declared as Enum.
+	* Doxygen comments for include/CCalendar.h
+	* Removed the CalendarId from CComponent and CComponentDetails classes.
+	* Added the extra agrument for calendarid in addEvent, addTodo functions etc.,
+	* Doxygen comments and code cleanup in all header files.
+	* Removed CalendarAlarms.cpp and CalendarAlarms.h from svn
+	* Doxygen comments and code cleanup in CRecurrenceRule.h and CTodo.h
+	* Adding ICAL RFC to SVN.
+
+2008-07-21 Aditya Khamabmpati <aditya.khambampati@wipro.com>
+	* Fix review comments 
+
+2008-07-21 Duggirala Karthik <ext-karthik.duggirala@nokia.com>
+	* Modifications in caltest tests (added files).
+
+2008-07-21 Saravanane <saravanane.dhandabani@wipro.com>
+	* Code review comments
+	* Merged CCalendarAlarms into CAlarms class.
+	* CAlarm constructor is improved for readability.
+	* Variable cookie is declare with type cookie_t in CAlarm class
+	* Removed redundant string.h header file inclusion.
+	* Improved the function naming convention in CAlarm class.
+	* szRole, szParticipationStatus is declared using appropriate enum data types.
+	* Enumeration for calendar types
+
+2008-07-18 Duggirala Karthik <ext-karthik.duggirala@nokia.com>
+	* Modifications in caltest tests.
+
+2008-07-18 Duggirala Karthik <ext-karthik.duggirala@nokia.com>
+	* Added testcase file for icalconverter 
+
+2008-07-18 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* fix for build issue with ICalConverter.
+
+2008-07-17 Duggirala Karthik <ext-karthik.duggirala@nokia.com>
+	* Modified multicalendar test cases
+
+2008-07-17 Aditya Khambampati <aditya.khambampati@wipro.com>
+	* Fixed Doxy comments and compilation issues
+
+2008-07-17 Nandita Suri<santoshi.suri@wipro.com>
+	* added api for import functionality
+	* removed warnings
+	* Fix in Import Calendar
+
+2008-07-17 Duggirala Karthik <ext-karthik.duggirala@nokia.com>
+	* Modifying test suite as for new/changed apis 
+
+2008-07-17 Saravanane <saravanane.dhandabani@wipro.com>
+	* First name for smart calendar has been set into Summary field in components
+	table.
+	* Birth day events end time will be set as 23:59
+	* Birth day events are considered as all-day events.
+	* Bug fix - Birthday events are shown in wrong dates in UI.
+
+2008-07-16 Aditya <aditya.khambampati@wipro.com>
+	* fixed memory leaks and deep check reports
+	* fixed review comments 
+	* removed redundant instance  in Alarm 
+
+2008-07-15 Aditya <aditya.khambampati@wipro.com>
+	* fix for Crash in Recurrence 
+	* fixed problems reported by deepcheck and valgrind(partially)
+
+2008-07-15 Saravanane <saravanane.dhandabani@wipro.com>
+	* Yearly recurrence when modify birthday events
+	* Delete birthday events along with recurrence data
+	* Fetching birthday events along with recurrence data
+
+2008-07-11 Aditya <aditya.khambampati@wipro.com>
+	* Fix in CComponent Recurrence API
+	* Fixed problem in Time correction
+
+2008-07-10 Aditya <aditya.khambampati@wipro.com>
+	* Fixes for API in CComponent
+
+2008-07-09 Aditya <aditya.khambampati@wipro.com>
+	* New API implemented for Recurrence 
+
+2008-07-09 Saravanane D<saravanane.dhandabani@wipro.com>
+ 	* Option for birthday events in command line tool
+	* Fix in getComponents function for birthday events.
+
+2008-07-08 Aditya <aditya.khambampati@wipro.com>
+	* fixes for recurrence
+
+2008-07-08 Aditya <aditya.khambampati@wipro.com>
+	* Implementation of CRecurrence Changes as per new proposal. 
+	* Added new class CRecurrenceRule to handle the parasing of Recurrence rule 
+	* Implemented method to parse the recurrence rule 
+
+2008-07-08 Nandita <santoshi.suri@wipro.com>
+	* removed warnings 
+
+2008-07-08 Saravanane  D<saravanane.dhandabani@wipro.com>
+	* Modify Smart calendar design based on review discussion with Sateesh
+	* Rename CSmartCalendar class to CBdayEvent
+
+2008-07-04 Aditya <aditya.khambampati@wipro.com>
+	* Compilation fixes in CSmartCalendar
+
+2008-07-03 Saravanane  D <saravanane.dhandabani@wipro.com>
+	* Implement smart calendar to store birthday contacts from Ebook database
+
+2008-07-03 Duggirala Karthik <ext-karthik.duggirala@nokia.com>
+	* Modified alarm test cases in caltest.
+	* Added caltest in configure.ac and Makefile.am
+	
+2008-07-01 Aditya <aditya.khambampati@wipro.com>
+	* fixed compilation error obtained in Fremantle environment
+	* Added new API for synchronization deleteComponent and getCalendarByName
+	* Modified Alam implementation to class missed in w26 
+
+2008-06-27 Aditya <aditya.khambampati@wipro.com>
+	* Include file changes in common.h
+
+2008-06-27 Aditya <aditya.khambampati@wipro.com>
+	* Review comments incorporated
+	* Operator= overloaded
+	* defined 3 new API in CMulticalendar class to delete entries beyond particular date 
+
+2008-06-26 Aditya <aditya.khambampati@wipro.com>
+	* Review comments incorporated 
+	* Bug fix in All day event creation.
+	* removed warnings
+
+2008-06-25 Aditya <aditya.khambampati@wipro.com>
+	* Bug fixes in implementation of automatic cleanup of todos. 
+	* Changed Multi-Calendar API -addCalendar,modifyCalendar
+	* Review comments incorporated #define replaced with const  
+
+2008-06-20 Aditya <aditya.khambampati@wipro.com>
+	* Alarm Implementation for recursive events 
+	* Bug fixes for Alarm integration
+
+2008-06-19 Aditya <aditya.khambampati@wipro.com>
+	* Review comments incorporated
+	* Movedalarm cookie management to calendar backend from  calendar interface.
+
+2008-06-02 Nandita <santoshi.suri@wipro.com>
+	* Added Command line tool for calendar-backend application. 
+
+2008-05-29 Aditya <aditya.khambampati@wipro.com>
+	* Review comments incorporated
+
+2008-05-22 Aditya <aditya.khambampati@wipro.com>
+	* Bug fixed in getEvent,getTodo,getJournal
+
+2008-05-21 Aditya <aditya.khambampati@wipro.com>
+	* Incorporated review comments 
+	* Indentation changes in CCalendar
+
+2008-05-21 Saravanane D <saravanane.dhandabani@wipro.com>
+	* Make changes
+	* Indentation : Only 4 spaces for indentation instead of tabs
+
+2008-05-20 Aditya <aditya.khambampati@wipro.com>
+	* Bug fixed  - last modified time is not reported in modify todo 
+
+2008-05-16 Aditya <aditya.khambampati@wipro.com>
+	* Bug fixed in  all day event.
+	* Bug fixed in delete calendar. Delete calendar is unable to delete entries
+	from recursive table.
+
+2008-05-15 Saravanane D <saravanane.dhandabani@wipro.com>
+	* W20 release. Tagged this release under cal-tags/wk20-thu
+
+2008-05-15 Aditya <aditya.khambampati@wipro.com>
+	*  Reporting recurrence instances of recurrent event  which fall in the
+	range of dates from UI.
+
+2008-05-14 Saravanane D <saravanane.dhandabani@wipro.com>
+	* Changing permissions of calendardb file into 777
+
+2008-05-14 Aditya <aditya.khambampati@wipro.com>
+	*  Added new Api in CComponent class getDuration for reporting alarm data to
+	UI.
+
+2008-05-12 Saravanane D <saravanane.dhandabani@wipro.com>
+	* Support for Recurrence in database
+	* Support for Alarm in database
+	* String implementatio instead of char *
+	* Hungarian notations followed.
+
+2008-05-01 Saravanane D <saravanane.dhandabani@wipro.com>
+	* Code cleanup
+	* List of todo's added in each file.
+
+2008-05-02 Aditya  <aditya.khambampati@wipro.com>
+	*  Doxygen comments for CRecurrence and CParticipant class files.
+
+2008-05-02 Saravanane D <saravanane.dhandabani@wipro.com>
+	* Include libical dependency. Anyone can find this package from
+	https//projects.maemo.org/svn/fmca/osso2.0/osso-pim/calendar/calendar-dependency/libical*.deb.
+	Also libcppunit packages are included in this directory.
+
+2008-05-02 Saravanane D  <saravanane.dhandabani@wipro.com>
+	* Code indented.
+	* Incorporate code review comments
+
+2008-04-30 Saravanane D  <saravanane.dhandabani@wipro.com>
+	* Fix in modify journal bug
+	* Fix in modify todo bug
+
+2008-04-30 Saravanane D  <saravanane.dhandabani@wipro.com>
+	* Removed cout, printf from all the source files and used CAL_DEBUG_LOG
+	* Add calendar-support.h file for OSSO logging.
+	* Removed cout, printf statements in CMulticalendar.
+	* Time zone correction, all the timings will be stored as GMT  in database.
+	When fetching the entries, again it will be converted into local time.
+	* Rename CAL_COL1, CAL_COL2 etc., macros accordingly as per code review
+	comments.
+	* Removed malloc, free statements in CCalendarDB.cpp
+	* Removed calendar-interface.h from include directory.
+	* Macro NULLID defined for the value -1 and this macro will be used in retur statements.
+
+2008-04-28 Aditya <aditya.khambampati@wipro.com>
+	* ichecking in for bug fixes in calendar 
+
+2008-04-26 Aditya <aditya.khambampati@wipro.com>
+	* Added iApis in calenadar from snc point of view 
+	* Added icache in Multi calendar,modified calendar
+
+2008-04-25 Aditya <aditya.khambampati@wipro.com>
+	* Added variable constructors   
+
+2008-04-21 Saravanane D <saravanane.dhandabani@wipro.com>
+	* Calendar backend redesign
+	* Change the year from 1900 to 1970 when creating UTC.
+	* Add Todo / Journal / Event
+	* Modify Todo / Journal / Event
+	* Delete Todo / Journal / Event
+
+2008-04-18 Aditya <aditya.khambampati@wipro.com>
+	* Fixing bugs in modify event todo and journal   
+	* Updates in command line tool and multicalendar 
+
+2008-03-20 Saravanane D <saravanane.dhandabani@wipro.com>
+	* Updates to calendar, entry, event, todo, journal
+	* Checkedin attendee
+	* Updated organizer
+	* Updates in calldb.h & calldb.cpp.
+
+
+omplex repeat shown as normal events in Rx

@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=@exec_prefix@
+libdir=@libdir@
+includedir=@includedir@/calendar-backend
+
+Name: calendar backend
+Description: Calendar package
+Version: @VERSION@
+Libs: -L${libdir} -lcalendar_backend 
+Cflags: -I${includedir}

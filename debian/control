@@ -1,0 +1,36 @@
+Source: calendar-backend
+Section: office 
+Priority: optional
+Maintainer: Ilias Biris <ilias.biris@nokia.com>
+Uploaders: Ilias Biris <ilias.biris@nokia.com>
+Build-Depends: debhelper (>= 4.0.0), cdbs, doxygen, libical-dev, libsqlite3-dev, libdbus-1-dev, libalarm-dev, libtime-dev
+Standards-Version: 3.8.0
+
+Package: calendar-backend
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}, clockd, alarmd
+Description: Calendar backend libraries
+ This package contains calendar backend libraries.
+
+Package: calendar-backend-dbg
+Architecture: any
+Section: libs
+Priority: extra
+Depends: calendar-backend (= ${binary:Version})
+Description: Calendar backend application
+ This package contains debug symbols for Calendar application
+
+Package: calendar-backend-dev
+Architecture: any
+Section: devel
+Depends: calendar-backend (= ${binary:Version}), libalarm-dev, libtime-dev, libical-dev, libsqlite3-dev
+Description: Calendar backend developer's files
+ This package contains calendar backend developer's files.
+
+Package: calendar-backend-doc
+Architecture: any
+Section: doc
+Depends: calendar-backend (= ${binary:Version})
+Description: Calendar backend doc files
+ This package contains calendar backend doc files

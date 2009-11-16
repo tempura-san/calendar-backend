@@ -1,0 +1,41 @@
+This is a caltest tests directory for calendar-backend
+
+Steps:
+
+Run command 
+
+make check
+
+to compile the surces and generate the binary "Caltest"
+
+On compilation it also generates the files *.gcno that
+measure the code coverage metrics.
+
+Run Caltest on terminal x86 environment
+
+After this we have CalTest.xml file which has the results
+and additional *.gcda files are generated(for code coverage).
+
+Now run the command (in caltest dir)
+
+xmlto --skip-validation -x report.xsl html Caltest.xml
+
+Now run the command (outside scratchbox)
+
+lcov --directory . -c -o caltest.info
+
+Need to install lcov utility for the same (Can do it outside scratchbox)
+and run the command outside scratchbox giving the path for the calendar-backend
+directory.
+
+e.g
+
+lcov --directory /scratchbox/users/$USER/home/$USER/somedir/calendar-backend/
+
+It looks for the gcda files recursively and generates the caltest.info file.
+
+Now run the command
+
+ genhtml -o coverage caltest.info
+
+It will generate the html files in the directory coverage.
