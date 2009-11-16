@@ -1,3 +1,11 @@
+calendar-backend (0.6-1) unstable; urgency=low
+
+  * Initial public version for Maemo 5
+  * Fixes: NB#146800 Updated Alarm API
+  * Fixes: NB#146804 Skip invalid characters during ICS import
+
+ -- Ilias Biris <ilias.biris@nokia.com>  Mon, 16 Nov 2009 12:38:08 +0300
+
 calendar-backend (0.5-9.13) unstable; urgency=low
 
   * Week 46, 2009 - Thursday
