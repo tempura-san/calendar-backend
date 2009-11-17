@@ -300,7 +300,7 @@
 #define INDEX_INSTANCES "CREATE INDEX IF NOT EXISTS IDX_INST on Instances(Id,DateStart,DateEnd)"
 
 
-#define SELECT_DUPLICATE_ENTRY  "select Id from Components where summary = \"%s\" AND dateStart = %d AND ComponentType = %d AND CalendarId = %d "
+#define SELECT_DUPLICATE_ENTRY  "select Id from Components where summary = %Q AND dateStart = %d AND ComponentType = %d AND CalendarId = %d "
 #define SELECT_ENTRY_RETAIN "select Id from components where ModifiedTime > %d and Id = \"%s\""
 #define SELECT_PREV_NEXT_ALLDAY "select * from components where  (Allday =1 and DateStart <=  %d and DateEnd>= %d)"
 #define SELECT_PREV_COMPONENT SELECT_PREV_NEXT_ALLDAY "UNION select * from components where (DateStart <= %d AND componentType = %d AND (Flags!=%d OR Flags != %d)  AND (calendarId in (select calendarid from calendars where IsVisible =1 ))) OR Id = \"%s\" ORDER BY DateStart ,Summary,CreatedTime LIMIT 20 OFFSET 0"

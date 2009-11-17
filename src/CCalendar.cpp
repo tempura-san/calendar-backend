@@ -40,6 +40,16 @@
 
 static const int UPDATE_EXISTING_ALARM = 1;
 static const int ADD_NEW_ALARM = 2;
+
+static string sqlquoted_string(const std::string &s)
+{
+    char *sql_str = sqlite3_mprintf("%Q", s.c_str());
+    string retval(sql_str);
+    sqlite3_free(sql_str);
+
+    return retval;
+};
+
 /**
  * Copy Constructor for CCalendarClass
  */
@@ -2816,22 +2826,22 @@ bool CCalendar::checkDuplicateEntry(CComponent * pEntry, int iType,
         // now we add extra fields 
         // location 
         if (pEntry->getLocation().empty())
-            strQuery += " AND location = \"\"";
+            strQuery += " AND location = ''";
         else        
-            strQuery += " AND location = \"" + pEntry->getLocation() + "\"";
+            strQuery += " AND location = " + sqlquoted_string(pEntry->getLocation());
 
         // description
         if (pEntry->getDescription().empty())
-            strQuery += " AND description = \"\"";
+            strQuery += " AND description = ''";
         else        
-            strQuery += " AND description = \"" + pEntry->getDescription() + "\"";
+            strQuery += " AND description = " + sqlquoted_string(pEntry->getDescription());
 
         if (iType == E_EVENT) {
         // GUID should be checked for events only - for Birthdays  it holds contact UIDs.
             if (pEntry->getGUid().empty())
-                strQuery += " AND uid = \"\"";
+                strQuery += " AND uid = ''";
             else        
-                strQuery += " AND (uid = \"\" or uid = \"" + pEntry->getGUid() + "\")";
+                strQuery += " AND (uid = '' or uid = " + sqlquoted_string(pEntry->getGUid()) + ")";
         }
     }
 
