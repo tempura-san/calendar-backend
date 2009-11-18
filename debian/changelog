@@ -2,6 +2,7 @@ calendar-backend (0.6-2) unstable; urgency=low
 
   * Fixes: NB#147229 Crash in set_next_alarm
   * Fixes: NB#132511 Every retrieve of notes when calendar notes and contacts in the conduit results in duplicate notes in other device
+  * Fixes: NB#126668 Task and Note is created automatically in Tasks/Notes view,when All day event is created on 1 Jan 1970.
 
  -- Ilias Biris <ilias.biris@nokia.com>  Wed, 18 Nov 2009 14:59:08 +0300
 
