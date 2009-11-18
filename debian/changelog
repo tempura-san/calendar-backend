@@ -1,6 +1,7 @@
 calendar-backend (0.6-2) unstable; urgency=low
 
   * Fixes: NB#147229 Crash in set_next_alarm
+  * Fixes: NB#132511 Every retrieve of notes when calendar notes and contacts in the conduit results in duplicate notes in other device
 
  -- Ilias Biris <ilias.biris@nokia.com>  Wed, 18 Nov 2009 14:59:08 +0300
 

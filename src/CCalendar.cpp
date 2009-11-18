@@ -2814,11 +2814,22 @@ bool CCalendar::checkDuplicateEntry(CComponent * pEntry, int iType,
     if (pEntry->getLastModified() == NULLID) {
         pEntry->setLastModified(time_get_time());
     }
-	pQuery =
-        sqlite3_mprintf(SELECT_DUPLICATE_ENTRY,
+	
+        if (iType == E_JOURNAL) {
+        //datestart is not valid for TODOs - it is the current time always
+        pQuery = sqlite3_mprintf(SELECT_DUPLICATE_JOURNAL,
+                pEntry->getSummary().c_str(),
+                iType,
+                this->getCalendarId());
+
+    }
+    else {
+        // otherwise include it in the search query
+        pQuery = sqlite3_mprintf(SELECT_DUPLICATE_ENTRY,
                 pEntry->getSummary().c_str(),
                 pEntry->getDateStart(), iType,
                 this->getCalendarId());
+    }
     string strQuery(pQuery);
     sqlite3_free(pQuery);
 
@@ -3722,6 +3733,37 @@ bool CCalendar::addJournal(CJournal * ptrJournal, int &pErrorCode)
 	pErrorCode = CALENDAR_INVALID_ARG_ERROR;
 	return false;
     }
+
+    checkDuplicateEntry(ptrJournal, E_JOURNAL, pErrorCode);
+    if (pErrorCode == EXT_ITEM_RETAINED) {
+
+    if (modifyJournal(ptrJournal, pErrorCode)) {
+        CAL_DEBUG_LOG
+        ("Duplicate exist so modifying the created and Last modified values \n");
+        pErrorCode = CALENDAR_ENTRY_DUPLICATED;
+        return true;
+    } 
+    else {
+        CAL_DEBUG_LOG(" Failure in modifying duplicate note \n");
+        pErrorCode = CALENDAR_DATABASE_ERROR;
+        return false;
+    }
+
+    } 
+    else if (pErrorCode == LOCAL_ITEM_RETAINED) {
+
+    CAL_DEBUG_LOG("Calendar item is the newer one so"
+              "need to update anything in calendar returning true \n");
+    pErrorCode = CALENDAR_ENTRY_DUPLICATED;
+    return true;
+
+    }
+    CAL_DEBUG_LOG(" No duplicate notes exists so adding  new note \n");
+
+    /* overwriting the error code here */
+    pErrorCode = CALENDAR_OPERATION_SUCCESSFUL;
+
+
     /* adding data to components table *
      */
     this->addComponent(ptrJournal, E_ADD, pErrorCode);
