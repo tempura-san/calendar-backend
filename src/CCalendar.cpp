@@ -1072,10 +1072,10 @@ bool CCalendar::setNextAlarm(string sComponentId,int iType, int &pErrorCode)
 		return false;
 	}
 
-    if (pEvent->updateAlarmTriggerTime(&instanceDateStart))
+    if (pEvent->updateAlarmTriggerTime(&instanceDateStart) &&
+        (pAlarm = pEvent->getAlarm()) != 0)
     {
-        pAlarm = pEvent->getAlarm();
-        dateStart = pAlarm->getTrigger();
+		dateStart = pAlarm->getTrigger();
 
 		timeDiff = pEvent->getDateEnd() - pEvent->getDateStart();
 
