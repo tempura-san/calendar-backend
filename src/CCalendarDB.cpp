@@ -821,6 +821,7 @@ QueryResult *CCalendarDB::getRecords(char *pQuery, int &iSqliteError)
     return 0;
 
     pQr = (QueryResult *) new QueryResult();
+    pQr->pResult = 0;
 
     iRet =
     sqlite3_get_table(pDb, pQuery, &pQr->pResult, &pQr->iRow,
