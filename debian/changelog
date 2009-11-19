@@ -1,8 +1,16 @@
-calendar-backend (0.5-9.14) unstable; urgency=low
+calendar-backend (0.5-9.15) unstable; urgency=low
 
   * Fixes: NB#147522 Possible crash
 
- -- Ilias Biris <ilias.biris@nokia.com>  Thu, 19 Nov 2009 18:29:50 +0300
+ -- Ilias Biris <ilias.biris@nokia.com>  Thu, 19 Nov 2009 19:28:45 +0200
+
+calendar-backend (0.5-9.14) unstable; urgency=low
+
+  * Week 47, 2009 - Monday
+  * 
+  * Fixes:  NB#142108 Calendar cannot detect duplicate event if " character is inside
+
+ -- Ilias Biris <ilias.biris@nokia.com>  Mon, 16 Nov 2009 19:12:23 +0300
 
 calendar-backend (0.5-9.13) unstable; urgency=low
 
