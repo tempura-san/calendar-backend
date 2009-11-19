@@ -1004,10 +1004,11 @@ bool CCalendarDB::checkTimezoneTable()
         retval = false;
     }
 
-    if (pResult->pResult)
+    if (pResult && pResult->pResult)
     {
         sqlite3_free_table(pResult->pResult);
     }
+
     delete pResult;
 
     return retval;
