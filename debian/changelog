@@ -1,3 +1,9 @@
+calendar-backend (0.5-9.14) unstable; urgency=low
+
+  * Fixes: NB#147522 Possible crash
+
+ -- Ilias Biris <ilias.biris@nokia.com>  Thu, 19 Nov 2009 18:29:50 +0300
+
 calendar-backend (0.5-9.13) unstable; urgency=low
 
   * Week 46, 2009 - Thursday
