@@ -3310,13 +3310,25 @@ void CMulticalendar::deleteItemsByIdList(vector<string> &listId, int& pErrorCode
 CMulticalendar *CMulticalendar::MCInstance()
 {
     if(pMc == 0) {
-	pMc = new CMulticalendar();
-	ASSERTION (pMc);
+        pMc = new CMulticalendar();
+        ASSERTION (pMc);
 
-	pMc ->enableDisableCalendarLogs(checkFileExists("/home/user/.calendar/log"));
+        pMc->enableDisableCalendarLogs(checkFileExists("/home/user/.calendar/log"));
 
-    // just for debugging
-   // pMc->regenerateInstances();
+        if (!checkFileExists("/tmp/calendar-firststart"))
+        {
+            pMc->restoreAlarms();
+
+            std::ofstream firststart_file;
+            firststart_file.open("/tmp/calendar-firststart");
+        }
+        else
+        {
+            CAL_DEBUG_LOG("It is not first calendar-backend start after boot. Do not restore alarms this time");
+        }
+
+        // just for debugging
+        // pMc->regenerateInstances();
 
     }
     return pMc;
@@ -8048,5 +8060,77 @@ void CMulticalendar::cleanupIcsString(std::string & ics_line)
     }
 }
 
+void CMulticalendar::restoreAlarms()
+{
+    int iSqlError;
 
+    CCalendarDB *pDb = CCalendarDB::Instance();
+
+    if (pDb == 0)
+    {
+        CAL_DEBUG_LOG("Calendar:Invalid CalendarDB pointer");
+        return;
+    }
+
+    QueryResult *pQr = pDb->getRecords("select Components.Id,CalendarId,ComponentType,CookieId from Components LEFT JOIN  ALARM on ALARM.Id = Components.Id where Components.Id in (select id from alarm)", iSqlError);
+
+    if (pQr && pQr->pResult)
+    {
+        CAL_DEBUG_LOG("Have %d alarms to restore", pQr->iRow);
+
+        CAlarm helper;
+
+        int cols = pQr->iColumn;
+
+#if 0
+        // Dump column names for debugging purposes
+        std::stringstream s;
+        for (int col = 0; col < cols; col++)
+        {
+            s << pQr->pResult[col] << ",";
+        }
+        CAL_DEBUG_LOG("Got columns: %s", s.str().c_str());
+#endif
+
+        for (int row = 1; row <= pQr->iRow; row++)
+        {
+            const char *comp_id = pQr->pResult[cols * row];
+            int calendar_id = atoi(pQr->pResult[cols * row + 1]);
+            int comp_type = atoi(pQr->pResult[cols * row + 2]);
+            long cookie = atoi(pQr->pResult[cols * row + 3]);
+
+            if (comp_type > 0 && calendar_id > 0)
+            {
+                int error;
+
+                if (cookie > 0)
+                {
+                    CAL_DEBUG_LOG("Cleanup alarm with cookie %ld", cookie);
+                    helper.deleteAlarmEvent(cookie, error);
+                }
+
+                if (setNextAlarm(calendar_id, comp_id, comp_type, error))
+                {
+                    CAL_DEBUG_LOG("Updated alarm for component  %d:%s, type=%d", calendar_id, comp_id, comp_type);
+                }
+                else
+                {
+                    CAL_ERROR_LOG("Failed to set alarm for compoenent %d:%s (type=%d). Error core %d", 
+                                   calendar_id,
+                                   comp_id,
+                                   comp_type,
+                                   error);
+                }
+            }
+        }
+
+        sqlite3_free_table(pQr->pResult);
+    }
+    else
+    {
+        CAL_DEBUG_LOG("No alarms to restore (SQL Error  %d)", iSqlError);
+    }
+
+    delete pQr;
+}
 

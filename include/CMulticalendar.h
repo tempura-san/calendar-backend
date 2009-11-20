@@ -1277,6 +1277,11 @@ class CMulticalendar {
            * @param ics_line string to clean up
            */
           void cleanupIcsString(std::string &ics_line);
+
+          /**
+           * Restore daemon-side alarms based on calendar alarms
+           */
+          void restoreAlarms();
 };
 
 #endif
