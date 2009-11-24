@@ -1,3 +1,9 @@
+calendar-backend (0.6-4) unstable; urgency=low
+
+  * Fixes: NB#147890 Task Alarm date are reflected incorrectly in Device after sync performed from Phone or PC suite to Device
+
+ -- Ilias Biris <ilias.biris@nokia.com>  Tue, 24 Nov 2009 16:18:29 +0300
+
 calendar-backend (0.6-3) unstable; urgency=low
 
   * Fixes: NB#146463 Restore alarms after restart
