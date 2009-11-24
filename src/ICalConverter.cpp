@@ -3131,19 +3131,10 @@ if (pComp) {
     }
     else if (pEntry->getType() == E_TODO)
     {
-        //Alarm flag will be set to day before 
-        // alarm on current day is not supported 
-        CAL_DEBUG_LOG ("Synced task With Due date ");
-        int inst_time = pEntry->getDateStart() - 86400;
-        struct tm tm_trigger;
-            memset (&tm_trigger, 0, sizeof (struct tm));
-        time_get_remote(st_time ,szZone.c_str(), &tm_trigger );
-        inst_time += (3600 * tm_trigger.tm_hour ) +
-        	     (60 * tm_trigger.tm_min)  +
-        	     tm_trigger.tm_sec;
-        alarm->setDuration(E_AM_DAYBEFORE);
-        alarm->setTrigger(inst_time);
-        alarm->setDuration(E_AM_DAYBEFORE);
+        CAL_DEBUG_LOG ("Synced task With Due date, alarm is set to %s", ctime(&st_time));
+        alarm->setTrigger(st_time);
+        alarm->setDuration(E_AM_EXACTDATETIME);
+        alarm->setTimeBefore(0);
     }
 
 
