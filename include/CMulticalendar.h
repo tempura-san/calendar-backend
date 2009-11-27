@@ -1282,6 +1282,17 @@ class CMulticalendar {
            * Restore daemon-side alarms based on calendar alarms
            */
           void restoreAlarms();
+
+          /**
+           * Compare compoenents in the order of "Prev/Next event"
+           * @param c1 - pointer to first compoenent
+           * @param c2 - pointer to second compoenent
+           * @return 1 - c1 сome after c2 (direct order)
+                    -1 - c1 comes before c1 (revers order)
+                     0 - components are equal (i.e. same components are compared) 
+
+           */
+          int comparePrevNextComponent(CComponent *c1, CComponent *c2, time_t t1 = -1, time_t t2 = -1);
 };
 
 #endif

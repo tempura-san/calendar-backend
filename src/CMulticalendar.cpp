@@ -1174,12 +1174,12 @@ vector <CComponent *> CMulticalendar::getComponentsAllCalendars(
 
         }
 
-        CAL_DEBUG_LOG("CMulticalendar %d:getComponentsAllCalendars-> %s\n",
-                iI_CompCount,pEntry->toString().c_str());
-        CAL_DEBUG_LOG("Event id beforeis %s", pEntry->getId().c_str());
+//        CAL_DEBUG_LOG("CMulticalendar %d:getComponentsAllCalendars-> %s\n",
+//                iI_CompCount,pEntry->toString().c_str());
+//        CAL_DEBUG_LOG("Event id beforeis %s", pEntry->getId().c_str());
         if (((pEntry->getFlags() == HAS_RECURRENCE)
                     || (pEntry->getFlags() == HAS_RECURRENCE_ALARM))) {
-            CAL_DEBUG_LOG("Event id is %s", pEntry->getId().c_str());
+//            CAL_DEBUG_LOG("Event id is %s", pEntry->getId().c_str());
             pEntry->getRecurrenceProperties();
         }
 
@@ -4830,6 +4830,263 @@ CComponent *CMulticalendar::getPrevNextComponent(string szId,
 			 time_t &instance_time,
                          int &pErrorCode)
 {
+    CComponent *retval = 0;
+    CComponent *current_component = 0;
+
+    vector<CComponent*> components;
+    vector <int> calendar_ids;
+    int iSqliteError = 0;
+
+
+    instance_time = 0;
+
+    // Fetch current component form CalendarDB
+
+    CCalendarDB *pDb = CCalendarDB::Instance();
+
+    if (pDb == 0) {
+        pErrorCode = CALENDAR_APP_ERROR;
+        return 0;
+    }
+
+    char *pQuery = sqlite3_mprintf("select * from components  where id=%Q", szId.c_str());
+
+    QueryResult *pQr = pDb->getRecords(pQuery,iSqliteError);
+    pDb->sqliteErrorMapper(iSqliteError,pErrorCode);
+    sqlite3_free(pQuery);
+
+    if (pQr) {
+        vector < CComponent*> c = popEventDetails(pQr);
+
+        // Query returns  not more that 1 record
+        if (c.size() > 0)
+        {
+            current_component = c[0];
+        }
+    }
+
+    if (current_component == 0)
+    {
+        CAL_ERROR_LOG("Failed to fetch current event. Aborting");
+        return 0;
+    }
+
+    // Fetch all candidates
+
+    int range_start, range_end;
+
+    if (isPrev)
+    {
+        // From the beginning of the time...
+        range_start = 0;
+
+        // ... till current event starts (+1 to fetch  events started exactly)
+        range_end = (int)iDateStart+1; 
+    }
+    else
+    {
+        // Fetch all components after specified event
+        range_start = (int)iDateStart;
+        range_end = DEFAULT_END_DATE;
+    }
+
+    components = getComponentsAllCalendars(range_start,
+                                           range_end,
+                                           65535, // FIXME to it propgressivelly
+                                           0,
+                                           calendar_ids,
+                                           iSqliteError);
+
+    CAL_DEBUG_LOG("Looking for %s for '%s' at %s",
+             isPrev ? "Prev" : "Next",
+             current_component->getSummary().c_str(),
+             ctime(&iDateStart));
+
+    CAL_DEBUG_LOG("Got %d candidates ", components.size());
+
+    vector<CComponent*>::iterator candidate = components.end();
+    time_t candidate_instance = -1;
+    vector<CComponent*>::iterator comp;
+
+    CAL_DEBUG_LOG("Looking for %s from %s", isPrev ? "Prev" : "Next", ctime(&iDateStart));
+
+    // Filter candidates
+    for(comp = components.begin();
+        comp != components.end();
+        comp++)
+    {
+        time_t comp_instance = -1;
+
+        if ((*comp)->getRecurrence())
+        {
+            vector<time_t> times = (*comp)->generateInstanceTimes(range_start, range_end);
+
+            if (times.size() > 0)
+            {
+                // Find first suitabe instance
+                if (isPrev) 
+                {
+                    // Get prev suitable instance
+                    for(vector<time_t>::reverse_iterator it=times.rbegin();
+                        it < times.rend();
+                        ++it)
+                    {
+//                         CAL_DEBUG_LOG("Validate instance of '%s' (#%s) at %s",
+//                                         (*comp)->getSummary().c_str(),
+//                                         (*comp)->getId().c_str(),
+//                                         ctime(&(*it)));
+
+                        if (comparePrevNextComponent(current_component, *comp, iDateStart, *it) < 0)
+                        {
+                            comp_instance = *it;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    // Get next suitable instance
+                    for(vector<time_t>::iterator it=times.begin();
+                        it < times.end();
+                        ++it)
+                    {
+//                         CAL_DEBUG_LOG("Validate instance of '%s' (#%s) at %s",
+//                                         (*comp)->getSummary().c_str(),
+//                                         (*comp)->getId().c_str(),
+//                                         ctime(&(*it)));
+
+                        if (comparePrevNextComponent(current_component, *comp, iDateStart, *it) > 0)
+                        {
+                            comp_instance = *it;
+                            break;
+                        }
+                    }
+                }
+
+                if (comp_instance < 0)
+                {
+                    CAL_ERROR_LOG("Coudn't find suitable candidate from recurrent event '%s'. Skip it",
+                                  (*comp)->getSummary().c_str());
+                    continue;
+                }
+            }
+            else
+            {
+//                 CAL_DEBUG_LOG("Recurrent event '%s' have no instances in ranage. Skip it", (*comp)->getSummary().c_str());
+                continue;
+            }
+        }
+        else if ((*comp)->getId() == szId)
+        {
+            // Ignore current event
+//             CAL_DEBUG_LOG("Skip current event '%s'", (*comp)->getSummary().c_str());
+            continue;
+        }
+        else
+        {
+            comp_instance = (*comp)->getDateStart();
+        }
+
+        // TODO Handle multiday events
+
+//         CAL_DEBUG_LOG("Check '%s' (#%s) at %s",
+//                         (*comp)->getSummary().c_str(),
+//                         (*comp)->getId().c_str(),
+//                         ctime(&comp_instance));
+
+        if (isPrev)
+        {
+            if (comparePrevNextComponent(current_component, *comp, iDateStart, comp_instance) < 0) // comes before current
+            {
+                if (candidate == components.end())
+                {
+                    // First candidate
+                    candidate = comp;
+                    candidate_instance = comp_instance;
+
+                    CAL_DEBUG_LOG("First candidate '%s' at %s",
+                                (*candidate)->getSummary().c_str(),
+                                ctime(&candidate_instance));
+                }
+                else
+                if (comparePrevNextComponent(*candidate, *comp, candidate_instance, comp_instance) > 0) // comes after current candidate
+                {
+                    candidate = comp;
+                    candidate_instance = comp_instance;
+
+                    CAL_DEBUG_LOG("New candidate '%s' at %s",
+                                (*candidate)->getSummary().c_str(),
+                                ctime(&candidate_instance));
+                }
+            }
+        }
+        else
+        {
+            if (comparePrevNextComponent(current_component, *comp, iDateStart, comp_instance) > 0)    // comes after current time
+            {
+                if (candidate == components.end())
+                {
+                    // First candidate
+                    candidate = comp;
+                    candidate_instance = comp_instance;
+
+                    CAL_DEBUG_LOG("First candidate '%s' at %s",
+                                (*candidate)->getSummary().c_str(),
+                                ctime(&candidate_instance));
+                }
+                else
+                if (comparePrevNextComponent(*candidate, *comp, candidate_instance, comp_instance) < 0) // comes before current candidate
+                {
+                    candidate = comp;
+                    candidate_instance = comp_instance;
+
+                    CAL_DEBUG_LOG("New candidate '%s' at %s",
+                                (*candidate)->getSummary().c_str(),
+                                ctime(&candidate_instance));
+                }
+            }
+        }
+    }
+
+    // prepare result if candidate is found
+    if (candidate != components.end())
+    {
+        retval = *candidate;
+        *candidate = 0;
+
+        instance_time = candidate_instance;
+        iCalid = retval->getCalendarId();
+    }
+
+
+    // Cleanup
+    for(comp = components.begin();
+        comp != components.end();
+        comp++)
+    {
+        delete *comp;
+    }
+
+    delete current_component;
+
+    // Some debug logging before return
+    if (retval)
+    {
+        CAL_DEBUG_LOG("Result: '%s' (#%s) at %s",
+                      retval->getSummary().c_str(),
+                      retval->getId().c_str(),
+                      ctime(&instance_time));
+    }
+    else
+    {
+        CAL_DEBUG_LOG("No prev/next event");
+    }
+
+    return retval;
+
+#if 0
+
+
 	QueryResult *pQr = 0;
 	char *pQuery = 0;
 	CCalendarDB *pDb = 0;
@@ -5136,6 +5393,7 @@ CComponent *CMulticalendar::getPrevNextComponent(string szId,
 	    }
     }
     return pEntry;
+#endif
 }
 /*
  * Function to find recursive impending events
@@ -8134,3 +8392,71 @@ void CMulticalendar::restoreAlarms()
     delete pQr;
 }
 
+int CMulticalendar::comparePrevNextComponent(CComponent * c1, CComponent * c2, time_t t1/* = -1*/, time_t t2 /*= -1*/)
+{
+    int retval = 0;
+    if (t1 < 0)
+    {
+        t1 = c1->getDateStart();
+    }
+
+    if (t2 < 0)
+    {
+        t2 = c2->getDateStart();
+    }
+
+
+    time_t d1 = c1->getDateEnd() - c1->getDateStart();
+    time_t d2 = c2->getDateEnd() - c2->getDateStart();
+
+    int summary_compare;
+
+    // Earlest first
+    if (t1 < t2)
+    {
+        retval = 1;
+    }
+    else if (t1 > t2)
+    {
+        retval = -1;
+    }
+    //All-day first
+    else if (c1->getAllDay() && !(c2->getAllDay()))
+    {
+        retval = 1;
+    }
+    else if (!(c1->getAllDay()) && c2->getAllDay())
+    {
+        retval = -1;
+    }
+    // longest first
+    else if (d1 != d2)
+    {
+        retval = d1 > d2 ? 1 : -1;
+    }
+    // compare titles
+    else if ((summary_compare = strcmp(c2->getSummary().c_str(), c1->getSummary().c_str())) != 0)
+    {
+        retval = summary_compare;
+    }
+    // Fallback: less ID first
+    else if (c1->getId() < c2->getId())
+    {
+         retval = 1;
+    }
+    else if (c1->getId() > c2->getId())
+    {
+        retval = -1;
+    }
+    else
+    {
+        retval = 0;
+    }
+
+//     CAL_DEBUG_LOG("'%s' VS '%s' = %d",
+//                   c1->getSummary().c_str(),
+//                   c2->getSummary().c_str(),
+//                   retval);
+
+    return retval;
+}
