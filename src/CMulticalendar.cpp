@@ -4917,6 +4917,12 @@ CComponent *CMulticalendar::getPrevNextComponent(string szId,
     {
         time_t comp_instance = -1;
 
+        if (((*comp)->getType() != E_EVENT) && ((*comp)->getType() != E_BDAY))
+        {
+            // Ignore all except but tasks and bdays
+            continue;
+        }
+        else
         if ((*comp)->getRecurrence())
         {
             vector<time_t> times = (*comp)->generateInstanceTimes(range_start, range_end);
@@ -4931,10 +4937,10 @@ CComponent *CMulticalendar::getPrevNextComponent(string szId,
                         it < times.rend();
                         ++it)
                     {
-//                         CAL_DEBUG_LOG("Validate instance of '%s' (#%s) at %s",
-//                                         (*comp)->getSummary().c_str(),
-//                                         (*comp)->getId().c_str(),
-//                                         ctime(&(*it)));
+                        CAL_DEBUG_LOG("Validate instance of '%s' (#%s) at %s",
+                                        (*comp)->getSummary().c_str(),
+                                        (*comp)->getId().c_str(),
+                                        ctime(&(*it)));
 
                         if (comparePrevNextComponent(current_component, *comp, iDateStart, *it) < 0)
                         {
@@ -4950,10 +4956,10 @@ CComponent *CMulticalendar::getPrevNextComponent(string szId,
                         it < times.end();
                         ++it)
                     {
-//                         CAL_DEBUG_LOG("Validate instance of '%s' (#%s) at %s",
-//                                         (*comp)->getSummary().c_str(),
-//                                         (*comp)->getId().c_str(),
-//                                         ctime(&(*it)));
+                        CAL_DEBUG_LOG("Validate instance of '%s' (#%s) at %s",
+                                        (*comp)->getSummary().c_str(),
+                                        (*comp)->getId().c_str(),
+                                        ctime(&(*it)));
 
                         if (comparePrevNextComponent(current_component, *comp, iDateStart, *it) > 0)
                         {
@@ -4972,14 +4978,14 @@ CComponent *CMulticalendar::getPrevNextComponent(string szId,
             }
             else
             {
-//                 CAL_DEBUG_LOG("Recurrent event '%s' have no instances in ranage. Skip it", (*comp)->getSummary().c_str());
+                CAL_DEBUG_LOG("Recurrent event '%s' have no instances in ranage. Skip it", (*comp)->getSummary().c_str());
                 continue;
             }
         }
         else if ((*comp)->getId() == szId)
         {
             // Ignore current event
-//             CAL_DEBUG_LOG("Skip current event '%s'", (*comp)->getSummary().c_str());
+            CAL_DEBUG_LOG("Skip current event '%s'", (*comp)->getSummary().c_str());
             continue;
         }
         else
@@ -4989,10 +4995,10 @@ CComponent *CMulticalendar::getPrevNextComponent(string szId,
 
         // TODO Handle multiday events
 
-//         CAL_DEBUG_LOG("Check '%s' (#%s) at %s",
-//                         (*comp)->getSummary().c_str(),
-//                         (*comp)->getId().c_str(),
-//                         ctime(&comp_instance));
+        CAL_DEBUG_LOG("Check '%s' (#%s) at %s",
+                        (*comp)->getSummary().c_str(),
+                        (*comp)->getId().c_str(),
+                        ctime(&comp_instance));
 
         if (isPrev)
         {
