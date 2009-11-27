@@ -1,3 +1,9 @@
+calendar-backend (0.6-5) unstable; urgency=low
+
+  * Fixes: NB#131659 Wrong work of Next Event and Previous Event
+
+ -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Fri, 27 Nov 2009 17:31:59 +0300
+
 calendar-backend (0.6-4) unstable; urgency=low
 
   * Fixes: NB#147890 Task Alarm date are reflected incorrectly in Device after sync performed from Phone or PC suite to Device
