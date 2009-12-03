@@ -695,7 +695,7 @@ void addLocalTodo(CCalendar *pCal)
 	cout<<"enter related"<<endl;
 	cin >> szRel;
 	pCt->setRelated(szRel);
-	string szRes= new char[100];
+	string szRes;
 	cout<<"enter resources"<<endl;
 	cin >>szRes;
 	pCt->setResources(szRes);
@@ -861,7 +861,6 @@ void modifyLocalEvent(CCalendar *pCal)
 		delete pComp;
 		return;
 	}
-	pComp->getFlags();
 	pCe=pCal->getEvent(sId,pErrorCode);
 
 	COrganizer *pOrg=pCe->getOrganizer();		
@@ -1287,7 +1286,6 @@ void modifyLocalTodo(CCalendar *pCal)
 		delete pComp;
 		return;
 	}
-	pComp->getFlags();
 	pCe=pCal->getTodo(sId,pErrorCode);
 	
 	COrganizer *pOrg=pCe->getOrganizer();		

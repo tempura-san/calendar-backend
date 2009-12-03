@@ -5826,7 +5826,10 @@ CComponent *CMulticalendar::getLatestComponent(int iType, time_t &startdate,
             iCalid =  this ->getCalendarIdForComponent(eventId, pErrorCode);
             CCalendar* pTemp = this->getCalendarById(iCalid,  pErrorCode);
             if (!pTemp)
+            {
+                delete pEntry;
                 return 0;
+            }
             if (pTemp->IsShown()) {
                 if (pTemp->getCalendarType() == BIRTHDAY_CALENDAR )
                     pEnRec = (CComponent*) pTemp->getBirthDayEvent(eventId, pErrorCode);
@@ -7406,13 +7409,11 @@ CEvent *CMulticalendar::localBdayEventFromRemoteId(string szExId,int &pErrorCode
 
    if ((event->getFlags() == HAS_ALARM) ||
 	   (event->getFlags() == HAS_RECURRENCE_ALARM))
+    {
        event->setAlarm(pAlarm);
-   else
-   {
+    }
 
-       delete pAlarm;
-       pAlarm =0 ;
-   }
+   delete pAlarm;
 
    return event;
 }   
