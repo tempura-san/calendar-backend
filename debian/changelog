@@ -1,3 +1,10 @@
+calendar-backend (0.6-6) unstable; urgency=low
+
+  * Fixes: NB#145162 Crash when syncing Nokia calendar via MfE
+  * Fixes: NB#139647 Coverity issues 
+
+ -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Tue, 08 Dec 2009 18:17:26 +0300
+
 calendar-backend (0.6-5) unstable; urgency=low
 
   * Fixes: NB#131659 Wrong work of Next Event and Previous Event
