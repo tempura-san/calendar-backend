@@ -8185,8 +8185,14 @@ vector < string > CCalendar::getChangeIds(int iCompType, int iChangeType,
 	    return vIdList;
 
     for (iIdCount = 1; iIdCount <= pQr->iRow; iIdCount++) {
-    vIdList.push_back(pQr->pResult[iIdCount]);
-
+        char *val = pQr->pResult[iIdCount];
+        if (val != 0) {
+            vIdList.push_back(val);
+        }
+        else
+        {
+            CAL_DEBUG_LOG("Got NULL in SQL result data");
+        }
     }
 
     if (pQr) {
