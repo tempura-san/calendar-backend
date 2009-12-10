@@ -2,8 +2,9 @@ calendar-backend (0.6-6) unstable; urgency=low
 
   * Fixes: NB#145162 Crash when syncing Nokia calendar via MfE
   * Fixes: NB#139647 Coverity issues 
+  * Fixes: NB#150175 Fix crash in ICalConverter::toLocal
 
- -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Tue, 08 Dec 2009 18:17:26 +0300
+ -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Thu, 10 Dec 2009 13:04:39 +0300
 
 calendar-backend (0.6-5) unstable; urgency=low
 
