@@ -5875,21 +5875,17 @@ CComponent *ICalConverter::toLocal(string strIcalComp, FileType iType,
      * for task*/
      if ( pEvent->getRecurrence() && pEvent->getAlarm())
      {
-
-    time_t trigger = (pEvent->getAlarm())->getTrigger();
-    int alarmFlag = (pEvent->getAlarm())->getDuration();
-    time_t dateStart = pEvent->getDateStart();
-    vector<string>  rrule = (pEvent->getRecurrence())->getRrule();
-    CAL_DEBUG_LOG(" Event recurrence rule is %s", rrule[ZERO].c_str());
-    
-    CAL_DEBUG_LOG("Alarm Trigger date before : %s", ctime(&trigger));
-    this->getImpendingAlarm(rrule[ZERO], trigger, dateStart, alarmFlag);
-    CAL_DEBUG_LOG("Alarm Trigger date: %s", ctime(&trigger));
-    (pEvent->getAlarm())->setTrigger(trigger);
-
-     } 
-
-    } 
+        if (pEvent->updateAlarmTriggerTime(0))
+        {
+            time_t trigger = (pEvent->getAlarm())->getTrigger();
+            CAL_DEBUG_LOG("Trigger time for '%s' is updated: %s", pEvent->getSummary().c_str(), ctime(&trigger));
+        }
+        else
+        {
+            CAL_ERROR_LOG("Failed to update trigger time for '%s'", pEvent->getSummary().c_str());
+        }
+    }
+    }
     
     else if (kind == ICAL_VTODO_COMPONENT) {
     	pTodo = new CTodo();
