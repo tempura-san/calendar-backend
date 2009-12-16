@@ -1863,32 +1863,37 @@ bool CMulticalendar::modifyCalendar(int iId, string szTitle,
                     string szCalendarVersion,
                     int &pErrorCode)
 {
+    // Get existing calendar
+    CCalendar *pCal = getCalendarById(iId, pErrorCode);
 
-    CCalendar *pCal = new CCalendar(szTitle,
-                    (CalendarColour) iColor,
-                    (int) iReadOnly,
-                    (int) iVisible,
-                    (CalendarType) iType,
-                    szCalendarTune,
-                    szCalendarVersion);
-    if (pCal == 0) {
-	pErrorCode = CALENDAR_MEMORY_ERROR;
-	CAL_DEBUG_LOG("Memory Allocation failure using new \n");
-	return FAILURE;
+    if (pErrorCode != CALENDAR_OPERATION_SUCCESSFUL)
+    {
+        CAL_ERROR_LOG("Failed to get calendar #%d, error %d", iId, pErrorCode);
+        return true;
     }
-    
-    pCal->setCalendarId(iId);
+
+    // Update fields
+    setCalendarName(pCal, szTitle);
+    pCal->setCalendarColor(iColor);
+    pCal->setCalendarReadOnly(iReadOnly);
+    pCal->setCalendarShown(iVisible);
+    pCal->setCalendarType(iType);
+    pCal->setCalendarTune(szCalendarTune);
+    pCal->setCalendarVersion(szCalendarVersion);
+
+    // Commit changes
     this->modifyCalendar(pCal, pErrorCode);
     if (pErrorCode != CALENDAR_OPERATION_SUCCESSFUL) {
-	CAL_DEBUG_LOG(" Errorcode is :%d,so returning  from here ",
-		  pErrorCode);
-	delete pCal;
-	pCal = 0;
-	return false;
+        CAL_DEBUG_LOG(" Errorcode is :%d,so returning  from here ",
+        pErrorCode);
+        delete pCal;
+        pCal = 0;
+        return false;
     }
 
-	delete pCal;
-	pCal = 0;
+    // Cleanup
+    delete pCal;
+    pCal = 0;
 
     return true;
 }
