@@ -1103,18 +1103,12 @@ bool CCalendar::setNextAlarm(string sComponentId,int iType, int &pErrorCode)
 		} 
 		CAL_DEBUG_LOG("\n Next alarm set for this event\n");
 	}
-	else if (pEvent->getFlags() == HAS_RECURRENCE_ALARM)
+	else
     {
-        pEvent->setFlags(HAS_RECURRENCE);
-		this->modifyEvent(pEvent, pErrorCode);
-		CALENDAR_LOG_ERROR(pErrorCode,"CCALENDAR:setNextAlarm:Modify Event Alarm failed");
-    }
-    else if (pEvent->getFlags() == HAS_ALARM)
-    {
-        pEvent->setFlags(-1);
-		pEvent->removeAlarm();
-		this->modifyEvent(pEvent, pErrorCode);
-		CALENDAR_LOG_ERROR(pErrorCode,"CCALENDAR:setNextAlarm:Modify Event Alarm failed");
+        CAL_DEBUG_LOG("No more instances so remove alarm");
+        pEvent->removeAlarm();
+        this->modifyEvent(pEvent, pErrorCode);
+        CALENDAR_LOG_ERROR(pErrorCode,"CCALENDAR:setNextAlarm:Modify Event Alarm failed");
     }
 
 	if(pEvent) {

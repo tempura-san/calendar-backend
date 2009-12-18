@@ -355,13 +355,42 @@ int CCalendarDB::initDB()
     //Register for device time/time-zone change notification
     time_get_synced();
 
-    szCaldb.append((char *) getenv("HOME"));
+    const char *home_env = (const char *) getenv("HOME");
+
+    if (home_env != 0 && strcmp(home_env, "/root") != 0)
+    {
+        szCaldb = home_env;
+    }
+    else
+    {
+        CAL_ERROR_LOG("HOME is %s. Fallback to /home/$USER", home_env ? home_env : "not set");
+
+        string user;
+
+        const char *user_env = (const char *)getenv("USER");
+
+        if (user_env != 0 && strcmp(user_env, "root") != 0)
+        {
+            user = user_env;
+        }
+        else
+        {
+            CAL_ERROR_LOG("USER is %s. Fallback to 'user'", user_env ? user_env : "not set");
+            user = "user";
+        }
+
+        szCaldb = "/home/";
+        szCaldb.append(user);
+    }
+
     szCaldb.append(CALENDAR);
 
     //mkdir(szCaldb.c_str(), S_IRWXU);
     mkdir(szCaldb.c_str(),0777);
 
     szCaldb.append(CALENDARDB);
+    CAL_DEBUG_LOG("Calendar DB is '%s'", szCaldb.c_str());
+
 
     // Validate database file
     sem_p();
@@ -881,7 +910,7 @@ bool CCalendarDB::validateDbFile(const std::string& szDbFilename)
     // try to open
     sql_error = sqlite3_open(szDbFilename.c_str(), &db);
 
-    CAL_DEBUG_LOG("CHECKDB: Database file is opened with code = %d", sql_error);
+    CAL_DEBUG_LOG("CHECKDB: Database '%s' file is opened with code = %d", szDbFilename.c_str(), sql_error);
 
     switch (sql_error) {
         case SQLITE_CANTOPEN:
