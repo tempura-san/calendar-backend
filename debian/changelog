@@ -1,3 +1,9 @@
+calendar-backend (0.6-7) unstable; urgency=low
+
+  * Fixes: NB#134589 "Alarm icon still displayed even after the alram time is passed"
+
+ -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Fri, 18 Dec 2009 14:59:31 +0300
+
 calendar-backend (0.6-6) unstable; urgency=low
 
   * Fixes: NB#145162 Crash when syncing Nokia calendar via MfE
