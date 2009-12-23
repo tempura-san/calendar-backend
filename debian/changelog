@@ -1,3 +1,9 @@
+calendar-backend (0.6-8) unstable; urgency=low
+
+  * Fixes: NB#140424 Wrong alarm time is shown on MFE sync with Outlook birthdays events
+
+ -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Wed, 23 Dec 2009 15:13:17 +0300
+
 calendar-backend (0.6-7) unstable; urgency=low
 
   * Fixes: NB#134589 "Alarm icon still displayed even after the alram time is passed"
