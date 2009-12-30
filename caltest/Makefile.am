@@ -439,6 +439,8 @@ cicalconverter_SOURCES = \
     		 ../src/CAlarmIface.cpp \
 		 ../src/CUtility.cpp \
 		 ../src/CCache.cpp \
+		../src/CCalendarProcs.cpp \
+		 ../src/CTimezone.cpp \
 		 test_ICalConverter.cpp test_ICalConverter.h \
 		 cicalconverter.cpp
 		 

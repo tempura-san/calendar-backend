@@ -3089,15 +3089,8 @@ if (pComp) {
     {
         if(pEntry->getAllDay() == 1) {
         	CAL_DEBUG_LOG ("Synced all day event");
-        	int inst_time = pEntry->getDateStart() - 86400;
-        	struct tm tm_trigger;
-            	memset (&tm_trigger, 0, sizeof (struct tm));
-        	time_get_remote(st_time ,szZone.c_str(), &tm_trigger );
-        	inst_time += (3600 * tm_trigger.tm_hour ) +
-        		     (60 * tm_trigger.tm_min)  +
-        		     tm_trigger.tm_sec;
         	alarm->setDuration(E_AM_DAYBEFORE);
-        	alarm->setTrigger(inst_time);
+        	alarm->setTimeBefore(pre_offset);
         }
         else {
         	if (pre_offset == 0)
@@ -3156,21 +3149,6 @@ if (pComp) {
      * have created it by using new */
     if(free_needed)
         icalcomponent_free(pRececomp);	
-
-/* if alarm time is less than time_get_time()
- * then set the  alarm value to NUll
- * Aditya:If the event is repeating event then we need to calculate 
- * the biggest possible alarm otherwise we can safely remove it 
- * here!!
- * these calculations are being done in getImpendingAlarm procedure. 
- * */
-	
-    if (alarm->getTrigger() < time_get_time() && (pEntry->getRecurrence() == 0 )){
-    	CAL_DEBUG_LOG("Removing alarm as trigger time %d < %dsystem time",
-    	(int)alarm->getTrigger(),(int)time_get_time()); 
-    	delete alarm;
-    	alarm = 0;
-    }
 
     return alarm;
 }
@@ -5873,7 +5851,7 @@ CComponent *ICalConverter::toLocal(string strIcalComp, FileType iType,
     /* if the event is recursive then  register the alarm 
      * for trigger time > current system time  we need to do this only 
      * for task*/
-     if ( pEvent->getRecurrence() && pEvent->getAlarm())
+     if (pEvent->getAlarm())
      {
         if (pEvent->updateAlarmTriggerTime(0))
         {
@@ -5882,7 +5860,8 @@ CComponent *ICalConverter::toLocal(string strIcalComp, FileType iType,
         }
         else
         {
-            CAL_ERROR_LOG("Failed to update trigger time for '%s'", pEvent->getSummary().c_str());
+            CAL_DEBUG_LOG("No more instances so remove alarm");
+            pEvent->removeAlarm();
         }
     }
     }

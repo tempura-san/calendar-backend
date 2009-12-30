@@ -71,6 +71,7 @@ class ICalConverter_TS1 : public CppUnit::TestFixture
 	CPPUNIT_TEST(test_icalVcalToLocal_empty);//with empty data
 	CPPUNIT_TEST(test_icalVcalToLocal_ivnalidates);//invalid date formats
 	CPPUNIT_TEST(test_getCurrentTimeZone);
+	CPPUNIT_TEST(test_icalVcalToLocal_aalarm);
 	CPPUNIT_TEST_SUITE_END();
 	public:
 		ICalConverter *iCalConv;
@@ -116,6 +117,7 @@ class ICalConverter_TS1 : public CppUnit::TestFixture
 		void test_icalVcalToLocal_InValidToDo11();
 		void test_icalVcalToLocal_InValidToDo12();
 		void test_icalVcalToLocal_ivnalidates();
+		void test_icalVcalToLocal_aalarm();
 		void test_icalVcalToLocal_empty();
 		void test_getCurrentTimeZone();
 };

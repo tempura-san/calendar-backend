@@ -1938,3 +1938,55 @@ void ICalConverter_TS1 :: test_getCurrentTimeZone()
 	
 	
 }
+
+void ICalConverter_TS1::test_icalVcalToLocal_aalarm()
+{
+	CEvent *pEvent_t = 0;
+	vector <CComponent *>pComp_t;
+
+    string Vcal = 
+            "BEGIN:VCALENDAR\n"
+            "VERSION:1.0\n"
+            "BEGIN:VEVENT\n"
+            "DTSTART:20091231T000000\n"
+            "DTEND:20100101T000000\n"
+            "AALARM:20091230T200000;;0;\n"
+            "X-EPOCAGENDAENTRYTYPE:EVENT\n"
+            "SUMMARY:Test\n"
+            "END:VEVENT\n"
+            "END:VCALENDAR\n";
+
+
+	pComp_t = iCalConv->icalVcalToLocal(Vcal,VCAL_TYPE,errorcode);
+
+    CPPUNIT_ASSERT(pComp_t.size() == 1);
+    CAlarm *pAlarm = pComp_t[0]->getAlarm();
+
+    CPPUNIT_ASSERT(pAlarm != 0);
+    CPPUNIT_ASSERT(pAlarm->getDuration() == E_AM_DAYBEFORE);
+    CPPUNIT_ASSERT(pAlarm->getTimeBefore() == 14400);
+
+
+    string Vcal2 = 
+            "BEGIN:VCALENDAR\n"
+            "VERSION:1.0\n"
+            "BEGIN:VEVENT\n"
+            "DTSTART:20091231T000000\n"
+            "DTEND:20100101T000000\n"
+            "AALARM:20071228T200000;;0;\n"
+            "X-EPOCAGENDAENTRYTYPE:EVENT\n"
+            "SUMMARY:Test\n"
+            "END:VEVENT\n"
+            "END:VCALENDAR\n";
+
+
+	pComp_t = iCalConv->icalVcalToLocal(Vcal2,VCAL_TYPE,errorcode);
+
+    CPPUNIT_ASSERT(pComp_t.size() == 1);
+    pAlarm = pComp_t[0]->getAlarm();
+
+    CPPUNIT_ASSERT(pAlarm == 0);
+
+/*	pEvent_t = new CEvent();
+	pEvent_t = (CEvent*)pComp_t[0];*/
+}
