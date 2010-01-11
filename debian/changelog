@@ -1,3 +1,9 @@
+calendar-backend (0.6-10) unstable; urgency=low
+
+  * Fixes: NB#152161 Alarm option is not displayed for a memo event once synced from NCC to Rover device
+
+ -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Mon, 11 Jan 2010 14:36:04 +0300
+
 calendar-backend (0.6-9) unstable; urgency=low
 
   * Fixes: NB#151950 Alarm option is not displayed for an all day event once synced from NCC to device
