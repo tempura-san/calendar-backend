@@ -3088,9 +3088,19 @@ if (pComp) {
     if (pEntry->getType() == E_EVENT)
     {
         if(pEntry->getAllDay() == 1) {
-        	CAL_DEBUG_LOG ("Synced all day event");
-        	alarm->setDuration(E_AM_DAYBEFORE);
-        	alarm->setTimeBefore(pre_offset);
+            CAL_DEBUG_LOG ("Synced all day event. Alarm offset is %ld", (long)pre_offset);
+            alarm->setDuration(E_AM_DAYBEFORE);
+
+            if (pre_offset < 0)
+            {
+                // TODO remove this hack if calenda will support any-time-alarms
+                CAL_ERROR_LOG ("Alarm in same day as event. Adjust to 15 mins before");
+                alarm->setTimeBefore(60*15);
+            }
+            else
+            {
+                alarm->setTimeBefore(pre_offset);
+            }
         }
         else {
         	if (pre_offset == 0)

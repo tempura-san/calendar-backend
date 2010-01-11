@@ -135,7 +135,10 @@ iDuration(iDuration)
 bool CAlarm::setTrigger(int iTrigger)
 {
     if (iTrigger < 0)
-    return false;
+    {
+        CAL_ERROR_LOG("Negative value %d is passed. Ignore", iTrigger);
+        return false;
+    }
 
     this->iTrigger = iTrigger;
     return true;
@@ -167,7 +170,10 @@ int CAlarm::getTrigger()
 bool CAlarm::setRepeat(int iRepeat)
 {
     if (iRepeat < 0)
-    return false;
+    {
+        CAL_ERROR_LOG("Negative value %d is passed. Ignore", iRepeat);
+        return false;
+    }
 
     this->iRepeat = iRepeat;
     return true;
@@ -225,7 +231,10 @@ bool CAlarm::setCookie(vector < long >vCookie)
 bool CAlarm::setDuration(int iDuration)
 {
     if (iDuration < 0)
-    return false;
+    {
+        CAL_ERROR_LOG("Negative value %d is passed. Ignore", iDuration);
+        return false;
+    }
 
     this->iDuration /= 10;
     this->iDuration *= 10;
@@ -693,7 +702,11 @@ long CAlarm::modifyAlarmEvent(long oldcookie, time_t modify_time,
 
     // Delete the old event
     if ((deleteAlarmEvent(oldcookie,pErrorCode)) < 0)
-    return FAILURE;
+    {
+        CAL_ERROR_LOG("Failed to delete alarm");
+
+        return FAILURE;
+    }
     
     // Add and return the new cookie */
     cookie = addAlarmEvent(modify_time, title, location, dateStart, dateEnd,
@@ -737,7 +750,10 @@ string  CAlarm::toString()
 bool CAlarm::setTimeBefore(int iSecondsBeforeEvent)
 {
     if (iSecondsBeforeEvent < 0)
+    {
+        CAL_ERROR_LOG("Negative value %d is passed. Ignore", iSecondsBeforeEvent);
         return false;
+    }
 
     this->iDuration %= 10;
     this->iDuration += iSecondsBeforeEvent * 10;
@@ -755,7 +771,7 @@ int CAlarm::getTimeBefore()
 
         if (flag != E_AM_ETIME && flag != E_AM_NONE && flag != E_AM_EXACTDATETIME)
         {
-            CAL_DEBUG_LOG("Adjust time_before value for alarm type %d", flag);
+            CAL_ERROR_LOG("Adjust time_before value for alarm type %d", flag);
             time_before = CAlarm::getDefaultTimeBefore((dataAlarm)flag);
         }
     }
