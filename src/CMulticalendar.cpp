@@ -47,6 +47,9 @@ extern int errno ;
 int enable_logging = 0;
 int changeCount = 0;
 int changeFlag = 0;
+std::list<std::string> compIdsAdded;
+std::list<std::string> compIdsDeleted;
+std::list<std::string> compIdsModified;
 
 int CalId = 0;
 static const char *MSG_SEPERATOR = ":";
@@ -112,6 +115,19 @@ std::string CMulticalendar::szSystemTimezone;
 // now it will used as flag that default sync calendar was not renamed to avoid to use gconf to determine it
 static const char * DEFAULT_NAME_OF_DEFAULT_SYNC_CALENDAR = "cal_ti_calendar_synced";
 
+static void conpIdListToString(const std::list<std::string> &list, std::string &str)
+{
+    std::stringstream s;
+
+    for (std::list<std::string>::const_iterator iter = list.begin();
+         iter != list.end();
+         ++iter)
+    {
+        s << *iter << ',';
+    }
+
+    str = s.str();
+}
 
 /**
  * @param : None
@@ -1498,6 +1514,8 @@ bool CMulticalendar::commitAllChanges()
 {
     bool ret;
     string szMessage;
+    string szIds;
+
     CCalendarDB *pCalDb = CCalendarDB::Instance();
     if (pCalDb == 0) {
         CAL_DEBUG_LOG("invalid CalendarDB pointer ");
@@ -1545,47 +1563,59 @@ bool CMulticalendar::commitAllChanges()
 
         case EVENT_ADDED:
             szMessage.append(E_ADDED);
+            conpIdListToString(compIdsAdded, szIds);
             break;
 
         case EVENT_MODIFIED:
             szMessage.append(E_MODIFIED);
+            conpIdListToString(compIdsModified, szIds);
             break;
 
         case EVENT_DELETED:
             szMessage.append(E_DELETED);
+            conpIdListToString(compIdsDeleted, szIds);
             break;
 
         case TODO_ADDED:
             szMessage.append(T_ADDED);
+            conpIdListToString(compIdsAdded, szIds);
             break;
 
         case TODO_MODIFIED:
             szMessage.append(T_MODIFIED);
+            conpIdListToString(compIdsModified, szIds);
             break;
 
         case TODO_DELETED:
             szMessage.append(T_DELETED);
+            conpIdListToString(compIdsDeleted, szIds);
             break;
 
         case JOURNAL_ADDED:
             szMessage.append(J_ADDED);
+            conpIdListToString(compIdsAdded, szIds);
             break;
 
         case JOURNAL_MODIFIED:
             szMessage.append(J_MODIFIED);
+            conpIdListToString(compIdsModified, szIds);
             break;
 
         case JOURNAL_DELETED:
             szMessage.append(J_DELETED);
+            conpIdListToString(compIdsDeleted, szIds);
             break;
         case BIRTHDAY_ADDED:
             szMessage.append(BDAY_ADDED);
+            conpIdListToString(compIdsAdded, szIds);
             break;
         case BIRTHDAY_MODIFIED:
             szMessage.append(BDAY_MODIFIED);
+            conpIdListToString(compIdsModified, szIds);
             break;
         case BIRTHDAY_DELETED:
             szMessage.append(BDAY_DELETED);
+            conpIdListToString(compIdsDeleted, szIds);
             break;
 
         case CALENDAR_ADDED:
@@ -1606,10 +1636,15 @@ bool CMulticalendar::commitAllChanges()
     } 
 
     szMessage.append(intToString(changeCount));
+    szMessage.append(":");
+    szMessage.append(szIds);
 
     ret = pCalDb->commitDB(szMessage);
     changeFlag = 0;
     changeCount = 0;
+    compIdsAdded.clear();
+    compIdsDeleted.clear();
+    compIdsModified.clear();
 
     return ret;
 }
@@ -2298,6 +2333,7 @@ bool CMulticalendar::addEvent(CEvent * pEvent, int iCalendarId,
 
     changeCount++;
     changeFlag = changeFlag | EVENT_ADDED;
+    compIdsAdded.push_back(pEvent->getId());
 
     CalId = pCal->getCalendarId();
     this->commitAllChanges();
@@ -2354,6 +2390,7 @@ bool CMulticalendar::modifyEvent(CEvent * pEvent, int iCalendarId,
 
     changeCount++;
     changeFlag = changeFlag | EVENT_MODIFIED;
+    compIdsModified.push_back(pEvent->getId());
 
 
     CalId = pCal->getCalendarId();
@@ -2404,6 +2441,7 @@ bool CMulticalendar::deleteEvent(int iCalId, string sCompId,
 
     changeCount++;
     changeFlag = changeFlag | EVENT_DELETED;
+    compIdsDeleted.push_back(sCompId);
 
     CalId = pCal->getCalendarId();
     this->commitAllChanges();
@@ -2455,6 +2493,7 @@ bool CMulticalendar::addTodo(CTodo * pTodo, int iCalendarId,
 
     changeCount++;
     changeFlag = changeFlag | TODO_ADDED;
+    compIdsAdded.push_back(pTodo->getId());
 
     CalId = pCal->getCalendarId();
     this->commitAllChanges();
@@ -2506,6 +2545,8 @@ bool CMulticalendar::modifyTodo(CTodo * pTodo, int iCalendarId,
 
     changeCount++;
     changeFlag = changeFlag | TODO_MODIFIED;
+    compIdsModified.push_back(pTodo->getId());
+
 
     CalId = pCal->getCalendarId();
 
@@ -2558,6 +2599,8 @@ bool CMulticalendar::deleteTodo(int iCalId, string sCompId,
 
     changeCount++;
     changeFlag = changeFlag | TODO_DELETED;
+    compIdsDeleted.push_back(sCompId);
+
 
     CalId = pCal->getCalendarId();
 
@@ -2610,6 +2653,7 @@ bool CMulticalendar::addJournal(CJournal * pJournal, int iCalendarId,
 
     changeCount++;
     changeFlag = changeFlag | JOURNAL_ADDED;
+    compIdsAdded.push_back(pJournal->getId());
 
     CalId = pCal->getCalendarId();
 
@@ -2664,6 +2708,8 @@ bool CMulticalendar::modifyJournal(CJournal * pJournal, int iCalendarId,
 
     changeCount++;
     changeFlag = changeFlag | JOURNAL_MODIFIED;
+    compIdsModified.push_back(pJournal->getId());
+
 
     CalId = pCal->getCalendarId();
     this->commitAllChanges();
@@ -3062,6 +3108,8 @@ bool CMulticalendar::deleteJournal(int iCalId, string sCompId,
 
     changeCount++;
     changeFlag = changeFlag | JOURNAL_DELETED;
+    compIdsDeleted.push_back(sCompId);
+
 
     CalId = pCal->getCalendarId();
     this->commitAllChanges();
@@ -3419,12 +3467,13 @@ bool CMulticalendar::addBirthdays(vector<CBdayEvent*>& pBdays, int &pErrorCode)
     		pCal = 0 ;
 			return false;
     	}
-
+        compIdsAdded.push_back((*iter)->getId());
 		changeCount++;
 	}
 
   
     changeFlag = changeFlag | BIRTHDAY_ADDED;
+
 
     CalId = pCal->getCalendarId();
 
@@ -3482,6 +3531,8 @@ bool CMulticalendar::modifyBirthDay(CBdayEvent * pBday, int &pErrorCode)
 
     changeCount++;
     changeFlag = changeFlag | BIRTHDAY_MODIFIED;
+    compIdsModified.push_back(pBday->getId());
+
 
     CalId = pCal->getCalendarId();
     this->commitAllChanges();
@@ -3552,6 +3603,8 @@ bool CMulticalendar::deleteBirthdays(vector<string> &szEUidList,int& pErrorCode)
     		pCal = 0 ;
 			return false;
     	}
+
+        compIdsDeleted.push_back(*iter);
 
 		changeCount++;
 	}
@@ -4550,6 +4603,8 @@ bool CMulticalendar::setNextAlarm(int iCalendarId, string sComponentId,int iType
     else
 	changeFlag = changeFlag | TODO_MODIFIED;
     
+    compIdsModified.push_back(sComponentId);
+
     CalId = iCalendarId;
 
     this->commitAllChanges();
@@ -6238,6 +6293,15 @@ vector <string> CMulticalendar::addComponents(
 
     changeCount = changeCount + idList.size();
     changeFlag = changeFlag | EVENT_ADDED;
+
+    for (vector<string>::iterator iter=idList.begin();
+         iter != idList.end();
+         ++iter)
+    {
+        compIdsAdded.push_back(*iter);
+    }
+
+
     /* commit in successful scenario */
     this->commitAllChanges();
     /* free memory allocated for CCalendar*/
@@ -6295,6 +6359,15 @@ void CMulticalendar::modifyComponents(
     CalId = iCalId;
     changeCount = changeCount + compList.size();
     changeFlag = changeFlag | EVENT_MODIFIED;
+
+    for (vector<CComponent*>::iterator iter = compList.begin();
+         iter != compList.end();
+         ++iter)
+    {
+        compIdsModified.push_back((*iter)->getId());
+    }
+
+
     /* commit in successful scenario */
     this->commitAllChanges();
     delete pCal;
@@ -6351,6 +6424,14 @@ void CMulticalendar::deleteComponents(
     CalId = iCalId;
     changeCount = changeCount + idList.size();
     changeFlag = changeFlag | EVENT_DELETED;
+
+    for (vector<string>::iterator iter=idList.begin();
+         iter != idList.end();
+         ++iter)
+    {
+        compIdsDeleted.push_back(*iter);
+    };
+
 
     /* commit in successful scenario */
     this->commitAllChanges();
