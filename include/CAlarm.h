@@ -273,6 +273,11 @@ class CAlarm : public CAlarmIface{
      */
     static int getDefaultTimeBefore(dataAlarm alarmType);
 
+    /**
+     * Remove all Calendar alarms from alarm daemon
+     * @return >=0 - number of removed alarms, <0 error ossured
+     */
+    static int purgeAlarms();
   private:
 
     /* Private variables are declared as per RFC */

@@ -4577,6 +4577,13 @@ bool CMulticalendar::setNextAlarm(int iCalendarId, string sComponentId,int iType
 	pErrorCode = CALENDAR_DOESNOT_EXISTS;
 	return false;
     }
+
+    if (!pCal->IsShown())
+    {
+        CAL_DEBUG_LOG("Calendar is not visible. Silently ignore");
+        pErrorCode = CALENDAR_OPERATION_SUCCESSFUL;
+        return true;
+    }
     
     if (!this->setAutocommitOff()) {
 	CAL_DEBUG_LOG("Database is locked \n");
@@ -8413,6 +8420,9 @@ void CMulticalendar::cleanupIcsString(std::string & ics_line)
 
 void CMulticalendar::restoreAlarms()
 {
+    // Reset all alarms
+    CAlarm::purgeAlarms();
+
     int iSqlError;
 
     CCalendarDB *pDb = CCalendarDB::Instance();

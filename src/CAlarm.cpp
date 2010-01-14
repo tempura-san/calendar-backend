@@ -343,7 +343,6 @@ long CAlarm::addAlarmEvent(time_t event_time, string title,
     const char *sid = sCompId.c_str();
     dbus_uint32_t view = OPEN_EVENT_VIEW;
     dbus_int32_t currentTime = 0; 
-    bool eventRecurs = false;
     eventType type_of_event = E_NORMAL_EVENT;
     time_t offset_to_target = 0;    
 
@@ -368,18 +367,6 @@ long CAlarm::addAlarmEvent(time_t event_time, string title,
     CMulticalendar *mc = CMulticalendar::MCInstance();
     CCalendar *pCal = mc->getCalendarById(iCalendarId, pErrorCode);
     ASSERTION(pCal);
-
-    /* check if it is recursive event 
-     * */
-
-    if(pCal->checkEntryExist(RECURSIVE_TABLE, sCompId, pErrorCode))
-    {
-    		/* execute the binary to set the next alarm for a 
-    		 * recursive event if the alarm is missed 
-    		 * due to mobile being switched off*/
-    		if(pErrorCode == CALENDAR_OPERATION_SUCCESSFUL)
-    				eventRecurs = true;
-    }
 
     event = alarm_event_create();
     if (!event){
@@ -825,3 +812,28 @@ int CAlarm::getDefaultTimeBefore(dataAlarm alarmType)
 
     return retval;
 }
+
+int CAlarm::purgeAlarms()
+{
+    int retval = -1;
+
+    cookie_t *cookies = alarmd_event_query(0, 0, 0, 0, ALARM_APPID);
+
+    if (cookies != 0)
+    {
+        int cookie_count = 0;
+
+        for(cookie_t *cookie = cookies; *cookie != 0; ++cookie, ++cookie_count)
+        {
+            int del_status = alarmd_event_del(*cookie);
+            CAL_DEBUG_LOG("Alarm #%x is removed with status %d", (int)*cookie, del_status);
+        };
+
+        retval = cookie_count;
+        free(cookies);
+    }
+
+    return retval;
+}
+
+
