@@ -1,3 +1,9 @@
+calendar-backend (0.6-12) unstable; urgency=low
+
+  * Fixes: NB#150236 Can not stop alarm for a long time.
+
+ -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Thu, 14 Jan 2010 13:43:55 +0300
+
 calendar-backend (0.6-11) unstable; urgency=low
 
   * Send IDs of changed/add/deleted components in DBus message
