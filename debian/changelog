@@ -1,3 +1,9 @@
+calendar-backend (0.6-13) unstable; urgency=low
+
+  * Fixes: NB#150626 Performance of calendar degrades when several birthday events are in the db
+
+ -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Fri, 15 Jan 2010 13:27:26 +0300
+
 calendar-backend (0.6-12) unstable; urgency=low
 
   * Fixes: NB#150236 Can not stop alarm for a long time.
