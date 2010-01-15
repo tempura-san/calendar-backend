@@ -150,6 +150,7 @@ class CMulticalendar_TS1 : public CppUnit::TestFixture
 	CPPUNIT_TEST(test_addComponents);
 	CPPUNIT_TEST(test_modifyComponents);
 	CPPUNIT_TEST(test_getComponentsAllCalendars_Events);
+	CPPUNIT_TEST(test_getComponentsAllCalendars_Events2);
 	CPPUNIT_TEST(test_getComponents);
 	CPPUNIT_TEST(test_deleteComponents);
 	CPPUNIT_TEST(test_getAlarmProperties);
@@ -214,6 +215,7 @@ class CMulticalendar_TS1 : public CppUnit::TestFixture
 		
 
 		void test_getComponentsAllCalendars_Events();
+		void test_getComponentsAllCalendars_Events2();
 		void test_addCalendar_AllParameters();
 		void test_addCalendar_NULL();
 		void test_addCalendar_AlreadyExist();

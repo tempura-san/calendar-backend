@@ -67,34 +67,11 @@ bool CRecurrence::setRecurrenceRule(vector < CRecurrenceRule * >vRRule)
             int is_day,
             string sTzid)
 {
-    vector < string > rrules;
-    vector < string >::iterator siter;
+    vector<time_t> instance_times;
 
-    int pErrorCode;
-    rrules.clear();
-    is_day = 0;
+    generateInstanceTimes(iViewBegin, iViewEnd, iDateStart, eventSpan, is_day, sTzid, instance_times, false);
 
-    /* return a empty list if there is no 
-     * recurrence defined for the event yet this 
-     * API is called 
-     */
-    CMulticalendar *mc = CMulticalendar::MCInstance();
-    /* do this when timezone is not empty*/
-    if (sTzid.empty() == 0)
-    sTzid = sTzid.substr(1);
-   
-    icaltimezone *pTz = 0 ;
-    
-    icaltimetype timeIcal = icaltime_from_timet_with_zone( 
-                (iDateStart ) ,is_day,pTz);
-    
-    rrules = this->getRrule();
-    for (siter = rrules.begin(); siter != rrules.end(); siter++) {
-        if( mc->checkRecurrentTimes((*siter), timeIcal, eventSpan, iViewBegin, iViewEnd,pTz, pErrorCode) )
-            return true;
-    }
-    /* did not found! */
-    return false;
+    return (instance_times.size() > 0);
 }
 
 /**
@@ -113,17 +90,31 @@ vector < time_t > CRecurrence::generateInstanceTimes(time_t iViewBegin,
 			     int is_day,
 			     string sTzid)
 {
+    CAL_DEBUG_LOG("CRecurrence::generateInstanceTimes : DEPRECATED version of function");
 
+    vector<time_t> instances;
+    generateInstanceTimes(iViewBegin, iViewEnd, iDateStart, ieventSpan, is_day, sTzid, instances);
+
+    return instances;
+}
+
+void CRecurrence::generateInstanceTimes(time_t iViewBegin,
+                                    time_t iViewEnd,
+                                    time_t iDateStart,
+                                    int ieventSpan,
+                                    int is_day,
+                                    string sTzid,
+                                    vector<time_t> &instance_times,
+                                    bool sort_times/* = true*/)
+{
     vector < string > rrules;
     vector < string > erules;
     vector < string >::iterator siter;
-    vector < time_t > rtimes;
     vector < time_t > etimes;
     vector < time_t > temp;
     int pErrorCode = 0 ;
-    int limit = 1;
     temp.clear();
-    rtimes.clear();
+    instance_times.clear();
     etimes.clear();
     rrules.clear();
     erules.clear();
@@ -165,7 +156,7 @@ vector < time_t > CRecurrence::generateInstanceTimes(time_t iViewBegin,
                               pTz,
                               temp,
                               pErrorCode);
-        rtimes.insert(rtimes.end(), temp.begin(), temp.end());
+        instance_times.insert(instance_times.end(), temp.begin(), temp.end());
         temp.clear();
     }
 
@@ -186,7 +177,7 @@ vector < time_t > CRecurrence::generateInstanceTimes(time_t iViewBegin,
     }
 
     } else
-    CAL_DEBUG_LOG("SIZE of the list is zero\n");
+    CAL_DEBUG_LOG("SIZE of the exceptions list is zero\n");
 
     /*convert and copy all rdates 
      * to a vector of time_t
@@ -206,7 +197,7 @@ vector < time_t > CRecurrence::generateInstanceTimes(time_t iViewBegin,
         rtimesNoRule.push_back(temp);
     }
     /*convert and append in to existing list */
-    rtimes.insert(rtimes.end(), rtimesNoRule.begin(),
+    instance_times.insert(instance_times.end(), rtimesNoRule.begin(),
               rtimesNoRule.end());
     }
 
@@ -241,9 +232,9 @@ vector < time_t > CRecurrence::generateInstanceTimes(time_t iViewBegin,
      * list */
     unsigned int i = 0;
     bool found = false;
-    while (i < rtimes.size() )
+    while (i < instance_times.size() )
     {	
-	    if ( rtimes[i] == iDateStart )
+	    if ( instance_times[i] == iDateStart )
 	    {
 		found = true;   
 		break;
@@ -254,7 +245,7 @@ vector < time_t > CRecurrence::generateInstanceTimes(time_t iViewBegin,
      * the recurrence list if it is not present */
     if (!found && (iViewBegin <= iDateStart && iDateStart <= iViewEnd)) {
        CAL_DEBUG_LOG(" \n %s \n",ctime(&iDateStart));
-	   rtimes.push_back(iDateStart);
+	   instance_times.push_back(iDateStart);
     }
 
     /* Removing Exception times */
@@ -273,12 +264,12 @@ vector < time_t > CRecurrence::generateInstanceTimes(time_t iViewBegin,
 		    CAL_DEBUG_LOG("Exception time is date format not date+time format");
 	    }
 	    
-	    for (count2 = rtimes.begin(); count2 < rtimes.end(); ) {
+	    for (count2 = instance_times.begin(); count2 < instance_times.end(); ) {
 
 		    if (((*count1) == (*count2)) || 
 		    (((*count1  <= *count2) && ( *count2 <= *count1+86399)) && timet_isday))  {
 			    CAL_DEBUG_LOG("Found exception time %ld\n", (*count1));
-			    count2 = rtimes.erase(count2);
+			    count2 = instance_times.erase(count2);
 			    
 		    }
 		    else
@@ -290,10 +281,9 @@ vector < time_t > CRecurrence::generateInstanceTimes(time_t iViewBegin,
 
  /* sorting the vector of timestamps 
   Sorting is required in Next prev Logic */
-  sort(rtimes.begin(),rtimes.end());
-
-  return rtimes;
-
+  if (sort_times) {
+    sort(instance_times.begin(),instance_times.end());
+  }
 }
 
 /**

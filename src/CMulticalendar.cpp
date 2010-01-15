@@ -30,6 +30,7 @@
 #include "ICalConverter.h"
 #include "CalendarErrors.h"
 #include "CUtility.h"
+#include "CCalendarProcs.h"
 #include <clockd/libtime.h>
 #include <ctime>
 extern "C" {
@@ -572,6 +573,8 @@ vector < time_t > CMulticalendar::getRecurrentTimes(string szRRule,
                             int &pErrorCode,
                             int limit)
 {
+    CAL_ERROR_LOG("DEPRICATED");
+
     vector < time_t > retval;
     getRecurrentTimes(szRRule, iDtStart, 0, 0, iViewEnd, pTz, retval, pErrorCode, limit);
 
@@ -1025,7 +1028,7 @@ vector <CComponent *> CMulticalendar::getComponentsAllCalendars(
 		int &pErrorCode,
 		int iQueryType)
 {
-
+    CAL_ERROR_LOG("DEPRECATED");
 
     QueryResult *pQr = 0;
     CComponent *pEntry = 0;
@@ -4577,7 +4580,7 @@ bool CMulticalendar::setNextAlarm(int iCalendarId, string sComponentId,int iType
 	pErrorCode = CALENDAR_DOESNOT_EXISTS;
 	return false;
     }
-
+    
     if (!pCal->IsShown())
     {
         CAL_DEBUG_LOG("Calendar is not visible. Silently ignore");
@@ -4992,7 +4995,8 @@ CComponent *CMulticalendar::getPrevNextComponent(string szId,
         else
         if ((*comp)->getRecurrence())
         {
-            vector<time_t> times = (*comp)->generateInstanceTimes(range_start, range_end);
+            vector<time_t> times;
+            (*comp)->generateInstanceTimes(range_start, range_end, times);
 
             if (times.size() > 0)
             {
@@ -5646,12 +5650,12 @@ AND datestart =< %d"
 	
 	 if (isPrev) { 
 		CAL_DEBUG_LOG("Searching Previous Instances ");
-		instanceTimes = pEntry->getInstanceTimes(0 , OriginalDateStart );
+		pEntry->getInstanceTimes(0 , OriginalDateStart, instanceTimes);
 	 }	
 	 else{
 		 
 		CAL_DEBUG_LOG("Searching Future  Instances ");
-		instanceTimes = pEntry -> getInstanceTimes(OriginalDateStart,0); 
+		pEntry -> getInstanceTimes(OriginalDateStart,0, instanceTimes); 
 	 }	 
 	 
 	 /* Collect these instance times in to a Map which is of type 
@@ -7556,7 +7560,9 @@ int CMulticalendar::regenerateInstances()
         CAL_DEBUG_LOG("adding event %s", event->getId().c_str());
 
         // calculate recurrent instances
-        vector<time_t> instances = event->generateInstanceTimes(1,2145830400);        
+        vector<time_t> instances;
+        event->generateInstanceTimes(1,2145830400, instances);
+
         CAL_DEBUG_LOG("found  %d instances", instances.size());        
         
         time_t duration = event->getDateEnd() - event->getDateStart();
@@ -8061,7 +8067,7 @@ bool CMulticalendar::checkExistenceOfFutureRepeatingEvent(time_t OriginalDateSta
 
 		pEntry->getRecurrenceProperties();
 		CAL_DEBUG_LOG("Searching Future  Instances ");
-		instanceTimes = pEntry->getInstanceTimes(OriginalDateStart,0); 
+		pEntry->getInstanceTimes(OriginalDateStart,0, instanceTimes); 
 		CAL_DEBUG_LOG("instance times size is %d",instanceTimes.size());
 		if (instanceTimes.size()){
 			CAL_DEBUG_LOG("instance time %ld ",(long)OriginalDateStart);
@@ -8563,3 +8569,11 @@ int CMulticalendar::comparePrevNextComponent(CComponent * c1, CComponent * c2, t
 
     return retval;
 }
+
+int CMulticalendar::getComponentsAllCalendars(int iStDate, int iEndDate, int iLimit, int iOffset, vector< CComponent * > & vComponents, int iQueryType)
+{
+    CCalendarProcs procs(CCalendarDB::Instance());
+
+    return procs.getComponentsAllCalendars(iStDate,iEndDate,iLimit,iOffset,vComponents,iQueryType);
+}
+

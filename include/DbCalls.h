@@ -246,6 +246,7 @@
 #define CREATE_IDMAP         "CREATE TABLE IF NOT EXISTS IDMAP(LocalId INTEGER, ExternalId TEXT)"
 
 #define CREATE_INSTANCES         "CREATE TABLE IF NOT EXISTS Instances(Id INTEGER,DateStart INTEGER,DateEnd INTEGER)"
+#define CREATE_BIRTHDAYS     "CREATE TABLE IF NOT EXISTS Birthdays(Id INTEGER, DayMonth INTEGER, Year INTEGER)"
 #define SELECT_TAB_COND3      "select %s from %s where %s = %d"
 #define SELECT_DOMAIN         "select %s from %s where %s =\"%s\""
 #define SELECT_DOMAIN_AND     "select %s from %s where %s = %d AND %s = %d"
@@ -299,6 +300,10 @@
 #define INDEX_TRASH "CREATE INDEX IF NOT EXISTS IDX_TRASH on TRASH(ComponentId,CalendarId,deletedTime)"
 #define INDEX_INSTANCES "CREATE INDEX IF NOT EXISTS IDX_INST on Instances(Id,DateStart,DateEnd)"
 
+#define INDEX_BIRTHDAYS_IDS "CREATE UNIQUE INDEX IF NOT EXISTS IDX_BIRTHDAYS_IDS on Birthdays(Id)"
+
+#define INDEX_BIRTHDAYS_DATE "CREATE INDEX IF NOT EXISTS IDX_BIRTHDAYS_DATE on Birthdays(DayMonth,Year)"
+
 
 #define SELECT_DUPLICATE_ENTRY  "select Id from Components where summary = %Q AND dateStart = %d AND ComponentType = %d AND CalendarId = %d "
 #define SELECT_DUPLICATE_JOURNAL  "select Id from Components where summary = %Q  AND ComponentType = %d AND CalendarId = %d "
@@ -334,6 +339,7 @@
     delete from Parameters where parameters.ComponentId=OLD.Id; \
     delete from XProperties where xproperties.ComponentId=OLD.Id; \
     delete from Instances where Instances.Id=OLD.Id; \
+    delete from Birthdays where Birthdays.Id=OLD.Id; \
     end "
 #define DROP_TRIGGER "DROP TRIGGER  delete_component" 
 

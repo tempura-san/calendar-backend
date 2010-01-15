@@ -977,6 +977,26 @@ void CMulticalendar_TS1 :: test_getComponentsAllCalendars_Events ()
     CPPUNIT_ASSERT_MESSAGE("Error: getComponentsAllCalendars", (compList.size() >= 0));
 
 }
+
+void CMulticalendar_TS1 :: test_getComponentsAllCalendars_Events2 ()
+{
+    int pErrorCode;
+    time_t start = time_get_time();
+    time_t end = start + 1800;
+    CEvent *pEvent = new CEvent("Recurring Event", "description",
+	    "location", start + 10000, end);
+    CAlarm *pAlarm  = new CAlarm(start+10,1);
+    pEvent->setAlarm(pAlarm);
+    vector<int> vCalId;
+    vector<CComponent*> compList;
+
+    CPPUNIT_ASSERT(multi->getComponentsAllCalendars (-1, -1, 100, 0, compList) == CALENDAR_OPERATION_SUCCESSFUL);
+    CPPUNIT_ASSERT(compList.size() >= 0);
+
+    CPPUNIT_ASSERT(multi->getComponentsAllCalendars (-1, -1, 100, 100, compList) == CALENDAR_FETCH_NOITEMS);
+
+    CPPUNIT_ASSERT(compList.size() == 0);
+}
 void CMulticalendar_TS1 :: test_addCalendar_AllParameters()
 {
     int pErrorCode;

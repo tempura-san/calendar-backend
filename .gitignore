@@ -41,3 +41,4 @@ tools/calendarclt
 debian/build*
 debian/tmp
 autom4te*
+.deps

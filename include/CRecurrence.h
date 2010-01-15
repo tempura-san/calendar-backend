@@ -213,13 +213,33 @@ class CRecurrence {
      * @return vector <time_t> values on which event has to happen
      *
      * Function used to retrieve the recurrence dates 
+     * !!! DEPRECATED !!!
      */
     vector < time_t > generateInstanceTimes(time_t iViewBegin, 
-		    time_t iViewEnd,
-		    time_t iDateStart,
-		    int eventSpan,
-		    int is_day,
-		    string sTzid);
+            time_t iViewEnd,
+            time_t iDateStart,
+            int eventSpan,
+            int is_day,
+            string sTzid);
+
+    /**
+     * generateInstanceTimes()
+     * @param iviewBegin lower range of current view 
+     * @param iviewEnd higher range of current view 
+     * @param ieventSpan diff between date start and date end of original instance  
+     * @param instance_times values on which event has to happen
+     * @param sort_times     true if instance times must be sorted
+     *
+     * Function used to retrieve the recurrence dates 
+     */
+    void generateInstanceTimes(time_t iViewBegin,
+            time_t iViewEnd,
+            time_t iDateStart,
+            int eventSpan,
+            int is_day,
+            string sTzid,
+            vector<time_t> &instance_times,
+            bool sort_times = true);
     /**
      * checkInstances()
      * @param iviewBegin lower range of current view 

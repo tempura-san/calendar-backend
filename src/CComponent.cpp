@@ -38,10 +38,19 @@
 vector < time_t > CComponent::generateInstanceTimes(time_t viewBegin,
                             time_t viewEnd)
 {
+    CAL_ERROR_LOG("CComponent::generateInstanceTimes(time_t,time_t): DEPRECTAED\n");
+
+    vector < time_t > times;
+    generateInstanceTimes(viewBegin, viewEnd, times);
+
+    return times;
+}
+void CComponent::generateInstanceTimes(time_t viewBegin, time_t viewEnd, vector<time_t> &instance_times)
+{
    CAL_DEBUG_LOG("Getting instances for %s \n",getId().c_str());
    
  
-   rTimes.clear();
+   instance_times.clear();
    iStDate =  viewBegin;
    iEndDate = viewEnd;
 
@@ -51,20 +60,16 @@ vector < time_t > CComponent::generateInstanceTimes(time_t viewBegin,
     */
     if (pRecurrence == 0) {
        CAL_DEBUG_LOG("No recurrence present so returning empty list\n");
-       return rTimes;
+       return;
     }
 
     if ((getType() == E_BDAY) && (viewEnd - viewBegin < YEARDAYS*ONEDAY)) {
-        generateYearlyInstanceTime(viewBegin, viewEnd, rTimes);
+        generateYearlyInstanceTime(viewBegin, viewEnd, instance_times);
     }
     else {
-        rTimes =
-            pRecurrence->generateInstanceTimes(viewBegin, viewEnd, iDateStart,
-                            (iDateEnd - iDateStart),this->getAllDay(),this->getTzid());
+        pRecurrence->generateInstanceTimes(viewBegin, viewEnd, iDateStart,
+                        (iDateEnd - iDateStart),this->getAllDay(),this->getTzid(), instance_times);
     }
-   
-
-    return rTimes;
 }
 
 /**
@@ -140,9 +145,25 @@ bool CComponent::generateYearlyInstanceTime(time_t viewBegin, time_t viewEnd, ve
   */
 vector < time_t > CComponent::getInstanceTimes(time_t viewBegin, time_t viewEnd)
 {
-    return generateInstanceTimes(viewBegin, viewEnd);
+    CAL_ERROR_LOG("CComponent::getInstanceTimes(time_t,time_t): DEPRECTAED\n");
+
+    vector < time_t > times;
+
+    generateInstanceTimes(viewBegin, viewEnd, times);
+    return times;
 }
 
+/**
+  * @param viewBegin lower range of current view 
+  * @param viewEnd higher range of current view 
+  * @param instance_times values on which event has to happen
+  *
+  * Function used to retrieve the recurrence dates from the DB
+  */
+void CComponent::getInstanceTimes(time_t viewBegin, time_t viewEnd, vector<time_t> &instance_times)
+{
+    generateInstanceTimes(viewBegin, viewEnd, instance_times);
+};
 
 /**
      * @param viewBegin lower range of current view 

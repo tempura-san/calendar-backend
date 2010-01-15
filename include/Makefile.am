@@ -3,6 +3,7 @@ includedir = \
 
 include_HEADERS = \
     CCalendarDB.h \
+    CCalendarProcs.h \
     CCalendar.h \
     CComponent.h \
     CComponentDetails.h \

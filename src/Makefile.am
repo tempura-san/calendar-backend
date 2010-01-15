@@ -10,6 +10,7 @@ calendarbackend_LTLIBRARIES = libcalendar_backend.la
 
 libcalendar_backend_la_SOURCES = \
     CCalendarDB.cpp \
+    CCalendarProcs.cpp \
     CUtility.cpp \
     CCalendar.cpp \
     CMulticalendar.cpp \

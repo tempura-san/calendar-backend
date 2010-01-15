@@ -434,6 +434,28 @@ class CMulticalendar {
           vector < CComponent * > getComponentsAllCalendars( int iStDate, int iEndDate,
                   int iLimit,int iOffset,vector<int > &vCalid , int &pErrorCode,int iQueryType=0);
           /**
+           * @param : stDate to do conditional fetching based on start date. -1 in case of no conditions
+           * @param : endDate to do conditional fetching based on end date. -1 in case of no conditions
+           * @param : limit Max limit of components to be obtanined by this function call
+           * @param : offset from which we need to fetch 
+           * @param : Vector for CComponent. If pErrorCode equals to CALENDAR_OPERATION_SUCCESSFUL,
+           *           but vector is empty, no component (from offset to limit) meets the conditions,
+           *           continue fetching
+           * @param : int iQueryType 
+           *           value 1 - Indicates simple events and tasks 
+           *           value 2 - indicates Repeating events 
+           *           Any other value fetches all ( repeating events , non repeating events and tasks)
+           *           Default value is 0.
+           * @return Error code:
+           *          CALENDAR_OPERATION_SUCCESSFUL- fetching is successful and can be continued;
+           *          CALENDAR_FETCH_NOITEMS- fetching is finished (no more items found in DB);
+           *          other error code- fetching is failed.
+           * 
+           * This function is overloaded API for fetching entries for all calendars at a time progressively 
+           */
+          int getComponentsAllCalendars( int iStDate, int iEndDate,
+                  int iLimit,int iOffset, vector<CComponent*> &vComponents, int iQueryType=0);
+          /**
            * @param : iCalid Id of the Calendar for which event belongs
            * @param : stDate to do conditional fetching based on start date. -1 in case of no conditions
            * @param : endDate to do conditional fetching based on end date. -1 in case of no conditions

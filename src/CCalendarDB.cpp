@@ -38,6 +38,8 @@
 #include "CCalendarDB.h"
 #include "Common.h"
 #include "CalendarErrors.h"
+#include "CCalendarProcs.h"
+
 extern "C" {
 #include <sys/vfs.h>
 #include <sys/stat.h>
@@ -86,7 +88,8 @@ static const char* tableList[] = {
     CREATE_PARAM,
     CREATE_IDMAP,
     CREATE_INSTANCES,
-    CREATE_TIMEZONE
+    CREATE_TIMEZONE,
+    CREATE_BIRTHDAYS
 };
 
 static const int MAX_TABLES = sizeof(tableList) / sizeof(tableList[0]);
@@ -102,7 +105,9 @@ static const char* indexTableList[] = {
     INDEX_ALARM,
     INDEX_TRASH,
     INDEX_INSTANCES,
-    INDEX_TIMEZONE
+    INDEX_TIMEZONE,
+    INDEX_BIRTHDAYS_IDS,
+    INDEX_BIRTHDAYS_DATE
 };
 
 /* indexes we plan to create on these tables */
@@ -507,6 +512,9 @@ int CCalendarDB::initDB()
         int error;
         fillTimezoneTable(error);
     }
+
+    CCalendarProcs procs(this);
+    procs.initBDay();
 
     return iRet;
 }

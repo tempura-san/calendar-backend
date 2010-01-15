@@ -1,7 +1,7 @@
 INCLUDES = $(PACKAGE_CFLAGS) -fprofile-arcs -ftest-coverage -fexceptions -I../include -I/usr/include/clockd
-LDADD = $(PACKAGE_LIBS) -lsqlite3  -lgcov -lcppunit
+LDADD = $(PACKAGE_LIBS) -lsqlite3  -lgcov -lcppunit -ltime
 
-check_PROGRAMS = caltest cutility ccalendardb ccalendar  cmulticalendar ccomponent ccomponentdetails cevent ctodo cjournal corganizer cattendee cparticipant crecurrence cbday cicalconverter calarm cvcalconverter crecurrencerule cparameters cproperties ctimezone
+check_PROGRAMS = caltest cutility ccalendardb ccalendar  cmulticalendar ccomponent ccomponentdetails cevent ctodo cjournal corganizer cattendee cparticipant crecurrence cbday cicalconverter calarm cvcalconverter crecurrencerule cparameters cproperties ctimezone dbprocs
 
 caltest_SOURCES = \
   		 ../src/CCalendarDB.cpp \
@@ -127,6 +127,8 @@ ccalendar_SOURCES = \
     		 ../src/CAlarmIface.cpp \
 		 ../src/CUtility.cpp\
 		 ../src/CCache.cpp \
+		../src/CCalendarProcs.cpp \
+		 ../src/CTimezone.cpp \
 		 test_CCalendar.cpp test_CCalendar.h \
 		 ccalendar.cpp
 		 
@@ -153,6 +155,8 @@ cmulticalendar_SOURCES = \
     		 ../src/CAlarmIface.cpp \
 		 ../src/CUtility.cpp\
 		 ../src/CCache.cpp \
+		 ../src/CTimezone.cpp \
+		../src/CCalendarProcs.cpp \
 		 test_MultiCalendar.cpp test_MultiCalendar.h \
 		 cmulticalendar.cpp
 		 
@@ -413,6 +417,8 @@ cbday_SOURCES = \
     		 ../src/CAlarmIface.cpp \
 		 ../src/CUtility.cpp \
 		 ../src/CCache.cpp \
+		../src/CCalendarProcs.cpp \
+		 ../src/CTimezone.cpp \
 		 test_CBday.cpp test_CBday.h \
 		 cbday.cpp
 		 
@@ -600,6 +606,36 @@ ctimezone_SOURCES = \
 		 ../src/CTimezone.cpp \
 		 test_CTimezone.cpp test_CTimezone.h \
 		 ctimezone.cpp
+
+dbprocs_SOURCES = \
+  		 ../src/CCalendarDB.cpp \
+	 	 ../src/CCalendar.cpp \
+		 ../src/CMulticalendar.cpp \
+		 ../src/CComponent.cpp \
+		 ../src/CComponentDetails.cpp \
+		 ../src/CEvent.cpp \
+		 ../src/CTodo.cpp \
+		 ../src/CJournal.cpp \
+		 ../src/COrganizer.cpp \
+		 ../src/CAttendee.cpp \
+		 ../src/CParticipant.cpp\
+		 ../src/CRecurrence.cpp\
+		 ../src/CAlarm.cpp\
+    		 ../src/CRecurrenceRule.cpp\
+    		 ../src/CBdayEvent.cpp \
+    		 ../src/ICalConverter.cpp \
+    		 ../src/VCalConverter.cpp \
+    		 ../src/CParameters.cpp \
+    		 ../src/CProperties.cpp \
+    	 	 ../src/CAlarmIface.cpp \
+		 ../src/CUtility.cpp \
+		 ../src/CCache.cpp \
+		 ../src/CTimezone.cpp \
+		../src/CCalendarProcs.cpp \
+		test_CCalendarProcs.cpp \
+		dbprocs.cpp
+
+dbprocs_CXXFLAGS=-g -O0
 
 clean-local:
 	rm -rf *.gcno *.gcda Caltest.xml *.gcov *~

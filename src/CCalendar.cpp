@@ -34,6 +34,7 @@
 #include "ICalConverter.h"
 #include "CalendarErrors.h"
 #include "CUtility.h"
+#include "CCalendarProcs.h"
 
 // Uncomment the following line to in order to generate event instances right after event is added
 // #define ADD_COMPONENT_INSTANCES
@@ -3307,7 +3308,8 @@ CCalendar::addComponent(
 
 
     // calculate recurrent instances
-    vector<time_t> instances = pEvent->generateInstanceTimes(1,2145830400);
+    vector<time_t> instances;
+    pEvent->generateInstanceTimes(1, 2145830400, instances);
     CAL_DEBUG_LOG("calculated  %d instances", instances.size());
 
     time_t duration = 0;
@@ -4195,7 +4197,7 @@ bool  CCalendar::addCacheEntries(CComponent * pEntry, int& pErrorCode)
 	if(!pEntry->getRecurrence()) {
 		checkIfMultiDayEvent(pEntry, vStartDates);
 	} else {
-		vStartDates = pEntry->generateInstanceTimes(0, 0);
+		pEntry->generateInstanceTimes(0, 0, vStartDates);
 	}
 	iLength = vStartDates.size();
 
@@ -5822,9 +5824,6 @@ CEvent* CCalendar::getBirthDayEvent(string sCompId, int &pErrorCode)
 {
     CEvent *event = 0;
     QueryResult *pQr = 0;
-    int iI_EventCount = 0;
-    int iJ_EventCount = 0;
-    int iK_EventCount = 0;
     char *pQuery = 0;
     CCalendarDB *pDb = 0;
     int iSqliteError = 0;
@@ -5841,13 +5840,7 @@ CEvent* CCalendar::getBirthDayEvent(string sCompId, int &pErrorCode)
     /*this function is responsible to retrieve the values stored in 
      * Component table and uses the set function to add values in 
      * to event object*/
-    event = new CEvent();
-    if (!event) {
-	pErrorCode = CALENDAR_MEMORY_ERROR;
-	CAL_DEBUG_LOG("Memory allocation  error");
-	return 0;
-    }
-    event->setId(sCompId);
+
     pQuery = sqlite3_mprintf( SELECT_TAB_COND_AND ,COMPONENTS_TABLE, 
 		              COMP_FIELD_TYPE,E_BDAY, COMP_FIELD_ID,
 			      atoi(sCompId.c_str()));        
@@ -5858,126 +5851,24 @@ CEvent* CCalendar::getBirthDayEvent(string sCompId, int &pErrorCode)
 
     /* error code will be set in the mapper function */
     if (pQr == 0) {
-	if (event)
-	    delete event;
-	return 0;
+        return 0;
     }
 
    if (pQr->iRow > TWO_ROWS) {
-	CAL_DEBUG_LOG("Database corruptioni, two rows found with same entry id.\n");
-	pErrorCode = CALENDAR_FUNC_ERROR;
-	sqlite3_free_table(pQr->pResult);
-	delete pQr;
-	pQr = 0;
-	return 0;
+        CAL_DEBUG_LOG("Database corruptioni, two rows found with same entry id.\n");
+        pErrorCode = CALENDAR_FUNC_ERROR;
+        sqlite3_free_table(pQr->pResult);
+        delete pQr;
+        pQr = 0;
+        return 0;
     }
 
 //    CAL_DEBUG_LOG("column number : %d", pQr->iColumn);
 //    CAL_DEBUG_LOG("Inside event Details ");
-    iI_EventCount = 0;
-    for (iJ_EventCount = 0; iJ_EventCount < pQr->iColumn; iJ_EventCount++) {
-	iK_EventCount = pQr->iColumn + (iI_EventCount * pQr->iColumn);
 
-	switch (iJ_EventCount) {
-
-	    case DB_COLUMN_ID1:
-		event->setId(pQr->pResult[iK_EventCount + iJ_EventCount]);
-		break;
-	    case DB_COLUMN_ID2:
-		break;
-
-	    case DB_COLUMN_ID3:
-		event-> setType(atoi(pQr->pResult[iK_EventCount + iJ_EventCount]));
-		break;
-
-	    case DB_COLUMN_ID4:
-		event-> setFlags(atoi (pQr->pResult[iK_EventCount + iJ_EventCount]));
-		break;
-
-	    case DB_COLUMN_ID5:
-		event-> setDateStart(atoi (pQr->pResult[iK_EventCount + iJ_EventCount]));
-		break;
-
-	    case DB_COLUMN_ID6:
-		event-> setDateEnd(atoi (pQr->pResult[iK_EventCount + iJ_EventCount]));
-		break;
-
-	    case DB_COLUMN_ID7:
-		if (pQr->pResult[iK_EventCount + iJ_EventCount]) {
-		    event->setSummary(pQr->pResult[iK_EventCount + iJ_EventCount]);
-		}
-		break;
-
-	    case DB_COLUMN_ID8:
-		if (pQr->pResult[iK_EventCount + iJ_EventCount]) {
-		    event->setLocation(pQr-> pResult[iK_EventCount + iJ_EventCount]);
-		}
-		break;
-
-	    case DB_COLUMN_ID9:
-		if (pQr->pResult[iK_EventCount + iJ_EventCount]) {
-		    event->setDescription(pQr->pResult[iK_EventCount +
-			    iJ_EventCount]);
-		}
-		break;
-
-	    case DB_COLUMN_ID10:
-		event-> setStatus(atoi (pQr->pResult[iK_EventCount + iJ_EventCount]));
-		break;
-
-	    case DB_COLUMN_ID11:
-
-		if (pQr->pResult[iK_EventCount + iJ_EventCount]) {
-		    event->setGUid(pQr-> pResult[iK_EventCount + iJ_EventCount]);
-		}
-		break;
-
-	    case DB_COLUMN_ID12:
-		event-> setUntil(atoi(pQr->pResult[iK_EventCount + iJ_EventCount]));
-		break;
-
-	    case DB_COLUMN_ID13:
-		event->setAllDay(atoi(pQr->pResult[iK_EventCount + iJ_EventCount]));
-		break;
-
-	    case DB_COLUMN_ID14:
-		event-> setCreatedTime(atoi (pQr-> pResult[iK_EventCount + 
-					iJ_EventCount]));
-		break;
-
-	    case DB_COLUMN_ID15:
-
-		event-> setLastModified(atoi (pQr-> pResult[iK_EventCount + 
-					iJ_EventCount]));
-		break;
-
-	    case DB_COLUMN_ID16:
-		event->setTzid(pQr->pResult[iK_EventCount + iJ_EventCount]);
-		break;
-	    default:
-		break;
-	}
-    }
-    
-//    CAL_DEBUG_LOG("CCalendar %d:getBirthDayEvent-> %s \n", iI_EventCount,
-//	    event->toString());
+    event = (CEvent*)CCalendarProcs::createComponentFromTableRecord((const char**)(pQr->pResult + pQr->iColumn), pQr->iColumn);
 
     sqlite3_free_table(pQr->pResult);
-
-    /* Flags has the following values 
-     * HAS_RECURRENCE -- 3 
-     * HAS_ALARM ---- 4
-     * HAS_RECURRENCE_ALARM - 5 defined in common.h
-     */
-    
-    if ((event->getFlags() == HAS_RECURRENCE) ||
-	    (event->getFlags() == HAS_RECURRENCE_ALARM))
-	event->getRecurrenceProperties();
-    
-    /** ALARM **/ 
-    if ((event->getFlags() == HAS_ALARM) ||
-	    (event->getFlags() == HAS_RECURRENCE_ALARM))
-	event->getAlarmProperties();
 
     delete pQr;
     pQr = 0;
@@ -7139,6 +7030,18 @@ bool CCalendar::addBirthDay(CBdayEvent * pBday, int &pErrorCode)
 
     this->addMapTableInfo(pBday->getId(), externalId, pErrorCode);
 
+    /*
+     * Update Bday cache
+     */
+    CCalendarProcs procs(pCalDb);
+    int add_bday_error = procs.addBDay(pBday->getId(), pBday->getBirthDate());
+
+    if (add_bday_error != SQLITE_OK)
+    {
+        pCalDb->sqliteErrorMapper(add_bday_error, pErrorCode);
+        return false;
+    }
+
     return true;
 
 }
@@ -7430,6 +7333,15 @@ bool CCalendar::modifyBirthDay(CBdayEvent * pBday, int &pErrorCode)
 	    pCalDb->sqliteErrorMapper(iSqliteError,pErrorCode);
 	    CALENDAR_LOG_ERROR(pErrorCode,"CCALENDAR:modifyBirthday:modifyBirthday failed to update Alarm Table");
        }
+    }
+
+    CCalendarProcs procs(pCalDb);
+    int add_bday_error = procs.addBDay(pBday->getId(), pBday->getBirthDate());
+
+    if (add_bday_error != SQLITE_OK)
+    {
+        pCalDb->sqliteErrorMapper(add_bday_error, pErrorCode);
+        return false;
     }
 
     return true;

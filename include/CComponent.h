@@ -451,8 +451,19 @@ class CComponent {
      * @return vector <time_t> values on which event has to happen
      *
      * Function used to calculate the recurrence dates 
+     * DO NOT USE due to performance issues.
+     * Use void generateInstanceTimes(time_t,time_t,vector<time_t>&) instead
      */
     vector < time_t > generateInstanceTimes(time_t viewBegin, time_t viewEnd);
+
+    /**
+     * @param viewBegin lower range of current view 
+     * @param viewEnd higher range of current view 
+     * @return vector <time_t> values on which event has to happen
+     *
+     * Function used to calculate the recurrence dates 
+     */
+    void generateInstanceTimes(time_t viewBegin, time_t viewEnd, vector<time_t> &instance_times);
 
 
      /**
@@ -463,6 +474,15 @@ class CComponent {
      * Function used to retrieve the recurrence dates from the DB
      */
     vector < time_t > getInstanceTimes(time_t viewBegin, time_t viewEnd);
+
+     /**
+     * @param viewBegin lower range of current view 
+     * @param viewEnd higher range of current view 
+     * @param instance_times values on which event has to happen
+     *
+     * Function used to retrieve the recurrence dates from the DB
+     */
+    void getInstanceTimes(time_t viewBegin, time_t viewEnd, vector<time_t> &instance_times);
 
      /**
      * @param viewBegin lower range of current view 
