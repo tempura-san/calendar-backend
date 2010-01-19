@@ -5866,7 +5866,7 @@ CEvent* CCalendar::getBirthDayEvent(string sCompId, int &pErrorCode)
 //    CAL_DEBUG_LOG("column number : %d", pQr->iColumn);
 //    CAL_DEBUG_LOG("Inside event Details ");
 
-    event = (CEvent*)CCalendarProcs::createComponentFromTableRecord((const char**)(pQr->pResult + pQr->iColumn), pQr->iColumn);
+    event = CCalendarProcs::createComponentFromTableRecord((const char**)(pQr->pResult + pQr->iColumn), pQr->iColumn);
 
     sqlite3_free_table(pQr->pResult);
 

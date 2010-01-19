@@ -30,6 +30,7 @@
 
 class CComponent;
 class CBdayEvent;
+class CEvent;
 
 class  CCalendarProcs
 {
@@ -102,12 +103,12 @@ public:
     int getBDays(time_t iStart, time_t iEnd, std::vector<CBdayEvent*> &Comps);
 
     /**
-     * Creates CCompoenent from single row of Components table
+     * Creates CEvent from single row of Components table
      * @param pSqlRowData Raw SQL data of row from Components table
      * @param columns numner ov columns in data
      * @return pointer to newly created CCompomenent object
      */
-    static CComponent *createComponentFromTableRecord(const char **pSqlRowData, int columns);
+    static CEvent *createComponentFromTableRecord(const char **pSqlRowData, int columns);
 
     /**
     * @param iStDate start date to do conditional fetching based on start date. -1 in case of no conditions

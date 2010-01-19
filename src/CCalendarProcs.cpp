@@ -331,7 +331,7 @@ int CCalendarProcs::dropBDays()
 // 16 TzOffset INTEGER
 
 
-CComponent * CCalendarProcs::createComponentFromTableRecord(const char ** pSqlRowData, int columns)
+CEvent* CCalendarProcs::createComponentFromTableRecord(const char ** pSqlRowData, int columns)
 {
     if (columns < 17)
     {
@@ -339,12 +339,12 @@ CComponent * CCalendarProcs::createComponentFromTableRecord(const char ** pSqlRo
         return 0;
     }
 
-    CComponent *event = 0; // TODO rename
+    CEvent *event = 0; // TODO rename
 
     /*this function is responsible to retrieve the values stored in 
      * Component table and uses the set function to add values in 
      * to event object*/
-    event = new CComponent();
+    event = new CEvent();
 
     if (!event) {
         CAL_DEBUG_LOG("Memory allocation error");
@@ -525,7 +525,6 @@ int CCalendarProcs::getBDays(time_t iStart, time_t iEnd, std::vector< CBdayEvent
 int CCalendarProcs::getComponentsAllCalendars(int iStDate, int iEndDate, int iLimit, int iOffset, vector< CComponent * > &vComponents, int iQueryType)
 {
     int retval = CALENDAR_APP_ERROR;
-    CComponent *pEntry = 0;
     int iSqliteError = 0;
 
     vComponents.clear();
@@ -649,14 +648,14 @@ int CCalendarProcs::getComponentsAllCalendars(int iStDate, int iEndDate, int iLi
                 const char **row = query(i);
                 if (row != 0)
                 {
-                    CComponent *entry = createComponentFromTableRecord(row, query.getColumnCount());
+                    CEvent *entry = createComponentFromTableRecord(row, query.getColumnCount());
                     if (entry)
                     {
                         vComponents.push_back(entry);
                     }
                     else
                     {
-                        CAL_ERROR_LOG("Got NULL vComponents pointer(row)", i);
+                        CAL_ERROR_LOG("Got NULL vComponents pointer(row = %d)", i);
                     }
                 }
                 else
