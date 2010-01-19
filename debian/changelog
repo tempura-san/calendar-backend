@@ -1,3 +1,9 @@
+calendar-backend (0.6-14) unstable; urgency=low
+
+  * Fixes: NB#153438 Application crashed on exporting birthday calendar
+
+ -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Tue, 19 Jan 2010 11:20:43 +0300
+
 calendar-backend (0.6-13) unstable; urgency=low
 
   * Fixes: NB#150626 Performance of calendar degrades when several birthday events are in the db
