@@ -1343,20 +1343,33 @@ string VCalConverter::iCalToVCalAlarm(string iCalAlarm)
 
     CAL_DEBUG_LOG(" ****** ICAL Alarm component is :  %s\n ", iCalAlarm.c_str());
     while (getline(streamDescriptor, szLine)) {
-	if ((sPos = szLine.find(TRIGGER_VALUE_DATE_TIME, 0)) != (int)string::npos) 
-	    szTemp = szLine.substr((sPos+ strlen(TRIGGER_VALUE_DATE_TIME)));
-	else if ((sPos = szLine.find(DURATION_COL, 0)) != (int)string::npos ) {
-		szTemp+= SEMI_COLON;
-		szTemp += szLine.substr((sPos + strlen(DURATION_COL)));
-	} else if ((sPos = szLine.find(REPEAT_COL, 0)) != (int)string::npos){
-		szTemp+= SEMI_COLON;
-		szTemp += szLine.substr((sPos + strlen(REPEAT_COL)));
-	} else
-		CAL_DEBUG_LOG(" no  need to add this parameter alarm ");
-	if (sPos != (int)string::npos)	
-		vCalAlarm+=  szTemp;
-	sPos = string::npos;
-	szTemp.clear();
+//         CAL_DEBUG_LOG("Line1: %s", szLine.c_str());
+
+        // trim extra \r
+        size_t pos = 0;
+        while ((pos = szLine.find('\r', pos)) != std::string::npos)
+        {
+//             CAL_DEBUG_LOG("Remove \\r character at position %ld", (long)pos);
+            szLine.erase(pos);
+        }
+//         CAL_DEBUG_LOG("Line2: %s", szLine.c_str());
+
+        if ((sPos = szLine.find(TRIGGER_VALUE_DATE_TIME, 0)) != (int)string::npos) {
+            szTemp = szLine.substr((sPos+ strlen(TRIGGER_VALUE_DATE_TIME)));
+        }
+        else if ((sPos = szLine.find(DURATION_COL, 0)) != (int)string::npos ) {
+            szTemp+= SEMI_COLON;
+            szTemp += szLine.substr((sPos + strlen(DURATION_COL)));
+        } else if ((sPos = szLine.find(REPEAT_COL, 0)) != (int)string::npos){
+            szTemp+= SEMI_COLON;
+            szTemp += szLine.substr((sPos + strlen(REPEAT_COL)));
+        } else
+            CAL_DEBUG_LOG(" no  need to add this parameter alarm ");
+
+        if (sPos != (int)string::npos)	
+            vCalAlarm +=  szTemp;
+        sPos = string::npos;
+        szTemp.clear();
     } 
     CAL_DEBUG_LOG("Before returning:\n %s",vCalAlarm.c_str() );
 
