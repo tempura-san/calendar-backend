@@ -1,3 +1,9 @@
+calendar-backend (0.6-15) unstable; urgency=low
+
+  * Fixes: NB#154256  Calendar produces AALARM properties containing unescaped CRLF
+
+ -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Mon, 25 Jan 2010 15:21:52 +0300
+
 calendar-backend (0.6-14) unstable; urgency=low
 
   * Fixes: NB#153438 Application crashed on exporting birthday calendar
