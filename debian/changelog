@@ -1,3 +1,9 @@
+calendar-backend (0.6-16) unstable; urgency=low
+
+  * Refine Birthday events mass-deletion
+
+ -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Wed, 27 Jan 2010 14:38:29 +0300
+
 calendar-backend (0.6-15) unstable; urgency=low
 
   * Fixes: NB#154256  Calendar produces AALARM properties containing unescaped CRLF
