@@ -7370,16 +7370,15 @@ bool CCalendar::deleteBirthDay(string szUId, int &pErrorCode)
     pErrorCode = CALENDAR_OPERATION_SUCCESSFUL;
 
     if (pCalDb == 0) {
- 	CAL_DEBUG_LOG("invalid CCalendarDB pointer ");
- 	pErrorCode = CALENDAR_APP_ERROR;
- 	return false;
+        CAL_DEBUG_LOG("invalid CCalendarDB pointer ");
+        pErrorCode = CALENDAR_APP_ERROR;
+        return false;
     }
 
     szUId = this->getExternalToLocalId(szUId, true, pErrorCode);
     if (szUId.empty()) {
-	CAL_DEBUG_LOG(" serious problem no mapping existes in local DB\n");
-	return false;
-
+        CAL_DEBUG_LOG("No mapping for contact #%s, so ignore it", szUId.c_str());
+        return false;
     }
     /*      update the trash table with the 
      *      values */

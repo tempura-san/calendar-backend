@@ -1669,7 +1669,14 @@ bool CMulticalendar::rollbackAllChanges()
     }
     else {
         ret = pCalDb->rollbackDB();
+
+        changeFlag = 0;
+        changeCount = 0;
+        compIdsAdded.clear();
+        compIdsDeleted.clear();
+        compIdsModified.clear();
     }
+
     return ret;
 }
 
@@ -3470,7 +3477,8 @@ bool CMulticalendar::addBirthdays(vector<CBdayEvent*>& pBdays, int &pErrorCode)
     		pCal = 0 ;
 			return false;
     	}
-        compIdsAdded.push_back((*iter)->getId());
+//      TODO compIdsDeleted must contains Component IDs, not Contacts UIDs
+//         compIdsAdded.push_back((*iter)->getId());
 		changeCount++;
 	}
 
@@ -3595,9 +3603,16 @@ bool CMulticalendar::deleteBirthdays(vector<string> &szEUidList,int& pErrorCode)
 
 	vector <string>::iterator		iter;
 	pErrorCode = CALENDAR_OPERATION_SUCCESSFUL;
+	changeCount = 0;
 
 	for (iter = szEUidList.begin(); iter != szEUidList.end();iter++){
-		pCal->deleteBirthDay(*iter, pErrorCode);
+		if (pCal->deleteBirthDay(*iter, pErrorCode))
+        {
+//          TODO compIdsDeleted must contains Component IDs, not Contacts UIDs
+//          compIdsDeleted.push_back(*iter);
+            changeCount++;
+        }
+
 	    if (pErrorCode != CALENDAR_OPERATION_SUCCESSFUL) {
 			CAL_DEBUG_LOG("deleteBirthdays(%s): Error :%d, return",
 				(*iter).c_str(),pErrorCode);
@@ -3606,17 +3621,18 @@ bool CMulticalendar::deleteBirthdays(vector<string> &szEUidList,int& pErrorCode)
     		pCal = 0 ;
 			return false;
     	}
-
-        compIdsDeleted.push_back(*iter);
-
-		changeCount++;
 	}
 	
-	/* succesfully deleted  - commit everything */
-    changeFlag = changeFlag | BIRTHDAY_DELETED;
-    CalId = pCal->getCalendarId();
+    if (changeCount > 0) {
+        /* succesfully deleted  - commit everything */
+        changeFlag = changeFlag | BIRTHDAY_DELETED;
+        CalId = pCal->getCalendarId();
 
-    this->commitAllChanges();
+        this->commitAllChanges();
+    } else {
+        CAL_DEBUG_LOG("Nothing was deleted so rollback transaction");
+        this->rollbackAllChanges();
+    }
     delete pCal;
     pCal = 0 ;
     return true;
