@@ -1,3 +1,9 @@
+calendar-backend (0.6-17) unstable; urgency=low
+
+  * Read alarm duration/time_before  in CCalendar::getEvent()
+
+ -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Tue, 02 Feb 2010 17:23:34 +0300
+
 calendar-backend (0.6-16) unstable; urgency=low
 
   * Refine Birthday events mass-deletion
