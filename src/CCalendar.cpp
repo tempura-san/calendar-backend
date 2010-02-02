@@ -6169,8 +6169,13 @@ CEvent *CCalendar::getEvent(string sCompId, int &pErrorCode)
 		break;
 
 	    case DB_COLUMN_ID39:
-		if (pQr->pResult[iK_EventCount + iJ_EventCount])
-		    pAlarm->setDuration(atoi(pQr-> pResult[iK_EventCount + iJ_EventCount]));
+        if (pQr->pResult[iK_EventCount + iJ_EventCount])
+        {
+            int raw_duration = atoi(pQr->pResult[iK_EventCount + iJ_EventCount]);
+            CAL_DEBUG_LOG("raw_duration=%d", raw_duration);
+            pAlarm->setDuration(raw_duration % 10);
+            pAlarm->setTimeBefore(raw_duration / 10);
+        }
 		break;
 
 	    case DB_COLUMN_ID40:
