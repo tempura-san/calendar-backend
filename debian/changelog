@@ -1,8 +1,10 @@
 calendar-backend (0.6-18) unstable; urgency=low
 
   * Skip "X-NOEXPORT-*" X-properties during exporting
+  * Fixes: NB#153516 exported .ics calendars have bad line format (LF
+    for empty lines)
 
- -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Wed, 03 Feb 2010 14:42:32 +0300
+ -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Wed, 03 Feb 2010 15:32:18 +0300
 
 calendar-backend (0.6-17) unstable; urgency=low
 
