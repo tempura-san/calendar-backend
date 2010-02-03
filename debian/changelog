@@ -1,3 +1,9 @@
+calendar-backend (0.6-18) unstable; urgency=low
+
+  * Skip "X-NOEXPORT-*" X-properties during exporting
+
+ -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Wed, 03 Feb 2010 14:42:32 +0300
+
 calendar-backend (0.6-17) unstable; urgency=low
 
   * Read alarm duration/time_before  in CCalendar::getEvent()
