@@ -2065,11 +2065,19 @@ void ICalConverter::exportXPropFromLocal(icalcomponent *pEntcomp, T *pComp)
     hashMap = pComp->getHashMap();
     for (unsigned int iCount = 0; iCount < vPropList.size(); iCount++) {
         PropType propVal;
+        string propName = vPropList[iCount]->getPropName();
+
+        // Ignore X-NOEXPORT- properties during export
+        if (propName.find("X-NOEXPORT-") == 0)
+        {
+            CAL_DEBUG_LOG("Skip '%s'", propName.c_str());
+            continue;
+        };
+
         propVal = vPropList[iCount]->getPropValue();
         pProp = icalproperty_new_x(propVal.szString.c_str());
         icalproperty_set_x_name(pProp,
-                    vPropList[iCount]->getPropName().
-                    c_str());
+                    propName.c_str());
 
         it = hashMap.find(vPropList[iCount]->getPropName());
         if (it != hashMap.end()) {
