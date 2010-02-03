@@ -1860,7 +1860,7 @@ int CCalendar::exportCalendarEntries(string szFileName, int &pErrorCode)
 	    unsigned int n = 0;
 	    printtoFile =
 		    pIcal->localToIcalVcal(bdayList[iter], ICAL_TYPE, pErrorCode);
-	    printtoFile = printtoFile + "\n";
+	    printtoFile = printtoFile + "\r\n";
 	    n = write(fd, printtoFile.c_str(), printtoFile.size());
 
 	    if (n != printtoFile.size()) {
@@ -1889,7 +1889,7 @@ int CCalendar::exportCalendarEntries(string szFileName, int &pErrorCode)
 	    unsigned int n = 0;
 	    printtoFile =
 		    pIcal->localToIcalVcal(eventList[iter], ICAL_TYPE, pErrorCode);
-	    printtoFile = printtoFile + "\n";
+	    printtoFile = printtoFile + "\r\n";
 	    n = write(fd, printtoFile.c_str(), printtoFile.size());
 
 	    if (n != printtoFile.size()) {
@@ -1917,7 +1917,7 @@ int CCalendar::exportCalendarEntries(string szFileName, int &pErrorCode)
 	    unsigned int n = 0;
 	    printtoFile =
 		    pIcal->localToIcalVcal(todoList[iter], ICAL_TYPE, pErrorCode);
-	    printtoFile = printtoFile + "\n";
+	    printtoFile = printtoFile + "\r\n";
 	    n = write(fd, printtoFile.c_str(), printtoFile.size());
 	    if (n != printtoFile.size()) {
 		pErrorCode = CALENDAR_FILE_ERROR;
@@ -1951,7 +1951,7 @@ int CCalendar::exportCalendarEntries(string szFileName, int &pErrorCode)
 	    unsigned int n = 0;
 	    printtoFile = pIcal->localToIcalVcal(journalList[iter], ICAL_TYPE,
 			    pErrorCode);
-	    printtoFile = printtoFile + "\n";
+	    printtoFile = printtoFile + "\r\n";
 	    n = write(fd, printtoFile.c_str(), printtoFile.size());
 	    if (n != printtoFile.size()) {
 		pErrorCode = CALENDAR_FILE_ERROR;
