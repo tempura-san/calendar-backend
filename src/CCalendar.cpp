@@ -3886,66 +3886,74 @@ bool CCalendar::destroyExistingValidAlarms(int &pErrorCode)
 	return true;
 
     for (iI_AlarmCount = 0; iI_AlarmCount < pQr->iRow; iI_AlarmCount++) {
-	for (iJ_AlarmCount = 0; iJ_AlarmCount < pQr->iColumn; iJ_AlarmCount++) {
-	    iK_AlarmCount = pQr->iColumn + (iI_AlarmCount * pQr->iColumn);
-	    switch (iJ_AlarmCount) {
+        for (iJ_AlarmCount = 0; iJ_AlarmCount < pQr->iColumn; iJ_AlarmCount++) {
+            iK_AlarmCount = pQr->iColumn + (iI_AlarmCount * pQr->iColumn);
+            switch (iJ_AlarmCount) {
 
-		case DB_COLUMN_ID1:
-		    sCompId = pQr->pResult[iK_AlarmCount + iJ_AlarmCount];
-		    break;
+            case DB_COLUMN_ID1:
+                sCompId = pQr->pResult[iK_AlarmCount + iJ_AlarmCount];
+                break;
 
-		default:
-		    break;
+            default:
+                break;
 
-	    }
-	}
+            }
+        }
 
-    /* for each such  component deregister the alarm
-     * First obtain the cookie Id and deregister the 
-     * alarm 
-     *  */
-	oldcookie = this->getCookie(sCompId, pErrorCode);
+        /* for each such  component deregister the alarm
+        * First obtain the cookie Id and deregister the 
+        * alarm 
+        *  */
+        oldcookie = this->getCookie(sCompId, pErrorCode);
 
-	if (oldcookie.size()) 
-	    alarmUtility.deleteAlarmEvent(oldcookie[0],pErrorCode);
-	
+        if (oldcookie.size()) 
+            alarmUtility.deleteAlarmEvent(oldcookie[0],pErrorCode);
 
-	CComponent *pComp = 0;
-	if (this -> getCalendarType() != BIRTHDAY_CALENDAR)
-	    pComp = this->getEvent(sCompId, pErrorCode);
-	else
-	    pComp = this->getBirthDayEvent(sCompId, pErrorCode);
-	
-	if (!pComp) {
-	    if (pQr) {
-    	        sqlite3_free_table(pQr->pResult);
-	        delete pQr;
-	        pQr = 0;
-    	    }
-	    return false;
-	}
-	/* register the alarm value  here *
-	 * using alarmEventAddCall and then modify the 
-	 * same in Database 
-	 */
+        CComponent *pComp = 0;
+        if (this -> getCalendarType() != BIRTHDAY_CALENDAR)
+            pComp = this->getEvent(sCompId, pErrorCode);
+        else
+            pComp = this->getBirthDayEvent(sCompId, pErrorCode);
 
-	long cookie = 0;
-	CAlarm *pAlarm = 0;
-	pAlarm = pComp->getAlarm();
-	vector <long> vCookie;
-	vCookie.push_back(cookie);
+        if (!pComp) {
+            if (pQr) {
+                    sqlite3_free_table(pQr->pResult);
+                delete pQr;
+                pQr = 0;
+                }
+            return false;
+        }
+        /* register the alarm value  here *
+        * using alarmEventAddCall and then modify the 
+        * same in Database 
+        */
 
-	pAlarm->setCookie(vCookie);
-	vCookie.clear();
+        long cookie = 0;
+        CAlarm *pAlarm =  pComp->getAlarm();
 
-	/* Updating the alarm table with dummy cookie */
-	if (!this->addAlarm(pAlarm, E_MODIFY, pComp->getId(), pErrorCode))
-	    CAL_DEBUG_LOG("Alarm not registered for Entry with Id: %s ",
-		    pComp->getId().c_str());
-	if (pComp) {
-	    delete pComp;
-	    pComp = 0;
-	}
+        if (pAlarm) {
+            CAL_DEBUG_LOG("Remove alarm for event #%s '%s'", pComp->getId().c_str(), pComp->getSummary().c_str());
+
+            vector <long> vCookie;
+            vCookie.push_back(cookie);
+
+            pAlarm->setCookie(vCookie);
+
+            /* Updating the alarm table with dummy cookie */
+            if (!this->addAlarm(pAlarm, E_MODIFY, pComp->getId(), pErrorCode)) {
+                CAL_DEBUG_LOG("Alarm not registered for Entry #%s ",
+                               pComp->getId().c_str());
+            }
+        } else {
+            CAL_DEBUG_LOG("Event #%s '%s' have no alarm", 
+                            pComp->getId().c_str(),
+                            pComp->getSummary().c_str());
+        }
+
+        if (pComp) {
+            delete pComp;
+            pComp = 0;
+        }
     }
 
     if (pQr) {
