@@ -36,6 +36,8 @@
 #include "CRecurrenceRule.h"
 #include "CTimezone.h"
 
+#define ICAL_PRODID "//Nokia Corporation//Maemo5 Calendar PR1.2//EN"
+
 using namespace std;
 using std::string;
 
@@ -2463,6 +2465,11 @@ string ICalConverter::localToIcalVcal(CComponent * pEntry, FileType iType,
     /*version */
     pProp = icalproperty_new_version("1.0");
     icalcomponent_add_property(m_pCalcomp, pProp);
+    icalproperty_free(pProp);
+
+    /* PRODID */
+    pProp = icalproperty_new_prodid (ICAL_PRODID);
+    icalcomponent_add_property (m_pCalcomp, pProp);
     icalproperty_free(pProp);
 
     if ((pEntry->getType() == E_EVENT) || 
