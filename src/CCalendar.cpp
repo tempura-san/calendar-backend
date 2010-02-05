@@ -5947,23 +5947,29 @@ CEvent *CCalendar::getEvent(string sCompId, int &pErrorCode)
 
     /* error code will be set in the mapper function */
     if (pQr == 0) {
-	if (event)
-	    delete event;
-	return 0;
+        if (event)
+            delete event;
+        if (pAlarm)
+            delete pAlarm;
+        if (pRec)
+            delete pRec;
+        return 0;
     }
 
     if (pQr->iRow > TWO_ROWS) {
-	CAL_DEBUG_LOG
-		("Database corruption, two rows found with same entry id.\n");
-	pErrorCode = CALENDAR_FUNC_ERROR;
-	sqlite3_free_table(pQr->pResult);
-	delete pQr;
-	pQr = 0;
-	if(event) {
-	delete event;
-	event = 0;
-	}
-	return 0;
+        CAL_DEBUG_LOG
+            ("Database corruption, two rows found with same entry id.\n");
+        pErrorCode = CALENDAR_FUNC_ERROR;
+        sqlite3_free_table(pQr->pResult);
+        delete pQr;
+        pQr = 0;
+        if (event)
+            delete event;
+        if (pAlarm)
+            delete pAlarm;
+        if (pRec)
+            delete pRec;
+        return 0;
     }
 
     CAL_DEBUG_LOG("column number : %d", pQr->iColumn);
