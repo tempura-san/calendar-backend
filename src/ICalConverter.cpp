@@ -80,6 +80,8 @@ string getLocation(int offsetstd,bool dstflag, time_t dstoffset,string szDayligh
     return CTimezone::getLocation(offsetstd, dstflag, dstoffset, szDaylight);
 }
 
+static string guessLocationFromVTimezone(string szVTimezone);
+
 void addEncodingQuotedPrintable(icalproperty *pProp)
 {
    icalparameter *pParam = 0;
@@ -3843,6 +3845,9 @@ ICalConverter::icalVcalToLocal(string szCont,
         	entry_type = E_TODO;
         } else if (szLine == BEGIN_JOURNAL) {
         	entry_type = E_JOURNAL;
+        } else if (szLine == BEGIN_TIMEZONE) {
+            entry_type = E_VTIMEZONE;
+            CAL_DEBUG_LOG ("timezone started");
         }
         /* fill the global timezone in vcal format */
 
@@ -4032,6 +4037,17 @@ ICalConverter::icalVcalToLocal(string szCont,
         	 */
         	entry_type = E_SPARE;
         	szEntry = "";
+        } else if (szLine == END_TIMEZONE) {
+            if (entry_type == E_VTIMEZONE) {
+                vCalTimeZone = guessLocationFromVTimezone(szEntry);
+            } else {
+                CAL_ERROR_LOG ("VTimezone tags missmatch");
+                pErrorCode = CALENDAR_INVALID_ICSFILE;
+                goto finalize;
+            }
+
+            entry_type = E_SPARE;
+            szEntry = "";
         }
     } // While reading all the lines.
 
@@ -4346,7 +4362,16 @@ ICalConverter::importEventDateStartAndDateEnd (
     		 * if so overwrite the default timezone*/
 
     		if (icaltimezone_get_builtin_timezone(szIcsTimeZone.c_str()))
+            {
+                CAL_DEBUG_LOG("Found build-in TZ info for '%s'", szIcsTimeZone.c_str());
     				startTimeZone = szIcsTimeZone;
+            }
+            else if (!vCalTimeZone.empty())
+            {
+                startTimeZone = vCalTimeZone;
+                CAL_DEBUG_LOG("Use guessed timezone '%s'", startTimeZone.c_str());
+            }
+
 
     }
     else if (iType == VCAL_TYPE )
@@ -4371,6 +4396,8 @@ ICalConverter::importEventDateStartAndDateEnd (
      * convert them to Components timezone */
     CAL_DEBUG_LOG("is start time UTC : %d",s_time.is_utc  );
     CAL_DEBUG_LOG("is end time UTC : %d",e_time.is_utc  );
+    CAL_DEBUG_LOG("start timezone: %p",s_time.zone  );
+    CAL_DEBUG_LOG("end   timezone: %p",e_time.zone  );
 
     /* check if the date range is exceeded 
      * event before 1970 is adjusted to 1970 
@@ -6389,3 +6416,142 @@ void ICalConverter::setSyncing(bool sync)
 {
     bSyncing = sync;
 }
+
+string guessLocationFromVTimezone(string szVTimezone)
+{
+    string location;
+
+    icalcomponent * pTz = icalcomponent_new_from_string((char *)szVTimezone.c_str());
+
+    if (pTz) {
+        string szTzid;
+        CAL_DEBUG_LOG ("VTimezone  entry\n-8<-\n%s\n-8<-",
+                        szVTimezone.c_str());
+        CAL_DEBUG_LOG ("VTimezone: %d TZID properties, %d xstandard, %d xdaylight",
+                        icalcomponent_count_properties(pTz, ICAL_TZID_PROPERTY),
+                        icalcomponent_count_components(pTz, ICAL_XSTANDARD_COMPONENT),
+                        icalcomponent_count_components(pTz, ICAL_XDAYLIGHT_COMPONENT));
+
+        // TZID
+        icalproperty *prop_tzid = icalcomponent_get_first_property(pTz, ICAL_TZID_PROPERTY);
+
+        if (prop_tzid != 0) {
+            szTzid = icalproperty_get_tzid(prop_tzid);
+            CAL_DEBUG_LOG("TZID: %s", szTzid.c_str());
+        }
+
+        // STANDARD
+        icalcomponent *tz_std = icalcomponent_get_first_component(pTz, ICAL_XSTANDARD_COMPONENT);
+        icalcomponent *tz_dlt = icalcomponent_get_first_component(pTz, ICAL_XDAYLIGHT_COMPONENT);
+
+        icalproperty *std_offset_prop = icalcomponent_get_first_property(tz_std, ICAL_TZOFFSETTO_PROPERTY);
+        icalproperty *dst_offset_prop = icalcomponent_get_first_property(tz_dlt, ICAL_TZOFFSETTO_PROPERTY);
+
+        icalproperty *std_rrule_prop = icalcomponent_get_first_property(tz_std, ICAL_RRULE_PROPERTY);
+        icalproperty *dst_rrule_prop = icalcomponent_get_first_property(tz_dlt, ICAL_RRULE_PROPERTY);
+
+        time_t std_dtstart=0;
+        time_t dst_dtstart=0;
+        time_t std_offset=0;
+        time_t dst_offset=0;
+        string std_rrule;
+        string dst_rrule;
+
+        if (std_offset_prop != 0 &&
+            std_rrule_prop != 0)
+        {
+            std_offset = icalproperty_get_tzoffsetto(std_offset_prop);
+            icalrecurrencetype r(icalproperty_get_rrule(std_rrule_prop));
+            const char * rrule = icalrecurrencetype_as_string(&r);
+
+            if (rrule)
+                std_rrule = rrule;
+
+            icaltimetype dtstart(icalcomponent_get_dtstart(tz_std));
+
+            struct tm t;
+            memset(&t, 0, sizeof(t));
+            t.tm_hour = dtstart.hour;
+            t.tm_min = dtstart.minute;
+            t.tm_sec = dtstart.second;
+            t.tm_year = dtstart.year - 1980;
+            t.tm_mon = dtstart.month-1;
+            t.tm_mday = dtstart.day;
+
+            std_dtstart  = timegm(&t);
+
+            CAL_DEBUG_LOG("TZ STD: %02d:%02d:%02d, %02d.%02d.%d (%ld) offset=%d, rule=%s",
+                            dtstart.hour,
+                            dtstart.minute,
+                            dtstart.second,
+                            dtstart.day,
+                            dtstart.month,
+                            dtstart.year,
+                            (long)std_dtstart,
+                            (int)std_offset,
+                            rrule);
+        };
+
+        if (dst_offset_prop != 0 &&
+            dst_rrule_prop != 0)
+        {
+            dst_offset = icalproperty_get_tzoffsetto(dst_offset_prop);
+            icalrecurrencetype r(icalproperty_get_rrule(dst_rrule_prop));
+            const char * rrule = icalrecurrencetype_as_string(&r);
+            if (rrule)
+                dst_rrule = rrule;
+
+            icaltimetype dtstart(icalcomponent_get_dtstart(tz_dlt));
+
+            time_t dst_dtstart   = dtstart.hour * 3600 + dtstart.minute * 60 + dtstart.second  + dst_offset;
+
+            CAL_DEBUG_LOG("TZ DLT: %02d:%02d:%02d (%ld), offset=%d, rule=%s",
+                            dtstart.hour,
+                            dtstart.minute,
+                            dtstart.second,
+                            (long)dst_dtstart,
+                            (int)dst_offset,
+                            rrule);
+        };
+
+        int errorCode;
+        CTimezone *tz = CTimezone::guessTimeZone(std_dtstart,
+                        dst_dtstart,
+                        std_offset,
+                        dst_offset,
+                        std_rrule,
+                        dst_rrule,
+                        !dst_rrule.empty(),
+                        errorCode);
+
+        if (tz) {
+            location = tz->getLocation();
+            delete tz;
+        } else {
+            CAL_DEBUG_LOG("Faield to match. Lets try to guess");
+        }
+
+        if (location.empty())
+        {
+            if (dst_rrule.empty())
+            {
+                CAL_DEBUG_LOG("Check timezone for offset %ld w/o DST", std_offset);
+                location  = CTimezone::getLocation(std_offset, false, 0, string());
+            }
+            else
+            {
+                CAL_DEBUG_LOG("Check timezone for offsets %ld/%ld", std_offset, dst_offset);
+                location  = CTimezone::getLocation(std_offset, true, dst_offset, dst_rrule+"!"+std_rrule);
+            }
+        }
+
+        icalcomponent_free(pTz);
+    }
+    else
+    {
+        CAL_ERROR_LOG ("Failed to parse timezone");
+    }
+
+    CAL_ERROR_LOG("returns '%s'", location.c_str());
+    return location;
+};

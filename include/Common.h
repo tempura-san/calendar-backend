@@ -82,6 +82,8 @@ const char BEGIN_CALENDAR[] = "BEGIN:VCALENDAR";
 const char END_CALENDAR[] = "END:VCALENDAR";
 const char BEGIN_ALARM[] = "BEGIN:VALARM";
 const char END_ALARM[] = "END:VALARM";
+const char BEGIN_TIMEZONE[] = "BEGIN:VTIMEZONE";
+const char END_TIMEZONE[] = "END:VTIMEZONE";
 const char ICS_DEFAULT_CALENDAR_NAME[] = "imported calendar-%";
 const char ICS_CALNAME_SEPERATOR[] = "-";
 const char ICS_FILENAME_SEPERATOR[] = "file://";
@@ -377,7 +379,8 @@ enum entryType {
     E_TODO,
     E_JOURNAL,
     E_BDAY,
-    E_SPARE
+    E_SPARE,
+    E_VTIMEZONE
 };
 
 enum columnId {
