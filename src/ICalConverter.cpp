@@ -106,6 +106,11 @@ stringReplaceAll (
         const char   *changeThis,
         const char   *toThis);
 
+static bool 
+stringRemoveAll (
+        string        &toChange,
+        const char   *removeThis);
+
 /**
  * constructor
  */
@@ -3785,24 +3790,35 @@ ICalConverter::icalVcalToLocal(string szCont,
     /*content validation */
     //szCont = validateContents(strIcalComp);
     CAL_DEBUG_LOG("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" );
-    CAL_DEBUG_LOG("String Input to function :\n %s",szCont.c_str());
+    CAL_DEBUG_LOG("String Input to function :\n %s",szCont.substr(0,1024).c_str());
     CAL_DEBUG_LOG("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@" );
 
     /*
      * Fix the broken iCalendar content provided by PCSuite
      */
+    CAL_DEBUG_LOG("Fix QUOTED-PRINTABLE");
     stringReplaceAll (szCont, ";QUOTED-PRINTABLE", ";ENCODING=QUOTED-PRINTABLE");
 
     /*
      * Unfolding the continuation lines.
      */
-    stringReplaceAll (szCont, "\r", "");
+    CAL_DEBUG_LOG("Cleanup \\r");
+    stringRemoveAll (szCont, "\r");
+
     /* =\n represents a soft line break 
      * in quotes printable algo */
-    stringReplaceAll (szCont, "\n ", "");
-    stringReplaceAll (szCont, "=\n", "");
-    stringReplaceAll (szCont, "\n\t", "");
-    CAL_DEBUG_LOG("Contents After Replcaing  =\n %s", szCont.c_str());
+    CAL_DEBUG_LOG("Cleanup '\\n '");
+    stringRemoveAll (szCont, "\n ");
+
+    CAL_DEBUG_LOG("Cleanup '=\\n'");
+    stringRemoveAll (szCont, "=\n");
+
+    CAL_DEBUG_LOG("Cleanup \\n\\t");
+    stringRemoveAll (szCont, "\n\t");
+
+    CAL_DEBUG_LOG("Contents After Replcaing  =\n %s", szCont.substr(0,1024).c_str());
+
+    CAL_DEBUG_LOG("Check events, jou and todos");
 
     if (/*!(checkCount(szCont, BEGIN_CALENDAR, END_CALENDAR, iDummy))
         	||*/ !(checkCount(szCont, BEGIN_EVENT, END_EVENT, iDummy))
@@ -3828,7 +3844,7 @@ ICalConverter::icalVcalToLocal(string szCont,
     bool daylight_present = false;
     entryType entry_type = E_SPARE;
     while (getline(iss, szLine)) {
-        CAL_DEBUG_LOG("Line is: %s", szLine.c_str());
+//         CAL_DEBUG_LOG("Line is: %s", szLine.c_str());
         /*
          * We first assume that this line does not need an encoding
          * property and if we change it we revoke this assumption.
@@ -6415,6 +6431,25 @@ void ICalConverter::parseTimeZone(string &szZone)
 void ICalConverter::setSyncing(bool sync)
 {
     bSyncing = sync;
+}
+
+bool stringRemoveAll(string & toChange, const char * removeThis)
+{
+    bool              retval = false;
+    size_t            pos = 0;
+
+    size_t l = strlen(removeThis);
+
+    CAL_DEBUG_LOG("%s", removeThis);
+
+    while ((pos = toChange.find(removeThis, pos)) != string::npos)
+    {
+        retval = true;
+        toChange.erase(pos, l);
+    }
+
+    CAL_DEBUG_LOG("returns %d", retval);
+    return retval;
 }
 
 string guessLocationFromVTimezone(string szVTimezone)

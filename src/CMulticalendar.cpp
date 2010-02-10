@@ -105,6 +105,8 @@ static const int DEFAULT_END_DATE = 2145830400;
 static const int DEFAULT_LIMIT = 10000000;
 static const int DEFAULT_OFFSET = 1;
 
+static const int ICS_TEXT_FIELD_LIMIT = 16*1024; // 16k
+
 unsigned int iFileOffset = 0;
 static const int FETCH_SIMPLE_EVENTS_AND_TASKS = 1;
 static const int FETCH_REPEATING_EVENTS =2;
@@ -4056,7 +4058,7 @@ bool CMulticalendar::getICSFileInfoProgressive(string szFileName,
 
     pErrorCode = CALENDAR_OPERATION_SUCCESSFUL;
     string stemp("file://");
-    ifstream stream;
+    ifstream ics_file_stream;
     unsigned int iDummy = 0;
     bool bIsFirstRead = false;
 
@@ -4071,9 +4073,9 @@ bool CMulticalendar::getICSFileInfoProgressive(string szFileName,
 
 
     CAL_DEBUG_LOG("File name is %s", szFileName.c_str());
-    stream.open((char *) szFileName.c_str());
+    ics_file_stream.open((char *) szFileName.c_str());
 
-    if (stream.fail()) {
+    if (ics_file_stream.fail()) {
 	    CAL_DEBUG_LOG("could not open the given ics file");
 	    pErrorCode = CALENDAR_FILE_ERROR;
 	    iFileOffset = 0;
@@ -4085,9 +4087,9 @@ bool CMulticalendar::getICSFileInfoProgressive(string szFileName,
 
 	const size_t len = sizeof(BEGIN_CALENDAR) - 1;
 	char begin_file[len];
-	stream.read(begin_file, len);
-	stream.seekg(0, ios::beg);
-	if (stream.fail()) {
+	ics_file_stream.read(begin_file, len);
+	ics_file_stream.seekg(0, ios::beg);
+	if (ics_file_stream.fail()) {
 		CAL_DEBUG_LOG("Not able to seek given file \n");
 		pErrorCode = CALENDAR_FILE_ERROR;
 		iFileOffset = 0;
@@ -4102,6 +4104,7 @@ bool CMulticalendar::getICSFileInfoProgressive(string szFileName,
 	}
 
     string szCont;
+    string szTextContent;
     string line;
     unsigned int iLimit = 0;
     bool bError = false;
@@ -4109,49 +4112,82 @@ bool CMulticalendar::getICSFileInfoProgressive(string szFileName,
     int iJournalBegin = 0; 
     int iToDoBegin = 0;
 
-    stream.seekg (0, ios::end);
-    if(stream.fail()) {
+    ics_file_stream.seekg (0, ios::end);
+    if(ics_file_stream.fail()) {
             CAL_DEBUG_LOG("Not able to seek given ics file \n");
             pErrorCode = CALENDAR_FILE_ERROR;
-            stream.close();
+            ics_file_stream.close();
 	    iFileOffset = 0;
             return false;
     }
-    unsigned int iFileLength = stream.tellg();
+    unsigned int iFileLength = ics_file_stream.tellg();
     CAL_DEBUG_LOG("====Total file length is:%d\n", iFileLength);
 
 
-    stream.seekg(iFileOffset, ios_base::beg);
-    if(stream.fail()) {
+    ics_file_stream.seekg(iFileOffset, ios_base::beg);
+    if(ics_file_stream.fail()) {
 	    CAL_DEBUG_LOG("Not able to seek given ics file \n");
 	    pErrorCode = CALENDAR_FILE_ERROR;
 	    iFileOffset = 0;
-	    stream.close();
+	    ics_file_stream.close();
 	    return false;
     }
     iEventCount = 0;
     iTodoCount = 0;
     iJournalCount = 0;
 
-    while (getline(stream, line)) {
+    szCont.reserve(iFileLength);
+
+    while (getline(ics_file_stream, line)) {
         cleanupIcsString(line);
-	    szCont = szCont + "\n" + line;
-	    CAL_DEBUG_LOG("contents are:%s", szCont.c_str());
-	    iFileOffset = stream.tellg();
-	    /* no need to do it for every line we can do it only 
-	     *          * for line of interest  */
-	    if ((line.find("BEGIN:") != string::npos ) || (line.find("END:")!= string ::npos ))
-		    iLimit = iLimit + totalComponentsRead(line, bError,
-				    iEventBegin, iJournalBegin, iToDoBegin, iEventCount,
-				    iTodoCount, iJournalCount);
-	    if((iLimit == iRequestLimit) || (bError == true)){
-		    break;
-	    }
+
+//         CAL_DEBUG_LOG("line: '%s'", line.c_str());
+        iFileOffset = ics_file_stream.tellg();
+        /* no need to do it for every line we can do it only
+         * for line of interest  */
+
+        if ((line.compare(0, 6, "BEGIN:") == 0) ||
+            (line.compare(0, 4, "END:") == 0))
+        {
+            CAL_DEBUG_LOG("Checking line %s", line.c_str());
+
+            iLimit = iLimit + totalComponentsRead(line, bError,
+                    iEventBegin, iJournalBegin, iToDoBegin, iEventCount,
+                    iTodoCount, iJournalCount);
+        }
+
+        if (line[0] == ' ') { // Text content of Summary/deskription
+            int len = szTextContent.length();
+
+            if (len == 0) {
+                CAL_DEBUG_LOG("Add first content line '%s'", line.c_str());
+                szTextContent  = line;
+            } else if (len < ICS_TEXT_FIELD_LIMIT) {
+                CAL_DEBUG_LOG("Add content line '%s'", line.c_str());
+                szTextContent = szTextContent + "\n" + line;
+            } else {
+//                 CAL_DEBUG_LOG("Text content reached limit. Ignore");
+            }
+        } else {
+            if (!szTextContent.empty()) {
+                CAL_DEBUG_LOG("Appending text content");
+                szCont = szCont + "\n" + szTextContent + "\n" + line;
+                szTextContent.clear();
+            } else {
+                szCont = szCont + "\n" + line;
+            }
+        }
+
+        if((iLimit == iRequestLimit) || (bError == true)){
+            break;
+        }
     }
+
+
     if((iEventBegin != 0) || (iJournalBegin != 0) || (iToDoBegin != 0)) {
 	    bError = true;
     }
-    stream.close();
+    ics_file_stream.close();
 
     if(bError == true)
     {
@@ -4423,20 +4459,21 @@ bool CMulticalendar::importIcsFileDataProgressive(string szFileName, int iCalId,
 	szFileName = szFileName.substr(iDummy + stemp.length());
     }
 
-    ifstream stream;
-    stream.open((char *) szFileName.c_str());
+    ifstream ics_file_stream;
+    ics_file_stream.open((char *) szFileName.c_str());
 
-    if (stream.fail()) {
+    if (ics_file_stream.fail()) {
 	CAL_DEBUG_LOG("Not able to open given ics file \n");
 	pErrorCode = CALENDAR_FILE_ERROR;
 	return false;
     }
 
-    stream.seekg (0, ios::end);
-    unsigned int iFileLength = stream.tellg();
+    ics_file_stream.seekg (0, ios::end);
+    unsigned int iFileLength = ics_file_stream.tellg();
     CAL_DEBUG_LOG("====Total file length is:%d\n", iFileLength);
 
     string szContents;
+    string szTextContent;
     string line;
     unsigned int iLimit = 0;
     *bFileReadingOver = false;
@@ -4452,33 +4489,63 @@ bool CMulticalendar::importIcsFileDataProgressive(string szFileName, int iCalId,
     vector <string> duplicateIds;
 
     CAL_DEBUG_LOG("====the file offset is :%d\n", iFileOffset);
-    stream.seekg(iFileOffset, ios_base::beg);
-    if(stream.fail()) {
+    ics_file_stream.seekg(iFileOffset, ios_base::beg);
+    if(ics_file_stream.fail()) {
 	CAL_DEBUG_LOG("Not able to seek given ics file \n");
 	pErrorCode = CALENDAR_FILE_ERROR;
-	stream.close();
+	ics_file_stream.close();
 	return false;
     }
 
-    while (getline(stream, line)) {
+    while (getline(ics_file_stream, line)) {
         cleanupIcsString(line);
-	szContents = szContents + "\n" + line;
-	iFileOffset = stream.tellg();
-	/* no need to do it for every line we can do it only 
-	 * for line of interest  */
-	if ((line.find("BEGIN:") != string::npos ) || (line.find("END:")!= string ::npos ))
-	iLimit = iLimit + totalComponentsRead(line, bError, 
-			iEventBegin, iJournalBegin, iToDoBegin, iEventCount, 
-			iTodoCount, iJournalCount);
-    	CAL_DEBUG_LOG("===The values of eventbegin, jou, todo begin: %d, %d, %d \n", iEventBegin, iJournalBegin, iToDoBegin);
-	CAL_DEBUG_LOG("===The value of limit is:%d\n", iLimit);
+        iFileOffset = ics_file_stream.tellg();
 
-	if((iLimit == iRequestLimit) || (bError == true)){
-	       break;
-	}	       
+        /* no need to do it for every line we can do it only
+        * for line of interest  */
+        if ((line.compare(0, 6, "BEGIN:") == 0) ||
+            (line.compare(0, 4, "END:") == 0))
+        {
+            CAL_DEBUG_LOG("Checking line %s", line.c_str());
+
+            iLimit = iLimit + totalComponentsRead(line, bError, 
+                    iEventBegin, iJournalBegin, iToDoBegin, iEventCount, 
+                    iTodoCount, iJournalCount);
+        }
+
+
+        if (line[0] == ' ') { // Text content of Summary/deskription
+            int len = szTextContent.length();
+
+            if (len == 0) {
+                CAL_DEBUG_LOG("Add first content line '%s'", line.c_str());
+                szTextContent  = line;
+            } else if (len < ICS_TEXT_FIELD_LIMIT) {
+                CAL_DEBUG_LOG("Add content line '%s'", line.c_str());
+                szTextContent = szTextContent + "\n" + line;
+            } else {
+//                 CAL_DEBUG_LOG("Text content reached limit. Ignore");
+            }
+        } else {
+            if (!szTextContent.empty()) {
+                CAL_DEBUG_LOG("Appending text content");
+                szContents = szContents + "\n" + szTextContent + "\n" + line;
+                szTextContent.clear();
+            } else {
+                szContents = szContents + "\n" + line;
+            }
+        }
+
+//      CAL_DEBUG_LOG("===The values of eventbegin, jou, todo begin: %d, %d, %d \n",
+//                      iEventBegin, iJournalBegin, iToDoBegin);
+//      CAL_DEBUG_LOG("===The value of limit is:%d\n", iLimit);
+
+        if((iLimit == iRequestLimit) || (bError == true)) {
+            break;
+        }
     }
-    stream.close();
-    CAL_DEBUG_LOG("=======Contents is  =\n %s", szContents.c_str());
+    ics_file_stream.close();
+    CAL_DEBUG_LOG("=======Contents is  =\n %s", szContents.substr(0,1024).c_str());
 
     if(bError == true)
     {
@@ -4500,7 +4567,9 @@ bool CMulticalendar::importIcsFileDataProgressive(string szFileName, int iCalId,
     vector < CComponent * >vCompList;
     ICalConverter *ical = new ICalConverter();
     ASSERTION(ical);
+    CAL_DEBUG_LOG("Converting is started");
     vCompList = ical->icalVcalToLocal(szContents, UNKNOWN_TYPE, pErrorCode);
+    CAL_DEBUG_LOG("Converting is finished");
 
     /* if the file reading is over and
      * it is the last component then we shouldn't consider it as 
@@ -4522,7 +4591,11 @@ bool CMulticalendar::importIcsFileDataProgressive(string szFileName, int iCalId,
    /*add components is a batch API which will add all the events /todos and journals in 
     * on error occured every thing will be roolled back */
     
+
+    CAL_DEBUG_LOG("Components adding is started");
         IdAdded = this->addComponents(vCompList,iCalId, duplicateIds,pErrorCode);
+    CAL_DEBUG_LOG("Components adding is finished");
+
     }
 
     if ( vCompList.size() == 1 && vCompList[0]->getType() == E_EVENT){
@@ -4570,8 +4643,7 @@ bool CMulticalendar::importIcsFileDataProgressive(string szFileName, int iCalId,
 	bRetVal = false;
     }
     CAL_DEBUG_LOG("%d events, %d tasks  were duplicated  \n", iDuplicateCountEvent,iDuplicateCountTask);
-    
-    stream.close();
+
     delete ical;
     return bRetVal;
 }
