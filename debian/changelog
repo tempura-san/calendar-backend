@@ -1,3 +1,11 @@
+calendar-backend (0.6-20) unstable; urgency=low
+
+  * Fixes: NB#133153 - VTIMEZONE component is ignored during ICS import
+  * Fixes: NB#138753 First line of Note is overlapped in notes view,
+    when note content is large
+
+ -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Wed, 10 Feb 2010 16:39:31 +0300
+
 calendar-backend (0.6-19) unstable; urgency=low
 
   * Fixes: NB#139647 <coverity> defects from calendar-backend
