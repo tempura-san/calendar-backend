@@ -1,3 +1,9 @@
+calendar-backend (0.7-1) unstable; urgency=low
+
+  * Version updated after creation of branch for PR1.2
+
+ -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Thu, 04 Mar 2010 11:38:08 +0300
+
 calendar-backend (0.6-20) unstable; urgency=low
 
   * Fixes: NB#133153 - VTIMEZONE component is ignored during ICS import
