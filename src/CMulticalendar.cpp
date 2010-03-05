@@ -3382,10 +3382,9 @@ CMulticalendar *CMulticalendar::MCInstance()
 
         if (!checkFileExists("/tmp/calendar-firststart"))
         {
-            pMc->restoreAlarms();
-
             std::ofstream firststart_file;
             firststart_file.open("/tmp/calendar-firststart");
+            pMc->restoreAlarms();
         }
         else
         {
