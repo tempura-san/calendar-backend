@@ -1,3 +1,9 @@
+calendar-backend (0.7-4) unstable; urgency=low
+
+  * Fixes: NB#160847 - Birthday appears in the day before
+
+ -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Wed, 17 Mar 2010 18:32:55 +0300
+
 calendar-backend (0.7-3) unstable; urgency=low
 
   * Fixes: NB#160362 - Crash observed while deleting the N900 Calendar
