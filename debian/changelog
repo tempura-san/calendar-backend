@@ -1,3 +1,9 @@
+calendar-backend (0.7-3) unstable; urgency=low
+
+  * Fixes: NB#160362 - Crash observed while deleting the N900 Calendar
+
+ -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Wed, 17 Mar 2010 14:03:09 +0300
+
 calendar-backend (0.7-2) unstable; urgency=low
 
   * Fixes: NB#158802 Calendar alarm notification dismissed with two
