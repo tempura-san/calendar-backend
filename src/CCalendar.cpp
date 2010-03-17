@@ -6923,7 +6923,8 @@ CJournal *CCalendar::getJournal(string sCompId, int &pErrorCode)
  */
 bool CCalendar::setCalendarType(CalendarType iCalType)
 {
-    this->iCalType = iCalType;
+    if(this->iCalType != DEFAULT_SYNC)
+        this->iCalType = iCalType;
     return SUCCESS;
 }
 
