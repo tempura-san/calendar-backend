@@ -1,3 +1,9 @@
+calendar-backend (0.7-5) unstable; urgency=low
+
+  * Fixes: NB#152824 - Task Alarms can easily dissappear after backup, reboot, sync
+
+ -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Mon, 22 Mar 2010 11:11:58 +0300
+
 calendar-backend (0.7-4) unstable; urgency=low
 
   * Fixes: NB#160847 - Birthday appears in the day before
