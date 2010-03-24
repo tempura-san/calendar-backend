@@ -643,7 +643,8 @@ bool CMulticalendar::getRecurrentTimes(string szRRule,
 	    szRRule.replace(pos+1,SIX,DAY_ICAL);
     }
     recur = icalrecurrencetype_from_string(szRRule.c_str());
-
+    if (!strstr(szRRule.c_str(),"WKST"))
+        recur.week_start = ICAL_SUNDAY_WEEKDAY;
 
     icalrecur_iterator *ritr = 0;
     ritr = icalrecur_iterator_new(recur, iDtStart);

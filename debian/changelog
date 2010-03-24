@@ -1,3 +1,9 @@
+calendar-backend (0.7-6) unstable; urgency=low
+
+  * Fixes: NB#158850 - Biweekly recurring event gets sunday in the wrong week
+
+ -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Wed, 24 Mar 2010 13:03:38 +0300
+
 calendar-backend (0.7-5) unstable; urgency=low
 
   * Fixes: NB#152824 - Task Alarms can easily dissappear after backup, reboot, sync
