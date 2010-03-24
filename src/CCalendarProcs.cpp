@@ -574,6 +574,10 @@ int CCalendarProcs::getComponentsAllCalendars(int iStDate, int iEndDate, int iLi
                                       end_year, start_daymonth, end_daymonth,
                                       end_year, end_daymonth);
     }
+    else
+    {
+        bd_query_str = sqlite3_mprintf("SELECT * FROM Components WHERE ComponentType=%d", E_BDAY);
+    }
 
 
     SQLiteQuery bd_query(bd_query_str);

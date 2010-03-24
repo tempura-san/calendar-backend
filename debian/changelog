@@ -1,8 +1,10 @@
 calendar-backend (0.7-6) unstable; urgency=low
 
   * Fixes: NB#158850 - Biweekly recurring event gets sunday in the wrong week
+  * Fixes: NB#156938 - Calendar-backend API: "CMulticalendar::getComponentsAllCalendars" 
+                       doesn't work correctly
 
- -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Wed, 24 Mar 2010 13:03:38 +0300
+ -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Wed, 24 Mar 2010 14:16:23 +0300
 
 calendar-backend (0.7-5) unstable; urgency=low
 
