@@ -26,8 +26,8 @@ calendar-backend (0.7-3) unstable; urgency=low
 
 calendar-backend (0.7-2) unstable; urgency=low
 
-  * Fixes: NB#158802 Calendar alarm notification dismissed with two
-    clicks on tapping Stop/snooze button
+  * Fixes: NB#162226 - Calendar alarm notification dismissed with two
+                       clicks on tapping Stop/snooze button
 
  -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Fri, 05 Mar 2010 15:24:56 +0300
 
