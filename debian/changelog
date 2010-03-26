@@ -1,14 +1,13 @@
 calendar-backend (0.7-6) unstable; urgency=low
 
   * Fixes: NB#158850 - Biweekly recurring event gets sunday in the wrong week
-  * Fixes: NB#156938 - Calendar-backend API: "CMulticalendar::getComponentsAllCalendars" 
-                       doesn't work correctly
+  * Fixes: NB#156938 - CMulticalendar::getComponentsAllCalendars incorrect
 
  -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Wed, 24 Mar 2010 14:16:23 +0300
 
 calendar-backend (0.7-5) unstable; urgency=low
 
-  * Fixes: NB#152824 - Task Alarms can easily dissappear after backup, reboot, sync
+  * Fixes: NB#152824 - Task Alarms can easily dissappear after reboot
 
  -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Mon, 22 Mar 2010 11:11:58 +0300
 
@@ -26,8 +25,7 @@ calendar-backend (0.7-3) unstable; urgency=low
 
 calendar-backend (0.7-2) unstable; urgency=low
 
-  * Fixes: NB#162226 - Calendar alarm notification dismissed with two
-                       clicks on tapping Stop/snooze button
+  * Fixes: NB#162226 - Calendar alarm notification dismissed with two clicks
 
  -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Fri, 05 Mar 2010 15:24:56 +0300
 
@@ -40,8 +38,7 @@ calendar-backend (0.7-1) unstable; urgency=low
 calendar-backend (0.6-20) unstable; urgency=low
 
   * Fixes: NB#133153 - VTIMEZONE component is ignored during ICS import
-  * Fixes: NB#138753 First line of Note is overlapped in notes view,
-    when note content is large
+  * Fixes: NB#138753 - First line of Note is overlapped in notes view
 
  -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Wed, 10 Feb 2010 16:39:31 +0300
 
@@ -54,10 +51,8 @@ calendar-backend (0.6-19) unstable; urgency=low
 calendar-backend (0.6-18) unstable; urgency=low
 
   * Skip "X-NOEXPORT-*" X-properties during exporting
-  * Fixes: NB#153516 exported .ics calendars have bad line format (LF
-    for empty lines)
-  * Fixes: NB#155495 Crash is observed while deleting created event from
-    N900 Calendar
+  * Fixes: NB#153516 exported .ics calendars have bad line format 
+  * Fixes: NB#155495 Crash is observed while deleting event from N900 Calendar
   * Fixes: NB#153515 Exported calendars lack PRODID properties
 
  -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Thu, 04 Feb 2010 12:17:41 +0300
@@ -88,7 +83,7 @@ calendar-backend (0.6-14) unstable; urgency=low
 
 calendar-backend (0.6-13) unstable; urgency=low
 
-  * Fixes: NB#150626 Performance of calendar degrades when several birthday events are in the db
+  * Fixes: NB#150626 Performance degrades when several birthday events 
 
  -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Fri, 15 Jan 2010 13:27:26 +0300
 
@@ -106,13 +101,13 @@ calendar-backend (0.6-11) unstable; urgency=low
 
 calendar-backend (0.6-10) unstable; urgency=low
 
-  * Fixes: NB#152161 Alarm option is not displayed for a memo event once synced from NCC to Rover device
+  * Fixes: NB#152161 Alarm option is not displayed for a memo event once synced 
 
  -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Mon, 11 Jan 2010 14:36:04 +0300
 
 calendar-backend (0.6-9) unstable; urgency=low
 
-  * Fixes: NB#151950 Alarm option is not displayed for an all day event once synced from NCC to device
+  * Fixes: NB#151950 Alarm option is not displayed for all day event once synced 
 
  -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Wed, 30 Dec 2009 17:42:56 +0300
 
