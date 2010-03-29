@@ -5205,7 +5205,7 @@ void ICalConverter::importTodoDue(icalcomponent *pComp, CTodo *pTodo)
 	    {
 		    d_time = icalproperty_get_due(pProp);
 		    due_timet = icaltime_as_timet_with_zone(d_time, 
-				    icaltimezone_get_builtin_timezone(szZone.c_str()));
+				    d_time.zone);
 	    }
     	/* We should use setDue but calendar uses setDateStart */
     	pTodo->setDateStart(due_timet);
@@ -5322,7 +5322,7 @@ void ICalConverter::importDateStart(icalcomponent *pComp, T *pEntry)
     if (pProp && (icalvalue_is_valid (value))) {
         s_time = icalproperty_get_dtstart(pProp);
         time_start = icaltime_as_timet_with_zone(s_time,
-    		    icaltimezone_get_builtin_timezone(szZone.c_str()));
+    		    s_time.zone);
         if(pEntry->getType() == E_TODO) {
     	    pEntry->setDateStamp(time_start);	
         }
