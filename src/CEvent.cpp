@@ -27,7 +27,7 @@
 #include "COrganizer.h"
 #include "CAttendee.h"
 #include "Common.h"
-static int MAX_PRIORITY =9 ;
+
 /**
  * CEvent
  * This is the overloaded parameterized constructor CEvent class where minimum set of members will be intialized.

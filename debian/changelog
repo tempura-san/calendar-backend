@@ -3,8 +3,9 @@ calendar-backend (0.7-7) unstable; urgency=low
   * Fixes: NB#149615 - An all day event is appearing one day extra after sync
   * Fixes: NB#162185 - Imported calendar events are not deleted in outlook
   * Fixes: NB#149545 - Incorrect Alarms for synchronized events 
+  * Fixes: NB#158559 - Priority field shall be updated
 
- -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Wed, 31 Mar 2010 11:00:00 +0400
+ -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Wed, 31 Mar 2010 11:51:33 +0400
 
 calendar-backend (0.7-6) unstable; urgency=low
 

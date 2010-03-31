@@ -204,7 +204,7 @@ int CTodo::getPercentComplete()
 
 bool CTodo::setPriority(int iPriority)
 {
-    if (iPriority >= ZERO && iPriority <= NINE) {
+    if (iPriority >= ZERO && iPriority <= MAX_PRIORITY) {
     this->iPriority = iPriority;
     return true;
     }
