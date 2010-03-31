@@ -3127,30 +3127,22 @@ if (pComp) {
         else {
         	if (pre_offset == 0)
         		alarm->setDuration(E_AM_ETIME);
-        	else if ((pre_offset > 0) && (pre_offset <= 300))
+        	else if (pre_offset == 300)
         		alarm->setDuration(E_AM_5MIN);
-        	else if ((pre_offset > 300) && (pre_offset <= 900))
+        	else if (pre_offset == 900)
         		alarm->setDuration(E_AM_15MIN);
-        	else if ((pre_offset > 900) && (pre_offset <= 1800))
+        	else if (pre_offset == 1800)
         		alarm->setDuration(E_AM_30MIN);
-        	else if ((pre_offset > SEC_IN_HR / 2) && (pre_offset <= SEC_IN_HR))
+        	else if (pre_offset == SEC_IN_HR)
         		alarm->setDuration(E_AM_1HR);
-        	else if ((pre_offset > SEC_IN_HR) && (pre_offset <= 3 * SEC_IN_HR))
+        	else if (pre_offset == 3 * SEC_IN_HR)
         		alarm->setDuration(E_AM_3HR);
-        	else if ((pre_offset > 3 * SEC_IN_HR) && (pre_offset <= 13.5 * SEC_IN_HR))
-        		alarm->setDuration(E_AM_3HR);
-        	else{ 
-        		/* If external event has alarm on some other day 
-        		 * then modify it to nearest possible value  
-        		 */
+        	else if (pre_offset == 24 * SEC_IN_HR){
         		alarm->setDuration(E_AM_DAYBEFORE);
-        		/* if the alarm time is any thing other than
-        		 * what is specified above then we will change it to 
-        		 * nearest value as per bug NB#102471
-        		 * */
-
-        		if (pEntry->getAllDay() != 1)
-        			alarm->setTrigger( pEntry->getDateStart() - 24*SEC_IN_HR);
+			alarm->setTrigger( pEntry->getDateStart() - 24*SEC_IN_HR);
+        	}else{ 
+			alarm->setDuration(E_AM_EXACTDATETIME);
+			alarm->setTimeBefore(pre_offset);	
         	}
         }
     }

@@ -312,35 +312,41 @@ bool CComponent::setAlarmBefore(int time_before)
         CAL_DEBUG_LOG("time_before = %d -> E_AM_ETIME", time_before);
         alarmFlag = E_AM_ETIME;
     }
-    else if (time_before <= 5 * 60)
+    else if (time_before == 5 * 60)
     {
         CAL_DEBUG_LOG("time_before = %d -> E_AM_5MIN", time_before);
         alarmFlag = E_AM_5MIN;
     }
-    else if (time_before <= 15 * 60)
+    else if (time_before == 15 * 60)
     {
         CAL_DEBUG_LOG("time_before = %d -> E_AM_15MIN", time_before);
         alarmFlag = E_AM_15MIN;
     }
-    else if (time_before <= 30 * 60)
+    else if (time_before == 30 * 60)
     {
         CAL_DEBUG_LOG("time_before = %d -> E_AM_30MIN", time_before);
         alarmFlag = E_AM_30MIN;
     }
-    else if (time_before <= 60 * 60)
+    else if (time_before == 60 * 60)
     {
         CAL_DEBUG_LOG("time_before = %d -> E_AM_1HR", time_before);
         alarmFlag = E_AM_1HR;
     }
-    else if (time_before <= 3 * 60 * 60)
+    else if (time_before == 3 * 60 * 60)
     {
         CAL_DEBUG_LOG("time_before = %d -> E_AM_3HR", time_before);
         alarmFlag = E_AM_3HR;
     }
-    else
+    else if (time_before == 24 * 60 * 60)
     {
         CAL_DEBUG_LOG("time_before = %d -> E_AM_DAYBEFORE", time_before);
         alarmFlag = E_AM_DAYBEFORE;
+    }
+    else
+    {
+        CAL_DEBUG_LOG("time_before = %d -> E_AM_EXACTDATETIME", time_before);
+        alarmFlag = E_AM_EXACTDATETIME;
+        time_before = this->iDateStart - time_before;
     }
 
     CAL_DEBUG_LOG("time_before = %d, alarm flag is guessed as %d", time_before, alarmFlag);
