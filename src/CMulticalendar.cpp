@@ -8694,3 +8694,9 @@ int CMulticalendar::getComponentsAllCalendars(int iStDate, int iEndDate, int iLi
     return procs.getComponentsAllCalendars(iStDate,iEndDate,iLimit,iOffset,vComponents,iQueryType);
 }
 
+int CMulticalendar::getComponentsAllCalendarsBySummary(std::string sSummary,int iLimit, int iOffset, vector< CComponent * > & vComponents)
+{
+    CCalendarProcs procs(CCalendarDB::Instance());
+
+    return procs.getComponentsAllCalendarsBySummary(sSummary,iLimit,iOffset,vComponents);
+}

@@ -1,3 +1,9 @@
+calendar-backend (0.7-8) unstable; urgency=low
+
+  * Fixes: NB#157079 - API to fetch calendar entries by text needed
+
+ -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Mon, 05 Apr 2010 10:50:18 +0400
+
 calendar-backend (0.7-7) unstable; urgency=low
 
   * Fixes: NB#149615 - An all day event is appearing one day extra after sync

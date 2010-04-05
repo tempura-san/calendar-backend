@@ -133,6 +133,24 @@ public:
     int getComponentsAllCalendars( int iStDate, int iEndDate,
             int iLimit,int iOffset, vector<CComponent*> &vComponents, int iQueryType=0);
 
+    /**
+    * @param sSummary text for finding in summary of components 
+    *                 (should be specified in format of SQL LIKE operator)
+    * @param iLimit Max limit of components to be obtanined by this function call
+    * @param iOffset offset from which we need to fetch 
+    * @param vComponents Vector for CComponent. If pErrorCode equals to CALENDAR_OPERATION_SUCCESSFUL,
+    *           but vector is empty, no component (from offset to limit) meets the conditions,
+    *           continue fetching
+    * @return error code
+    *          CALENDAR_OPERATION_SUCCESSFUL- fetching is successful and can be continued;
+    *          CALENDAR_FETCH_NOITEMS- fetching is finished (no more items found in DB);
+    *          other error code- fetching is failed.
+    * 
+    * This function is overloaded API for fetching entries for all calendars 
+    * with specified word in summary.
+    */
+    int getComponentsAllCalendarsBySummary(std::string sSummary, int iLimit,int iOffset, 
+            vector<CComponent*> &vComponents);
 private:
     CCalendarDB *m_pDb;
 
