@@ -2886,9 +2886,7 @@ bool CCalendar::checkDuplicateEntry(CComponent * pEntry, int iType,
 
         if (iType == E_EVENT) {
         // GUID should be checked for events only - for Birthdays  it holds contact UIDs.
-            if (pEntry->getGUid().empty())
-                strQuery += " AND uid = ''";
-            else        
+            if (!pEntry->getGUid().empty())
                 strQuery += " AND (uid = '' or uid = " + sqlquoted_string(pEntry->getGUid()) + ")";
         }
     }

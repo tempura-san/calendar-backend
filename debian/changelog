@@ -1,3 +1,9 @@
+calendar-backend (0.7-9) unstable; urgency=low
+
+  * Fixes: NB#142443 - calendar got duplicated entries after performing maesync
+
+ -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Tue, 06 Apr 2010 16:12:39 +0400
+
 calendar-backend (0.7-8) unstable; urgency=low
 
   * Fixes: NB#157079 - API to fetch calendar entries by text needed
