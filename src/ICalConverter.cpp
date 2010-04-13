@@ -2830,11 +2830,14 @@ vector < string > ICalConverter::getRecurrenceDates(string strIcalComp,
         date.substr(strRuleType.size() + 1,
                 date.size() - strRuleType.size() - 1);
 
+        size_t start_val = date.find(':');
+        if (start_val != string::npos)
+            date = date.substr(start_val+1);
+
         /* remove spaces */
         int i1=0;
         while((i1=date.find(' ',i1))!=string::npos) 
             date.erase(i1,1);
-
 
     icalvalue* pVal = icalvalue_new_from_string(ICAL_PERIOD_VALUE, date.c_str());
     int temp = icalvalue_is_valid(pVal);
