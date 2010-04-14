@@ -1,3 +1,9 @@
+calendar-backend (0.6-23) unstable; urgency=low
+
+  * Fixes: NB#164088 - fake journal by CCalendarDB::initDB() should be disabled
+
+ -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Wed, 14 Apr 2010 09:06:21 +0400
+
 calendar-backend (0.6-22) unstable; urgency=low
 
   * Fixes: NB#158802 Calendar alarm notification dismissed with two
