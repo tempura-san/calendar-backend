@@ -5927,6 +5927,12 @@ CComponent *ICalConverter::toLocal(string strIcalComp, FileType iType,
             pEvent->removeAlarm();
         }
     }
+	if ((pEvent->getRecurrence() != 0) && (pEvent->getAlarm() != 0))
+		pEvent->setFlags(HAS_RECURRENCE_ALARM);
+    	else if ((pEvent->getRecurrence() != 0) && (pEvent->getAlarm() == 0))
+		pEvent->setFlags(HAS_RECURRENCE);
+    	else if ((pEvent->getRecurrence() == 0) && (pEvent->getAlarm() != 0))
+		pEvent->setFlags(HAS_ALARM);
     }
     
     else if (kind == ICAL_VTODO_COMPONENT) {
