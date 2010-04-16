@@ -52,12 +52,12 @@ extern "C" {
 // From http://www.sqlite.org/pragma.html:
 //   "The PERSIST journaling mode prevents the rollback journal from being deleted 
 //   at the end of each transaction. Instead, the header of the journal is overwritten with zeros"
-#define PERSIST_JOURNALING_MODE
+//#define PERSIST_JOURNALING_MODE
 
 //! SQL Journal location
 // Comment it out to store journal along with database file
 // NOTE: Make sence of PERSIST_JOURNALING_MODE is defined only
-#define JOURNAL_LOCATION "/var/tmp"
+//#define JOURNAL_LOCATION "/var/tmp"
 
 // number ot times SQL will wait for a second in busy condition
 #define SQL_MAX_ATTEMPTS 10

@@ -2,8 +2,9 @@ calendar-backend (0.7-9) unstable; urgency=low
 
   * Fixes: NB#142443 - calendar got duplicated entries after performing maesync
   * Fixes: NB#148093 - recurrent event: exception for the first event is ignored
+  * Fixes: NB#164475 - fake journal by CCalendarDB::initDB() should be disabled
 
- -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Tue, 13 Apr 2010 13:56:25 +0400
+ -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Fri, 16 Apr 2010 09:23:06 +0400
 
 calendar-backend (0.7-8) unstable; urgency=low
 
