@@ -1,3 +1,9 @@
+calendar-backend (0.7-10) unstable; urgency=low
+
+  * Fixes: NB#155163 - All-day Event Alarm time is not updated correctly
+
+ -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Wed, 21 Apr 2010 11:29:44 +0400
+
 calendar-backend (0.7-9) unstable; urgency=low
 
   * Fixes: NB#142443 - calendar got duplicated entries after performing maesync
