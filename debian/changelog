@@ -2,8 +2,9 @@ calendar-backend (0.7-10) unstable; urgency=low
 
   * Fixes: NB#155163 - All-day Event Alarm time is not updated correctly
   * Fixes: NB#154355 - Event Alarm time is not updated when sync with S60 Phone
+  * Fixes: NB#149615 - An all day event is appearing one day extra after sync
 
- -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Wed, 21 Apr 2010 11:31:51 +0400
+ -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Fri, 23 Apr 2010 16:19:07 +0400
 
 calendar-backend (0.7-9) unstable; urgency=low
 
@@ -22,7 +23,6 @@ calendar-backend (0.7-8) unstable; urgency=low
 
 calendar-backend (0.7-7) unstable; urgency=low
 
-  * Fixes: NB#149615 - An all day event is appearing one day extra after sync
   * Fixes: NB#162185 - Imported calendar events are not deleted in outlook
   * Fixes: NB#149545 - Incorrect Alarms for synchronized events 
   * Fixes: NB#158559 - Priority field shall be updated

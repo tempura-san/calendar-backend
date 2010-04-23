@@ -2661,9 +2661,9 @@ string ICalConverter::localToIcalVcal(CComponent * pEntry, FileType iType,
      *    or mobile         					            *
      *                                                                           *
     *******************************************************************************/
-   if ((iType == VCAL_TYPE) && (globalAllDayFlag== false) && (pEntry->getType()!=E_TODO))  {
+   //if ((iType == VCAL_TYPE) && (globalAllDayFlag== false) && (pEntry->getType()!=E_TODO))  {
         strIcalComp.replace(strIcalComp.find("VERSION:1.0",0),11, strTimeZone.c_str());
-   }
+   //}
 
    replaceWithEncodedString(strIcalComp, (CComponentDetails *)pEntry);
    strIcalComp = this->appendControlM(strIcalComp);
