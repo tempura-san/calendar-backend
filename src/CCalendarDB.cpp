@@ -451,6 +451,10 @@ int CCalendarDB::initDB()
         }
     }
 
+    execSQL("PRAGMA cache_size=100");
+    execSQL("PRAGMA synchronous=off");
+    execSQL("PRAGMA journal_mode=memory");
+
 #ifdef PERSIST_JOURNALING_MODE
     execSQL("PRAGMA journal_mode = PERSIST");
 
