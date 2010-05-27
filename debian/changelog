@@ -1,8 +1,9 @@
 calendar-backend (0.8-1) unstable; urgency=low
 
   * Fixes: NB#158559 - Priority field shall be updated
+  * Fixes: NB#156938 - CMulticalendar::getComponentsAllCalendars incorrect
 
- -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Thu, 27 May 2010 16:26:21 +0400
+ -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Thu, 27 May 2010 16:34:58 +0400
 
 calendar-backend (0.6-23) unstable; urgency=low
 
