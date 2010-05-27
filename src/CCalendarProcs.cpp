@@ -684,3 +684,72 @@ int CCalendarProcs::getComponentsAllCalendars(int iStDate, int iEndDate, int iLi
 
     return retval;
 }
+
+int CCalendarProcs::getComponentsAllCalendarsBySummary(std::string sSummary, int iLimit, int iOffset, 
+        vector< CComponent * > &vComponents)
+{
+    int retval = CALENDAR_APP_ERROR;
+    int iSqliteError = 0;
+
+    vComponents.clear();
+
+    CAL_DEBUG_LOG("sSummary is: %s", sSummary.c_str());
+    CAL_DEBUG_LOG("iLimit is: %d", iLimit);
+    CAL_DEBUG_LOG("iOffset is: %d", iOffset);
+
+    char *query_str = 0;
+
+    query_str =
+            sqlite3_mprintf("SELECT * from Components WHERE "
+                            "(Summary LIKE '%s') AND "
+                            "(calendarId in (select calendarid from calendars where IsVisible =1 ))"
+                            " ORDER BY CalendarId LIMIT %d OFFSET %d ",
+                sSummary.c_str(),
+                iLimit, iOffset);
+
+    SQLiteQuery query(query_str);
+
+    iSqliteError = query.getRecords(m_pDb);
+
+    if (iSqliteError == SQLITE_OK)
+    {
+        if (query.getRowCount() > 0)
+        {
+            for(int i=0; i < query.getRowCount(); i++)
+            {
+                const char **row = query(i);
+                if (row != 0)
+                {
+                    CEvent *entry = createComponentFromTableRecord(row, query.getColumnCount());
+                    if (entry)
+                    {
+                        vComponents.push_back(entry);
+                        CAL_DEBUG_LOG("%s",entry->getSummary().c_str());
+                    }
+                    else
+                    {
+                        CAL_ERROR_LOG("Got NULL vComponents pointer(row = %d)", i);
+                    }
+                }
+                else
+                {
+                    CAL_ERROR_LOG("No more data (row = %d)", i);
+
+                    break;
+                }
+            }
+            retval = CALENDAR_OPERATION_SUCCESSFUL;
+        }
+        else {
+            retval = CALENDAR_FETCH_NOITEMS;
+        }
+    }
+    else
+    {
+        m_pDb->sqliteErrorMapper(iSqliteError, retval);
+    }
+
+    CAL_DEBUG_LOG("size of list is %d, retval %d", vComponents.size(), retval);
+
+    return retval;
+}
