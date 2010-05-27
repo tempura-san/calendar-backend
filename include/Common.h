@@ -229,6 +229,7 @@ const int ONE = 1;
 const int HUNDRED = 100;
 const int NINETEEN_HUNDRED = 1900;
 const int NINE = 9;
+const int MAX_PRIORITY = 255;
 const int EXTERNAL_ENTRY = 8;
 const int SUCCESS = 1;
 const int FAILURE = 0;
