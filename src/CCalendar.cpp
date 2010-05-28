@@ -1024,6 +1024,8 @@ bool CCalendar::setNextAlarm(string sComponentId,int iType, int &pErrorCode)
 	vector <time_t> listtime;
 	CAlarm alarmUtility;
 	time_t dateStart = 0;
+	time_t dateToday = 0;
+	struct tm tmToday;
 	time_t timeDiff = 0;
 	CAlarm *pAlarm = 0;
 	time_t instanceDateStart = 0;
@@ -1044,12 +1046,52 @@ bool CCalendar::setNextAlarm(string sComponentId,int iType, int &pErrorCode)
 			return false;
 		}
 			
-
+		
 		if (pTodo->getFlags() == HAS_ALARM )
-			pTodo->setFlags(-1);
+		{
+			pAlarm = pTodo->getAlarm();
+			dateStart = pAlarm->getTrigger();
+			time_get_local(&tmToday);
+			tmToday.tm_hour = 0;
+			tmToday.tm_min = 0;
+			tmToday.tm_sec = 0;
+			tmToday.tm_isdst = -1;
+			dateToday = mktime(&tmToday);
+			if (dateToday > dateStart)
+			{
+				pTodo->setFlags(-1);
+				pTodo->removeAlarm();
+			}
+			else
+			{
+				int temp;
+				temp =
+					alarmUtility.addAlarmEvent(dateStart,
+							pTodo->getSummary(),
+							pTodo->getLocation(), 
+							dateStart,
+							dateStart,
+							pTodo->getId(),
+							this->getCalendarId(),
+							pTodo->getDescription(),
+							pTodo->getType(),
+							FALSE,
+							pTodo->getTzid(),
+							pErrorCode);
+
+				if (pErrorCode  == CALENDAR_OPERATION_SUCCESSFUL) {
+					cookie.push_back(temp);
+					pAlarm->setCookie(cookie);
+					this->addAlarm(pTodo->getAlarm(), E_MODIFY, 
+							pTodo->getId(),pErrorCode);
+			 		CALENDAR_LOG_ERROR(pErrorCode,"CCALENDAR:setNextAlarm:Add Alarm failed");
+				} 
+			}
+
+		}
 		/* remove the alarm component from event
 		 * object and then modify the event */
-		pTodo->removeAlarm();
+		
 		this->modifyTodo(pTodo, pErrorCode);
 		CALENDAR_LOG_ERROR(pErrorCode,"CCALENDAR:setNextAlarm:Modify Todo Alarm failed");
 		/* if control reaches here it implies 
@@ -1067,7 +1109,7 @@ bool CCalendar::setNextAlarm(string sComponentId,int iType, int &pErrorCode)
 		pEvent = this->getEvent(sComponentId, pErrorCode);
 	else if (iType == E_BDAY)
 		pEvent = this->getBirthDayEvent(sComponentId, pErrorCode);
-
+	
 	if (pEvent == 0) {
 		pErrorCode = CALENDAR_INVALID_ARG_ERROR;
 		return false;

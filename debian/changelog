@@ -3,8 +3,9 @@ calendar-backend (0.8-1) unstable; urgency=low
   * Fixes: NB#158559 - Priority field shall be updated
   * Fixes: NB#156938 - CMulticalendar::getComponentsAllCalendars incorrect
   * Fixes: NB#157079 - API to fetch calendar entries by text needed
+  * Fixes: NB#152824 - Task Alarms can easily dissappear after backup, reboot
 
- -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Thu, 27 May 2010 16:41:03 +0400
+ -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Fri, 28 May 2010 09:40:38 +0400
 
 calendar-backend (0.6-23) unstable; urgency=low
 
