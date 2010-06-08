@@ -105,9 +105,9 @@ bool CComponent::generateYearlyInstanceTime(time_t viewBegin, time_t viewEnd, ve
                 (instance_date.tm_mon == vbegin_date.tm_mon && instance_date.tm_mday < vbegin_date.tm_mday)) {
                 instance_date.tm_year++;
             }
-
+            instance_date.tm_isdst=-1;
             // Get time_t for next birthday occurrence
-            time_t instancedate_time = mktime(&instance_date);
+            time_t instancedate_time = time_mktime(&instance_date, getTzid().c_str());
             CAL_DEBUG_LOG("Instance '%s'(%d.%d) TZ='%s' date %s, time=%ld\n",
                               getSummary().c_str(),
                               instance_date.tm_mday,

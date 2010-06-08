@@ -3284,12 +3284,13 @@ bool CMulticalendar::enableAutomaticDeletion(int iDayBefore,int iMax,int &iLimit
 			icaltime_from_timet_with_zone (pTemp->getDateStart(),0, pTz),
 			iDayBefore,pTz,pErrorCode);
 		if (dateStartModified) {
-		    pTemp->setDateStart(dateStartModified);
-		    pTemp->setDateEnd(dateStartModified + timeDiff);
+			if(dateStartModified!=pTemp->getDateStart()) {
+				pTemp->setDateStart(dateStartModified);
+				pTemp->setDateEnd(dateStartModified + timeDiff);
 
-		    /* Modify Component list is collected per Calendar  */
-		    listComp.push_back(pTemp);
-
+				/* Modify Component list is collected per Calendar  */
+				listComp.push_back(pTemp);
+			}
 		} 
 		else{
 		    /* deletion list for all calendars */
