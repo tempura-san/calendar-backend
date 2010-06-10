@@ -1,8 +1,9 @@
 calendar-backend (0.8-3) unstable; urgency=low
 
   * Fixes: NB#149615 - An all day event is appearing one day extra after sync
+  * Fixes: NB#149545 - Incorrect Alarms for synchronized events
 
- -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Thu, 10 Jun 2010 14:37:13 +0400
+ -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Thu, 10 Jun 2010 14:45:38 +0400
 
 calendar-backend (0.8-2) unstable; urgency=low
 
