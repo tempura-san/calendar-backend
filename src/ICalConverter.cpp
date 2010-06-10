@@ -3109,41 +3109,24 @@ if (pComp) {
     pre_offset = pEntry->getDateStart() - alarm->getTrigger();
     if (pEntry->getType() == E_EVENT)
     {
-        if(pEntry->getAllDay() == 1) {
-            CAL_DEBUG_LOG ("Synced all day event. Alarm offset is %ld", (long)pre_offset);
-            alarm->setDuration(E_AM_DAYBEFORE);
-
-            if (pre_offset < 0)
-            {
-                // TODO remove this hack if calenda will support any-time-alarms
-                CAL_ERROR_LOG ("Alarm in same day as event. Adjust to 15 mins before");
-                alarm->setTimeBefore(60*15);
-            }
-            else
-            {
-                alarm->setTimeBefore(pre_offset);
-            }
-        }
-        else {
-        	if (pre_offset == 0)
-        		alarm->setDuration(E_AM_ETIME);
-        	else if (pre_offset == 300)
-        		alarm->setDuration(E_AM_5MIN);
-        	else if (pre_offset == 900)
-        		alarm->setDuration(E_AM_15MIN);
-        	else if (pre_offset == 1800)
-        		alarm->setDuration(E_AM_30MIN);
-        	else if (pre_offset == SEC_IN_HR)
-        		alarm->setDuration(E_AM_1HR);
-        	else if (pre_offset == 3 * SEC_IN_HR)
-        		alarm->setDuration(E_AM_3HR);
-        	else if (pre_offset == 24 * SEC_IN_HR){
-        		alarm->setDuration(E_AM_DAYBEFORE);
-			alarm->setTrigger( pEntry->getDateStart() - 24*SEC_IN_HR);
-        	}else{ 
-			alarm->setDuration(E_AM_EXACTDATETIME);
-			alarm->setTimeBefore(pre_offset);	
-        	}
+	if (pre_offset == 0)
+        	alarm->setDuration(E_AM_ETIME);
+        else if (pre_offset == 300)
+        	alarm->setDuration(E_AM_5MIN);
+        else if (pre_offset == 900)
+        	alarm->setDuration(E_AM_15MIN);
+        else if (pre_offset == 1800)
+        	alarm->setDuration(E_AM_30MIN);
+        else if (pre_offset == SEC_IN_HR)
+        	alarm->setDuration(E_AM_1HR);
+        else if (pre_offset == 3 * SEC_IN_HR)
+        	alarm->setDuration(E_AM_3HR);
+        else if (pre_offset == 24 * SEC_IN_HR){
+        	alarm->setDuration(E_AM_DAYBEFORE);
+		alarm->setTrigger( pEntry->getDateStart() - 24*SEC_IN_HR);
+        }else{ 
+		alarm->setDuration(E_AM_EXACTDATETIME);
+		alarm->setTimeBefore(pre_offset);	
         }
     }
     else if (pEntry->getType() == E_TODO)
