@@ -6521,8 +6521,8 @@ void CMulticalendar::deleteComponents(
     }
 
     CalId = iCalId;
-    changeCount = changeCount + idList.size();
-    changeFlag = changeFlag | EVENT_DELETED;
+    changeCount++;
+    changeFlag = changeFlag | CALENDAR_DELETED;
 
     for (vector<string>::iterator iter=idList.begin();
          iter != idList.end();
@@ -6533,7 +6533,36 @@ void CMulticalendar::deleteComponents(
 
 
     /* commit in successful scenario */
-    this->commitAllChanges();
+    if(this->commitAllChanges())
+    {
+        CCalendarDB *pCalDb = CCalendarDB::Instance();
+        if (pCalDb == 0) 
+        {
+            CAL_DEBUG_LOG("invalid CalendarDB pointer ");
+        }
+        else
+        {
+            string szMessage;
+            std::stringstream ss;
+            string szIds;
+
+            CalId = iCalId;
+            changeCount = changeCount + idList.size();
+            szMessage.append(AppName);
+            szMessage.append(MSG_SEPERATOR);
+            ss << CalId;
+            szMessage.append(ss.str());
+            szMessage.append(E_DELETED);
+            conpIdListToString(compIdsDeleted, szIds);
+            szMessage.append(intToString(changeCount));
+            szMessage.append(":");
+            szMessage.append(szIds);
+            pCalDb->sendDBusMessage(szMessage);
+            changeFlag = 0;
+            changeCount = 0;
+            compIdsDeleted.clear();
+        }
+    }
     delete pCal;
     pCal =0;
 

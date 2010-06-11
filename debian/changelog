@@ -1,3 +1,9 @@
+calendar-backend (0.8-4) unstable; urgency=low
+
+  * Fixes: NB#163485 - Imported calendar events are not deleted in outlook
+
+ -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Fri, 11 Jun 2010 11:52:24 +0400
+
 calendar-backend (0.8-3) unstable; urgency=low
 
   * Fixes: NB#149615 - An all day event is appearing one day extra after sync
