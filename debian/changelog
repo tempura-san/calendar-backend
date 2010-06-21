@@ -8,7 +8,6 @@ calendar-backend (0.8-3) unstable; urgency=low
 
   * Fixes: NB#149615 - An all day event is appearing one day extra after sync
   * Fixes: NB#149545 - Incorrect Alarms for synchronized events
-  * Fixes: NB#154355 - Event Alarm time is not updated when sync with S60 Phone
 
  -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Thu, 10 Jun 2010 14:47:25 +0400
 
