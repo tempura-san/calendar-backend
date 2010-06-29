@@ -302,12 +302,7 @@ bool CComponent::setAlarmBefore(int time_before)
 {
     int alarmFlag = E_AM_ETIME;
 
-    if (iAllDay)
-    {
-        CAL_DEBUG_LOG("time_before = %d -> E_AM_DAYBEFORE (All Day event)", time_before);
-        alarmFlag = E_AM_DAYBEFORE;
-    }
-    else if (time_before == 0)
+    if (time_before == 0)
     {
         CAL_DEBUG_LOG("time_before = %d -> E_AM_ETIME", time_before);
         alarmFlag = E_AM_ETIME;

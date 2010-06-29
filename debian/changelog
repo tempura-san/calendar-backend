@@ -1,3 +1,9 @@
+calendar-backend (0.8-5) unstable; urgency=low
+
+  * Fixes: NB#175042 - Change the widget to set alarm for birthday and full day
+
+ -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Tue, 29 Jun 2010 12:32:10 +0400
+
 calendar-backend (0.8-4) unstable; urgency=low
 
   * Fixes: NB#163485 - Imported calendar events are not deleted in outlook
