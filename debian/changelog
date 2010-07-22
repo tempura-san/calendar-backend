@@ -1,3 +1,9 @@
+calendar-backend (0.8-6) unstable; urgency=low
+
+  * Fixes: NB#178453 - Unable to sync calendar task when device has a task
+
+ -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Thu, 22 Jul 2010 12:38:51 +0400
+
 calendar-backend (0.8-5) unstable; urgency=low
 
   * Fixes: NB#175042 - Change the widget to set alarm for birthday and full day
