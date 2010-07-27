@@ -1,3 +1,10 @@
+calendar-backend (0.8-6+0m5) unstable; urgency=low
+
+  * This entry has been added by BIFH queue processor
+    version has been changed to 0.8-6+0m5
+
+ -- Piyush Laddha <ext-piyush.laddha@nokia.com>  Tue, 27 Jul 2010 14:16:40 +0300
+
 calendar-backend (0.8-6) unstable; urgency=low
 
   * Fixes: NB#178453 - Unable to sync calendar task when device has a task
