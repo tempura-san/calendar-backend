@@ -1,5 +1,5 @@
 Source: calendar-backend
-Section: office 
+Section: office
 Priority: optional
 Maintainer: Andrey Moiseenko <andrey.moiseenko@nokia.com>
 Uploaders: Andrey Moiseenko <andrey.moiseenko@nokia.com>
@@ -9,7 +9,7 @@ Standards-Version: 3.8.0
 Package: calendar-backend
 Architecture: any
 Section: libs
-Depends: ${shlibs:Depends}, ${misc:Depends}, clockd, alarmd
+Depends: ${shlibs:Depends}, ${misc:Depends}, clockd, alarmd, kernel-feature-errata-430973-workaround [armel]
 Description: Calendar backend libraries
  This package contains calendar backend libraries.
 
@@ -18,7 +18,7 @@ Architecture: any
 Section: libs
 Priority: extra
 Depends: calendar-backend (= ${binary:Version})
-Description: Calendar backend application
+Description: Calendar backend debug symbols
  This package contains debug symbols for Calendar application
 
 Package: calendar-backend-dev

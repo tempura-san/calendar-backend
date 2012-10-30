@@ -1,8 +1,8 @@
-calendar-backend (0.8-6) unstable; urgency=low
+calendar-backend (0.8-6+0m5+0cssu1+thumb1) unstable; urgency=low
 
-  * Fixes: NB#178453 - Unable to sync calendar task when device has a task
+  * Thumb2 compile
 
- -- Alexey Khoraskin <Alexey.Horaskin@teleca.com>  Thu, 22 Jul 2010 12:38:51 +0400
+ -- Ivaylo Dimitrov <freemangordon@abv.bg>  Tue, 30 Oct 2012 16:46:33 +0200
 
 calendar-backend (0.8-5) unstable; urgency=low
 
@@ -151,7 +151,7 @@ calendar-backend (0.6-7) unstable; urgency=low
 calendar-backend (0.6-6) unstable; urgency=low
 
   * Fixes: NB#145162 Crash when syncing Nokia calendar via MfE
-  * Fixes: NB#139647 Coverity issues 
+  * Fixes: NB#139647 Coverity issues
   * Fixes: NB#150175 Fix crash in ICalConverter::toLocal
 
  -- Eugene Agafonov <Eugeniy.Agafonov@teleca.com>  Thu, 10 Dec 2009 13:04:39 +0300
@@ -204,7 +204,7 @@ calendar-backend (0.5-9.13) unstable; urgency=low
 calendar-backend (0.5-9.12) unstable; urgency=low
 
   * Week 46, 2009 - Wednesday
-  * 
+  *
   * Fixes NB#145192 Memleaks
 
  -- Ilias Biris <ilias.biris@nokia.com>  Wed, 11 Nov 2009 14:57:19 +0300
@@ -212,7 +212,7 @@ calendar-backend (0.5-9.12) unstable; urgency=low
 calendar-backend (0.5-9.11) unstable; urgency=low
 
   * Week 46, 2009 - Monday
-  * 
+  *
   * Fixes NB#140928 Friendly API to set/get alarm for events
   * Support alarms with fixed date/time
 
@@ -230,7 +230,7 @@ calendar-backend (0.5-9.10) unstable; urgency=low
 calendar-backend (0.5-9.9) unstable; urgency=low
 
   * Week 44, 2009 - Thursday
-  * 
+  *
   * Fixes: NB#140928 Friendly API to set/get alarm for events
   * Fixes: NB#142569 Calendar alarms for deleted occurances of recurring meeting
 
@@ -256,7 +256,7 @@ calendar-backend (0.5-9.7) unstable; urgency=low
 calendar-backend (0.5-9.6) unstable; urgency=low
 
   * Week 40, 2009 - Thursday
-  * 
+  *
   * Fixes: NB#133719 Deleted event in Contacts application is still displayed in Birthdays calendar.
 
  -- Ilias Biris <ilias.biris@nokia.com>  Thu, 01 Oct 2009 17:53:04 +0400
@@ -272,7 +272,7 @@ calendar-backend (0.5-9.5) unstable; urgency=low
 calendar-backend (0.5-9.4) unstable; urgency=low
 
   * Week 40, 2009 - Monday
-  * 
+  *
   * Fixes: NB#138946 Syncd crash observed while synchronizing all data with PC suite
 
  -- Ilias Biris <ilias.biris@nokia.com>  Fri, 25 Sep 2009 18:18:08 +0400
@@ -591,9 +591,9 @@ calendar-backend (0.5-8.34) unstable; urgency=low
  -- Ilias Biris <ilias.biris@nokia.com>  Fri, 26 Jun 2009 16:46:02 +0300
 
 calendar-backend (0.5-8.33) unstable; urgency=low
-  
+
   * Week 26, 2009 - third release
-  * 
+  *
   * Fixes: NB#118182 Low Calendar performance when several events are in DB
 
  -- Ilias Biris <ilias.biris@nokia.com>  Wed, 24 Jun 2009 17:06:44 +0300
@@ -601,7 +601,7 @@ calendar-backend (0.5-8.33) unstable; urgency=low
 calendar-backend (0.5-8.32) unstable; urgency=low
 
   * Week 26, 2009 - second release
-  * 
+  *
   * Fixes: NB#117244	Moving to event view from day view or week view or agenda view
   *  	is really slow
   * Fixes: NB#121199	SQL crash
@@ -621,7 +621,7 @@ calendar-backend (0.5-8.32) unstable; urgency=low
 calendar-backend (0.5-8.31) unstable; urgency=low
 
   * Week 26, 2009 - first release
-  *  
+  *
   * Fixes: NB#123574	populating the Instances table is slow
 
  -- Ilias Biris <ilias.biris@nokia.com>  Thu, 18 Jun 2009 17:03:28 +0300
@@ -633,7 +633,7 @@ calendar-backend (0.5-8.30) unstable; urgency=low
   * Fixes: NB#120530	Extra string "rn" is getting added in event's description after
   *  resolving conflict
   * Fixes: NB#122659	New tasks start/End date is changed to todays date in
-    RX-51 
+    RX-51
   * Fixes: NB#122698	Time based event gets converted to multiple day time based event
   *  on importing.
   * Fixes: NB#122808	In task the alarm time and icon should be removed after the sync
@@ -683,7 +683,7 @@ calendar-backend (0.5-8.27) unstable; urgency=low
 calendar-backend (0.5-8.26) unstable; urgency=low
 
   * Week 23, 2009 - Third release
-  * Fixes: NB#12007 crash reported on RX-51 when trying to sync from n81 after failed syncs  
+  * Fixes: NB#12007 crash reported on RX-51 when trying to sync from n81 after failed syncs
   * Fixes: NB#119988 Syncd crashes every time while synchronizing with  PC/Phone.
 
  -- Ilias Biris <ilias.biris@nokia.com>  Tue, 02 Jun 2009 14:57:55 +0300
@@ -691,8 +691,8 @@ calendar-backend (0.5-8.26) unstable; urgency=low
 calendar-backend (0.5-8.25) unstable; urgency=low
 
   * Week 23, 2009 - second release
-  * Fixes: NB#112957	Synchronization of content with special characters with N80 phone results in corrupted characters 
-  * Fixes: NB#117228	The Task marked as done is not shown in the task list when the time zone is different. 
+  * Fixes: NB#112957	Synchronization of content with special characters with N80 phone results in corrupted characters
+  * Fixes: NB#117228	The Task marked as done is not shown in the task list when the time zone is different.
   * Fixes: NB#104846	Description, location and title of event created in RX-51 with special characters display junk in Calendar view.
 
  -- Ilias Biris <ilias.biris@nokia.com>  Sun, 31 May 2009 14:57:55 +0300
@@ -701,7 +701,7 @@ calendar-backend (0.5-8.24) unstable; urgency=low
 
   * Week 23, 2009 - first release
   * Fixes: NB#119105	Corematic crash in Syncd: pvl_head at pvl.c:544
-  * Fixes: NB#118757	<MemLeak> IcalConverter.cpp need to call to icaltimezone_free_builtin_timezones in destructor 
+  * Fixes: NB#118757	<MemLeak> IcalConverter.cpp need to call to icaltimezone_free_builtin_timezones in destructor
 
  -- Ilias Biris <ilias.biris@nokia.com>  Fri, 29 May 2009 12:23:25 +0300
 
@@ -709,7 +709,7 @@ calendar-backend (0.5-8.23) unstable; urgency=low
 
   * Week 22, 2009 - second release
   * Fixes:NB#114288	Crash in syncd when releasing the CMultiCalendar instance
-  * Fixes:NB#118345	Calendar application opens with default view on tapping Birthday field in the Contact starter view 	
+  * Fixes:NB#118345	Calendar application opens with default view on tapping Birthday field in the Contact starter view
   * Fixes:NB#118674	<MemoryLeak> Memory leaks and other findings in ICalConverter.cpp
 
  -- Ilias Biris <ilias.biris@nokia.com>  Tue, 26 May 2009 15:08:16 +0300
@@ -717,27 +717,27 @@ calendar-backend (0.5-8.23) unstable; urgency=low
 calendar-backend (0.5-8.22) unstable; urgency=low
 
   * Week 22, 2009 - first release on Friday
-  * 
-  * Fixes: NB#116991 Single occurance meeting synced from phone when made a repeated meeting 
-  *		on RX-51 and resynced is not updated on Phone as a repeated meeting 
-  * Fixes: NB#115986 Calendar Event does not pass DAYLIGHT param with TZ info 
-  * Fixes: NB#114362 Getting all events from calendar slow 
-  * Fixes: NB#117482 <MemLeak?> CUtility.cpp memory leak in CUtility::releasePropertiesVector 
-  * Fixes: NB#117450 Event count shown as "0" when application is relaunched after importing 
-  * Fixes: NB#96851 Birthday events are not shown in agenda applet 
-  * Fixes: NB#117677 unnecessary db reading during startup phase 
-  * Fixes: NB#117913 Event parcing is not correct 
+  *
+  * Fixes: NB#116991 Single occurance meeting synced from phone when made a repeated meeting
+  *		on RX-51 and resynced is not updated on Phone as a repeated meeting
+  * Fixes: NB#115986 Calendar Event does not pass DAYLIGHT param with TZ info
+  * Fixes: NB#114362 Getting all events from calendar slow
+  * Fixes: NB#117482 <MemLeak?> CUtility.cpp memory leak in CUtility::releasePropertiesVector
+  * Fixes: NB#117450 Event count shown as "0" when application is relaunched after importing
+  * Fixes: NB#96851 Birthday events are not shown in agenda applet
+  * Fixes: NB#117677 unnecessary db reading during startup phase
+  * Fixes: NB#117913 Event parcing is not correct
   * Fixes: NB#117362 Two events with same summary on different dates does not import to calendar
-  * Fixes: NB#117263 Calendardb file gets locked on synchronization. 
-  * Fixes: NB#117935 <MemLeak?> ICalConverter.cpp need to call to icalmemory_free_ring() at the end of operation 
+  * Fixes: NB#117263 Calendardb file gets locked on synchronization.
+  * Fixes: NB#117935 <MemLeak?> ICalConverter.cpp need to call to icalmemory_free_ring() at the end of operation
   * Fixes: NB#117892 <MemLeak?> ICalConverter.cpp memory leak for attach created from url
-  * Fixes: NB#117397 Birthday event is created on '01.01.2038' date in Calendar when birthday event 
-  *		is created in Contacts application 
-  * Fixes: NB#117874 Batch add of calendar completely fails even if one particular event addition is failed 
-  * Fixes: NB#117042 "Unable to load" calendar application in specific scenario 
-  * Fixes: NB#102184 Progress indication not shown when importing 
-  * Fixes: NB#118185 Order of Navigation between the events is not proper 
-  * Fixes: NB#108916 Calendar application start-up time shall be improved 
+  * Fixes: NB#117397 Birthday event is created on '01.01.2038' date in Calendar when birthday event
+  *		is created in Contacts application
+  * Fixes: NB#117874 Batch add of calendar completely fails even if one particular event addition is failed
+  * Fixes: NB#117042 "Unable to load" calendar application in specific scenario
+  * Fixes: NB#102184 Progress indication not shown when importing
+  * Fixes: NB#118185 Order of Navigation between the events is not proper
+  * Fixes: NB#108916 Calendar application start-up time shall be improved
 
  -- Ilias Biris <ilias.biris@nokia.com>  Fri, 22 May 2009 14:35:02 +0300
 
@@ -788,18 +788,18 @@ calendar-backend (0.5-8.19) unstable; urgency=low
 
 calendar-backend (0.5-8.18) unstable; urgency=low
 
-  * Week 19-2 release. 
-  * Fixes: NB#98361 - Next event menu option not shown when two events start at same time 
-  * Fixes: NB#102209 - <MemLeak> Calendar-objects not freed & redundant code 
-  * Fixes: NB#103780 - Modifying the Task due date in RX-51 also modifies the start date. 
-  * Fixes: NB#104812 - Event date is not matching with UI added on editing a complex event 
+  * Week 19-2 release.
+  * Fixes: NB#98361 - Next event menu option not shown when two events start at same time
+  * Fixes: NB#102209 - <MemLeak> Calendar-objects not freed & redundant code
+  * Fixes: NB#103780 - Modifying the Task due date in RX-51 also modifies the start date.
+  * Fixes: NB#104812 - Event date is not matching with UI added on editing a complex event
   * Fixes: NB#108795 - Task created without dates in PC gets duplicated in both RX-51 and PC on successive synchronizations.
-  * Fixes: NB#110079 - Synchronized anniversary event from phone not shown properly in RX-51 
-  * Fixes: NB#110778 - Single day event gets converted to multiple day in certain senerio 
-  * Fixes: NB#111961 - On syncing an Anniversary event from N95, event time always shown as 11:59 to 11:59 and alarm as "3 hours before" in Event view 
-  * Fixes: NB#112093 - UI of events in calendar views is not proper with respect to GMT 
-  * Fixes: NB#113552 - Added events are not updating with changes made to the repeat until date(repeat monthly) 
-  * Fixes: NB#113843 - <Logic> CMulticalendar.cpp CMulticalendar.h caching has been removed without documents update 
+  * Fixes: NB#110079 - Synchronized anniversary event from phone not shown properly in RX-51
+  * Fixes: NB#110778 - Single day event gets converted to multiple day in certain senerio
+  * Fixes: NB#111961 - On syncing an Anniversary event from N95, event time always shown as 11:59 to 11:59 and alarm as "3 hours before" in Event view
+  * Fixes: NB#112093 - UI of events in calendar views is not proper with respect to GMT
+  * Fixes: NB#113552 - Added events are not updating with changes made to the repeat until date(repeat monthly)
+  * Fixes: NB#113843 - <Logic> CMulticalendar.cpp CMulticalendar.h caching has been removed without documents update
   * Fixes: NB#104617 - Alarm value for time based event is not proper on importing complex event
   * Fixes: NB#114373 - All day repeat event is not created properly for every day/ every workday option
   * Fixes: NB#114294 - Crash is observed on launching calendar application after creating a contact with birthday in contacts
@@ -808,7 +808,7 @@ calendar-backend (0.5-8.18) unstable; urgency=low
 
 calendar-backend (0.5-8.17) unstable; urgency=low
 
-  * Week 19-1 release. 
+  * Week 19-1 release.
   * Fixes: NB#111501 - Error occured banner is displayed on adding new items under memory full condition
   * Fixes: NB#112552 - Events/tasks shown in agenda applet for a hidden calendar
 
@@ -835,7 +835,7 @@ calendar-backend (0.5-8.15) unstable; urgency=low
 calendar-backend (0.5-8.14) unstable; urgency=low
 
   * Week 17-2 release.
-  * Fixes: NB#111312 - Wrong function signatures (missing &-marks)  
+  * Fixes: NB#111312 - Wrong function signatures (missing &-marks)
 
  -- Ilias Biris <ilias.biris@nokia.com>  Fri, 17 Apr 2009 18:07:04 +0300
 
@@ -905,7 +905,7 @@ calendar-backend (0.5-8.6) unstable; urgency=low
 calendar-backend (0.5-8.5) intrepid; urgency=low
 
   * Wk14-4-1
-  * Fixes: NB#107618 - alarm dialog sometimes does not respond for repeating calendar events  
+  * Fixes: NB#107618 - alarm dialog sometimes does not respond for repeating calendar events
 
  -- Ilias Biris <ilias.biris@nokia.com>  Thu, 02 Apr 2009 13:04:23 +0300
 
@@ -937,14 +937,14 @@ calendar-backend (0.5-8.2) unstable; urgency=low
  -- Ilias Biris <ilias.biris@nokia.com>  Mon, 30 Mar 2009 16:13:41 +0300
 
 calendar-backend (0.5-8.1) unstable; urgency=low
- 
+
   * Wk14-1 release.
   * Fixes: NB#107402 - Calendar crashes while importing an .ics file
 
  -- Ilias Biris <ilias.biris@nokia.com>  Thu, 27 Mar 2009 13:30:00 +0200
 
 calendar-backend (0.5-7.10) unstable; urgency=low
- 
+
   * Wk13-5 release.
   * Fixes: NB#103975 - All Day event created for one day is synchronized as two day event in PC.
   * Fixes: NB#104589 - All day events from S60 phone look like hour events in the calendar week view
@@ -990,66 +990,66 @@ calendar-backend (0.5-7.6) unstable; urgency=low
   * Fixes: NB#105865 - Alarm value not shown properly when events with alarm
     are synced from phone to RX-51
   * Fixes: NB#105963 - Alarm dialog displayed for the deleted event
-    
+
  -- Ilias Biris <ilias.biris@nokia.com>  Thu,  19 Mar 2009 14:30:00 +0300
-  
+
 calendar-backend (0.5-7.5) unstable; urgency=low
   * Wk12-4 Release
   * Fixes: NB#104669 - Added event with subject name including "," from launch
            by application is not updating properly in device
   * Fixes: NB#106206 - Not able to import .ics file to calendar
-    
+
  -- Ilias Biris <ilias.biris@nokia.com>  Mon,  18 Mar 2009 13:00:00 +0300
-  
+
 calendar-backend (0.5-7.4) unstable; urgency=low
   * Wk12-3 Release
   * Fixes: NB#98938 - Events and Notes are always synchronized to Synchronized calendar, when
            new calendar is created.
   * Fixes: NB#104061 Birthday calendar is not imported with birthday events.
-    
+
  -- Ilias Biris <ilias.biris@nokia.com>  Mon,  17 Mar 2009 13:00:00 +0300
-  
+
 calendar-backend (0.5-7.3) unstable; urgency=low
   * Wk12-2 Release
   * Added API CMulticalendar::clearCalendar to Clear Calendar contents
-    
+
  -- Ilias Biris <ilias.biris@nokia.com>  Mon,  16 Mar 2009 13:00:00 +0300
-  
+
 calendar-backend (0.5-7.2) unstable; urgency=low
   * Wk12-1 Release
   * Fixes: NB#105494 - Involving calendar when syncing between PC and RX-51
            fails over BT and USB
   * Fixes: NB#105706 - Calendar crashed on importing 1000 events
-    
+
  -- Ilias Biris <ilias.biris@nokia.com>  Thu,  13 Mar 2009 13:00:00 +0300
-  
+
 calendar-backend (0.5-7.1) unstable; urgency=low
   * Wk11-4 Release
   * Fixes: NB#105314 - Calendar crashed on importing only notes.
   * Fixes: NB#105165 - Event view displayed blank when importing single event.
   * Fixes: NB#105173 - Calendar entries not getting synchronized.
-    
+
  -- Ilias Biris <ilias.biris@nokia.com>  Thu,  12 Mar 2009 17:00:00 +0300
-  
+
 calendar-backend (0.5-7.0) unstable; urgency=low
   * Wk11-3 Release
-  * Fixes: NB#105103 - Event created in RX51 is missing in day view and 
+  * Fixes: NB#105103 - Event created in RX51 is missing in day view and
            is visible in Month view.
   * Fixes: NB#100019 - Synchronised events does not update dynamically in
            calendar on deletion.
-    
+
  -- Ilias Biris <ilias.biris@nokia.com>  Tue,  10 Mar 2009 17:00:00 +0300
-  
+
 calendar-backend (0.5-6.9) unstable; urgency=low
   * Wk11-2 Release
   * Fixes: NB#99872 - Description of task in microsoft outlook is displayed as
            =0D=0A
   * Fixes: NB#99873 - Only first few words of description are shown in RX-51.
-    
+
  -- Ilias Biris <ilias.biris@nokia.com>  Mon,  09 Mar 2009 17:00:00 +0300
-  
+
 calendar-backend (0.5-6.8) unstable; urgency=low
-  * Wk11-1 Release 
+  * Wk11-1 Release
   * Fixes: NB#94412 - CodeReview: calendar backend does not set the error code in any
            function and uses return values for error conditions
   * Fixes: NB#99638 - Unable to retrieve a task when it has a alarm
@@ -1077,7 +1077,7 @@ calendar-backend (0.5-6.8) unstable; urgency=low
  -- Ilias Biris <ilias.biris@nokia.com>  Fri,  06 Mar 2009 13:00:00 +0300
 
 calendar-backend (0.5-6.7) unstable; urgency=low
-  * Wk10 Release 
+  * Wk10 Release
   * Fixes: NB#97615 No alarm notification dailog for events/tasks on change the device
            date to forward
   * Fixes: NB#98942 Code review: Potential memory leaks around the whole backend regarding
@@ -1111,7 +1111,7 @@ calendar-backend (0.5-6.7) unstable; urgency=low
 calendar-backend (0.5-6.6) unstable; urgency=low
   * Wk09 release
   * Fixes: NB#91776 Invalid calendar file is displayed on importing .ics file
-  * Fixes: NB#96702 Synchronized task from PC with High Priority is synchronized 
+  * Fixes: NB#96702 Synchronized task from PC with High Priority is synchronized
            back to PC as Medium priority.
   * Fixes: NB#97088 Alarm Functionality of repeat event is not proper
   * Fixes: NB#98438 Code review: Unit tests are broken: it does seg faults
@@ -1123,7 +1123,7 @@ calendar-backend (0.5-6.6) unstable; urgency=low
   * Fixes: NB#101887 Syncd crashed while synchronizing with PC SUITE via USB
   * Fixes: NB#101984 Code review: Uninitialized variables in constructor
   * Fixes: NB#102027 Calendar crashed when single event is being imported
-  * Fixes: NB#102409 <MemLeak> ICalConverter.cpp char array was not deleted 
+  * Fixes: NB#102409 <MemLeak> ICalConverter.cpp char array was not deleted
            properly and may lead to memory leak.
   * Fixes: NB#102454 Missing package dependencies..
 
@@ -1197,19 +1197,19 @@ calendar-backend (0.5-6.1) unstable; urgency=low
  -- Ilias Biris <ilias.biris@nokia.com>  Tue,  13 Jan 2009 11:06:32 +0300
 
 calendar-backend (0.5-6.0) unstable; urgency=low
-  * WK03 Release 	
-  * Fixes: NB#96753 visible calendar bug 
+  * WK03 Release
+  * Fixes: NB#96753 visible calendar bug
   * Moved updation of trash trash to CCalendar from CMulticalenda
   * changed the signature of addAlarmEvent API
-  * Api to fetch events/Bdays/todos for a calendar at one instance  
+  * Api to fetch events/Bdays/todos for a calendar at one instance
 
  -- Ilias Biris <ilias.biris@nokia.com>  Wed,  07 Jan 2009 11:06:32 +0300
 
 calendar-backend (0.5-5.9) unstable; urgency=low
   * Week 02 release.
   * Fixed problems with Alarm Dialog
-  * Added API to fetch all data for all calendars 
-  * Added Alarm registration for visible caelndars 
+  * Added API to fetch all data for all calendars
+  * Added Alarm registration for visible caelndars
   * Fixes: NB#90532 Event margin is not shown in week view
   * Fixes: NB#93949 Invalid UTF-8 string is displayed in Task title on entering
            special characters
@@ -1219,17 +1219,17 @@ calendar-backend (0.5-5.9) unstable; urgency=low
 
 calendar-backend (0.5-5.8) unstable; urgency=low
   * Week 01 Friday  release.
-  * Fixes: NB#96688 Completed field has invalid value 
+  * Fixes: NB#96688 Completed field has invalid value
   * Fixes: NB#96639 unable to open calendar after pc suite sync
-  * Fixes: NB#96101 Event with same date is shown across 
+  * Fixes: NB#96101 Event with same date is shown across
   * Fixes: NB#96611 event count for Bday calendars not shown
-  * Fixes: NB#95191 Multiple tasks getting deleted 	  
+  * Fixes: NB#95191 Multiple tasks getting deleted
 
  -- Ilias Biris <ilias.biris@nokia.com>  Fri,  25 Dec 2008 11:06:32 +0300
 
 calendar-backend (0.5-5.7) unstable; urgency=low
   * Week 51 Thursday  release.
-  * optimised startuptime( added new API in backend to achieve the same) 
+  * optimised startuptime( added new API in backend to achieve the same)
 
  -- Ilias Biris <ilias.biris@nokia.com>  Thu,  18 Dec 2008 11:06:32 +0300
 
@@ -1241,15 +1241,15 @@ calendar-backend (0.5-5.6) unstable; urgency=low
 
 calendar-backend (0.5-5.5) unstable; urgency=low
   * Week 51 release.
-  * Fixes: NB#94786 New calendar is not seen as soon 
+  * Fixes: NB#94786 New calendar is not seen as soon
           as it is created in sync applet.
   * Added Id mappnig for birthday contacts, added 2 new API.
-  * Changed the access type for getAllCalendars 
-  * Added DBUS broadcast message in case of add/modif/delete 
+  * Changed the access type for getAllCalendars
+  * Added DBUS broadcast message in case of add/modif/delete
    Calendar
   * added fixes for alarm import.
   * Fixes: NB#95122 allday event  imported as two day event
-  * Fixes: NB#95721 - logging in calendar backend 
+  * Fixes: NB#95721 - logging in calendar backend
 
  -- Ilias Biris <ilias.biris@nokia.com>  Mon,  15 Dec 2008 13:06:32 +0300
 
@@ -1269,16 +1269,16 @@ calendar-backend (0.5-5.4) unstable; urgency=low
 
 calendar-backend (0.5-5.3) unstable; urgency=low
   * Week 50 release.
-  * Fixes: NB# 87172 Prev/Next buttons are not working 
+  * Fixes: NB# 87172 Prev/Next buttons are not working
   * Fixes: NB# 91330 unable to restore calendar database
-  * Fixes: NB# 93598 syncd Crashes observed in backend 
+  * Fixes: NB# 93598 syncd Crashes observed in backend
 
  -- Ilias Biris <ilias.biris@nokia.com>  Tue,  2 Dec 2008 13:06:32 +0300
 
 calendar-backend (0.5-5.2) unstable; urgency=low
   * Week 49 release.
   * Made changes in alarm implementation
-  * Default calendar API changed in backend 
+  * Default calendar API changed in backend
 
  -- Ilias Biris <ilias.biris@nokia.com>  Tue, 25 Nov 2008 13:06:32 +0300
 
@@ -1295,17 +1295,17 @@ calendar-backend (0.5-5.1) unstable; urgency=low
 calendar-backend (0.5-5) unstable; urgency=low
 
   * Week 47 release.
-  * Fixed utc bugs on birthday event. 
-  * Changes to import logic in calendar backend. 
-  * Duplicate check is done for tasks and events. 
-  * Provided API for prev and next event. 
+  * Fixed utc bugs on birthday event.
+  * Changes to import logic in calendar backend.
+  * Duplicate check is done for tasks and events.
+  * Provided API for prev and next event.
 
  -- Ilias Biris <ilias.biris@nokia.com>  Wed, 12 Nov 2008 13:06:32 +0300
 
 calendar-backend (0.5-4.9) unstable; urgency=low
 
   * Week 46 release.
-  * Fixes: NB#90692 - Calendarbackend system packages are visible in AM 
+  * Fixes: NB#90692 - Calendarbackend system packages are visible in AM
   * Implemented New Api to retrive private and sync calendars
 
  -- Ilias Biris <ilias.biris@nokia.com>  Tue, 04 Nov 2008 13:06:32 +0300
@@ -1313,7 +1313,7 @@ calendar-backend (0.5-4.9) unstable; urgency=low
 calendar-backend (0.5-4.8) unstable; urgency=low
 
   * Week 45 release.
-  * Minor changes in calendar-backend 
+  * Minor changes in calendar-backend
 
  -- Ilias Biris <ilias.biris@nokia.com>  Wed, 29 Oct 2008 13:06:32 +0300
 
@@ -1324,10 +1324,10 @@ calendar-backend (0.5-4.7) unstable; urgency=low
   * Made add/del/modify - Event/Todo/Journal atomic.
   * Implemented new API required by maesync.
   * Fixes: NB#90678 tap on save button closes the calendar application
-  * Fixes: NB#90459 Application crashed if done checkbox is selected. 
+  * Fixes: NB#90459 Application crashed if done checkbox is selected.
   * Fixes: NB#90352 Calendar apication closes completely if task is modified
-  * Fixes: NB#90676 All undone tasks are set to done. 
-    
+  * Fixes: NB#90676 All undone tasks are set to done.
+
 
  -- Ilias Biris <ilias.biris@nokia.com>  Fri, 24 Oct 2008 13:06:32 +0300
 
@@ -1338,7 +1338,7 @@ calendar-backend (0.5-4.6) unstable; urgency=low
            calendar.
   * Fixes: NB# 89763  maj  hig  Multiple day events get convered to single day events
   * Fixes: NB#89834  nor  med  Undone tasks in tasks view are set as done tasks
-  * Moved Created and Modified time to components table from componetdetails 
+  * Moved Created and Modified time to components table from componetdetails
   * New API for CTC capability is added for sync.
   * Table join is used to optimize the database performace.
   * Fixed some of the UTC bugs.
@@ -1349,20 +1349,20 @@ calendar-backend (0.5-4.6) unstable; urgency=low
 calendar-backend (0.5-4.5) unstable; urgency=low
 
   * Week 42 release.
-  * Fixes :NB#88879 - alarm changes in Ui handled in backend 
-  * Attendee and Organizer tables have been removed and they are put in 
-    Parameters table 
-  * Calendar version parameter is added in calendar table 
+  * Fixes :NB#88879 - alarm changes in Ui handled in backend
+  * Attendee and Organizer tables have been removed and they are put in
+    Parameters table
+  * Calendar version parameter is added in calendar table
   * Import export implementation is changed as per new design.
   * VCal converter is enhansed.
-  	 	
+
 
  -- Ilias Biris <ilias.biris@nokia.com>  Fri, 10 Oct 2008 13:06:32 +0300
 
 calendar-backend (0.5-4.4) unstable; urgency=low
 
   * Week 41 release.
-  * Enhanced  ICal-Vcal converter  API required by maesync . 
+  * Enhanced  ICal-Vcal converter  API required by maesync .
   * Added database column indexing to improve the response time.
   * Fixes :NB#89035 - Ghost todos and journals seen in calendar because of
            calendar-backend bug
@@ -1373,7 +1373,7 @@ calendar-backend (0.5-4.4) unstable; urgency=low
 calendar-backend (0.5-4.3) unstable; urgency=low
 
   * Week 40 release.
-  * Added Xproperty handling as per new design. 
+  * Added Xproperty handling as per new design.
   * Minor fixes in modify attendee.
 
  -- Ilias Biris <ilias.biris@nokia.com>  Fri, 29 Sep 2008 17:06:32 +0300
@@ -1402,7 +1402,7 @@ calendar-backend (0.5-4) hardy; urgency=low
   * Added New API useful from sync point of view.
   * Added Check for adding calendar with same name.
   * Added new parameter for calendar Tune.
-  * GUID is restricted to 8 byte value. 
+  * GUID is restricted to 8 byte value.
   * Memory issues in add calendar. Fixes: NB#87188
   * AddBirthday Calendar fix. Fixes: NB#87785
 
@@ -1431,8 +1431,8 @@ calendar-backend (0.5-0) unstable; urgency=low
   * Birthday events implementation
   * ICS file import
   * Implemented: NR#189842, NR#189843, NR#189845, NR#189856,
-    NR#189857, NR#189858, NR#190675, NR#189854, NR#189862, 
-    NR#189863, NR#189859, 
+    NR#189857, NR#189858, NR#190675, NR#189854, NR#189862,
+    NR#189863, NR#189859,
   * Partial: NR#189844, NR#190674, NR#189873,
 
  -- Ilias Biris <ilias.biris@nokia.com>  Thu, 17 Jul 2008 18:31:00 +0300
