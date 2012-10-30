@@ -18,9 +18,16 @@ ifneq (,$(findstring debug,$(DEB_BUILD_OPTIONS)))
 	DEB_CONFIGURE_EXTRA_FLAGS=--enable-debug
 endif
 
-# Use soft-float and thumb mode if it enabled.
+# Use thumb mode if it enabled.
 ifneq (,$(findstring thumb,$(DEB_BUILD_OPTIONS)))
 	CFLAGS += -mthumb
+	CPPFLAGS += -mthumb
+endif
+
+# Prefer hardware floating point if enabled
+ifneq (,$(findstring vfp,$(DEB_BUILD_OPTIONS)))
+	CFLAGS += -mfpu=vfp -mfloat-abi=softfp
+	CPPFLAGS += -mfpu=vfp -mfloat-abi=softfp
 endif
 
 debian/stamp-autotools-files:

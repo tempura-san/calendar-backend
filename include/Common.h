@@ -57,6 +57,8 @@ using namespace std;
 using std::vector;
 using std::string;
 
+#include <string.h>
+#include <unistd.h>
 
 /** global variables used in Calendar
  */
@@ -335,7 +337,7 @@ typedef enum {
     MAILTO
 } AttendeeParams;
 
-typedef enum DATATYPE{
+enum DATATYPE{
     STRING = 0,
     INTEGER,
     FLOAT,

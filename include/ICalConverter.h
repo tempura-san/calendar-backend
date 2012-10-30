@@ -604,7 +604,7 @@ class ICalConverter {
        template<class T> vector <CParameters *> importDescription(icalcomponent *pComp, T *tComp);
        template<class T> vector <CParameters *> importSummary(icalcomponent *pComp, T *tComp);
        template<class T> vector <CParameters *> importComments(icalcomponent *pComp, T *tComp);
-       template<class T> void importDateStart(icalcomponent *pComp, T *pComp);
+       template<class T> void importDateStart(icalcomponent *pComp, T *tComp);
        bool importEventDateStartAndDateEnd(icalcomponent *pComp, CEvent *pEvent,FileType iType,int& pErrorCode);
        bool importEventDateEnd(icalcomponent *pComp, CEvent *pEvent,FileType iType);
        void importEventXProp(icalcomponent *pComp, CEvent *pEvent);
