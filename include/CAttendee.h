@@ -33,7 +33,7 @@ using std::string;
 
 /**
  *  Enums defined as per RFC 2445 (ical rfc) for ParticipantRole */
-typedef enum ParticipantRole {
+enum ParticipantRole {
     CHAIR = 0,
     REQ_PARTICIPANT,
     OPT_PARTICIPANT,

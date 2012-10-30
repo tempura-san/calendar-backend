@@ -23,6 +23,7 @@
 
 /* Headers */
 #include "CCache.h"
+#include <string.h>
 /* default constructor */
 CCache::CCache()
 {

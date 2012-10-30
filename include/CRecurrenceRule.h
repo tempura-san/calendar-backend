@@ -33,7 +33,7 @@ using std::string;
 using std::vector;
 
 /* Enum definitions */
-typedef enum FREQUENCY {
+enum FREQUENCY{
 
     SECONDLY_RECURRENCE = 0,
     MINUTELY_RECURRENCE = 1,
