@@ -4612,9 +4612,9 @@ ICalConverter::importEventDateEnd (
          *  DTSTART:20081226T000000   DTEND:20081227T000000
          *
          * */
-        if (((e_time.hour == 0)  && (e_time.minute == 0) && (e_time.second == 0) &&  (pEvent -> getAllDay())) ||
-       	((e_time.hour == 23)  && (e_time.minute == 59) && (e_time.second == 59) &&  (pEvent -> getAllDay())) ||
-       	(((e_time.hour == 23)	 && (e_time.minute == 59) && (e_time.second == 0)) && (pEvent->getAllDay())))
+        if (((e_time.hour ==  0) && (e_time.minute ==  0) && (e_time.second ==  0) && (pEvent->getAllDay())) ||
+       	    ((e_time.hour == 23) && (e_time.minute == 59) && (e_time.second ==  0) && (pEvent->getAllDay())) ||
+       	    ((e_time.hour == 23) && (e_time.minute == 59) && (e_time.second == 59) && (pEvent->getAllDay())))
 
         {
         	CAL_DEBUG_LOG("Event is Allday event ");
