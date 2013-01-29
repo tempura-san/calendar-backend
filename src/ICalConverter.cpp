@@ -967,7 +967,7 @@ void ICalConverter::exportDateStampFromLocal(icalcomponent *pEntcomp, T *pComp)
 }
 
 template<class T>
-void ICalConverter::exportSummaryFromLocal(icalcomponent *pEntcomp, T *pComp)
+void ICalConverter::exportSummaryFromLocal(icalcomponent *pEntcomp, T *pComp, FileType iType)
 {
     icalproperty *pProp = 0;    
     icalparameter *pParam = 0;
@@ -976,43 +976,58 @@ void ICalConverter::exportSummaryFromLocal(icalcomponent *pEntcomp, T *pComp)
     /*exporting summary */
     if (!(pComp->getSummary()).empty()) {
         string summary;
-        CUtility *pUt = 0;
-        pUt = CUtility::Instance();
 
-    //If quoted printable encode is not required we can
-    //let libical handle the content else we should not 
-    //paste the content here cos libical changes the format
-    //of encoded string if put here
-    if(!pUt->isEncodingRequired(pComp->getSummary(), bSyncing)) 
-        summary = pComp->getSummary();
-        pProp = icalproperty_new_summary(summary.c_str());
-        hashMap = pComp->getHashMap();
-        if (pProp) {
-            icalcomponent_add_property(pEntcomp, pProp);
-            it = hashMap.find(SUMMARY);
-            if (it != hashMap.end()) {
-                for (unsigned int i = 0; i < (*it).second.size(); i++) {
-                    pParam = 0;
-                    ParamType paramVal;
-                    string paramName;
-                    paramName = (*it).second[i]->getParamName();
-                    paramVal = (*it).second[i]->getParamValue();
-                    if (paramName == LANGUAGE) {
-                        pParam =  icalparameter_new_language(paramVal.
-                               szString.c_str());
-                    }
-                    else if (paramName == ALTER) {
-                        pParam =  icalparameter_new_altrep(paramVal.
-                             szString.c_str());
-                    }
-                    if(pParam)
-                        icalproperty_add_parameter(pProp, pParam);
-                }
-            }
-            if(summary.length() != pComp->getSummary().length() ) {
-                addEncodingQuotedPrintable(pProp);
-            }
+        switch(iType) {
+        case ICAL_TYPE:
+        	/*
+        	 * iCal supports UTF-8 so no need for QP encode here.
+        	 */
+        	summary = pComp->getSummary();
+        	break;
+        case VCAL_TYPE:
+        default:
+        	/*
+			 * If QP encode is not required we can let libical
+			 * handle the content. Otherwise we should not
+			 * paste the content here, because libical changes the format
+			 * of the encoded string if put here.
+			 */
+        	CUtility *pUt = 0;
+			pUt = CUtility::Instance();
+        	if(!pUt->isEncodingRequired(pComp->getSummary(), bSyncing)) {
+				summary = pComp->getSummary();
+        	}
+        	break;
         }
+
+		pProp = icalproperty_new_summary(summary.c_str());
+		hashMap = pComp->getHashMap();
+		if (pProp) {
+			icalcomponent_add_property(pEntcomp, pProp);
+			it = hashMap.find(SUMMARY);
+			if (it != hashMap.end()) {
+				for (unsigned int i = 0; i < (*it).second.size(); i++) {
+					pParam = 0;
+					ParamType paramVal;
+					string paramName;
+					paramName = (*it).second[i]->getParamName();
+					paramVal = (*it).second[i]->getParamValue();
+					if (paramName == LANGUAGE) {
+						pParam = icalparameter_new_language(paramVal.
+						       szString.c_str());
+					}
+					else if (paramName == ALTER) {
+						pParam = icalparameter_new_altrep(paramVal.
+						       szString.c_str());
+					}
+					if(pParam)
+						icalproperty_add_parameter(pProp, pParam);
+				}
+			}
+			if(summary.length() == 0) {
+				addEncodingQuotedPrintable(pProp);
+			}
+		}
         icalproperty_free(pProp);
     }
 }
@@ -1069,7 +1084,7 @@ void ICalConverter::exportLocationFromLocal(icalcomponent *pEntcomp, T *pComp)
     }
 }
 template <class T>
-void ICalConverter::exportDescriptionFromLocal(icalcomponent *pEntcomp,  T *pComp)
+void ICalConverter::exportDescriptionFromLocal(icalcomponent *pEntcomp,  T *pComp, FileType iType)
 {
     icalproperty *pProp = 0;    
     icalparameter *pParam = 0;
@@ -1077,17 +1092,32 @@ void ICalConverter::exportDescriptionFromLocal(icalcomponent *pEntcomp,  T *pCom
     map < string, vector < CParameters * > >::iterator it;
     /*exporting description */
     if (!(pComp->getDescription()).empty()) {
-        string description;
-        CUtility *pUt = 0;
-        pUt = CUtility::Instance();
+    	string description;
 
-        //If quoted printable encode is not required we can
-        //let libical handle the content else we should not 
-        //paste the content here cos libical changes the format
-        //of encoded string if put here
-    if(!pUt->isEncodingRequired(pComp->getDescription(), bSyncing)) 
-        description = pComp->getDescription();
-        pProp = icalproperty_new_description(description.c_str());
+		switch(iType) {
+		case ICAL_TYPE:
+			/*
+			 * iCal supports UTF-8 so no need for QP encode here.
+			 */
+			description = pComp->getDescription();
+			break;
+		case VCAL_TYPE:
+		default:
+			/*
+			 * If QP encode is not required we can let libical
+			 * handle the content. Otherwise we should not
+			 * paste the content here, because libical changes the format
+			 * of the encoded string if put here.
+			 */
+			CUtility *pUt = 0;
+			pUt = CUtility::Instance();
+			if(!pUt->isEncodingRequired(pComp->getDescription(), bSyncing)) {
+				description = pComp->getDescription();
+			}
+			break;
+		}
+
+		pProp = icalproperty_new_description(description.c_str());
         hashMap = pComp->getHashMap();
         if (pProp) {
             icalcomponent_add_property(pEntcomp, pProp);
@@ -1111,7 +1141,7 @@ void ICalConverter::exportDescriptionFromLocal(icalcomponent *pEntcomp,  T *pCom
                         icalproperty_add_parameter(pProp, pParam);
                 }
             }
-            if(description.length() != pComp->getDescription().length() ) {
+            if(description.length() == 0) {
                 addEncodingQuotedPrintable(pProp);
             }
         }
@@ -1832,7 +1862,7 @@ void ICalConverter::exportSequenceFromLocal(icalcomponent *pEntcomp, T *pComp)
 }
 
 template<class T>
-void ICalConverter::exportCommentsFromLocal(icalcomponent *pEntcomp, T *pComp)
+void ICalConverter::exportCommentsFromLocal(icalcomponent *pEntcomp, T *pComp, FileType iType)
 {
     icalproperty *pProp = 0;    
     icalparameter *pParam = 0;
@@ -1840,18 +1870,30 @@ void ICalConverter::exportCommentsFromLocal(icalcomponent *pEntcomp, T *pComp)
     map < string, vector < CParameters * > >::iterator it;
     /*exporting comments */
     if (!(pComp->getComments()).empty()) {
-        string comments;
-        CUtility *pUt = 0;
-        pUt = CUtility::Instance();
+    	string comments;
 
-        //If quoted printable encode is not required we can
-        //let libical handle the content else we should not 
-        //paste the content here cos libical changes the format
-        //of encoded string if put here
-    if(!pUt->isEncodingRequired(pComp->getComments(), bSyncing))
-        comments = pComp->getComments();
-        pProp = icalproperty_new_comment(comments.c_str());
-        hashMap = pComp->getHashMap();
+		switch(iType) {
+		case ICAL_TYPE:
+			/*
+			 * iCal supports UTF-8 so no need for QP encode here.
+			 */
+			comments = pComp->getComments();
+			break;
+		case VCAL_TYPE:
+		default:
+			/*
+			 * If QP encode is not required we can let libical
+			 * handle the content. Otherwise we should not
+			 * paste the content here, because libical changes the format
+			 * of the encoded string if put here.
+			 */
+			CUtility *pUt = 0;
+			pUt = CUtility::Instance();
+			if(!pUt->isEncodingRequired(pComp->getComments(), bSyncing)) {
+				comments = pComp->getComments();
+			}
+			break;
+		}
         if (pProp) {
             icalcomponent_add_property(pEntcomp, pProp);
             it = hashMap.find(COMMENT);
@@ -1874,7 +1916,7 @@ void ICalConverter::exportCommentsFromLocal(icalcomponent *pEntcomp, T *pComp)
                         icalproperty_add_parameter(pProp, pParam);
                 }
             }
-            if(comments.length() != pComp->getComments().length() ) {
+            if(comments.length() == 0) {
                 addEncodingQuotedPrintable(pProp);
             }
         }
@@ -2287,11 +2329,11 @@ void ICalConverter::exportEventProperties (icalcomponent *pEntcomp, CEvent *pEve
     /*exporting date stamp*/
     exportDateStampFromLocal     (pEntcomp, pEvent);
     /*exporting summary*/
-    exportSummaryFromLocal    (pEntcomp, pEvent);
+    exportSummaryFromLocal    (pEntcomp, pEvent, iType);
     /*exporting location */
     exportLocationFromLocal    (pEntcomp, pEvent);
     /*exporting description */
-    exportDescriptionFromLocal    (pEntcomp, pEvent);
+    exportDescriptionFromLocal    (pEntcomp, pEvent, iType);
     /*exporting guid - id is taken as uid */
     exportUidFromLocal        (pEntcomp, pEvent);
     /*exporting datestart */
@@ -2307,7 +2349,7 @@ void ICalConverter::exportEventProperties (icalcomponent *pEntcomp, CEvent *pEve
     /* exporting sequence */
     exportSequenceFromLocal    (pEntcomp, pEvent);
     /*exporting comments */
-    exportCommentsFromLocal    (pEntcomp, pEvent);
+    exportCommentsFromLocal    (pEntcomp, pEvent, iType);
     /*exporting URL */
     exportUrlFromLocal        (pEntcomp, pEvent);
     /*exporting categories */
@@ -2340,15 +2382,15 @@ void ICalConverter::exportTodoProperties (icalcomponent *pEntcomp, CTodo *pTodo,
     /*exporting attachments */
     exportAttachmentsFromLocal        (pEntcomp, pTodo);
     /*exporting summary */
-    exportSummaryFromLocal        (pEntcomp, pTodo);
+    exportSummaryFromLocal        (pEntcomp, pTodo, iType);
     /*exporting description */
-    exportDescriptionFromLocal        (pEntcomp, pTodo);
+    exportDescriptionFromLocal        (pEntcomp, pTodo, iType);
     /*exporting guid - id is taken as uid */
     exportUidFromLocal        	(pEntcomp, pTodo);
     /* exporting sequence */
     exportSequenceFromLocal        (pEntcomp, pTodo);
     /*exporting comments */
-    exportCommentsFromLocal        (pEntcomp, pTodo);
+    exportCommentsFromLocal        (pEntcomp, pTodo, iType);
     /*exporting categories */
     exportCategoriesFromLocal        (pEntcomp, pTodo);
     /*exporting attendees */
@@ -2391,9 +2433,9 @@ void ICalConverter::exportJournalProperties (icalcomponent *pEntcomp, CJournal *
     /*exporting attachments */
     exportAttachmentsFromLocal    (pEntcomp, pJournal);
     /*exporting summary */
-    exportSummaryFromLocal    (pEntcomp, pJournal);
+    exportSummaryFromLocal    (pEntcomp, pJournal, iType);
     /*exporting description */
-    exportDescriptionFromLocal    (pEntcomp, pJournal);
+    exportDescriptionFromLocal    (pEntcomp, pJournal, iType);
     /*exporting date stamp */
     exportDateStampFromLocal    (pEntcomp, pJournal);
     /*exporting guid - id is taken as uid */
@@ -2413,7 +2455,7 @@ void ICalConverter::exportJournalProperties (icalcomponent *pEntcomp, CJournal *
     /* exporting sequence */
     exportSequenceFromLocal    (pEntcomp, pJournal);
     /*exporting comments */
-    exportCommentsFromLocal    (pEntcomp, pJournal);
+    exportCommentsFromLocal    (pEntcomp, pJournal, iType);
     /*exporting datestart */
     exportDateStartFromLocal    (pEntcomp, pJournal,iType);
     /*exporting categories */
