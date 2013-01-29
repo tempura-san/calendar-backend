@@ -2463,8 +2463,16 @@ string ICalConverter::localToIcalVcal(CComponent * pEntry, FileType iType,
     string strRDate ;
     string strERDate;
 
-    /*version */
-    pProp = icalproperty_new_version("1.0");
+    /* VERSION */
+    switch(iType) {
+		case ICAL_TYPE:
+			pProp = icalproperty_new_version("2.0");
+			break;
+		case VCAL_TYPE:
+		default:
+			pProp = icalproperty_new_version("1.0");
+			break;
+	}
     icalcomponent_add_property(m_pCalcomp, pProp);
     icalproperty_free(pProp);
 
