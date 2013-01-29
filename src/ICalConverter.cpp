@@ -48,10 +48,7 @@ struct zoneInfor{
 };
 /**
  * static variables used in this file */
-
-static const int TZDATE_SIZE = 16;
-static const int TDATE_SIZE = 15;
-static const int ALARM_RECORD_ST = 20;
+ 
 static const int MAX_SUPPORTED_YEAR = 2037;
 
 /** 
@@ -68,10 +65,7 @@ bool ical_value_is_valid (icalproperty *pProp)
     icalvalue *pVal = 0;
     pVal = icalproperty_get_value (pProp);
 
-    if (icalvalue_is_valid (pVal))
-    	return TRUE;
-    else
-    	return FALSE;
+    return (icalvalue_is_valid (pVal));
 }
 
 /* function to fetch location based on offset */
@@ -1570,11 +1564,11 @@ string ICalConverter::calculateMonthdayFromRule(time_t dtstart,struct  icaltimet
       Find the first occurence of week day in  in month 
       in which event starts
      **/
-    if ( firstWeekDayInMonth  == weekDayFromRrule  )
+    if ( firstWeekDayInMonth  == weekDayFromRrule  ) {
         /**
           first day itself is first occurence
          * */
-        ;
+    }
     else {
         /* it comes here it means the weekDayFromRule
          * is greater than the tm_wday
@@ -2832,7 +2826,7 @@ vector < string > ICalConverter::getRecurrenceDates(string strIcalComp,
                 date.size() - strRuleType.size() - 1);
 
         /* remove spaces */
-        int i1=0;
+        size_t i1=0;
         while((i1=date.find(' ',i1))!=string::npos) 
             date.erase(i1,1);
 
@@ -4562,7 +4556,7 @@ ICalConverter::importEventDateEnd (
          * */
         if (((e_time.hour == 0)  && (e_time.minute == 0) && (e_time.second == 0) &&  (pEvent -> getAllDay())) ||
        	((e_time.hour == 23)  && (e_time.minute == 59) && (e_time.second == 59) &&  (pEvent -> getAllDay())) ||
-       	((e_time.hour == 23)	 && (e_time.minute == 59) && (e_time.second == 0)) && (pEvent->getAllDay())) 
+       	(((e_time.hour == 23)	 && (e_time.minute == 59) && (e_time.second == 0)) && (pEvent->getAllDay())))
 
         {
         	CAL_DEBUG_LOG("Event is Allday event ");
