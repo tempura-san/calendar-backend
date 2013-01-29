@@ -1202,14 +1202,19 @@ void ICalConverter::exportDateStartFromLocal(icalcomponent *pEntcomp, T *pComp,F
 string ICalConverter::exportTimeZone(time_t dtstart,string szZone,FileType iType)
 {
     icaltimetype ical_dtstart;
-    string strTimeZone ("VERSION:1.0");
+    string strTimeZone;
     char *pTimeComp = 0;
     
     memset (&ical_dtstart, 0, sizeof(icaltimetype));
     parseTimeZone(szZone);
     icaltimezone* pTZ = icaltimezone_get_builtin_timezone(szZone.c_str());
+
+    /******************************************************/
+    /*   this part is for ICAL time zone component        */
+    /******************************************************/
     if (iType == ICAL_TYPE )
     {
+    	strTimeZone = "VERSION:2.0";
         ical_dtstart = icaltime_from_timet_with_zone(dtstart, 0,pTZ);
         icalcomponent* tzComp = icaltimezone_get_component (pTZ);
         pTimeComp = icalcomponent_as_ical_string(tzComp);
@@ -1220,10 +1225,10 @@ string ICalConverter::exportTimeZone(time_t dtstart,string szZone,FileType iType
         return strTimeZone;
     }
 
-   /******************************************************/
-   /*   this part is for VCAL time zone component     */
-    /****************************************************/
-    
+    /******************************************************/
+    /*   this part is for VCAL time zone component        */
+    /******************************************************/
+    strTimeZone = "VERSION:1.0";
     if (dtstart) {
         struct icalrecurrencetype rruleStd,rruleDst;
         struct icaltimetype dtstartStd;
@@ -2662,9 +2667,14 @@ string ICalConverter::localToIcalVcal(CComponent * pEntry, FileType iType,
      *    or mobile         					            *
      *                                                                           *
     *******************************************************************************/
-   //if ((iType == VCAL_TYPE) && (globalAllDayFlag== false) && (pEntry->getType()!=E_TODO))  {
+    //if ((iType == VCAL_TYPE) && (globalAllDayFlag== false) && (pEntry->getType()!=E_TODO))  {
+    if(iType == VCAL_TYPE) {
         strIcalComp.replace(strIcalComp.find("VERSION:1.0",0),11, strTimeZone.c_str());
-   //}
+    }
+    else if(iType == ICAL_TYPE) {
+    	strIcalComp.replace(strIcalComp.find("VERSION:2.0",0),11, strTimeZone.c_str());
+    }
+    //}
 
    replaceWithEncodedString(strIcalComp, (CComponentDetails *)pEntry);
    strIcalComp = this->appendControlM(strIcalComp);
