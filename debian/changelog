@@ -1,3 +1,9 @@
+calendar-backend (0.8-7) unstable; urgency=low
+
+  * Fixes: MB#12682 - calendar-backend's ICalConverter class does not export proper iCal data
+
+ -- Tempura San <tempura.san@gmail.com>  Tue, 29 Jan 2013 19:45:00 +0100
+
 calendar-backend (0.8-6) unstable; urgency=low
 
   * Fixes: NB#178453 - Unable to sync calendar task when device has a task
