@@ -1172,13 +1172,12 @@ void ICalConverter::exportDateStartFromLocal(icalcomponent *pEntcomp, T *pComp,F
     CAL_DEBUG_LOG("Zone of event is  %s",szZone.c_str());
     /*exporting datestart */
 
-     int is_date = 0;
      if(!pComp->getAllDay() && (pComp->getType() != E_TODO)) {
-	     ical_dtstart = icaltime_from_timet_with_zone(dtstart, is_date,
+	     ical_dtstart = icaltime_from_timet_with_zone(dtstart, 0,
 			     icaltimezone_get_builtin_timezone("UTC"));
      }
      else {
-	     ical_dtstart = icaltime_from_timet_with_zone(dtstart, is_date,
+	     ical_dtstart = icaltime_from_timet_with_zone(dtstart, (iType == ICAL_TYPE),
 			     icaltimezone_get_builtin_timezone(szZone.c_str()));
 	     /* alldays and tasks should always be sent in floating 
 	      * time so that in other devices they are treated as 
@@ -1689,18 +1688,17 @@ void ICalConverter::exportEventDateEndFromLocal(icalcomponent *pEntcomp, CEvent 
         dtend = dtend + 1;
 
     
-     int is_date = 0;
     if(!pEvent->getAllDay()) {
-        ical_dtend = icaltime_from_timet_with_zone(dtend, is_date,
-            icaltimezone_get_builtin_timezone("UTC"));
+        ical_dtend = icaltime_from_timet_with_zone(dtend, 0, icaltimezone_get_builtin_timezone("UTC"));
     }
     else {
-        ical_dtend = icaltime_from_timet_with_zone(dtend, is_date,
-            icaltimezone_get_builtin_timezone(szZone.c_str()));
-    /* allday events and tasks should always be sent 
-     * in floating time so that in other devices they remain as
-     * alldays  */
-	ical_dtend.is_utc= 0;
+        ical_dtend = icaltime_from_timet_with_zone(dtend, (iType == ICAL_TYPE), icaltimezone_get_builtin_timezone(szZone.c_str()));
+		/*
+		 * allday events and tasks should always be sent
+		 * in floating time so that in other devices they remain as
+		 * alldays
+		 */
+		ical_dtend.is_utc= 0;
     }
     limitDateRange(ical_dtend,true);
     pProp = icalproperty_new_dtend(ical_dtend);
