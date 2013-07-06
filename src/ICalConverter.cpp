@@ -2589,6 +2589,7 @@ string ICalConverter::localToIcalVcal(CComponent * pEntry, FileType iType,
     if (pEntry->getType() == E_TODO) {
 
         pTodo = (CTodo *) pEntry;
+        strTimeZone = exportTimeZone (pTodo->getDateStart(), pTodo->getTzid(), iType);
         pEntcomp = icalcomponent_new_vtodo();
         if (!pEntcomp) {
     	    strIcalComp = "";
