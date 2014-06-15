@@ -48,10 +48,7 @@ struct zoneInfor{
 };
 /**
  * static variables used in this file */
-
-static const int TZDATE_SIZE = 16;
-static const int TDATE_SIZE = 15;
-static const int ALARM_RECORD_ST = 20;
+ 
 static const int MAX_SUPPORTED_YEAR = 2037;
 
 /** 
@@ -68,10 +65,7 @@ bool ical_value_is_valid (icalproperty *pProp)
     icalvalue *pVal = 0;
     pVal = icalproperty_get_value (pProp);
 
-    if (icalvalue_is_valid (pVal))
-    	return TRUE;
-    else
-    	return FALSE;
+    return (icalvalue_is_valid (pVal));
 }
 
 /* function to fetch location based on offset */
@@ -973,7 +967,7 @@ void ICalConverter::exportDateStampFromLocal(icalcomponent *pEntcomp, T *pComp)
 }
 
 template<class T>
-void ICalConverter::exportSummaryFromLocal(icalcomponent *pEntcomp, T *pComp)
+void ICalConverter::exportSummaryFromLocal(icalcomponent *pEntcomp, T *pComp, FileType iType)
 {
     icalproperty *pProp = 0;    
     icalparameter *pParam = 0;
@@ -982,43 +976,58 @@ void ICalConverter::exportSummaryFromLocal(icalcomponent *pEntcomp, T *pComp)
     /*exporting summary */
     if (!(pComp->getSummary()).empty()) {
         string summary;
-        CUtility *pUt = 0;
-        pUt = CUtility::Instance();
 
-    //If quoted printable encode is not required we can
-    //let libical handle the content else we should not 
-    //paste the content here cos libical changes the format
-    //of encoded string if put here
-    if(!pUt->isEncodingRequired(pComp->getSummary(), bSyncing)) 
-        summary = pComp->getSummary();
-        pProp = icalproperty_new_summary(summary.c_str());
-        hashMap = pComp->getHashMap();
-        if (pProp) {
-            icalcomponent_add_property(pEntcomp, pProp);
-            it = hashMap.find(SUMMARY);
-            if (it != hashMap.end()) {
-                for (unsigned int i = 0; i < (*it).second.size(); i++) {
-                    pParam = 0;
-                    ParamType paramVal;
-                    string paramName;
-                    paramName = (*it).second[i]->getParamName();
-                    paramVal = (*it).second[i]->getParamValue();
-                    if (paramName == LANGUAGE) {
-                        pParam =  icalparameter_new_language(paramVal.
-                               szString.c_str());
-                    }
-                    else if (paramName == ALTER) {
-                        pParam =  icalparameter_new_altrep(paramVal.
-                             szString.c_str());
-                    }
-                    if(pParam)
-                        icalproperty_add_parameter(pProp, pParam);
-                }
-            }
-            if(summary.length() != pComp->getSummary().length() ) {
-                addEncodingQuotedPrintable(pProp);
-            }
+        switch(iType) {
+        case ICAL_TYPE:
+        	/*
+        	 * iCal supports UTF-8 so no need for QP encode here.
+        	 */
+        	summary = pComp->getSummary();
+        	break;
+        case VCAL_TYPE:
+        default:
+        	/*
+			 * If QP encode is not required we can let libical
+			 * handle the content. Otherwise we should not
+			 * paste the content here, because libical changes the format
+			 * of the encoded string if put here.
+			 */
+        	CUtility *pUt = 0;
+			pUt = CUtility::Instance();
+        	if(!pUt->isEncodingRequired(pComp->getSummary(), bSyncing)) {
+				summary = pComp->getSummary();
+        	}
+        	break;
         }
+
+		pProp = icalproperty_new_summary(summary.c_str());
+		hashMap = pComp->getHashMap();
+		if (pProp) {
+			icalcomponent_add_property(pEntcomp, pProp);
+			it = hashMap.find(SUMMARY);
+			if (it != hashMap.end()) {
+				for (unsigned int i = 0; i < (*it).second.size(); i++) {
+					pParam = 0;
+					ParamType paramVal;
+					string paramName;
+					paramName = (*it).second[i]->getParamName();
+					paramVal = (*it).second[i]->getParamValue();
+					if (paramName == LANGUAGE) {
+						pParam = icalparameter_new_language(paramVal.
+						       szString.c_str());
+					}
+					else if (paramName == ALTER) {
+						pParam = icalparameter_new_altrep(paramVal.
+						       szString.c_str());
+					}
+					if(pParam)
+						icalproperty_add_parameter(pProp, pParam);
+				}
+			}
+			if(summary.length() == 0) {
+				addEncodingQuotedPrintable(pProp);
+			}
+		}
         icalproperty_free(pProp);
     }
 }
@@ -1075,7 +1084,7 @@ void ICalConverter::exportLocationFromLocal(icalcomponent *pEntcomp, T *pComp)
     }
 }
 template <class T>
-void ICalConverter::exportDescriptionFromLocal(icalcomponent *pEntcomp,  T *pComp)
+void ICalConverter::exportDescriptionFromLocal(icalcomponent *pEntcomp,  T *pComp, FileType iType)
 {
     icalproperty *pProp = 0;    
     icalparameter *pParam = 0;
@@ -1083,17 +1092,32 @@ void ICalConverter::exportDescriptionFromLocal(icalcomponent *pEntcomp,  T *pCom
     map < string, vector < CParameters * > >::iterator it;
     /*exporting description */
     if (!(pComp->getDescription()).empty()) {
-        string description;
-        CUtility *pUt = 0;
-        pUt = CUtility::Instance();
+    	string description;
 
-        //If quoted printable encode is not required we can
-        //let libical handle the content else we should not 
-        //paste the content here cos libical changes the format
-        //of encoded string if put here
-    if(!pUt->isEncodingRequired(pComp->getDescription(), bSyncing)) 
-        description = pComp->getDescription();
-        pProp = icalproperty_new_description(description.c_str());
+		switch(iType) {
+		case ICAL_TYPE:
+			/*
+			 * iCal supports UTF-8 so no need for QP encode here.
+			 */
+			description = pComp->getDescription();
+			break;
+		case VCAL_TYPE:
+		default:
+			/*
+			 * If QP encode is not required we can let libical
+			 * handle the content. Otherwise we should not
+			 * paste the content here, because libical changes the format
+			 * of the encoded string if put here.
+			 */
+			CUtility *pUt = 0;
+			pUt = CUtility::Instance();
+			if(!pUt->isEncodingRequired(pComp->getDescription(), bSyncing)) {
+				description = pComp->getDescription();
+			}
+			break;
+		}
+
+		pProp = icalproperty_new_description(description.c_str());
         hashMap = pComp->getHashMap();
         if (pProp) {
             icalcomponent_add_property(pEntcomp, pProp);
@@ -1117,7 +1141,7 @@ void ICalConverter::exportDescriptionFromLocal(icalcomponent *pEntcomp,  T *pCom
                         icalproperty_add_parameter(pProp, pParam);
                 }
             }
-            if(description.length() != pComp->getDescription().length() ) {
+            if(description.length() == 0) {
                 addEncodingQuotedPrintable(pProp);
             }
         }
@@ -1178,13 +1202,12 @@ void ICalConverter::exportDateStartFromLocal(icalcomponent *pEntcomp, T *pComp,F
     CAL_DEBUG_LOG("Zone of event is  %s",szZone.c_str());
     /*exporting datestart */
 
-     int is_date = 0;
      if(!pComp->getAllDay() && (pComp->getType() != E_TODO)) {
-	     ical_dtstart = icaltime_from_timet_with_zone(dtstart, is_date,
+	     ical_dtstart = icaltime_from_timet_with_zone(dtstart, 0,
 			     icaltimezone_get_builtin_timezone("UTC"));
      }
      else {
-	     ical_dtstart = icaltime_from_timet_with_zone(dtstart, is_date,
+	     ical_dtstart = icaltime_from_timet_with_zone(dtstart, (iType == ICAL_TYPE),
 			     icaltimezone_get_builtin_timezone(szZone.c_str()));
 	     /* alldays and tasks should always be sent in floating 
 	      * time so that in other devices they are treated as 
@@ -1209,14 +1232,19 @@ void ICalConverter::exportDateStartFromLocal(icalcomponent *pEntcomp, T *pComp,F
 string ICalConverter::exportTimeZone(time_t dtstart,string szZone,FileType iType)
 {
     icaltimetype ical_dtstart;
-    string strTimeZone ("VERSION:1.0");
+    string strTimeZone;
     char *pTimeComp = 0;
     
     memset (&ical_dtstart, 0, sizeof(icaltimetype));
     parseTimeZone(szZone);
     icaltimezone* pTZ = icaltimezone_get_builtin_timezone(szZone.c_str());
+
+    /******************************************************/
+    /*   this part is for ICAL time zone component        */
+    /******************************************************/
     if (iType == ICAL_TYPE )
     {
+    	strTimeZone = "VERSION:2.0";
         ical_dtstart = icaltime_from_timet_with_zone(dtstart, 0,pTZ);
         icalcomponent* tzComp = icaltimezone_get_component (pTZ);
         pTimeComp = icalcomponent_as_ical_string(tzComp);
@@ -1227,10 +1255,10 @@ string ICalConverter::exportTimeZone(time_t dtstart,string szZone,FileType iType
         return strTimeZone;
     }
 
-   /******************************************************/
-   /*   this part is for VCAL time zone component     */
-    /****************************************************/
-    
+    /******************************************************/
+    /*   this part is for VCAL time zone component        */
+    /******************************************************/
+    strTimeZone = "VERSION:1.0";
     if (dtstart) {
         struct icalrecurrencetype rruleStd,rruleDst;
         struct icaltimetype dtstartStd;
@@ -1570,11 +1598,11 @@ string ICalConverter::calculateMonthdayFromRule(time_t dtstart,struct  icaltimet
       Find the first occurence of week day in  in month 
       in which event starts
      **/
-    if ( firstWeekDayInMonth  == weekDayFromRrule  )
+    if ( firstWeekDayInMonth  == weekDayFromRrule  ) {
         /**
           first day itself is first occurence
          * */
-        ;
+    }
     else {
         /* it comes here it means the weekDayFromRule
          * is greater than the tm_wday
@@ -1695,18 +1723,17 @@ void ICalConverter::exportEventDateEndFromLocal(icalcomponent *pEntcomp, CEvent 
         dtend = dtend + 1;
 
     
-     int is_date = 0;
     if(!pEvent->getAllDay()) {
-        ical_dtend = icaltime_from_timet_with_zone(dtend, is_date,
-            icaltimezone_get_builtin_timezone("UTC"));
+        ical_dtend = icaltime_from_timet_with_zone(dtend, 0, icaltimezone_get_builtin_timezone("UTC"));
     }
     else {
-        ical_dtend = icaltime_from_timet_with_zone(dtend, is_date,
-            icaltimezone_get_builtin_timezone(szZone.c_str()));
-    /* allday events and tasks should always be sent 
-     * in floating time so that in other devices they remain as
-     * alldays  */
-	ical_dtend.is_utc= 0;
+        ical_dtend = icaltime_from_timet_with_zone(dtend, (iType == ICAL_TYPE), icaltimezone_get_builtin_timezone(szZone.c_str()));
+		/*
+		 * allday events and tasks should always be sent
+		 * in floating time so that in other devices they remain as
+		 * alldays
+		 */
+		ical_dtend.is_utc= 0;
     }
     limitDateRange(ical_dtend,true);
     pProp = icalproperty_new_dtend(ical_dtend);
@@ -1835,7 +1862,7 @@ void ICalConverter::exportSequenceFromLocal(icalcomponent *pEntcomp, T *pComp)
 }
 
 template<class T>
-void ICalConverter::exportCommentsFromLocal(icalcomponent *pEntcomp, T *pComp)
+void ICalConverter::exportCommentsFromLocal(icalcomponent *pEntcomp, T *pComp, FileType iType)
 {
     icalproperty *pProp = 0;    
     icalparameter *pParam = 0;
@@ -1843,18 +1870,30 @@ void ICalConverter::exportCommentsFromLocal(icalcomponent *pEntcomp, T *pComp)
     map < string, vector < CParameters * > >::iterator it;
     /*exporting comments */
     if (!(pComp->getComments()).empty()) {
-        string comments;
-        CUtility *pUt = 0;
-        pUt = CUtility::Instance();
+    	string comments;
 
-        //If quoted printable encode is not required we can
-        //let libical handle the content else we should not 
-        //paste the content here cos libical changes the format
-        //of encoded string if put here
-    if(!pUt->isEncodingRequired(pComp->getComments(), bSyncing))
-        comments = pComp->getComments();
-        pProp = icalproperty_new_comment(comments.c_str());
-        hashMap = pComp->getHashMap();
+		switch(iType) {
+		case ICAL_TYPE:
+			/*
+			 * iCal supports UTF-8 so no need for QP encode here.
+			 */
+			comments = pComp->getComments();
+			break;
+		case VCAL_TYPE:
+		default:
+			/*
+			 * If QP encode is not required we can let libical
+			 * handle the content. Otherwise we should not
+			 * paste the content here, because libical changes the format
+			 * of the encoded string if put here.
+			 */
+			CUtility *pUt = 0;
+			pUt = CUtility::Instance();
+			if(!pUt->isEncodingRequired(pComp->getComments(), bSyncing)) {
+				comments = pComp->getComments();
+			}
+			break;
+		}
         if (pProp) {
             icalcomponent_add_property(pEntcomp, pProp);
             it = hashMap.find(COMMENT);
@@ -1877,7 +1916,7 @@ void ICalConverter::exportCommentsFromLocal(icalcomponent *pEntcomp, T *pComp)
                         icalproperty_add_parameter(pProp, pParam);
                 }
             }
-            if(comments.length() != pComp->getComments().length() ) {
+            if(comments.length() == 0) {
                 addEncodingQuotedPrintable(pProp);
             }
         }
@@ -2290,11 +2329,11 @@ void ICalConverter::exportEventProperties (icalcomponent *pEntcomp, CEvent *pEve
     /*exporting date stamp*/
     exportDateStampFromLocal     (pEntcomp, pEvent);
     /*exporting summary*/
-    exportSummaryFromLocal    (pEntcomp, pEvent);
+    exportSummaryFromLocal    (pEntcomp, pEvent, iType);
     /*exporting location */
     exportLocationFromLocal    (pEntcomp, pEvent);
     /*exporting description */
-    exportDescriptionFromLocal    (pEntcomp, pEvent);
+    exportDescriptionFromLocal    (pEntcomp, pEvent, iType);
     /*exporting guid - id is taken as uid */
     exportUidFromLocal        (pEntcomp, pEvent);
     /*exporting datestart */
@@ -2310,7 +2349,7 @@ void ICalConverter::exportEventProperties (icalcomponent *pEntcomp, CEvent *pEve
     /* exporting sequence */
     exportSequenceFromLocal    (pEntcomp, pEvent);
     /*exporting comments */
-    exportCommentsFromLocal    (pEntcomp, pEvent);
+    exportCommentsFromLocal    (pEntcomp, pEvent, iType);
     /*exporting URL */
     exportUrlFromLocal        (pEntcomp, pEvent);
     /*exporting categories */
@@ -2343,15 +2382,15 @@ void ICalConverter::exportTodoProperties (icalcomponent *pEntcomp, CTodo *pTodo,
     /*exporting attachments */
     exportAttachmentsFromLocal        (pEntcomp, pTodo);
     /*exporting summary */
-    exportSummaryFromLocal        (pEntcomp, pTodo);
+    exportSummaryFromLocal        (pEntcomp, pTodo, iType);
     /*exporting description */
-    exportDescriptionFromLocal        (pEntcomp, pTodo);
+    exportDescriptionFromLocal        (pEntcomp, pTodo, iType);
     /*exporting guid - id is taken as uid */
     exportUidFromLocal        	(pEntcomp, pTodo);
     /* exporting sequence */
     exportSequenceFromLocal        (pEntcomp, pTodo);
     /*exporting comments */
-    exportCommentsFromLocal        (pEntcomp, pTodo);
+    exportCommentsFromLocal        (pEntcomp, pTodo, iType);
     /*exporting categories */
     exportCategoriesFromLocal        (pEntcomp, pTodo);
     /*exporting attendees */
@@ -2394,9 +2433,9 @@ void ICalConverter::exportJournalProperties (icalcomponent *pEntcomp, CJournal *
     /*exporting attachments */
     exportAttachmentsFromLocal    (pEntcomp, pJournal);
     /*exporting summary */
-    exportSummaryFromLocal    (pEntcomp, pJournal);
+    exportSummaryFromLocal    (pEntcomp, pJournal, iType);
     /*exporting description */
-    exportDescriptionFromLocal    (pEntcomp, pJournal);
+    exportDescriptionFromLocal    (pEntcomp, pJournal, iType);
     /*exporting date stamp */
     exportDateStampFromLocal    (pEntcomp, pJournal);
     /*exporting guid - id is taken as uid */
@@ -2416,7 +2455,7 @@ void ICalConverter::exportJournalProperties (icalcomponent *pEntcomp, CJournal *
     /* exporting sequence */
     exportSequenceFromLocal    (pEntcomp, pJournal);
     /*exporting comments */
-    exportCommentsFromLocal    (pEntcomp, pJournal);
+    exportCommentsFromLocal    (pEntcomp, pJournal, iType);
     /*exporting datestart */
     exportDateStartFromLocal    (pEntcomp, pJournal,iType);
     /*exporting categories */
@@ -2469,8 +2508,16 @@ string ICalConverter::localToIcalVcal(CComponent * pEntry, FileType iType,
     string strRDate ;
     string strERDate;
 
-    /*version */
-    pProp = icalproperty_new_version("1.0");
+    /* VERSION */
+    switch(iType) {
+		case ICAL_TYPE:
+			pProp = icalproperty_new_version("2.0");
+			break;
+		case VCAL_TYPE:
+		default:
+			pProp = icalproperty_new_version("1.0");
+			break;
+	}
     icalcomponent_add_property(m_pCalcomp, pProp);
     icalproperty_free(pProp);
 
@@ -2662,9 +2709,14 @@ string ICalConverter::localToIcalVcal(CComponent * pEntry, FileType iType,
      *    or mobile         					            *
      *                                                                           *
     *******************************************************************************/
-   //if ((iType == VCAL_TYPE) && (globalAllDayFlag== false) && (pEntry->getType()!=E_TODO))  {
+    //if ((iType == VCAL_TYPE) && (globalAllDayFlag== false) && (pEntry->getType()!=E_TODO))  {
+    if(iType == VCAL_TYPE) {
         strIcalComp.replace(strIcalComp.find("VERSION:1.0",0),11, strTimeZone.c_str());
-   //}
+    }
+    else if(iType == ICAL_TYPE) {
+    	strIcalComp.replace(strIcalComp.find("VERSION:2.0",0),11, strTimeZone.c_str());
+    }
+    //}
 
    replaceWithEncodedString(strIcalComp, (CComponentDetails *)pEntry);
    strIcalComp = this->appendControlM(strIcalComp);
@@ -2836,7 +2888,7 @@ vector < string > ICalConverter::getRecurrenceDates(string strIcalComp,
             date = date.substr(start_val+1);
 
         /* remove spaces */
-        int i1=0;
+        size_t i1=0;
         while((i1=date.find(' ',i1))!=string::npos) 
             date.erase(i1,1);
 
@@ -4563,9 +4615,9 @@ ICalConverter::importEventDateEnd (
          *  DTSTART:20081226T000000   DTEND:20081227T000000
          *
          * */
-        if (((e_time.hour == 0)  && (e_time.minute == 0) && (e_time.second == 0) &&  (pEvent -> getAllDay())) ||
-       	((e_time.hour == 23)  && (e_time.minute == 59) && (e_time.second == 59) &&  (pEvent -> getAllDay())) ||
-       	((e_time.hour == 23)	 && (e_time.minute == 59) && (e_time.second == 0)) && (pEvent->getAllDay())) 
+        if (((e_time.hour ==  0) && (e_time.minute ==  0) && (e_time.second ==  0) && (pEvent->getAllDay())) ||
+       	    ((e_time.hour == 23) && (e_time.minute == 59) && (e_time.second ==  0) && (pEvent->getAllDay())) ||
+       	    ((e_time.hour == 23) && (e_time.minute == 59) && (e_time.second == 59) && (pEvent->getAllDay())))
 
         {
         	CAL_DEBUG_LOG("Event is Allday event ");
