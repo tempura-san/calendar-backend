@@ -820,7 +820,7 @@ void ICalConverter_TS1 ::test_icalVcalToLocal_EventWithOrg() //A event with orga
 	vector <CComponent *>pComp_t;
 	COrganizer *pOrg_t;
 
-	string strIcal="BEGIN:VEVENT\nDTSTART:20080618T114105Z\nDTEND:20080618T114105Z\nSUMMARY:Valid Case setting proper data values to pEvent\nLOCATION:Bangalore\nORGANIZER;CN=JohnSmith;DIR=\"ldap://host.com:6666/o=3DDC%20Associates,c=3DUS??(cn=3DJohn%20Smith)\";SENT-BY=\"MAILTO:jane_doe@host.com\";LANGUAGE=en:Germany\nATTACH;FMTTYPE=application/binary:ftp://domain.com/pub/docs/a.doc\nEND:VEVENT";
+	string strIcal="BEGIN:VEVENT\nDTSTART:20080618T114105Z\nDTEND:20080618T114105Z\nSUMMARY:Valid Case setting proper data values to pEvent\nLOCATION:Bangalore\nORGANIZER;CN=JohnSmith;DIR=\"ldap://host.com:6666/o=3DDC%20Associates,c=3DUS\?\?(cn=3DJohn%20Smith)\";SENT-BY=\"MAILTO:jane_doe@host.com\";LANGUAGE=en:Germany\nATTACH;FMTTYPE=application/binary:ftp://domain.com/pub/docs/a.doc\nEND:VEVENT";
 	string temp;
 	pComp_t = iCalConv->icalVcalToLocal(strIcal,ICAL_TYPE,errorcode);
 	pEvent_t = new CEvent();
@@ -836,7 +836,7 @@ void ICalConverter_TS1 ::test_icalVcalToLocal_EventWithOrg() //A event with orga
 			stringReplaceAll (temp, ";ENCODING=QUOTED-PRINTABLE:",":");
 			stringReplaceAll (temp, "=2C",",");
 			
-	CPPUNIT_ASSERT_MESSAGE("Error return value :dir param in Organizer",pOrg_t->getDirectoryParameter() == "ldap://host.com:6666/o=3DDC%20Associates\\,c=3DUS??(cn=3DJohn%20Smith)");
+	CPPUNIT_ASSERT_MESSAGE("Error return value :dir param in Organizer",pOrg_t->getDirectoryParameter() == "ldap://host.com:6666/o=3DDC%20Associates\\,c=3DUS\?\?(cn=3DJohn%20Smith)");
 	CPPUNIT_ASSERT_MESSAGE("Error return value : sent by in Organizer",
 			pOrg_t->getSentBy()=="MAILTO:jane_doe@host.com");
 

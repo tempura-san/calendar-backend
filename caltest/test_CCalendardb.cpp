@@ -37,7 +37,7 @@ void CCalendarDB_TS1 :: tearDown()
 }
 void CCalendarDB_TS1 :: test_createUpdateDB()
 {
-    char *pQ = NULL;
+    const char *pQ = NULL;
     const char *pTail;
     sqlite3_stmt *pPrepStmt;
     int iSqliteError;
@@ -258,7 +258,7 @@ void CCalendarDB_TS1 :: test_createTenThouTables()
 /* InsertUpdateDBTestCase*/
 void CCalendarDB_TS1 :: test_insertUpdateDB()
 {
-    char *pQ = NULL;
+    const char *pQ = NULL;
     const char *pTail;
     sqlite3_stmt *pPrepStmt;
     int iSqliteError;
@@ -291,7 +291,7 @@ void CCalendarDB_TS1 :: test_insertUpdateDB()
 /* InvalidInsertUpdateDBTestCase*/
 void CCalendarDB_TS1 :: test_invalidInsertUpdateDB()
 {
-    char *pQ = NULL;
+    const char *pQ = NULL;
     const char *pTail;
     sqlite3_stmt *pPrepStmt;
     int iSqliteError;
@@ -303,7 +303,7 @@ void CCalendarDB_TS1 :: test_invalidInsertUpdateDB()
 /* Modify Update DB  Test Case*/
 void CCalendarDB_TS1 :: test_modifyUpdateDB()
 {
-    char *pQ = NULL;
+    const char *pQ = NULL;
     const char *pTail;
     sqlite3_stmt *pPrepStmt;
     int iSqliteError;
@@ -504,7 +504,7 @@ void  CCalendarDB_TS1 :: test_tenthoumodifications()
 /*7th Modification in DB*/
 void CCalendarDB_TS1  :: test_modification7()
 {
-    char *pQ = NULL;
+    const char *pQ = NULL;
     const char *pTail;
     sqlite3_stmt *pPrepStmt;
     int iSqliteError;
@@ -528,7 +528,7 @@ void CCalendarDB_TS1  :: test_modification7()
 /* 67thModificationTestCase*/
 void CCalendarDB_TS1 :: test_modification67()
 {
-    char *pQ = NULL;
+    const char *pQ = NULL;
     const char *pTail;
     sqlite3_stmt *pPrepStmt;
     int iSqliteError;
@@ -552,7 +552,7 @@ void CCalendarDB_TS1 :: test_modification67()
 /* 473rdModificationTestCase*/
 void CCalendarDB_TS1 :: test_modification473()
 {
-    char *pQ = NULL;
+    const char *pQ = NULL;
     const char *pTail;
     sqlite3_stmt *pPrepStmt;
     int iSqliteError;
@@ -576,7 +576,7 @@ void CCalendarDB_TS1 :: test_modification473()
 /* 793rdModificationTestCase*/
 void CCalendarDB_TS1 :: test_modification793()
 {
-    char *pQ = NULL;
+    const char *pQ = NULL;
     const char *pTail;
     sqlite3_stmt *pPrepStmt;
     int iSqliteError;
@@ -599,7 +599,7 @@ void CCalendarDB_TS1 :: test_modification793()
 /* InvalidColModifyUpdateDBTestCase*/
 void CCalendarDB_TS1 :: test_invalidColModifyUpdateDB()
 {
-    char *pQ = NULL;
+    const char *pQ = NULL;
     const char *pTail;
     sqlite3_stmt *pPrepStmt;
     int iSqliteError;
@@ -613,7 +613,7 @@ void CCalendarDB_TS1 :: test_invalidColModifyUpdateDB()
 /* DeleteUpdateDBTestCase*/
 void CCalendarDB_TS1 :: test_deleteUpdateDB()
 {
-    char *pQ = NULL;
+    const char *pQ = NULL;
     const char *pTail;
     sqlite3_stmt *pPrepStmt;
     int iSqliteError;
@@ -627,7 +627,7 @@ void CCalendarDB_TS1 :: test_deleteUpdateDB()
 /* InvalidColDeleteUpdateDBTestCase*/
 void CCalendarDB_TS1 :: test_invalidColDeleteUpdateDB()
 {
-    char *pQ = NULL;
+    const char *pQ = NULL;
     const char *pTail;
     sqlite3_stmt *pPrepStmt;
     int iSqliteError;
@@ -644,7 +644,7 @@ void CCalendarDB_TS1 :: test_validGetRecords()
     QueryResult *res;
     int iSqliteError;
     res = (QueryResult *) malloc (sizeof(QueryResult));
-    res = pCdb->getRecords("select * from CompCac where Id=1", iSqliteError);
+    res = pCdb->getRecords(const_cast<char *>("select * from CompCac where Id=1"), iSqliteError);
 
     for(int iI=0;iI<(10*(res->iRow));iI++)
     {
@@ -676,7 +676,7 @@ void CCalendarDB_TS1 :: test_timeForGetRecords()
     gettimeofday(&stTim, NULL);
     dBefore=stTim.tv_sec+(stTim.tv_usec/1000000.0);
     std::cout<<"\n\nmicrosec bef"<<dBefore;
-    res = pCdb->getRecords("select * from Cal1 where IsVisible=1", iSqliteError);
+    res = pCdb->getRecords(const_cast<char *>("select * from Cal1 where IsVisible=1"), iSqliteError);
     gettimeofday(&stTim, NULL);
     dAfter=stTim.tv_sec+(stTim.tv_usec/1000000.0);
     std::cout<<"\n\nmicrosec aft"<<dAfter;
@@ -694,7 +694,7 @@ void CCalendarDB_TS1 :: test_invalidGetRecords()
     QueryResult *res;
     int iSqliteError;
     res = (QueryResult *) malloc (sizeof(QueryResult));
-    res = pCdb->getRecords("select * from CompCac where Id=3", iSqliteError);
+    res = pCdb->getRecords(const_cast<char *>("select * from CompCac where Id=3"), iSqliteError);
 
     CPPUNIT_ASSERT_MESSAGE("failed:returned an empty iRow ",(res==NULL));
 }
@@ -714,7 +714,7 @@ void CCalendarDB_TS1 :: test_nullGetRecords()
 /* CommitDBTestCase*/
 void CCalendarDB_TS1 :: test_commitDB()
 {
-    char *pQ = NULL;
+    const char *pQ = NULL;
     const char *pTail;
     sqlite3_stmt *pPrepStmt;
     int iSqliteError;
@@ -728,7 +728,7 @@ void CCalendarDB_TS1 :: test_commitDB()
 /* RollbackDBTestCase*/
 void CCalendarDB_TS1 :: test_rollbackDB()
 {
-    char *pQ = NULL;
+    const char *pQ = NULL;
     const char *pTail;
     sqlite3_stmt *pPrepStmt;
     int iSqliteError;
@@ -744,7 +744,7 @@ void CCalendarDB_TS1 :: test_rollbackDB()
 /* ValidInsertRowsTestCase*/
 void CCalendarDB_TS1 :: test_validInsertRows()
 {
-    char *pQ = NULL;
+    const char *pQ = NULL;
     const char *pTail;
     sqlite3_stmt *pPrepStmt;
     int iSqliteError;
