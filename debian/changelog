@@ -1,3 +1,9 @@
+calendar-backend (0.8-8) unstable; urgency=low
+
+  * Fixes: Segfault if CRecurrence copy constructor is used
+
+ -- Tempura San <tempura.san@gmail.com>  Mon, 21 Mar 2016 20:14:43 +0100
+
 calendar-backend (0.8-7) unstable; urgency=low
 
   * Fixes: MB#12682 - calendar-backend's ICalConverter class does not export proper iCal data

@@ -550,14 +550,15 @@ CRecurrence & CRecurrence::operator=(const CRecurrence & right)
 }
 
 /**
- * CRecurrence:: CRecurrence(CRecurrence  & ref)
- * copy constructor for CRecurrence class
+ * Copy constructor for CRecurrence class.
+ * @param ref The object to be copied.
  */
 CRecurrence::CRecurrence(CRecurrence & ref)
 {
+	vector < CRecurrenceRule * > vRRule = ref.getRecurrenceRule();
     vector < CRecurrenceRule * >::iterator iter;
-    for (iter = ref.getRecurrenceRule().begin(); iter != ref.getRecurrenceRule().end(); iter++) {
-        CRecurrenceRule *temp = new CRecurrenceRule((*iter)->getRuleType(), (*iter)->getRrule());
+    for (iter = vRRule.begin(); iter != vRRule.end(); ++iter) {
+        CRecurrenceRule *temp = new CRecurrenceRule(**iter);
         ASSERTION(temp);
         vRecrRuleList.push_back(temp);
     }
@@ -565,7 +566,6 @@ CRecurrence::CRecurrence(CRecurrence & ref)
     vExceptionDateList = ref.vExceptionDateList;
     vRecRuleList = ref.vRecRuleList;
     iRType = ref.iRType;
-
 }
 
 /**
