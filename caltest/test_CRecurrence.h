@@ -40,6 +40,7 @@ class CRecurrence_TS1 : public CppUnit::TestFixture
 	CPPUNIT_TEST(test_generateInstanceTimes);
 	CPPUNIT_TEST(test_setRecurrenceRule);
 	CPPUNIT_TEST(test_Recurrence);
+	CPPUNIT_TEST(test_assignment_operator);
 	CPPUNIT_TEST_SUITE_END();
 	
 	public:
@@ -54,6 +55,7 @@ class CRecurrence_TS1 : public CppUnit::TestFixture
 		void test_generateInstanceTimes();
 		void test_setRecurrenceRule();
 		void test_Recurrence();
+		void test_assignment_operator();
 };
 
 

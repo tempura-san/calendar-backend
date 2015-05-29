@@ -83,3 +83,4 @@ caltest/exportcal.ics
 caltest/exportical.ics
 caltest/x.ics
 caltest/*.xml
+caltest/coverage

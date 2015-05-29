@@ -518,35 +518,31 @@ vector < string > CRecurrence::getEDays()
 }
 
 /**
- * overloaded assignment operator 
+ * Overloaded assignment operator.
+ * @param right The right hand operand for the assignment.
  */
 CRecurrence & CRecurrence::operator=(const CRecurrence & right)
 {
+	// prevent self assignment
+	if (&right != this) {
+		// clear existing elements before deep copy
+		vRecrRuleList.clear();
 
-    //prevent self assignment 
-    if (&right != this) {
+		vector <CRecurrenceRule *> vRRule =
+				const_cast<CRecurrence &>(right).getRecurrenceRule();
 
-    /* we cannot assign the values 
-     * because it is a list of pointers 
-     * to create a copy of object we need to 
-     * copy objects explicitly
-     */
-    unsigned int iter;
-    for (iter = 0; iter < right.vRecrRuleList.size(); iter++) {
-        CRecurrenceRule *temp =
-        new CRecurrenceRule(right.vRecrRuleList[iter]->
-                    getRuleType(),
-                    right.vRecrRuleList[iter]->getRrule());
-    	ASSERTION(temp);
-        vRecrRuleList.push_back(temp);
-
-    }
-    vExceptionDateList = right.vExceptionDateList;
-    vRecRuleList = right.vRecRuleList;
-    iRecurId = right.iRecurId;
-    iRType = right.iRType;
-    }
-    return *this;
+		vector <CRecurrenceRule *>::const_iterator iter;
+		for (iter = vRRule.begin(); iter != vRRule.end(); ++iter) {
+			CRecurrenceRule *temp = new CRecurrenceRule(**iter);
+			ASSERTION(temp);
+			vRecrRuleList.push_back(temp);
+		}
+		vExceptionDateList = right.vExceptionDateList;
+		vRecRuleList = right.vRecRuleList;
+		iRecurId = right.iRecurId;
+		iRType = right.iRType;
+	}
+	return *this;
 }
 
 /**

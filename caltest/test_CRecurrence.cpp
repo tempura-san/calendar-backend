@@ -172,15 +172,48 @@ void CRecurrence_TS1::test_setRecurrenceRule()
 	 CPPUNIT_ASSERT_MESSAGE("Error: vector rule not empty",(ret==true));
 }
 
+/**
+ * Tests copy constructor.
+ * Expected behaviour: rule counts match for copy.
+ */
 void CRecurrence_TS1::test_Recurrence()
 {
-	vector < string >vRRule;
+	vector <string> vRRule;
 	string rruleset = "RRULE:FREQ=MONTHLY;INTERVAL=10;BYMONTHDAY=6,7,8;COUNT=10";
 	vRRule.push_back(rruleset);
+
 	CRecurrence *p = new CRecurrence(vRRule,100);
-	CRecurrence q(*(p));
-	CPPUNIT_ASSERT_MESSAGE("Error: getting rrule ",(p->getRrule().size() !=0));
-	CPPUNIT_ASSERT_MESSAGE("Error: getting rrule ",(q.getRrule().size() !=0));
+	CRecurrence q(*p);
+
+	CPPUNIT_ASSERT_MESSAGE("Error: getting RRule from p",
+			(p->getRrule().size() == 1));
+	CPPUNIT_ASSERT_MESSAGE("Error: getting RRule from q",
+			(q.getRrule().size() == 1));
+
+	delete p;
+}
+
+/**
+ * Tests assignment operator.
+ * Expected behaviour: rule counts match for assignment.
+ */
+void CRecurrence_TS1::test_assignment_operator()
+{
+	vector<string> vRRule;
+	string rruleset = "RRULE:FREQ=MONTHLY;INTERVAL=10;BYMONTHDAY=6,7,8;COUNT=10";
+	vRRule.push_back(rruleset);
+
+	CRecurrence *q = new CRecurrence(vRRule, 100);
+	CRecurrence *p = new CRecurrence(vRRule, 100);
+	*q = *p;
+
+	CPPUNIT_ASSERT_MESSAGE("Error: getting RRule from p",
+			(p->getRrule().size() == 1));
+	CPPUNIT_ASSERT_MESSAGE("Error: getting RRule from q",
+			(q->getRrule().size() == 1));
+
+	delete q;
+	delete p;
 }
 
 
