@@ -56,7 +56,6 @@ class CMulticalendar_TS1 : public CppUnit::TestFixture
 	CPPUNIT_TEST(test_deleteTodo_NoCalendar);
 	CPPUNIT_TEST(test_deleteBday_NoCalendar);
 	CPPUNIT_TEST(test_getBirthdayCalendar);
-	CPPUNIT_TEST(test_getCalendarByType_NoSyncCalendar);
 	CPPUNIT_TEST(test_getCalendarByName_NoCalendars);
 	CPPUNIT_TEST(test_getSynchronizedCalendar);
 	CPPUNIT_TEST(test_getDefaultCalendar);
@@ -246,7 +245,6 @@ class CMulticalendar_TS1 : public CppUnit::TestFixture
 		void test_getPrevNextComponent();
 		void test_getCalendarIdForComponent();
 		void test_getAllEventsTodos();
-		void test_getCalendarByType_NoSyncCalendar();
 		void test_getCalendarByName_NoCalendars();
 		void test_deleteEvent_NoCalendar();
 		void test_deleteJournal_NoCalendar();

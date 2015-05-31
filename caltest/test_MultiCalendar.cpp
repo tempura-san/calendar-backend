@@ -88,11 +88,6 @@ void CMulticalendar_TS1 :: test_addCalendar()
     CPPUNIT_ASSERT_MESSAGE("Error: Add Calendar ",(icalid3>0));
 }
 
-void CMulticalendar_TS1 :: test_getCalendarByType_NoSyncCalendar()
-{
-    CCalendar * cal = multi->getCalendarByType(DEFAULT_SYNC,error_code);
-    CPPUNIT_ASSERT_MESSAGE("Error: getCalendarByType -default sync Calendar",(cal == NULL));
-}
 void CMulticalendar_TS1 :: test_getCalendarByType()
 {
     CCalendar * cal = multi->getCalendarByType(LOCAL_CALENDAR,error_code);
@@ -1387,15 +1382,31 @@ void CMulticalendar_TS1 :: test_getPrevNextComponent()
 
 }
 
+/**
+ * Tests return value in case no matching calendar for the criteria is found.
+ * Expected behaviour: The returned pointer to the calendar is NULL and
+ * error_code is set to CALENDAR_DOESNOT_EXISTS.
+ */
 void CMulticalendar_TS1 ::test_getCalendar_NoCalendar()
 {
-    int error_code = -1;
-    CCalendar *cal = multi->getCalendarByType(DEFAULT_SYNC, error_code);
-    CPPUNIT_ASSERT_MESSAGE("Error: getting default sync calendar", cal == NULL);
+	CCalendar *cal;
+
+    // need some type here, which will not be created automatically on
+    // database initialisation (like DEFAULT_PRIVATE and DEFAULT_SYNC)
+    cal = multi->getCalendarByType(SYNC_CALENDAR, error_code);
+    CPPUNIT_ASSERT_MESSAGE("Unexpectedly found 'SYNC_CALENDAR' calendar",
+    		(cal == NULL) && (error_code == CALENDAR_DOESNOT_EXISTS));
+    delete cal;
+
     cal = multi->getCalendarByName("Calendar", error_code);
-    CPPUNIT_ASSERT_MESSAGE("Error: getting calendar by name", cal == NULL);
+    CPPUNIT_ASSERT_MESSAGE("Unexpectedly found 'Calendar' calendar",
+    		(cal == NULL) && (error_code == CALENDAR_DOESNOT_EXISTS));
+    delete cal;
+
     cal = multi->getCalendarById(10, error_code);
-    CPPUNIT_ASSERT_MESSAGE("Error: getting calendar by id", cal == NULL);
+    CPPUNIT_ASSERT_MESSAGE("Unexpectedly found calendar with ID=10",
+    		(cal == NULL) && (error_code == CALENDAR_DOESNOT_EXISTS));
+    delete cal;
 }
 
 void CMulticalendar_TS1 :: test_delBirthdayCalendar()
