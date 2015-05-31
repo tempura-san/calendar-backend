@@ -3430,9 +3430,13 @@ CMulticalendar::CMulticalendar(CMulticalendar & ref)
  */
 bool CMulticalendar::addBirthDay(CBdayEvent * pBday, int &pErrorCode)
 {
-    vector<CBdayEvent*> BdayList;
-    BdayList.push_back(pBday);
-    return addBirthdays(BdayList,pErrorCode); 
+	if (pBday != NULL) {
+		vector<CBdayEvent*> BdayList;
+		BdayList.push_back(pBday);
+		return addBirthdays(BdayList, pErrorCode);
+	} else {
+		return false;
+	}
 }
 
 

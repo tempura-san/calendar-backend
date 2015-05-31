@@ -1158,12 +1158,19 @@ void CMulticalendar_TS1 :: test_deleteBday_NoCalendar()
     bRet = multi->deleteBirthDay ("ade",error_code);
     CPPUNIT_ASSERT_MESSAGE("Error: test_deleteBday_NoCalendar",(bRet==false));
 }
-void CMulticalendar_TS1 :: test_addBday_NULL()
+
+/**
+ * Tests behaviour in case the birthday to add is NULL.
+ * Expected behaviour: addBirthDay() function returns false.
+ */
+void CMulticalendar_TS1::test_addBday_NULL()
 {
-    bool bRet;
-    bRet = multi->addBirthDay (NULL,error_code);
-    CPPUNIT_ASSERT_MESSAGE("Error: test_addBday_NULL",(bRet==false));
+	bool bRet;
+	bRet = multi->addBirthDay(NULL, error_code);
+	CPPUNIT_ASSERT_MESSAGE("Unexpected success when adding NULL birthday",
+			(bRet == false));
 }
+
 void CMulticalendar_TS1 :: test_modifyBday_NULL()
 {
     bool bRet;
