@@ -102,10 +102,16 @@ void CEvent_TS1 ::test_SetPriority_Valid()
 	CPPUNIT_ASSERT_MESSAGE("Error : returning the wrong value",(iRet==8));
 }
 
-void CEvent_TS1 ::test_SetPriority_Inrange()
+/**
+ * Tests the behaviour in case the maximum priority for an event is exceeded.
+ * Expected behaviour: function returns false.
+ */
+void CEvent_TS1::test_SetPriority_Inrange()
 {
-	bool bRet=pCe->setPriority(20);
-	CPPUNIT_ASSERT_MESSAGE("Error : setting the priority greated than 9",(bRet==false));
+	bool bRet = pCe->setPriority(MAX_PRIORITY + 1);
+	CPPUNIT_ASSERT_MESSAGE(
+			"Unexpectedly succeeded setting priority greater than MAX_PRIORITY",
+			(bRet == false));
 }
 
 void CEvent_TS1::test_setCreatedTimeZero()
