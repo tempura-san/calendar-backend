@@ -44,6 +44,7 @@ class CAlarm_TS1 : public CppUnit::TestFixture
 	CPPUNIT_TEST(test_setAttach_Valid);
 	CPPUNIT_TEST(test_setAttach_Empty);
 	CPPUNIT_TEST(test_constructor);
+	CPPUNIT_TEST(test_assignment_operator);
 	CPPUNIT_TEST_SUITE_END();
 
 	public:
@@ -62,6 +63,7 @@ class CAlarm_TS1 : public CppUnit::TestFixture
 	void test_setAttach_Valid();
 	void test_setAttach_Empty();
 	void test_constructor();
+	void test_assignment_operator();
 };
 
 class CAlarm_TS2 : public CppUnit::TestFixture

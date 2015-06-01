@@ -221,38 +221,34 @@ bool CAlarm::setCookie(vector < long >vCookie)
 
 
 /**
- * setDuration
- * Function to set the duration 
- * 
- * @param int
- * 
- * @return TRUE/FALSE
+ * Function to set the duration flag.
+ * @param iDuration One of the values defined in the enumeration dataAlarm.
+ * @return false if the passed value is out of range, true otherwise.
  */
 bool CAlarm::setDuration(int iDuration)
 {
-    if (iDuration < 0)
-    {
-        CAL_ERROR_LOG("Negative value %d is passed. Ignore", iDuration);
-        return false;
-    }
+	if ((iDuration < E_AM_NONE) || (iDuration > E_AM_EXACTDATETIME)) {
+		CAL_ERROR_LOG("Duration value %d out of range - ignoring.", iDuration);
+		return false;
+	}
 
-    this->iDuration /= 10;
-    this->iDuration *= 10;
-    this->iDuration += iDuration % 10;
-    return true;
+	// clear current alarm flag
+	this->iDuration /= 10;
+	this->iDuration *= 10;
+
+	// 'OR' the new flag
+	this->iDuration += iDuration % 10;
+
+	return true;
 }
 
 /**
- * getDuration
- * Function to get the duration
- * 
- * @param none
- * 
- * @return int
+ * Function to get the duration flag.
+ * @return The duration flag of the alarm.
  */
 int CAlarm::getDuration()
 {
-    return this->iDuration % 10;
+    return iDuration % 10;
 }
 
 /**

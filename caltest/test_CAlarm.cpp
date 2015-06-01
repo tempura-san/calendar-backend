@@ -148,17 +148,56 @@ void CAlarm_TS1 :: test_setAttach_Empty()
     CPPUNIT_ASSERT_MESSAGE("Error: Trying to set empty!!  Attachment",(bRet==true));
 }
 
-void CAlarm_TS1 :: test_constructor()
+/**
+ * Tests the regular and copy constructor.
+ * Expected behaviour: All fields are copied to the destination.
+ */
+void CAlarm_TS1::test_constructor()
 {
-    string szAttach = "qwerty";
-    CAlarm *a1 = new CAlarm(10, 1, 1000, 1, szAttach);
-    CAlarm a2(*(a1));
+	string szAttach = "attachment";
+	CAlarm *a1 = new CAlarm(10, 1, E_AM_EXACTDATETIME, 1, szAttach);
+	CAlarm a2(*a1);
 
-    CPPUNIT_ASSERT_MESSAGE("Error: Geting value Trigger",a2.getTrigger()==10);
-    CPPUNIT_ASSERT_MESSAGE("Error: Geting value Repeat",a2.getRepeat()==1);
-    CPPUNIT_ASSERT_MESSAGE("Error: Geting value Duration",a2.getDuration()==1000);
-    CPPUNIT_ASSERT_MESSAGE("Error: Geting value Action",a2.getAction()==1);
-    CPPUNIT_ASSERT_MESSAGE("Error: Geting value Action",a2.getAttach()==szAttach);
+	CPPUNIT_ASSERT_MESSAGE("Failed to read back trigger value",
+			a2.getTrigger() == 10);
+	CPPUNIT_ASSERT_MESSAGE("Failed to read back repeat value",
+			a2.getRepeat() == 1);
+	CPPUNIT_ASSERT_MESSAGE("Failed to read back duration flag",
+			a2.getDuration() == E_AM_EXACTDATETIME);
+	CPPUNIT_ASSERT_MESSAGE("Failed to read back action value",
+			a2.getAction() == 1);
+	CPPUNIT_ASSERT_MESSAGE("Failed to read back attachment value",
+			a2.getAttach() == szAttach);
+
+	delete a1;
+}
+
+/**
+ * Tests the overloaded assignment operator.
+ * Expected behaviour: All fields are copied to the destination.
+ */
+void CAlarm_TS1::test_assignment_operator()
+{
+	string szAttach1 = "attachment1";
+	string szAttach2 = "attachment2";
+	CAlarm *a1 = new CAlarm(10, 1, E_AM_EXACTDATETIME, 1, szAttach1);
+	CAlarm *a2 = new CAlarm(11, 2, E_AM_ETIME, 2, szAttach2);
+
+	*a2 = *a1;
+
+	CPPUNIT_ASSERT_MESSAGE("Failed to read back trigger value",
+			a2->getTrigger() == 10);
+	CPPUNIT_ASSERT_MESSAGE("Failed to read back repeat value",
+			a2->getRepeat() == 1);
+	CPPUNIT_ASSERT_MESSAGE("Failed to read back duration flag",
+			a2->getDuration() == E_AM_EXACTDATETIME);
+	CPPUNIT_ASSERT_MESSAGE("Failed to read back action value",
+			a2->getAction() == 1);
+	CPPUNIT_ASSERT_MESSAGE("Failed to read back attachment value",
+			a2->getAttach() == szAttach1);
+
+	delete a1;
+	delete a2;
 }
 
 void CAlarm_TS2 :: test_toString()
