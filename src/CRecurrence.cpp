@@ -21,541 +21,344 @@
  *
  */
 
-/**
- * header files 
- */
+#include "CRecurrence.h"
+
+#include "CalendarLog.h"
+#include "CMulticalendar.h"
+
+#include <cassert>
+#include <sstream>
+using namespace std;
+
 #include <libical/ical.h>
-#include "Common.h"
 
-/**
- * setRecurrenceRule
- * @param vector CRecurrenceRule* pointers to CRecurrenceRule object
- * @return boolean status of the operation
- * Function used to set CRecurrrencRule in to 
- * CRecurrence(this) class
- */
-bool CRecurrence::setRecurrenceRule(vector < CRecurrenceRule * >vRRule)
-{
-    if (vRRule.size() == 0) {
-    return false;
-    }
-    /* already existing list of CRecurrence Rule objects should 
-     * be added to the current one
-     */
-    unsigned int icount = 0;
-
-    for (icount = 0; icount < vRRule.size(); icount++)
-    this->vRecrRuleList.push_back(vRRule[icount]);
-
-    return true;
-
-}
-
- /**
-  * checkInstances()
-  * @param iviewBegin lower range of current view 
-  * @param iviewEnd higher range of current view 
-  * @param ieventSpan diff between date start and date end of original instance  
-  * @return true or false
-  *
-  * Function used to check if any instance of this event occurs in the given interval 
-  */
-  bool CRecurrence::checkInstances(time_t iViewBegin, 
-            time_t iViewEnd,
-            time_t iDateStart,
-            int eventSpan,
-            int is_day,
-            string sTzid)
+bool CRecurrence::checkInstances(time_t iViewBegin, time_t iViewEnd,
+        time_t iDateStart, int iEventDuration, int is_day, string sTzid)
 {
     vector<time_t> instance_times;
+    generateInstanceTimes(iViewBegin, iViewEnd, iDateStart, iEventDuration,
+            is_day, sTzid, instance_times, false);
 
-    generateInstanceTimes(iViewBegin, iViewEnd, iDateStart, eventSpan, is_day, sTzid, instance_times, false);
-
-    return (instance_times.size() > 0);
+    return (!instance_times.empty());
 }
 
-/**
- * generateInstanceTimes()
- * @param viewBegin lower range of current view 
- * @param viewEnd higher range of current view 
- * @param int iEventSpan diff between datestart and dateend of original instance  
- * @return vector <time_t> values on which event has to happen
- *
- * Function used to retrieve the recurrence dates 
- */
-vector < time_t > CRecurrence::generateInstanceTimes(time_t iViewBegin,
-                             time_t iViewEnd,
-                             time_t iDateStart,
-                             int ieventSpan,
-			     int is_day,
-			     string sTzid)
+vector<time_t> CRecurrence::generateInstanceTimes(time_t iViewBegin,
+        time_t iViewEnd, time_t iDateStart, int iEventDuration, int is_day,
+        string sTzid)
 {
-    CAL_DEBUG_LOG("CRecurrence::generateInstanceTimes : DEPRECATED version of function");
+    CAL_DEBUG_LOG("DEPRECATED FUNCTION: CRecurrence::generateInstanceTimes()");
 
-    vector<time_t> instances;
-    generateInstanceTimes(iViewBegin, iViewEnd, iDateStart, ieventSpan, is_day, sTzid, instances);
+    vector<time_t> instance_times;
+    generateInstanceTimes(iViewBegin, iViewEnd, iDateStart, iEventDuration,
+            is_day, sTzid, instance_times);
 
-    return instances;
+    return instance_times;
 }
 
-void CRecurrence::generateInstanceTimes(time_t iViewBegin,
-                                    time_t iViewEnd,
-                                    time_t iDateStart,
-                                    int ieventSpan,
-                                    int is_day,
-                                    string sTzid,
-                                    vector<time_t> &instance_times,
-                                    bool sort_times/* = true*/)
+void CRecurrence::generateInstanceTimes(time_t iViewBegin, time_t iViewEnd,
+        time_t iDateStart, int iEventDuration, int is_day, string sTzid,
+        vector<time_t> &instance_times, bool sort_times)
 {
-    vector < string > rrules;
-    vector < string > erules;
-    vector < string >::iterator siter;
-    vector < time_t > etimes;
-    vector < time_t > temp;
-    int pErrorCode = 0 ;
-    temp.clear();
-    instance_times.clear();
-    etimes.clear();
-    rrules.clear();
-    erules.clear();
-    is_day = 0;
+    (void) is_day;
 
-    
-    CAL_DEBUG_LOG("CRecurrence::generateInstanceTimes : begin %s ",ctime(&iViewBegin));
-    CAL_DEBUG_LOG("CRecurrence::generateInstanceTimes : end   %s ",ctime(&iViewEnd));
-	
-    /* If ViewEnd is 0 it implies that it is OK to 
-     * expand recurrence 1 instance beyond view start 
-     * so to keep the logic same making viewStart as
-     * view end*/
-    if (iViewEnd == 0)
-	   iViewEnd = iViewBegin;
-        
-    /* return a empty list if there is no 
-     * recurrence defined for the event yet this 
-     * API is called 
-     */
+    vector<string> rules;
+    vector<time_t> etimes;
+    vector<time_t> temp;
+    vector<string>::iterator siter;
+    vector<time_t>::iterator titer;
+    int pErrorCode = 0;
+
+    CAL_DEBUG_LOG("CRecurrence::generateInstanceTimes() : view begin %s",
+            ctime(&iViewBegin));
+    CAL_DEBUG_LOG("CRecurrence::generateInstanceTimes() : view end %s",
+            ctime(&iViewEnd));
+
+    if (iViewEnd == 0) {
+        iViewEnd = iViewBegin;
+    }
+
     CMulticalendar *mc = CMulticalendar::MCInstance();
-    /* do this when timezone is not empty*/
-    if (sTzid.empty() == 0)
-	sTzid = sTzid.substr(1);
-   
-    icaltimezone *pTz = 0 ;
-    pTz=icaltimezone_get_builtin_timezone(sTzid.c_str());
-     
-    icaltimetype timeIcal = icaltime_from_timet_with_zone( 
-    		    (iDateStart ) ,is_day,pTz);
-    
-    rrules = this->getRrule();
-    for (siter = rrules.begin(); siter != rrules.end(); siter++) {
-        mc->getRecurrentTimes((*siter),
-                              timeIcal,
-                              ieventSpan,
-                              iViewBegin,
-                              iViewEnd,
-                              pTz,
-                              temp,
-                              pErrorCode);
+
+    /* do this when time zone is not empty */
+    // TODO check why this is necessary
+    if (!sTzid.empty()) {
+        sTzid = sTzid.substr(1);
+    }
+
+    // get the Olson time zone from the passed string
+    icaltimezone *pTz = icaltimezone_get_builtin_timezone(sTzid.c_str());
+    icaltimetype timeIcal = icaltime_from_timet_with_zone(iDateStart, 0, pTz);
+
+    // add recurrences (based on rules) of the event to the result vector
+    rules = getRrule();
+    for (siter = rules.begin(); siter != rules.end(); ++siter) {
+        CAL_DEBUG_LOG("Found recurrence rule '%s'", (*siter).c_str());
+        mc->getRecurrentTimes((*siter), timeIcal, iEventDuration, iViewBegin,
+                iViewEnd, pTz, temp, pErrorCode);
+        // TODO check for error code - ATM CMultiCalendar::getRecurrentTimes()
+        //      does not put anything there
         instance_times.insert(instance_times.end(), temp.begin(), temp.end());
         temp.clear();
     }
 
-    erules = this->getErule();
-    if (erules.size() != 0) {
-    for (siter = erules.begin(); siter != erules.end(); siter++) {
-        CAL_DEBUG_LOG("exceptionis %s \n", (*siter).c_str());
+    // add exceptions (based on rules) of the event to the exception vector
+    rules = this->getErule();
+    for (siter = rules.begin(); siter != rules.end(); ++siter) {
+        CAL_DEBUG_LOG("Found exception rule '%s'", (*siter).c_str());
         mc->getRecurrentTimes((*siter),
-                              icaltime_from_timet_with_zone(iDateStart,is_day,pTz),
-                              ieventSpan,
-                              iViewBegin,
-                              iViewEnd,
-                              pTz,
-                              temp,
-                              pErrorCode);
+                icaltime_from_timet_with_zone(iDateStart, 0, pTz),
+                iEventDuration, iViewBegin, iViewEnd, pTz, temp, pErrorCode);
+        // TODO check for error code - ATM CMultiCalendar::getRecurrentTimes()
+        //      does not put anything there
         etimes.insert(etimes.end(), temp.begin(), temp.end());
         temp.clear();
     }
 
-    } else
-    CAL_DEBUG_LOG("SIZE of the exceptions list is zero\n");
-
-    /*convert and copy all rdates 
-     * to a vector of time_t
-     */
-    vector < string > recRuleList;
-    recRuleList.clear();
-
-    recRuleList = this->getRDays();
-    if (recRuleList.size()) {
-    unsigned int iter = 0;
-    time_t temp = 0;
-    vector < time_t > rtimesNoRule;
-    rtimesNoRule.clear();
-    for (iter = 0; iter < recRuleList.size(); iter++) {
-
-        temp = (time_t) atoi(recRuleList[iter].c_str());
-        rtimesNoRule.push_back(temp);
-    }
-    /*convert and append in to existing list */
-    instance_times.insert(instance_times.end(), rtimesNoRule.begin(),
-              rtimesNoRule.end());
+    // add recurrences (based on dates) of the event to the result vector
+    rules = this->getRDays();
+    if (!rules.empty()) {
+        for (siter = rules.begin(); siter != rules.end(); ++siter) {
+            CAL_DEBUG_LOG("Found recurrence date '%s'", (*siter).c_str());
+            // TODO check for conversion error and do not add element if it
+            //      could not be converted
+            temp.push_back(static_cast<time_t>(atoi((*siter).c_str())));
+        }
+        instance_times.insert(instance_times.end(), temp.begin(), temp.end());
+        temp.clear();
     }
 
-    /*convert and copy all exception dates 
-     * to a vector of time_t
-     */
-    vector < string > exceptionDateList;
-    exceptionDateList.clear();
-    exceptionDateList = this->getEDays();
-    if (exceptionDateList.size()) {
-    unsigned int iter1 = 0;
-    time_t temp = 0;
-    vector < time_t > etimesNoRule;
-    etimesNoRule.clear();
-    for (iter1 = 0; iter1 < exceptionDateList.size(); iter1++) {
-
-        temp = (time_t) atoi(exceptionDateList[iter1].c_str());
-        etimesNoRule.push_back(temp);
+    // add exceptions (based on dates) of the event to the exception vector
+    rules = this->getEDays();
+    if (!rules.empty()) {
+        for (siter = rules.begin(); siter != rules.end(); ++siter) {
+            CAL_DEBUG_LOG("Found exception date '%s'", (*siter).c_str());
+            // TODO check for conversion error and do not add element if it
+            //      could not be converted
+            temp.push_back(static_cast<time_t>(atoi((*siter).c_str())));
+        }
+        etimes.insert(etimes.end(), temp.begin(), temp.end());
+        temp.clear();
     }
 
-    etimes.insert(etimes.end(), etimesNoRule.begin(),
-              etimesNoRule.end());
+    // add the start date if not already present and in range
+    for (titer = instance_times.begin(); titer != instance_times.end();
+            ++titer) {
+        if ((*titer) == iDateStart) {
+            break;
+        }
+    }
+    if ((titer != instance_times.end()) && (iViewBegin <= iDateStart)
+            && (iDateStart <= iViewEnd)) {
+        CAL_DEBUG_LOG("Adding start date '%s'", ctime(&iDateStart));
+        instance_times.push_back(iDateStart);
     }
 
+    // remove the exception times from the result vector
+    for (titer = etimes.begin(); titer < etimes.end(); ++titer) {
+        bool timet_isday = false;
 
-    /* Check if datestart needs to be included 
-     * before we filter out exception dates as 
-     * datestart can also be one of exception */
+        struct icaltimetype exIcal;
+        memset(&exIcal, 0, sizeof(struct icaltimetype));
 
-    /* after finding all the dates we need to see if dt start is 
-     * a part of the recurrence if not add it to the recurrence 
-     * list */
-    unsigned int i = 0;
-    bool found = false;
-    while (i < instance_times.size() )
-    {	
-	    if ( instance_times[i] == iDateStart )
-	    {
-		found = true;   
-		break;
-	    }
-	    i++;
-    }
-    /* finding the dtstart and pushing it in to 
-     * the recurrence list if it is not present */
-    if (!found && (iViewBegin <= iDateStart && iDateStart <= iViewEnd)) {
-       CAL_DEBUG_LOG(" \n %s \n",ctime(&iDateStart));
-	   instance_times.push_back(iDateStart);
-    }
+        exIcal = icaltime_from_timet_with_zone((*titer), 0, pTz);
+        if ((exIcal.hour == 0) && (exIcal.minute == 0)
+                && (exIcal.second == 0)) {
+            timet_isday = true;
+            CAL_DEBUG_LOG("Exception time is date format not date+time format");
+        }
 
-    /* Removing Exception times */
-    bool  timet_isday = false;
-    vector < time_t >::iterator count1;
-    vector < time_t >::iterator count2;
-    for (count1 = etimes.begin(); count1 < etimes.end(); count1++)
-    {    
-	    timet_isday = false; 
-	    struct icaltimetype exIcal;
-	    memset (&exIcal, 0, sizeof (struct icaltimetype));
-	    exIcal = icaltime_from_timet_with_zone((*count1) ,0,pTz);
-	    if(exIcal.hour == 0 && exIcal.minute == 0  && exIcal.second == 0)
-	    {
-		    timet_isday = true; 
-		    CAL_DEBUG_LOG("Exception time is date format not date+time format");
-	    }
-	    
-	    for (count2 = instance_times.begin(); count2 < instance_times.end(); ) {
-
-		    if (((*count1) == (*count2)) || 
-		    (((*count1  <= *count2) && ( *count2 <= *count1+86399)) && timet_isday))  {
-			    CAL_DEBUG_LOG("Found exception time %ld\n", (*count1));
-			    count2 = instance_times.erase(count2);
-			    
-		    }
-		    else
-			    count2++;
-
-	    }
+        vector<time_t>::iterator it;
+        for (it = instance_times.begin(); it < instance_times.end();) {
+            // times match if they match directly or if the exception falls into
+            // an all-day event
+            if (((*titer) == (*it))
+                    || (timet_isday
+                            && (((*titer) <= (*it))
+                                    && ((*it) <= ((*titer) + 60 * 60 * 24 - 1))))) {
+                CAL_DEBUG_LOG("Found exception time %s", ctime(&(*titer)));
+                it = instance_times.erase(it);
+            } else {
+                ++it;
+            }
+        }
     }
 
-
- /* sorting the vector of timestamps 
-  Sorting is required in Next prev Logic */
-  if (sort_times) {
-    sort(instance_times.begin(),instance_times.end());
-  }
+    // sort the result vector if demanded
+    if (sort_times) {
+        sort(instance_times.begin(), instance_times.end());
+    }
 }
 
-/**
- * getRecurrenceRule
- * @param NONE
- * @return vector CRecurrenceRule* pointer to CRecurrenceRule object
- * Function used to retrieve CRecurrrencRule from 
- * CRecurrence(this) class
- */
-vector < CRecurrenceRule * >CRecurrence::getRecurrenceRule()
+bool CRecurrence::setRecurrenceRule(vector<CRecurrenceRule *> vRRule)
 {
+    if (vRRule.empty()) {
+        return false;
+    }
 
-    return (this->vRecrRuleList);
-
+    vRecrRuleList.insert(vRecrRuleList.end(), vRRule.begin(), vRRule.end());
+    return true;
 }
 
-/**
- * setRecurId
- * Function to set the exception Recursive days of a recursive event,todo or Journal
- * 
- * @param  int recurrence id    
- * 
- * @return bool (TRUE/FALSE)
- */
+vector<CRecurrenceRule *> CRecurrence::getRecurrenceRule()
+{
+    return vRecrRuleList;
+}
+
 bool CRecurrence::setRecurId(int iRecurId)
 {
-    if (iRecurId < 0)
-    return false;
+    if (iRecurId < 0) {
+        return false;
+    }
 
     this->iRecurId = iRecurId;
     return true;
-
 }
 
-
-/**
- * getRecurId
- * Function to set the exception Recursive days of a recursive event,todo or Journal
- * 
- * @param  none
- * 
- * @return int Recurrence ID
- */
 int CRecurrence::getRecurId()
 {
     return iRecurId;
 }
 
-/**
- * getErule
- * Function to get the recurrence rule of a recursive event.
- * @param none
- * @return vector string type of calendar recurrence rule
- * only exception rules are retrieived here 
- * 
- */
-vector < string > CRecurrence::getErule()
+vector<string> CRecurrence::getErule()
 {
-    vector < string > stringrules;
-    stringrules.clear();
-    if (vRecrRuleList.size() == 0) {
-    /* return empty list of strings */
-    return stringrules;
+    vector<string> stringrules;
+    if (vRecrRuleList.empty()) {
+        return stringrules;
     }
-    vector < CRecurrenceRule * >::iterator iter;
-    for (iter = vRecrRuleList.begin(); iter != vRecrRuleList.end(); iter++) {
-        /**
-         * this will call the getErule function in
-         * CRecurrenceRule object
-         */
-    /* 1 is for exrule and 0 is for rrule */
-    if ((*iter)->getRuleType() == 1)
-        stringrules.push_back((*iter)->getRrule());
+
+    vector<CRecurrenceRule *>::iterator iter;
+    for (iter = vRecrRuleList.begin(); iter != vRecrRuleList.end(); ++iter) {
+        if ((*iter)->getRuleType() == EXCEPTION_RULE) {
+            stringrules.push_back((*iter)->getRrule());
+        }
     }
 
     return stringrules;
 }
 
-/**
- * getRrule
- * Function to get the recurrence rule of a recursive event.
- * @param none
- * @return vector string type of calendar recurrence rule
- * only recursive rules are retrieived here 
- * 
- */
-vector < string > CRecurrence::getRrule()
+vector<string> CRecurrence::getRrule()
 {
-    vector < string > stringrules;
-    stringrules.clear();
-    if (vRecrRuleList.size() == 0) {
-    /* return empty list of strings */
-    return stringrules;
+    vector<string> stringrules;
+    if (vRecrRuleList.empty()) {
+        return stringrules;
     }
-    vector < CRecurrenceRule * >::iterator iter;
-    for (iter = vRecrRuleList.begin(); iter != vRecrRuleList.end(); iter++) {
-                /**
-                 * this will call the getRrule function in
-                 * CRecurrenceRule object
-                 */
-    /* 1 is for exrule and 0 is for rrule */
-    if ((*iter)->getRuleType() == 0)
-        stringrules.push_back((*iter)->getRrule());
+
+    vector<CRecurrenceRule *>::iterator iter;
+    for (iter = vRecrRuleList.begin(); iter != vRecrRuleList.end(); ++iter) {
+        if ((*iter)->getRuleType() == RECURRENCE_RULE) {
+            stringrules.push_back((*iter)->getRrule());
+        }
     }
 
     return stringrules;
 }
 
-
-/**
- * setRrule
- * Function to set the recurrence rule of a recursive event,todo
- * or Journal
- * @param  vector string type of calendar recurrence rule    
- * @return bool to indicate operation is successful or not 
- */
-bool CRecurrence::setRrule(vector < string > vRules)
+bool CRecurrence::setRrule(vector<string> vRules)
 {
+    if (vRules.empty()) {
+        return false;
+    }
 
-    /*
-     * 0- for recurrence RULE 
-     * 1- for exception RULE
-     */
-    if (vRules.size() == 0)
-    return false;
-    vector < string >::iterator iter;
-    for (iter = vRules.begin(); iter != vRules.end(); iter++) {
-    CRecurrenceRule *temp = new CRecurrenceRule(0, (*iter));
-    ASSERTION(temp);
-    vRecrRuleList.push_back(temp);
+    vector<string>::iterator iter;
+    for (iter = vRules.begin(); iter != vRules.end(); ++iter) {
+        CRecurrenceRule *temp = new CRecurrenceRule(RECURRENCE_RULE, (*iter));
+        assert(temp);
+        vRecrRuleList.push_back(temp);
     }
     return true;
-
 }
 
-
-/**
- * setErule
- * Function to set the Exception recurrence rule of a recursive event,todo or Journal
- * Although not supposed to be useful from calendar might be significant from sync point of view.
- * 
- * @param  vector <string> type of calendar exception recurrence rule    
- * 
- * @return bool to indicate operation is successful or not 
- */
-bool CRecurrence::setErule(vector < string > vRules)
+bool CRecurrence::setErule(vector<string> vRules)
 {
+    if (vRules.empty()) {
+        return false;
+    }
 
-
-    /*
-     * 0- for recurrence RULE 
-     * 1- for exception RULE
-     */
-    if (vRules.size() == 0)
-    return false;
-    vector < string >::iterator iter;
-    for (iter = vRules.begin(); iter != vRules.end(); iter++) {
-    CRecurrenceRule *temp = new CRecurrenceRule(1, (*iter));
-    ASSERTION(temp);
-    vRecrRuleList.push_back(temp);
+    vector<string>::iterator iter;
+    for (iter = vRules.begin(); iter != vRules.end(); ++iter) {
+        CRecurrenceRule *temp = new CRecurrenceRule(EXCEPTION_RULE, (*iter));
+        assert(temp);
+        vRecrRuleList.push_back(temp);
     }
     return true;
-
 }
 
-/**
- * setRDays
- * Function to set the Recursive days of a recursive event,todo or Journal
- * Although not supposed to be useful from calendar might be significant from sync point of view.
- * 
- * @param  vector type of calendar recurrence dates    
- * 
- * @return bool to indicate operation is successful or not 
- */
-bool CRecurrence::setRDays(vector < string > vRecRuleList)
+bool CRecurrence::setRDays(vector<string> vRecRuleList)
 {
-    if (vRecRuleList.size() != 0) {
-    this->vRecRuleList = vRecRuleList;
-    return true;
+    if (!vRecRuleList.empty()) {
+        this->vRecRuleList = vRecRuleList;
+        return true;
+    } else {
+        return false;
     }
-    return false;
-
 }
 
-
-/**
- * getRDays()
- * Function to get the Recursive days of a recursive event,todo or Journal
- * Although not supposed to be useful from calendar might be significant from sync point of view.
- * 
- * @param  none
- * 
- * @return vector type of calendar recurrence dates    
- */
-
-vector < string > CRecurrence::getRDays()
+vector<string> CRecurrence::getRDays()
 {
     return vRecRuleList;
-
 }
 
-/**
- * setEDays()
- * @param  vector type of calendar exception recurrence dates    
- * @return bool to indicate operation is successful or not 
- *
- * This function will be used to set the exception Recursive days of a recursive event,todo or Journal
- *  
- */
-bool CRecurrence::setEDays(vector < string > vExceptionDateList)
+bool CRecurrence::setEDays(vector<string> vExceptionDateList)
 {
-    if (vExceptionDateList.size() != 0) {
-    this->vExceptionDateList = vExceptionDateList;
-    return true;
-    } else
-    return false;
+    if (!vExceptionDateList.empty()) {
+        this->vExceptionDateList = vExceptionDateList;
+        return true;
+    } else {
+        return false;
+    }
 }
 
-/**
- * getEDays()
- * @param  none
- * @return vector type of calendar exception recursive dates    
- *
- * This function will be used to get the exception days of a recursive event,todo or Journal
- */
-
-vector < string > CRecurrence::getEDays()
+vector<string> CRecurrence::getEDays()
 {
-
     return vExceptionDateList;
-
 }
 
-/**
- * Overloaded assignment operator.
- * @param right The right hand operand for the assignment.
- */
 CRecurrence & CRecurrence::operator=(const CRecurrence & right)
 {
-	// prevent self assignment
-	if (&right != this) {
-		// clear existing elements before deep copy
-		vRecrRuleList.clear();
+    // prevent self assignment
+    if (&right != this) {
+        // clear existing elements before deep copy
+        vRecrRuleList.clear();
 
-		vector <CRecurrenceRule *> vRRule =
-				const_cast<CRecurrence &>(right).getRecurrenceRule();
+        vector<CRecurrenceRule *> vRRule =
+                const_cast<CRecurrence &>(right).getRecurrenceRule();
 
-		vector <CRecurrenceRule *>::const_iterator iter;
-		for (iter = vRRule.begin(); iter != vRRule.end(); ++iter) {
-			CRecurrenceRule *temp = new CRecurrenceRule(**iter);
-			ASSERTION(temp);
-			vRecrRuleList.push_back(temp);
-		}
-		vExceptionDateList = right.vExceptionDateList;
-		vRecRuleList = right.vRecRuleList;
-		iRecurId = right.iRecurId;
-		iRType = right.iRType;
-	}
-	return *this;
+        vector<CRecurrenceRule *>::const_iterator iter;
+        for (iter = vRRule.begin(); iter != vRRule.end(); ++iter) {
+            CRecurrenceRule *temp = new CRecurrenceRule(**iter);
+            assert(temp);
+            vRecrRuleList.push_back(temp);
+        }
+        vExceptionDateList = right.vExceptionDateList;
+        vRecRuleList = right.vRecRuleList;
+        iRecurId = right.iRecurId;
+        iRType = right.iRType;
+    }
+    return *this;
 }
 
-/**
- * Copy constructor for CRecurrence class.
- * @param ref The object to be copied.
- */
+bool CRecurrence::setRtype(int iRType)
+{
+    if ((iRType < E_NONE) || (iRType > E_COMPLEX)) {
+        return false;
+    }
+
+    this->iRType = static_cast<RecurrenceType_t>(iRType);
+    return true;
+}
+
+int CRecurrence::getRtype()
+{
+    return iRType;
+}
+
 CRecurrence::CRecurrence(CRecurrence & ref)
 {
-	vector < CRecurrenceRule * > vRRule = ref.getRecurrenceRule();
-    vector < CRecurrenceRule * >::iterator iter;
+    vector<CRecurrenceRule *> vRRule = ref.getRecurrenceRule();
+    vector<CRecurrenceRule *>::iterator iter;
     for (iter = vRRule.begin(); iter != vRRule.end(); ++iter) {
         CRecurrenceRule *temp = new CRecurrenceRule(**iter);
-        ASSERTION(temp);
+        assert(temp);
         vRecrRuleList.push_back(temp);
     }
     iRecurId = ref.iRecurId;
@@ -564,122 +367,66 @@ CRecurrence::CRecurrence(CRecurrence & ref)
     iRType = ref.iRType;
 }
 
-/**
- * CRecurrence
- * This is overloaded constructor for recurrence class
- * 
- * @param  Rrule recurrence rule
- * @param  int recurrence id.
- */
-CRecurrence::CRecurrence(vector < string > vRRule, int iRecurId):iRecurId
-    (iRecurId)
+CRecurrence::CRecurrence(vector<string> vRRule, int iRecurId) :
+        iRType(E_NONE), iRecurId(iRecurId)
 {
-    if (vRRule.size() != 0) {
-
-    this->setRrule(vRRule);
-    }
-    iRType = 0;
+    (void) setRrule(vRRule);
 }
 
-/**
- * CRecurrence()
- * This is default constructor for recurrence class
- */
-CRecurrence::CRecurrence():iRecurId(-1)
+CRecurrence::CRecurrence() :
+        iRType(E_NONE), iRecurId(-1)
 {
-    iRType = 0;
 }
 
-/**
- * setRtype
- * @param : int Type of recurrence  .
- * @return : bool to indicate the result of operation.
- *  
- * This function is used to set the Recurrence type  value in Recurrence object.
- * It is used for recurrence events and todos. It can take values like 
- * 'BY_DAILY' =1
- * 'BY_WEEKLY' =2
- * 'BY_MONTHLY'=3 and so on.
- * For external events/todos the value should be set to 0.
- */
-bool CRecurrence::setRtype(int iRType)
-{
-    this->iRType = iRType;
-    return true;
-}
-
-/**
- *  getRtype
- *  @param : NONE.
- *  @return : Int Type of internal recurrence.
- *   
- *  This function is used to get the Recurrence type  value in Recurrence object.
- *  It is used for recurrence events and todos. It can take values like 
- *  'BY_DAILY' =1
- *  'BY_WEEKLY' =2
- *  'BY_MONTHLY'=3 and so on.
- *  For external events/todos the value should be set to 0.
- */
-int CRecurrence::getRtype()
-{
-    return iRType;
-}
-
-/**
- * ~CRecurrence()
- * This is destructor for recurrence class
- */
 CRecurrence::~CRecurrence()
 {
-    unsigned int iIter;
-
-    for (iIter = 0; iIter < vRecrRuleList.size(); iIter++) {
-    delete(vRecrRuleList[iIter]);
-    vRecrRuleList[iIter] = 0;
+    vector<CRecurrenceRule *>::iterator iter;
+    for (iter = vRecrRuleList.begin(); iter != vRecrRuleList.end(); ++iter) {
+        delete (*iter);
+        *iter = 0;
     }
-    vExceptionDateList.clear();
-    vRecRuleList.clear();
-
 }
 
 string CRecurrence::toString()
 {
-    string szRet;
     std::stringstream ss;
-    ss << "Recurrence type=";
-    ss << iRType ;
-    ss << ",Recurrence ID=";
-    ss << iRecurId;
+    ss << "Recurrence type=" << iRType;
+    ss << ",Recurrence ID=" << iRecurId;
 
-    if((vRecRuleList).size()>0)
-    {
-	ss << ",Rule=";
-	vector<string>::iterator it;
-	for(it=vRecRuleList.begin();it!=vRecRuleList.end();it++){
-	    ss << *it;
-	    ss << SEMI_COLON;
-	}
+    if (!vRecRuleList.empty()) {
+        ss << ",Rule=[";
+        vector<string>::iterator it;
+        for (it = vRecRuleList.begin(); it != vRecRuleList.end(); ++it) {
+            if (it != vRecRuleList.begin()) {
+                ss << ",";
+            }
+            ss << *it;
+        }
+        ss << "]";
     }
-    if((vExceptionDateList).size()>0)
-    {
-	ss << ",ExceptionDate=";
-	vector<string>::iterator it;
-	for(it=vExceptionDateList.begin();it!=vExceptionDateList.end();it++){
-	    ss << *it;
-	    ss << SEMI_COLON;
-	}
+    if (!vExceptionDateList.empty()) {
+        ss << ",ExceptionDate=[";
+        vector<string>::iterator it;
+        for (it = vExceptionDateList.begin(); it != vExceptionDateList.end();
+                ++it) {
+            if (it != vExceptionDateList.begin()) {
+                ss << ",";
+            }
+            ss << *it;
+        }
+        ss << "]";
     }
-    if((vRecrRuleList).size()>0)
-    {
-	ss << ",RecRuleList=";
-	vector<CRecurrenceRule *>::iterator it;
-	for(it=vRecrRuleList.begin();it!=vRecrRuleList.end();it++){
-	    ss << *it;
-	    ss << SEMI_COLON;
-	}
+    if (!vRecrRuleList.empty()) {
+        ss << ",RecRuleList=[";
+        vector<CRecurrenceRule *>::iterator it;
+        for (it = vRecrRuleList.begin(); it != vRecrRuleList.end(); ++it) {
+            if (it != vRecrRuleList.begin()) {
+                ss << ",";
+            }
+            ss << "[" << (*it)->toString() << "]";
+        }
+        ss << "]";
     }
 
-    szRet.append(ss.str());
-    return szRet;
-
+    return ss.str();
 }

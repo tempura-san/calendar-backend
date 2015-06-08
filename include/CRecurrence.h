@@ -24,276 +24,265 @@
 #ifndef __RECURRENCE_H__
 #define __RECURRENCE_H__
 
-/* Headers */
-#include<vector>
 #include <string>
+#include <vector>
+
 using std::string;
 using std::vector;
 
 #include "CRecurrenceRule.h"
 
-/**
- * CRecurrence
- * @brief This contains the recurrence information
- */
+/** @file CRecurrence.h */
 
+/**
+ * @brief Enumeration of possible types of recurrences.
+ */
+typedef enum {
+    E_NONE = 0,//!< No recurrence.
+    E_DAILY,   //!< Daily recurrence.
+    E_WEEKDAY, //!< Recurrence by weekday.
+    E_WEEKLY,  //!< Weekly recurrence.
+    E_MONTHLY, //!< Monthly recurrence.
+    E_YEARLY,  //!< Yearly recurrence.
+    E_COMPLEX  //!< Complex recurrence (e.g. defined by rules, exceptions,...).
+} RecurrenceType_t;
+
+/**
+ * @brief A class to encapsulate the recurrence information.
+ *
+ * Recurrences may consist of:
+ * @li Recurrence rules (encapsulated in CRecurrenceRule objects)
+ * @li Recurrence days
+ * @li Exception rules (encapsulated in CRecurrenceRule objects)
+ * @li Exception days
+ *
+ * The instances of a recurrence can be obtained using the generateInstanceTimes()
+ * function.
+ *
+ * Note that no checks of validity are done when adding rules and/or days. It is
+ * up to the caller to ensure that the passed information is valid.
+ *
+ * The toString() function can be used to get a overview of the objects content.
+ * The resulting string is intended only for debugging purposes.
+ */
 class CRecurrence {
 
-  public:
+public:
 
     /**
-     * setRecurrenceRule
-     * @param vector <CRecurrenceRule*> pointer to CRecurrenceRule object
-     * @return boolean status of the operation
-     * Function used to set CRecurrrencRule in to 
-     * CRecurrence(this) class
+     * @brief Append the given rules to the current set of recurrence rule objects.
+     * @param VRRuleList A non-empty vector of pointers to CRecurrenceRule objects.
+     * @return \c true if rules were appended, \c false otherwise.
+     * @attention Despite its naming, existing rules are not cleared.
      */
-    bool setRecurrenceRule(vector < CRecurrenceRule * >VRRuleList);
+    bool setRecurrenceRule(vector<CRecurrenceRule *> VRRuleList);
 
     /**
-     * getRecurrenceRule
-     * @param NONE
-     * @return vector <CRecurrenceRule*> pointer to CRecurrenceRule object
-     * Function used to retrieve CRecurrrencRule from 
-     * CRecurrence(this) class
+     * @brief Return the current set of recurrence rule objects.
+     * @return A vector of pointers to CRecurrenceRule objects.
      */
-    vector < CRecurrenceRule * >getRecurrenceRule();
+    vector<CRecurrenceRule *> getRecurrenceRule();
 
     /**
-     * getErule
-     * Function to get the recurrence rule of a recursive event.
-     * @param none
-     * @return vector string type of calendar recurrence rule
-     * only exception rules are retrieived here 
-     * 
+     * @brief Return the contained exception rules.
+     * @return A vector of contained exception rules as strings. An empty string
+     * is returned, if no exception rules are found.
      */
-    vector < string > getErule();
+    vector<string> getErule();
 
     /**
-     * getRrule()
-     * @param none
-     * @return vector string type of calendar recurrence rule
-     *
-     * This function will be used to get the recurrence rule of a recursive event
-     * this list will include both recurrence rules and exception rules 
-     * can be differentiated by type 
+     * @brief Return the contained recurrence rules.
+     * @return A vector of contained recurrence rules as strings. An empty
+     * string is returned, if no recurrence rules are found.
      */
-    vector < string > getRrule();
+    vector<string> getRrule();
 
     /**
-     * CRecurrence(CRecurrence  & ref)
-     * copy constructor for CRecurrence class
+     * @brief Copy constructor for the CRecurrence class.
+     * @param ref The object to be copied.
      */
     CRecurrence(CRecurrence & ref);
 
     /**
-     * setRrule()
-     * @param  string type of calendar recurrence rule    
-     * @return bool to indicate operation is successful or not 
-     *
-     * This function will be used to set the recurrence rule of a recursive event,todo
-     * or Journal
+     * @brief Append a set of recurrence rules.
+     * @param vRRuleList A non-empty vector of recurrence rule strings.
+     * @return \c false if the passed vector was empty, \c true otherwise.
+     * @attention Despite its naming, existing rules are not cleared. The caller
+     * has to ensure that the list of rules is valid, as no checks are
+     * performed on adding the rules.
      */
-    bool setRrule(vector < string > vRRuleList);
+    bool setRrule(vector<string> vRRuleList);
 
     /**
-     * setErule()
-     * @param  string type of calendar exception recurrence rule    
-     * @return bool to indicate operation is successful or not 
-     *
-     * This function will be used to set the Exception recurrence rule of a recursive event,todo or Journal
-     * Although not supposed to be useful from calendar might be significant from sync point of view.
-     * 
+     * @brief Append a set exception rules.
+     * @param vERuleList A non-empty vector of recurrence rule strings.
+     * @return \c false if the passed vector was empty, \c true otherwise.
+     * @attention Despite its naming, existing rules are not cleared. The caller
+     * has to ensure that the list of rules is valid, as no checks are
+     * performed on adding the rules.
      */
-    bool setErule(vector < string > vERuleList);
+    bool setErule(vector<string> vERuleList);
 
     /**
-     * setRDays()
-     * @param  vector type of calendar recurrence dates    
-     * @return bool to indicate operation is successful or not 
-     *
-     * This function will be used to set the Recursive days of a recursive event,todo or Journal
-     * Although not supposed to be useful from calendar might be significant from sync point of view.
-     * 
+     * @brief Set the recurring dates for this recurrence object.
+     * @param vRecRuleList A non-empty vector of calendar recurrence dates as
+     * strings.
+     * @return \c false if the passed vector was empty, \c true otherwise.
+     * @attention The caller has to ensure that the list of dates is valid, as
+     * no checks are performed on adding the dates.
      */
-    bool setRDays(vector < string > vRecRuleList);
+    bool setRDays(vector<string> vRecRuleList);
 
     /**
-     * getRDays()
-     * @param  none
-     * @return vector type of calendar recurrence dates    
-     *
-     * This function will be used to get the Recursive days of a recursive event,todo or Journal
-     * Although not supposed to be useful from calendar might be significant from sync point of view.
-     * 
+     * @brief Get the recurring dates for this recurrence object.
+     * @return A vector of calendar recurrence dates as strings.
      */
-    vector < string > getRDays();
+    vector<string> getRDays();
 
     /**
-     * setEDays()
-     * @param  vector type of calendar exception recurrence dates    
-     * @return bool to indicate operation is successful or not 
-     *
-     * This function will be used to set the exception Recursive days of a recursive event,todo or Journal
-     *  
+     * @brief Set the exception days for this recurrence object.
+     * @param vExceptionDateList A non-empty vector of calendar exception dates
+     * as strings.
+     * @return \c false if the passed vector was empty, \c true otherwise.
+     * @attention The caller has to ensure that the list of dates is valid, as
+     * no checks are performed on adding the dates.
      */
-    bool setEDays(vector < string > vExceptionDateList);
+    bool setEDays(vector<string> vExceptionDateList);
 
     /**
-     * getEDays()
-     * @param  none
-     * @return vector type of calendar exception recursive dates    
-     *
-     * This function will be used to get the exception days of a recursive event,todo or Journal
-     * 
-     * 
+     * @brief Get the exception dates for this recurrence object.
+     * @return A vector of calendar recurrence dates as strings.
      */
-    vector < string > getEDays();
+    vector<string> getEDays();
 
     /**
-     * setRecurId()
-     * @param  int recurrence id    
-     * @return bool to indicate operation is successful or not 
-     *
-     * This function will be used to set the exception Recursive days of a recursive event,todo or Journal
-     *  
+     * @brief Set the ID of the recurrence object.
+     * @param iRId A non negative ID to set.
+     * @return \c true if the passed ID was valid, \c false otherwise.
      */
     bool setRecurId(int iRId);
 
     /**
-     * getRecurId()
-     * @param  none
-     * @return int recurrence id.
-     *
-     * This function will be used to set the exception Recursive days of a recursive event,todo or Journal
-     *  
+     * @brief Return the ID of the recurrence object.
+     * @return The recurrence ID.
      */
     int getRecurId();
+
     /**
-     * setRtype
-     * @param : int Type of recurrence  .
-     * @return : bool to indicate the result of operation.
-     *  
-     * This function is used to set the Recurrence type  value in Recurrence object.
-     * It is used for recurrence events and todos. It can take values like 
-     * 'BY_DAILY' =1
-     * 'BY_WEEKLY' =2
-     * 'BY_MONTHLY'=3 and so on.
-     * For external events/todos the value should be set to 0.
+     * @brief Set the type of recurrence.
+     * @param iRType The type of recurrence from the enumeration
+     * RecurrenceType_t.
+     * @return \c true if the passed type was valid and set, \c false otherwise.
+     * @note For external events/todos the value should be set to \c E_NONE (0).
+     * @remarks The interface should use the enumeration instead (not \c int).
+     * @todo The type of recurrence could be determined automatically when
+     * (exception) rules and (exception) dates are added, making this function
+     * obsolete as it might set an inconsistent recurrence type.
      */
     bool setRtype(int iRType);
+
     /**
-     *  getRtype
-     *  @param : NONE.
-     *  @return : Int Type of internal recurrence.
-     *   
-     *  This function is used to get the Recurrence type  value in Recurrence object.
-     *  It is used for recurrence events and todos. It can take values like 
-     *  'BY_DAILY' =1
-     *  'BY_WEEKLY' =2
-     *  'BY_MONTHLY'=3 and so on.
-     *  For external events/todos the value should be set to 0.
+     * @brief Get the type of recurrence.
+     * @return The type of recurrence from the enumeration RecurrenceType_t.
+     * @remarks The interface should use the enumeration instead (not \c int).
      */
     int getRtype();
 
     /**
-     * CRecurrence(string,int)
-     * @param  vector <string> Rrule recurrence rule
-     * @param  int recurrence id.
-     * 
-     * This is overloaded constructor for recurrence class
-     *  
+     * @brief An overloaded constructor for the CRecurrence class.
+     * @param vRRuleList A vector of recurrence rules to set.
+     * @param iRId The non-negative recurrence ID to set.
+     * @attention The caller has to ensure that the list of rules is valid, as
+     * no checks are performed on adding the rules.
      */
-    CRecurrence(vector < string > vRRuleList, int iRId);
-    /**
-     * generateInstanceTimes()
-     * @param iviewBegin lower range of current view 
-     * @param iviewEnd higher range of current view 
-     * @param ieventSpan diff between date start and date end of original instance  
-     * @return vector <time_t> values on which event has to happen
-     *
-     * Function used to retrieve the recurrence dates 
-     * !!! DEPRECATED !!!
-     */
-    vector < time_t > generateInstanceTimes(time_t iViewBegin, 
-            time_t iViewEnd,
-            time_t iDateStart,
-            int eventSpan,
-            int is_day,
-            string sTzid);
+    CRecurrence(vector<string> vRRuleList, int iRId);
 
     /**
-     * generateInstanceTimes()
-     * @param iviewBegin lower range of current view 
-     * @param iviewEnd higher range of current view 
-     * @param ieventSpan diff between date start and date end of original instance  
-     * @param instance_times values on which event has to happen
-     * @param sort_times     true if instance times must be sorted
-     *
-     * Function used to retrieve the recurrence dates 
+     * @brief Generate a vector of instance times when the recurrence is
+     * happening.
+     * @param iViewBegin The start time of the view to generate.
+     * @param iViewEnd The end time of the view to generate. If this parameter
+     * is set to 0, the recurrence will be expanded to one recurrence after
+     * iViewBegin.
+     * @param iDateStart The start date of the recurrence.
+     * @param iEventDuration The duration of the original event (as difference
+     * between date start and date end of the orginal instance).
+     * @param is_day UNUSED.
+     * @param sTzid The time zone of the event as string.
+     * @return The instance times as a vector of \c time_t entries. An empty
+     * list if no entries are found in the specified range.
+     * @deprecated Use generateInstanceTimes() with \c instance_times as
+     * reference argument instead.
      */
-    void generateInstanceTimes(time_t iViewBegin,
-            time_t iViewEnd,
-            time_t iDateStart,
-            int eventSpan,
-            int is_day,
-            string sTzid,
-            vector<time_t> &instance_times,
-            bool sort_times = true);
-    /**
-     * checkInstances()
-     * @param iviewBegin lower range of current view 
-     * @param iviewEnd higher range of current view 
-     * @param ieventSpan diff between date start and date end of original instance  
-     * @return true if an instance found
-     *
-     * Function used to check if any instance of this event occurs in the given interval 
-     */
-    bool checkInstances(time_t iViewBegin, 
-            time_t iViewEnd,
-            time_t iDateStart,
-            int eventSpan,
-            int is_day,
-            string sTzid);
+    vector<time_t> generateInstanceTimes(time_t iViewBegin, time_t iViewEnd,
+            time_t iDateStart, int iEventDuration, int is_day, string sTzid);
 
     /**
-     * CRecurrence()
-     * 
-     * This is default constructor for recurrence class
-     *  
+     * @brief Generate a vector of instance times when the recurrence is
+     * happening.
+     * @param iViewBegin The start time of the view to generate.
+     * @param iViewEnd The end time of the view to generate. If this parameter
+     * is set to 0, the recurrence will be expanded to one recurrence after
+     * iViewBegin.
+     * @param iDateStart The start date of the recurrence.
+     * @param iEventDuration The duration of the original event (as difference
+     * between date start and date end of the original instance).
+     * @param is_day UNUSED.
+     * @param sTzid The time zone of the event as string.
+     * @param instance_times The instance times as a vector of \c time_t
+     * entries. An empty list if no entries are found in the specified range.
+     * @param sort_times Sort the resulting vector (\c true by default).
+     */
+    void generateInstanceTimes(time_t iViewBegin, time_t iViewEnd,
+            time_t iDateStart, int iEventDuration, int is_day, string sTzid,
+            vector<time_t> &instance_times, bool sort_times = true);
+
+    /**
+     * @brief Check if any instance of this event occurs in the given interval.
+     * @param iViewBegin lower range of current view
+     * @param iViewEnd higher range of current view
+     * @param iDateStart The start date of the recurrence.
+     * @param iEventDuration The duration of the original event (as difference
+     * between date start and date end of the original instance).
+     * @param is_day UNUSED.
+     * @param sTzid The time zone of the event as string.
+     * @return \c true if at lease one instance found in the specified range.
+     * @note The function will call generateInstanceTimes() to determine if an
+     * instance of an event lies in the specified range.
+     */
+    bool checkInstances(time_t iViewBegin, time_t iViewEnd, time_t iDateStart,
+            int iEventDuration, int is_day, string sTzid);
+
+    /**
+     * @brief The default constructor for CRecurrence class.
      */
     CRecurrence();
 
-    /* overloaded assigment operator
+    /**
+     * @brief Overloaded assignment operator for the CRecurrence class.
+     * @param right The right hand operand for the assignment.
      */
     CRecurrence & operator=(const CRecurrence & right);
 
     /**
-     * ~CRecurrence()
-     * 
-     * This is destructor for recurrence class
-     *  
+     * @brief The destructor of the CRecurrence class.
+     * @note The destructor will also release the recurrence rule objects.
      */
     ~CRecurrence();
+
     /**
-     * toString
+     * @brief Return the string representation of the CRecurrence objects.
+     * @return A string representing the CRecurrence object.
      */
     string toString();
 
+private:
 
-  private:
-
-    vector < CRecurrenceRule * >vRecrRuleList; /*!< Vector recurrence rule */
-
-    vector < string > vExceptionDateList; /*!< Exception date list */
-
-    vector < string > vRecRuleList; /*!< Recurrence rule list */
-
-    int iRType; /*!< recurrence type */
-
+    vector<CRecurrenceRule *> vRecrRuleList; /*!< Vector of recurrence rules */
+    vector<string> vExceptionDateList; /*!< Exception date list */
+    vector<string> vRecRuleList; /*!< Recurrence rule list */
+    RecurrenceType_t iRType; /*!< Recurrence type */
     int iRecurId; /*!< Recurrence ID */
-
-
 };
 
 #endif
