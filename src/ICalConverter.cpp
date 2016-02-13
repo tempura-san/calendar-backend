@@ -994,7 +994,7 @@ void ICalConverter::exportSummaryFromLocal(icalcomponent *pEntcomp, T *pComp, Fi
 			 */
         	CUtility *pUt = 0;
 			pUt = CUtility::Instance();
-        	if(!pUt->isEncodingRequired(pComp->getSummary(), bSyncing)) {
+        	if(!bSyncing) {
 				summary = pComp->getSummary();
         	}
         	break;
@@ -1050,7 +1050,7 @@ void ICalConverter::exportLocationFromLocal(icalcomponent *pEntcomp, T *pComp)
         //let libical handle the content else we should not 
         //paste the content here cos libical changes the format
         //of encoded string if put here
-    if(!pUt->isEncodingRequired(pComp->getLocation(), bSyncing))
+    if(!bSyncing)
         location = pComp->getLocation();
         pProp = icalproperty_new_location(location.c_str());
         hashMap = pComp->getHashMap();
@@ -1111,7 +1111,7 @@ void ICalConverter::exportDescriptionFromLocal(icalcomponent *pEntcomp,  T *pCom
 			 */
 			CUtility *pUt = 0;
 			pUt = CUtility::Instance();
-			if(!pUt->isEncodingRequired(pComp->getDescription(), bSyncing)) {
+			if(!bSyncing) {
 				description = pComp->getDescription();
 			}
 			break;
@@ -1889,7 +1889,7 @@ void ICalConverter::exportCommentsFromLocal(icalcomponent *pEntcomp, T *pComp, F
 			 */
 			CUtility *pUt = 0;
 			pUt = CUtility::Instance();
-			if(!pUt->isEncodingRequired(pComp->getComments(), bSyncing)) {
+			if(!bSyncing) {
 				comments = pComp->getComments();
 			}
 			break;
@@ -5812,7 +5812,7 @@ CComponent *ICalConverter::toLocal(string strIcalComp, FileType iType,
     				    ICAL_X_PROPERTY);
         }
         pEvent->setXProperties(pProList);
-        pUt->releasePropertiesVector(pProList);
+        pUt->releaseVector(pProList);
     }
     /*importing created time */
     c_time = importCreatedTime (pComp, pEvent, iType, strIcalComp);    
@@ -6046,7 +6046,7 @@ CComponent *ICalConverter::toLocal(string strIcalComp, FileType iType,
     	        ICAL_X_PROPERTY);
     	}
     	pTodo->setXProperties(pProList);
-    				pUt->releasePropertiesVector(pProList);
+    				pUt->releaseVector(pProList);
       }
 
    /*importing Attach */
@@ -6241,7 +6241,7 @@ CComponent *ICalConverter::toLocal(string strIcalComp, FileType iType,
                             ICAL_X_PROPERTY);
         }
         pJournal->setXProperties(pProList);
-    pUt->releasePropertiesVector(pProList);
+    pUt->releaseVector(pProList);
     }
     
     /*importing URL */

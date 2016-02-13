@@ -4193,13 +4193,13 @@ int CCalendar::getCacheTableCount(time_t inputDate, int &pErrorCode)
 void CCalendar::checkIfMultiDayEvent(CComponent* pEntry, 
 		vector <time_t> &vStartDates)
 {
-	CUtility objUtility;
+	CUtility *pUt = CUtility::Instance();
 	time_t iStartDate = 0;
 	time_t iEndDate = 0;
 	int iCount = 0;
 
-	iStartDate = objUtility.getDateFromTime(pEntry->getDateStart());
-	iEndDate = objUtility.getDateFromTime(pEntry->getDateEnd());
+	iStartDate = pUt->getDateFromTime(pEntry->getDateStart());
+	iEndDate = pUt->getDateFromTime(pEntry->getDateEnd());
 
 	//TODO: Check with Addy if start date and end date 
 	//can be zero in any scenario
@@ -4230,7 +4230,7 @@ bool  CCalendar::addCacheEntries(CComponent * pEntry, int& pErrorCode)
 	time_t startDate = 0;
 	string szIds;
 	string szEventId;
-	CUtility objUtility;
+	CUtility *pUt = CUtility::Instance();
 	pErrorCode = CALENDAR_OPERATION_SUCCESSFUL;
 
 	if(pEntry == NULL) {
@@ -4260,7 +4260,7 @@ bool  CCalendar::addCacheEntries(CComponent * pEntry, int& pErrorCode)
 	for(iCount = 0; iCount < iLength; iCount++) {
 		szIds.clear();
 		startTime = vStartDates[iCount];
-		startDate = objUtility.getDateFromTime(startTime);
+		startDate = pUt->getDateFromTime(startTime);
 		if(startDate == 0) {
 			continue;
 		}
@@ -4300,7 +4300,7 @@ vector<CCache*> CCalendar::getDeletedCacheTableInfo(string sCompId,int &pErrorCo
     CCalendarDB *pDb = 0;
     int iSqliteError = 0;
     CCache* pCache = 0;
-    CUtility objUtility;
+    CUtility *pUt = CUtility::Instance();
     vector <CCache*> vListCache;
     vector<string> IdList;
     string szTemp;
@@ -4354,7 +4354,7 @@ vector<CCache*> CCalendar::getDeletedCacheTableInfo(string sCompId,int &pErrorCo
 
 			    case DB_COLUMN_ID2:
 				    szTemp= (char*)pQr->pResult[iK_ColCount + iJ_ColCount]; 
-				    IdList = objUtility.parseIds(szTemp);
+				    IdList = pUt->parseIds(szTemp);
 				    pCache->setCacheIds(IdList);
 				    IdList.clear();
 				    szTemp.clear();
@@ -4435,7 +4435,7 @@ bool CCalendar::deleteCacheEntries(string szId, int eEntry,
 string CCalendar::removeFromIds(string szId, string szIdStrings)
 {
 	vector <string> vIdList;
-	CUtility objUtility;
+	CUtility *pUt = CUtility::Instance();
 	int iCount = 0;
 	int iLength = 0;
 	string szOutput;
@@ -4446,7 +4446,7 @@ string CCalendar::removeFromIds(string szId, string szIdStrings)
 	if((szId.empty()) || (szIdStrings.empty())) {
 		return szOutput;
 	}
-	vIdList = objUtility.parseIds(szIdStrings);
+	vIdList = pUt->parseIds(szIdStrings);
 	iLength = vIdList.size();
 	if(iLength == 0) {
 		return szOutput;
@@ -6345,7 +6345,7 @@ CEvent *CCalendar::getEvent(string sCompId, int &pErrorCode)
     vector < CProperties * >vPropList;
     vPropList = event->retrieveXPropertyDetails();
     event->setXProperties(vPropList);
-    pUt->releasePropertiesVector(vPropList);
+    pUt->releaseVector(vPropList);
     /*retrieve params */
     map < string, vector < CParameters * > >paramMap;
     paramMap = event->retrieveParameterDetails();
@@ -6665,7 +6665,7 @@ CTodo *CCalendar::getTodo(string sCompId, int &pErrorCode)
 
     vPropList = todo->retrieveXPropertyDetails();
     todo->setXProperties(vPropList);
-    pUt->releasePropertiesVector(vPropList);
+    pUt->releaseVector(vPropList);
     /*retrieve params */
     map < string, vector < CParameters * > >paramMap;
     paramMap = todo->retrieveParameterDetails();
@@ -6935,7 +6935,7 @@ CJournal *CCalendar::getJournal(string sCompId, int &pErrorCode)
     vector < CProperties * >vPropList;
     vPropList = pJournal->retrieveXPropertyDetails();
     pJournal->setXProperties(vPropList);
-    pUt->releasePropertiesVector(vPropList);
+    pUt->releaseVector(vPropList);
 
     /*retrieve params */
     map < string, vector < CParameters * > >paramMap;
@@ -8934,7 +8934,7 @@ vector <CEvent*> CCalendar::getEvents(int & pErrorCode )
 	vector < CProperties * >vPropList;
 	vPropList = event->retrieveXPropertyDetails();
 	event->setXProperties(vPropList);
-	pUt->releasePropertiesVector(vPropList);
+	pUt->releaseVector(vPropList);
 
 	/*retrieve params */
 	map < string, vector < CParameters * > >paramMap;
@@ -9229,7 +9229,7 @@ vector <CTodo*> CCalendar::getTodos(int & pErrorCode )
 
 	vPropList = todo->retrieveXPropertyDetails();
 	todo->setXProperties(vPropList);
-	pUt->releasePropertiesVector(vPropList);
+	pUt->releaseVector(vPropList);
 
 	/*retrieve params */
 	map < string, vector < CParameters * > >paramMap;
@@ -9478,7 +9478,7 @@ vector <CJournal*> CCalendar::getJournals(int & pErrorCode )
     vector < CProperties * >vPropList;
     vPropList = pJournal->retrieveXPropertyDetails();
     pJournal->setXProperties(vPropList);
-    pUt->releasePropertiesVector(vPropList);
+    pUt->releaseVector(vPropList);
 
     /*retrieve params */
     map < string, vector < CParameters * > >paramMap;
