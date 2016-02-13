@@ -24,37 +24,26 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/Exception.h>
 #include <cppunit/config/SourcePrefix.h>
-#include <iostream>
-#include <sqlite3.h>
-#include <sys/time.h>
-#include <ctime>
 #include "CUtility.h"
 
-using namespace std;
+class CUtility_TS1: public CppUnit::TestFixture {
+    CPPUNIT_TEST_SUITE( CUtility_TS1 );
+    CPPUNIT_TEST(test_getDateFromTime);
+    CPPUNIT_TEST(test_parseId);
+    CPPUNIT_TEST(test_stringReplaceOne);
+    CPPUNIT_TEST(test_encodeQuotedPrintable);
+    CPPUNIT_TEST(test_getSystemTimeZone);
+    CPPUNIT_TEST(test_getRecurrentTimes);
+    CPPUNIT_TEST_SUITE_END();
 
-
-class CUtility_TS1 : public CppUnit::TestFixture
-{
-	CPPUNIT_TEST_SUITE( CUtility_TS1 );
-
-	CPPUNIT_TEST(test_getDateFromTime);
-	CPPUNIT_TEST(test_parseId);
-	CPPUNIT_TEST(test_stringReplaceOne);
-	CPPUNIT_TEST(test_encodeQuotedPrintable);
-	CPPUNIT_TEST(test_getSystemTimeZone);
-	CPPUNIT_TEST(test_getRecurrentTimes);
-	CPPUNIT_TEST(test_getApplicationName);
-	CPPUNIT_TEST_SUITE_END();
-
-	public:
-		CUtility* pUt;
-		void setUp();
-		void tearDown();
-		void test_getDateFromTime();
-		void test_stringReplaceOne();
-		void test_encodeQuotedPrintable();
-		void test_getSystemTimeZone();
-		void test_getRecurrentTimes();
-		void test_parseId();
-		void test_getApplicationName();
+public:
+    CUtility* pUt;
+    void setUp();
+    void tearDown();
+    void test_getDateFromTime();
+    void test_stringReplaceOne();
+    void test_encodeQuotedPrintable();
+    void test_getSystemTimeZone();
+    void test_getRecurrentTimes();
+    void test_parseId();
 };

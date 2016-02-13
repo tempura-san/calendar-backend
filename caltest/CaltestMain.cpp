@@ -60,7 +60,7 @@
 #include "test_CProperties.h"
 #include "test_CParameters.h"
 #include "test_CTimezone.h"
-#include "test_Utility.h"
+#include "test_CUtility.h"
 
 
 using namespace std;

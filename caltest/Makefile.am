@@ -28,7 +28,7 @@ caltest_SOURCES = \
     ../src/CCache.cpp \
     ../src/CTimezone.cpp \
     ../src/CCalendarProcs.cpp \
-    test_Utility.cpp test_Utility.h\
+    test_CUtility.cpp test_CUtility.h\
     test_CRecurrenceRule.cpp test_CRecurrenceRule.h\
     test_CRecurrence.cpp test_CRecurrence.h \
     test_CBday.cpp test_CBday.h \
@@ -77,7 +77,7 @@ cutility_SOURCES = \
     ../src/CCache.cpp \
     ../src/CCalendarProcs.cpp \
     ../src/CTimezone.cpp \
-    test_Utility.cpp test_Utility.h \
+    test_CUtility.cpp test_CUtility.h \
     cutility.cpp
 
 ccalendardb_SOURCES = \

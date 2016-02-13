@@ -22,284 +22,213 @@
  */
 
 #include "CUtility.h"
-#include "CalendarLog.h"
-#include "CProperties.h"
-extern "C" {
-#include <libical/ical.h>
-}
+#include "Common.h"
 
+#include <iomanip>
+
+// initialise static instance pointer to NULL
 CUtility* CUtility::pUt = 0;
-//aparna
-//TODO: Need to check the time zone conversions
+
 time_t CUtility::getDateFromTime(time_t startDate)
 {
-	time_t reqDate = 0;
-	
-	if(startDate == 0) {
-		return reqDate;
-	}
-	
-	struct tm pDate;
-	memset (&pDate, 0, sizeof (struct tm));
-	if(time_get_remote(startDate, 0, &pDate) != 0) {
-		return reqDate;
-	}
-	pDate.tm_hour = 0;
-	pDate.tm_min = 0;
-	pDate.tm_sec = 0;
-	reqDate = time_mktime(&pDate, 0);
+    time_t reqDate = 0;
+    struct tm pDate;
 
-	//TODO: Remove next 2 lines
-	char* tmp = ctime(&reqDate);
-	CAL_DEBUG_LOG("The date is-----:%s-----------------\n", tmp);
-	return reqDate;
-}
-//aparna
-vector <string> CUtility::parseIds(string szIds)
-{
-	vector <string> listId;
-	int iCounter = 0;
-	int iLength = 0;
-	string szSeparator = ",";
-	string szSepId;
+    if (startDate == 0) {
+        return reqDate;
+    }
 
-	if(szIds.empty()) {
-		return listId;
-	}
-	iLength = szIds.length();
+    memset(&pDate, 0, sizeof(struct tm));
 
+    // use default/local timezone for conversion
+    if (time_get_remote(startDate, 0, &pDate) != 0) {
+        return reqDate;
+    }
 
-	for(iCounter = 0; iCounter < iLength; iCounter++)
-	{
-		if(szIds.compare(iCounter, 1, szSeparator) != 0) {
-			szSepId.push_back(szIds[iCounter]);
-		} else {
-			if(!szSepId.empty()) {
-			listId.push_back(szSepId);
-			szSepId.clear();
-			}
-		}
-	}
-	CAL_DEBUG_LOG("---------The number of elements is:%d\n", listId.size());
-	return listId;
+    pDate.tm_hour = 0;
+    pDate.tm_min = 0;
+    pDate.tm_sec = 0;
+    reqDate = time_mktime(&pDate, 0);
+
+    return reqDate;
 }
 
-bool CUtility::stringReplaceOne(string &toChange, const char *changeThis, 
-				const char *toThis)
+vector<string> CUtility::parseIds(string szIds)
 {
-	bool retval = false;
-	size_t subStart = 0;
-	string orig(changeThis);
+    vector < string > listId;
 
-	if((subStart = toChange.find(changeThis)) != string::npos) {
-		retval = true;
-		toChange.replace(subStart, orig.length(), toThis);
-	}
+    string token;
+    istringstream iss(szIds);
 
-	return retval;
-}
-
-/* FIXME: Need to remove this procedure if it always returns false*/
-bool CUtility::isEncodingRequired(string szInput, bool syncing)
-{
-
-		return syncing;
-
-/*  No need to encode based on ASCII value 
- *  rather encode every time data is synced 
- *  Commmented to fix 120530. 	
-	for(iter = 0; iter < iLength; iter++){
-		char cInput = szInput[iter];
-		if(cInput & 0x80) {
-			found_non_ascii = true;
-			break;
-		}
-	}
-	return found_non_ascii;
-*/
-}
-
-
-/* function to encode data in quoted printable 
- */
-string  CUtility::encodeQuotedPrintable(string szInput)
-{
-    string szOutput;
-    char tmp[256];
-    int iPos = 0;
-    unsigned int iLength = szInput.length();
-    unsigned int iter = 0;
-
-    CAL_DEBUG_LOG("encodeQuotedPrintable(%s)\n", szInput.c_str());
-    int limit = 70;
-    szOutput.clear();
-
-    szOutput.append("=\n");
-
-    for(iter = 0; iter < iLength; iter++) {
-        char cInput = szInput[iter];
-        if((cInput > 36 && cInput < 91 && cInput != 61 && cInput != 44 
-				&& cInput != 59) || 
-		(cInput > 96 && cInput < 127)) {
-        /*
-         * No encoding required. Add as is
-         * szOutput.push_back(cInput);
-         */
-            iPos += 1;
-            //CAL_DEBUG_LOG("No encoding %c \n", cInput);
-            szOutput.push_back(cInput);
-	} else {
-            /*everything else encode to hex value and insert
-             */
-            sprintf(tmp,"%04hX",cInput);
-            tmp[1]='=';
-            szOutput.append(tmp+1);
-            iPos += 3;
-        }
-        if (iPos > limit) {
-            iPos = 0;
-            szOutput.append("=\n");
+    if(!szIds.empty()) {
+        while (getline(iss, token, ',')) {
+            if(!token.empty()) {
+                listId.push_back(token);
+            }
         }
     }
-    return szOutput;
+    return listId;
 }
 
-std::vector < time_t > CUtility::getRecurrentTimes(string szRRule,
-	icaltimetype iDtStart,
-	time_t iViewEnd,icaltimezone *pTz,int &pErrorCode)
-
+bool CUtility::stringReplaceOne(string &toChange, const char *changeThis,
+        const char *toThis)
 {
+    bool retval = false;
+    size_t subStart = 0;
+
+    if ((subStart = toChange.find(changeThis)) != string::npos) {
+        toChange.replace(subStart, strlen(changeThis), toThis);
+        retval = true;
+    }
+
+    return retval;
+}
+
+string CUtility::encodeQuotedPrintable(string szInput)
+{
+    ostringstream oss;
+    int linechars = 0;
+
+    // nothing to encode, so return empty string
+    if(szInput.empty()) {
+        return "";
+    }
+
+    // insert initial soft line break
+    oss << "=\n";
+
+    // omit base for 'hex' used in encoding
+    oss.unsetf(ios::showbase);
+
+    for(string::iterator it = szInput.begin(); it != szInput.end(); ++it) {
+        if ((*it >= 33 && *it <= 126) &&    // printable ASCII range
+            (*it != '=') &&                 // no '=' for QP
+            (*it != ',') &&                 // no COMMA (RFC2445/4.1.1)
+            (*it != ':') &&                 // no COLON (RFC2445/4.1.1)
+            (*it != ';')) {                 // no SEMICOLON (RFC2445/4.1.1)
+
+            // no encoding, simply add character itself
+            oss << *it;
+            linechars++;
+        } else {
+            // encode and insert using uppercase hexadecimals
+            if(*it == '\n') {
+                // special handling for line breaks
+                oss << "=0D=0A";
+                linechars += 6;
+            }
+            else {
+                // as 'hex' operates on int only, use integer promotion here
+                int ci = (*it & 0xFF);
+                oss << "=" << uppercase << hex << setw(2) << setfill('0') << ci;
+                linechars += 3;
+            }
+        }
+
+        // RFC1521 / 5.1 / Rule #5 - lines must not exceed 76 characters
+        if (linechars > 70) {
+            // insert soft line break and reset output character count
+            oss << "=\n";
+            linechars = 0;
+        }
+    }
+    return oss.str();
+}
+
+vector<time_t> CUtility::getRecurrentTimes(string szRRule,
+        icaltimetype iDtStart, time_t iViewEnd, icaltimezone *pTz,
+        int &pErrorCode)
+{
+    (void) pErrorCode;
 
     struct icalrecurrencetype recur;
     time_t utc_tim = 0;
-    vector < time_t > listtime;
+    vector<time_t> listtime;
+    icalrecur_iterator *ritr;
     bool loopexit = false;
-    unsigned int pos = 0;
-    pos = szRRule.find(UNTIL_ICAL,0);
-    if(pos != string::npos)
-    {
-	/* Find the six zeros and then substitute them with 
-	 *          * 245959  on the fly */
-	pos = szRRule.find(T_ICAL,pos+SIX);
-	if(pos != string::npos)
-	    szRRule.replace(pos+1,SIX,DAY_ICAL);
-    }
-    recur = icalrecurrencetype_from_string(szRRule.c_str());
 
-    CAL_DEBUG_LOG("*********Date start from ICS *********** ");
-    CAL_DEBUG_LOG(" Year is:    %d ", iDtStart.year);
-    CAL_DEBUG_LOG(" Month is:   %d ", iDtStart.month);
-    CAL_DEBUG_LOG(" Day is:     %d ", iDtStart.day);
-    CAL_DEBUG_LOG(" Hour is:    %d ", iDtStart.hour);
-    CAL_DEBUG_LOG(" Minute  is: %d ", iDtStart.minute);
-    CAL_DEBUG_LOG(" Second is : %d ", iDtStart.second);
-    CAL_DEBUG_LOG("**************************************** ");
-    icalrecur_iterator *ritr = 0;
+    unsigned int pos = szRRule.find(UNTIL_ICAL, 0);
+    if (pos != string::npos) {
+        // find the six zeros and then substitute them with 245959  on the fly
+        pos = szRRule.find(T_ICAL, pos + SIX);
+        if (pos != string::npos) {
+            szRRule.replace(pos + 1, SIX, DAY_ICAL);
+        }
+    }
+
+    recur = icalrecurrencetype_from_string(szRRule.c_str());
     ritr = icalrecur_iterator_new(recur, iDtStart);
-    if(ritr) {
+    if (ritr) {
         struct icaltimetype next;
         next = icalrecur_iterator_next(ritr);
 
         while ((!icaltime_is_null_time(next)) && (!loopexit)) {
-	       utc_tim = icaltime_as_timet_with_zone(next,pTz);
+            utc_tim = icaltime_as_timet_with_zone(next, pTz);
 
-	       if ((utc_tim > iViewEnd) && (iViewEnd != 0))
-	           loopexit = true;
-	       else{
-	           CAL_DEBUG_LOG ("instance time  = %s", ctime(&utc_tim));
-	           listtime.push_back(utc_tim);
-	       }
-	       next = icalrecur_iterator_next(ritr);
+            if ((utc_tim > iViewEnd) && (iViewEnd != 0)) {
+                loopexit = true;
+            }
+            else {
+                CAL_DEBUG_LOG("instance time  = %s", ctime(&utc_tim));
+                listtime.push_back(utc_tim);
+            }
+            next = icalrecur_iterator_next(ritr);
         }
 
         icalrecur_iterator_free(ritr);
     }
     return listtime;
 
-
 }
 
-void CUtility::releasePropertiesVector(std::vector < CProperties * > vec)
+string CUtility::getSystemTimeZone()
 {
-    std::vector < CProperties * >::iterator iIter;
-    CAL_DEBUG_LOG("Freeing the property List");
-    for (iIter = vec.begin(); iIter < vec.end(); iIter++) {
-	delete(*iIter);
-	(*iIter) = 0;
-    }
-    vec.clear();
-}       
+    char *zone = new char[DEFAULT_SIZE];
+    string szZone;
+    int nchars = 0;
 
+    bzero(zone, DEFAULT_SIZE);
+    nchars = time_get_timezone(zone, DEFAULT_SIZE);
+
+    if (nchars > 0 && nchars < DEFAULT_SIZE) {
+        szZone = zone;
+        CAL_DEBUG_LOG("Current timezone is %s\n", zone);
+    }
+    else {
+        CAL_DEBUG_LOG("Error: got nchars = %d", nchars);
+    }
+    delete[] zone;
+    return szZone;
+}
 
 icaltimezone* CUtility::getSystemTimeZoneAsIcalTimeZone()
 {
     string szZone(getSystemTimeZone());
-    unsigned int i = 0;
+    unsigned int i;
 
-    if((i = szZone.find(":",0)) != string::npos)
-	szZone = szZone.substr(i+1);
-    CAL_DEBUG_LOG(" Timezone after parsing is %s",szZone.c_str());
+    if ((i = szZone.find(":", 0)) != string::npos) {
+        szZone = szZone.substr(i + 1);
+    }
+    CAL_DEBUG_LOG("Timezone after parsing is %s", szZone.c_str());
 
-    if(szZone.empty()){
-	CAL_DEBUG_LOG("Something is terribly wrong with the environment");
-	return 0;
+    if (szZone.empty()) {
+        CAL_ERROR_LOG("Something is terribly wrong with the environment");
+        return 0;
     }
 
     icaltimezone* pTz = icaltimezone_get_builtin_timezone(szZone.c_str());
-    if(!pTz)
-	CAL_DEBUG_LOG("Requested timezone not found in the system %s",szZone.c_str());
+    if (!pTz) {
+        CAL_ERROR_LOG("Requested timezone '%s' not found", szZone.c_str());
+    }
+
     return pTz;
 }
-
-
-std::string CUtility::getSystemTimeZone()
-{
-    char *zone = new char[DEFAULT_SIZE];
-    string szZone;
-    int   nchars = 0;
-
-    ASSERTION(zone);
-    memset(zone,0,DEFAULT_SIZE);
-    nchars = time_get_timezone(zone, DEFAULT_SIZE);
-    CAL_DEBUG_LOG("*** nchars = %d", nchars);
-    if (nchars > 0 && nchars < DEFAULT_SIZE) {
-	szZone = zone;
-	CAL_DEBUG_LOG("Current timezone is %s\n", zone);
-    }
-    delete [] zone;
-    return szZone;
-}
-
-/**
- * @param : None
- * @return : string name of the application
- *  
- * This function sets the given name as the application name.
- */
-string CUtility::getApplicationName()
-{
-    return AppName;
-}
-
-/**
- * @param: string name of the application
- * @return: void
- *
- * This function sets the given name as the application name.
- */ 
-void CUtility::setApplicationName(string ApplicationName)
-{   
-    if (AppName.empty())
-	AppName.append(ApplicationName);
-}   
-    
-
 
 CUtility *CUtility::Instance()
 {
     if (pUt == 0) {
-	pUt = new CUtility();
-	ASSERTION(pUt);
+        pUt = new CUtility();
+        ASSERTION(pUt);
     }
     return pUt;
 }
