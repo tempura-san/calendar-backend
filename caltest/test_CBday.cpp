@@ -25,7 +25,9 @@
 #include <cppunit/Exception.h>
 #include <cppunit/config/SourcePrefix.h>
 #include <iostream>
-#include <string.h>
+
+#include "CAlarm.h"
+#include "CRecurrence.h"
 
 #include "test_CBday.h"
 
@@ -36,7 +38,8 @@ CPPUNIT_TEST_SUITE_REGISTRATION(CBday_TS2);
 
 void CBday_TS1::setUp()
 {
-    bd= new CBdayEvent("qw123","qw123",86321234);
+    // set up new event on 19720926T020714
+    bd = new CBdayEvent("ID12345", "John Doe", 86321234);
 }
 
 void CBday_TS1::tearDown()
@@ -44,11 +47,10 @@ void CBday_TS1::tearDown()
     delete bd;
 }
 
-
-
 void CBday_TS2::setUp()
 {
-    bd= new CBdayEvent("qw123","qw123",86321234);
+    // set up new event on 19720926T020714
+    bd = new CBdayEvent("ID12345", "John Doe", 86321234);
 }
 
 void CBday_TS2::tearDown()
@@ -58,84 +60,99 @@ void CBday_TS2::tearDown()
 
 void CBday_TS1::test_setEBookUid()
 {
-    bool ret = bd->setEBookUid("qw123");
-    CPPUNIT_ASSERT_MESSAGE("Error: Setting id",(ret==true));
-    string id = bd->getEBookUid();
-    CPPUNIT_ASSERT_MESSAGE("Error: getting id",(id=="qw123"));
+    CPPUNIT_ASSERT_MESSAGE("Could not set valid UID",
+            bd->setEBookUid("UID42") == true);
+
+    CPPUNIT_ASSERT_MESSAGE("Unexpected UID returned",
+            bd->getEBookUid() == "UID42");
 }
 
 void CBday_TS1::test_invalidsetEBookUid()
 {
-    bool ret = bd->setEBookUid("");
-    CPPUNIT_ASSERT_MESSAGE("Error: Setting id",(ret==false));
+    CPPUNIT_ASSERT_MESSAGE("Unexpected success in setting empty UID",
+            bd->setEBookUid("") == false);
 }
 
 void CBday_TS1::test_setFirstName()
 {
-    bool ret = bd->setFirstName("qw123");
-    CPPUNIT_ASSERT_MESSAGE("Error: Setting FirstName",(ret==true));
-    string id = bd->getFirstName();
-    CPPUNIT_ASSERT_MESSAGE("Error: getting FirstName",(id=="qw123"));
+    CPPUNIT_ASSERT_MESSAGE("Could not set valid name",
+            bd->setFirstName("Jane Doe") == true);
 
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Unexpected name returned",
+            string("Jane Doe"), bd->getFirstName());
 }
 
 void CBday_TS1::test_invalidsetFirstName()
 {
-    bool ret = bd->setFirstName("");
-    CPPUNIT_ASSERT_MESSAGE("Error: Setting FirstName empty",(ret==false));
+    CPPUNIT_ASSERT_MESSAGE("Unexpected success in setting empty name",
+            bd->setFirstName("") == false);
 }
 
 void CBday_TS1::test_setBirthDate()
 {
-    bool ret = bd->setBirthDate(86321234);
-    CPPUNIT_ASSERT_MESSAGE("Error: Setting BirthDate",(ret==true));
-    int dt =  bd->getBirthDate();
-    CPPUNIT_ASSERT_MESSAGE("Error: getting BirthDate",(dt==86321234));
+    CPPUNIT_ASSERT_MESSAGE("Could not set valid birthday",
+            bd->setBirthDate(86321234) == true);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Unexpected birthday returned",
+            bd->getBirthDate(), 86321234);
 }
 
 void CBday_TS1::test_invalidsetBirthDate()
 {
-    bool ret = bd->setBirthDate(-1);
-    CPPUNIT_ASSERT_MESSAGE("Error: Setting BirthDate",(ret==false));
+    CPPUNIT_ASSERT_MESSAGE("Unexpected success in setting invalid birthday",
+            bd->setBirthDate(-1) == false);
 }
-void CBday_TS1 :: test_defaultConstructor()
-{
-    CBdayEvent *cbd = new CBdayEvent;	
+
+void CBday_TS1::test_paramConstructor() {
+    CBdayEvent *cbd = new CBdayEvent("ID12345", "John Doe", 86321234);
+
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Unexpected ID returned",
+            string("ID12345"), cbd->getId());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Unexpected name returned",
+            string("John Doe"), cbd->getFirstName());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Unexpected date returned",
+            86321234, cbd->getBirthDate());
+
     delete cbd;
 }
 
+void CBday_TS1::test_defaultConstructor()
+{
+    CBdayEvent *cbd = new CBdayEvent;
+    delete cbd;
+}
 
 void CBday_TS2::test_toString()
 {
-    bd= new CBdayEvent("qw1","qw13",86321234);
-    CAlarm *alarm = new CAlarm(10000, 1);
-    bool ret = bd->setAlarm(alarm);
-    CRecurrence *rec = new CRecurrence();
-    ret = bd->setRecurrence(rec);
-
-    int duration = bd->getDuration();
-    string  szDes ="mails";
-    bd->setDescription(szDes);
+    bd->setAlarm(new CAlarm(10000, 1));
+    bd->setRecurrence(new CRecurrence());
+    bd->setDescription("Some description");
     bd->setDateStart(45678);
     bd->setDateEnd(45678);
     bd->setFlags(4);
     bd->setType(2);
-    bd->setSummary("Summary");
-    bd->setLocation("LOC");
+    bd->setSummary("Some summary");
+    bd->setLocation("Some location");
     bd->setLastModified(12345678);
     bd->setAllDay(0);
     bd->setRtype(1);
     bd->setCreatedTime(12364589);
 
-    string set = "qwerty";
-    ret = bd->setId(set);
-
-    cout<<bd->toString();
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Unexpected representation returned",
+            string("ID=ID12345,CalendarId=0,Summary=Some summary,"
+                   "Description=Some description,Location=Some location,"
+                   "TimeZone=,UId=,Type=2,Flags=4,Status=-1,Start date=45678,"
+                   "End date=45678,Last modified=12345678,Created=12364589,"
+                   "Until=-1,All day=0,Alarm=Attach=,Trigger=10000,Repeat=1,"
+                   "Duration=1,MinutesBefore=0,Rec=Recurrence type=1,"
+                   "Recurrence ID=-1"), bd->toString());
 }
 void CBday_TS2::test_toString_NULL()
 {
-    string qw="",qe="";
-    bd= new CBdayEvent(qw,qe,86321234);
-    cout<<bd->toString();
+    CBdayEvent *cbd = new CBdayEvent("", "", 0);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Unexpected representation returned",
+            string("ID=,CalendarId=0,Summary=,Description=,Location=,TimeZone=,"
+                   "UId=,Type=4,Flags=-1,Status=-1,Start date=0,End date=-1,"
+                   "Last modified=-1,Created=-1,Until=-1,All day=0,Alarm=NULL,"
+                   "Rec=NULL"), cbd->toString());
+    delete cbd;
 }
-
