@@ -1139,7 +1139,7 @@ void ICalConverter::exportSummaryFromLocal(icalcomponent *pEntcomp, T *pComp, Fi
             CUtility *pUt = 0;
             pUt = CUtility::Instance();
 
-            if(!pUt->isEncodingRequired(pComp->getSummary(), bSyncing)) {
+            if(!bSyncing) {
                 summary = pComp->getSummary();
             }
 
@@ -1204,7 +1204,7 @@ void ICalConverter::exportLocationFromLocal(icalcomponent *pEntcomp, T *pComp)
         //let libical handle the content else we should not
         //paste the content here cos libical changes the format
         //of encoded string if put here
-        if(!pUt->isEncodingRequired(pComp->getLocation(), bSyncing)) {
+        if(!bSyncing) {
             location = pComp->getLocation();
         }
 
@@ -1277,7 +1277,7 @@ void ICalConverter::exportDescriptionFromLocal(icalcomponent *pEntcomp,  T *pCom
             CUtility *pUt = 0;
             pUt = CUtility::Instance();
 
-            if(!pUt->isEncodingRequired(pComp->getDescription(), bSyncing)) {
+            if(!bSyncing) {
                 description = pComp->getDescription();
             }
 
@@ -2133,7 +2133,7 @@ void ICalConverter::exportCommentsFromLocal(icalcomponent *pEntcomp, T *pComp, F
             CUtility *pUt = 0;
             pUt = CUtility::Instance();
 
-            if(!pUt->isEncodingRequired(pComp->getComments(), bSyncing)) {
+            if(!bSyncing) {
                 comments = pComp->getComments();
             }
 
@@ -6588,7 +6588,7 @@ void ICalConverter::importEventRecurrence(icalcomponent *pComp,
                 }
 
                 pEvent->setXProperties(pProList);
-                pUt->releasePropertiesVector(pProList);
+                pUt->releaseVector(pProList);
             }
 
             /*importing created time */
@@ -6874,7 +6874,7 @@ void ICalConverter::importEventRecurrence(icalcomponent *pComp,
                 }
 
                 pTodo->setXProperties(pProList);
-                pUt->releasePropertiesVector(pProList);
+                pUt->releaseVector(pProList);
             }
 
             /*importing Attach */
@@ -7108,7 +7108,7 @@ void ICalConverter::importEventRecurrence(icalcomponent *pComp,
                 }
 
                 pJournal->setXProperties(pProList);
-                pUt->releasePropertiesVector(pProList);
+                pUt->releaseVector(pProList);
             }
 
             /*importing URL */

@@ -74,17 +74,6 @@ public:
     int initDB();
 
     /**
-     * setApplicationName
-     * Function to set the application name of calling process
-     *
-     * @param string Application name
-     *
-     * @return void
-     */
-
-    void setApplicationName(string appName);
-
-    /**
      * getDb
      * @param: None
      * @return :sqlite3* Pointer to DB

@@ -3572,9 +3572,15 @@ CMulticalendar::CMulticalendar(CMulticalendar &ref)
  */
 bool CMulticalendar::addBirthDay(CBdayEvent *pBday, int &pErrorCode)
 {
-    vector<CBdayEvent *> BdayList;
-    BdayList.push_back(pBday);
-    return addBirthdays(BdayList, pErrorCode);
+    if(pBday != NULL) {
+        vector<CBdayEvent *> BdayList;
+        BdayList.push_back(pBday);
+        return addBirthdays(BdayList, pErrorCode);
+    }
+    else {
+        pErrorCode = CALENDAR_INVALID_ARG_ERROR;
+        return false;
+    }
 }
 
 
@@ -7399,7 +7405,7 @@ vector<CComponent *>  CMulticalendar::getEventInList(vector<string> listId , vec
         vector < CProperties * >vPropList;
         vPropList = event->retrieveXPropertyDetails();
         event->setXProperties(vPropList);
-        pUt->releasePropertiesVector(vPropList);
+        pUt->releaseVector(vPropList);
 
         /*retrieve params */
         map < string, vector < CParameters * > >paramMap;
@@ -7478,7 +7484,7 @@ bool CMulticalendar::getRequiredDates(time_t iCurrTime, int iFutureDateNum,
                                       int iBackDateNum, int &iStartDate, int &iEndDate, vector<string> &vIdList,
                                       int &pErrorCode)
 {
-    CUtility objUtility;
+    CUtility *pUt = CUtility::Instance();
     time_t iCurrDate = 0;
     string szIdString;
 
@@ -7487,7 +7493,7 @@ bool CMulticalendar::getRequiredDates(time_t iCurrTime, int iFutureDateNum,
         return false;
     }
 
-    iCurrDate = objUtility.getDateFromTime(iCurrTime);
+    iCurrDate = pUt->getDateFromTime(iCurrTime);
 
     iEndDate = this->getDateRange(iCurrDate, iFutureDateNum, true,
                                   szIdString, pErrorCode);
@@ -7499,7 +7505,7 @@ bool CMulticalendar::getRequiredDates(time_t iCurrTime, int iFutureDateNum,
 
 
     /* create a vector from comma seperated string */
-    vIdList = objUtility.parseIds(szIdString);
+    vIdList = pUt->parseIds(szIdString);
 
 
     //TODO: Better if this logic is at UI level
