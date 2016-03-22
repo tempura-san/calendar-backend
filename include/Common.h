@@ -366,16 +366,6 @@ enum OPTION_TYPE {
     HAS_EXTRA
 };
 
-enum RecurrencType {
-    E_NONE = 0 ,
-    E_DAILY,
-    E_WEEKDAY,
-    E_WEEKLY,
-    E_MONTHLY,
-    E_YEARLY,
-    E_COMPLEX
-};
-
 enum entryType {
     E_CALENDAR = 0,
     E_EVENT,
