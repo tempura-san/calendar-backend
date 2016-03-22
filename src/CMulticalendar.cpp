@@ -9002,7 +9002,7 @@ void CMulticalendar::restoreAlarms()
         return;
     }
 
-    QueryResult *pQr = pDb->getRecords("select Components.Id,CalendarId,ComponentType,CookieId from Components LEFT JOIN  ALARM on ALARM.Id = Components.Id where Components.Id in (select id from alarm)", iSqlError);
+    QueryResult *pQr = pDb->getRecords(const_cast<char *>("select Components.Id,CalendarId,ComponentType,CookieId from Components LEFT JOIN  ALARM on ALARM.Id = Components.Id where Components.Id in (select id from alarm)"), iSqlError);
 
     if(pQr && pQr->pResult) {
         CAL_DEBUG_LOG("Have %d alarms to restore", pQr->iRow);

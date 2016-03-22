@@ -1069,7 +1069,7 @@ bool CCalendarDB::checkTimezoneTable()
     bool retval;
     int error;
 
-    QueryResult *pResult = getRecords("SELECT Location FROM TIMEZONE", error);
+    QueryResult *pResult = getRecords(const_cast<char *>("SELECT Location FROM TIMEZONE"), error);
 
     if(error == SQLITE_OK &&
             pResult != 0 &&
