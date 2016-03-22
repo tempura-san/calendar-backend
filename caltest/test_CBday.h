@@ -24,14 +24,10 @@
 #include <cppunit/extensions/HelperMacros.h>
 #include <cppunit/Exception.h>
 #include <cppunit/config/SourcePrefix.h>
-#include <iostream>
 
 #include "CBdayEvent.h"
-#include "CAlarm.h"
-#include "CRecurrence.h"
 
-
-class CBday_TS1 : public CppUnit::TestFixture
+class CBday_TS1: public CppUnit::TestFixture
 {
     CPPUNIT_TEST_SUITE(CBday_TS1);
     CPPUNIT_TEST(test_setEBookUid);
@@ -41,6 +37,7 @@ class CBday_TS1 : public CppUnit::TestFixture
     CPPUNIT_TEST(test_setBirthDate);
     CPPUNIT_TEST(test_invalidsetBirthDate);
     CPPUNIT_TEST(test_defaultConstructor);
+    CPPUNIT_TEST(test_paramConstructor);
     CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -53,15 +50,15 @@ public:
     void test_invalidsetFirstName();
     void test_setBirthDate();
     void test_invalidsetBirthDate();
+    void test_paramConstructor();
     void test_defaultConstructor();
 };
 
-class CBday_TS2 : public CppUnit::TestFixture
+class CBday_TS2: public CppUnit::TestFixture
 {
     CPPUNIT_TEST_SUITE(CBday_TS2);
     CPPUNIT_TEST(test_toString);
     CPPUNIT_TEST(test_toString_NULL);
-
     CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -71,4 +68,3 @@ public:
     void test_toString();
     void test_toString_NULL();
 };
-

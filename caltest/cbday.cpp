@@ -48,7 +48,7 @@ int main(int ac, char **av)
     // Create the event manager and test controller
     CPPUNIT_NS::TestResult controller;
 
-    // Add a listener that colllects test result
+    // Add a listener that collects test result
     CPPUNIT_NS::TestResultCollector result;
     controller.addListener(&result);
 
@@ -56,19 +56,18 @@ int main(int ac, char **av)
     CPPUNIT_NS::BriefTestProgressListener progress;
     controller.addListener(&progress);
 
-
+    // Create the runner and add test suites
     CppUnit::TextUi::TestRunner runner;
-    // Add the top runner.to the test runner
     runner.addTest(CBday_TS1::suite());
+    runner.addTest(CBday_TS2::suite());
     runner.run(controller);
 
-    // Print test in a compiler compatible format.
-    std::ofstream file("cbday.xml");
+    // Output test results as XML
+    ofstream file("cbday.xml");
     CPPUNIT_NS::XmlOutputter xml(&result, file);
     xml.setStyleSheet("report.xsl");
     xml.write();
     file.close();
+
     return result.wasSuccessful() ? 0 : 1;
-
 }
-

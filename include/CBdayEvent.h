@@ -21,104 +21,98 @@
  *
  */
 
-#ifndef __CSMARTCALENDAR_H__
-#define __CSMARTCALENDAR_H__
+#ifndef __CBDAYEVENT_H__
+#define __CBDAYEVENT_H__
 
-/* Headers */
 #include <string>
 #include <vector>
-#include "CComponent.h"
 
-using namespace std;
 using std::string;
 using std::vector;
 
-/**
- * CBdayEvent class
- * @brief This class contain's the API's to get/set the birthday related parameters
- * Inherited from CComponent class.
- */
+#include "CComponent.h"
 
+/**
+ * @brief A class to hold information about birthdays.
+ *
+ * This class contain's the API's to get/set the birthday related parameters.
+ *
+ * @note The class expects and returns dates as \c int instead of \c time_t.
+ */
 class CBdayEvent: public CComponent
 {
-
 public:
 
-    /* Constructor */
+    /**
+     * @brief The default constructor.
+     */
     CBdayEvent();
 
-    /* Parameterized constructor */
+    /**
+     * @brief The parameterised constructor.
+     *
+     * @param szUId The UID of the birthday event.
+     * @param szname The person's name.
+     * @param idate The date of the birthday.
+     */
     CBdayEvent(string szUId, string szname, int idate);
 
-    /* Destructor */
+    /**
+     * @brief The default destructor.
+     */
     ~CBdayEvent();
 
     /**
-     * setEbookUid
-     * Function to set the Ebook uid fetched from AB
+     * @brief Set the UID for this event.
      *
-     * @param string Ebook uid
-     *
-     * @return TRUE/FALSE
+     * @param szEbookUid The UID to set.
+     * @return \c true if the UID passed was valid, \c false otherwise.
      */
     bool setEBookUid(string szEbookUid);
 
     /**
-     * getEbookUid
-     * Function to get the Ebook UID
+     * @brief Get the UID for this event.
      *
-     * @param none
-     *
-     * @return string Ebook uid
+     * @return The UID of this event.
      */
     string getEBookUid();
 
     /**
-     * setFirstName
-     * Function used to set the first name of birthday contact
+     * @brief Set the name for this event.
      *
-     * @param string First name
-     *
-     * @return TRUE/FALSE
+     * @param szName The name to set.
+     * @return \c true if the name passed was valid, \c false otherwise.
      */
     bool setFirstName(string szName);
 
     /**
-     * getFirstName
-     * Function used to get the first name
+     * @brief Get the name for this event.
      *
-     * @param none
-     *
-     * @return string First name
+     * @return The name of this event.
      */
     string getFirstName();
 
     /**
-     * setBirthDate
-     * Function used to set the birthdate.
+     * @brief Set the date for this birthday event.
      *
-     * @param int Birthdate
-     *
-     * @return TRUE/FALSE
+     * @param idate The date to set.
+     * @return \c true if the date passed was valid, \c false otherwise.
      */
     bool setBirthDate(int idate);
 
     /**
-     * getBirthDate
-     * Function used to get the birthdate
+     * @brief Get the date of this birthday event.
      *
-     * @param none
-     *
-     * @return int Birthdate
+     * @return The date of this event.
      */
     int getBirthDate();
 
     /**
-     * toString
+     * @brief Return a textual representation of this event.
+     *
+     * @return A \c string object describing this event.
      */
     string toString();
-
-
 };
 
 #endif

@@ -537,6 +537,10 @@ time_t CComponent::getUntil()
  */
 bool CComponent::setGUid(string szuid)
 {
+    if(szuid.empty()) {
+        return false;
+    }
+
     this->szuid = szuid;
     return true;
 }
@@ -1042,6 +1046,10 @@ int CComponent::getStatus()
  */
 bool CComponent::setDateStart(time_t dateStart)
 {
+    if(dateStart < 0) {
+        return false;
+    }
+
     this->iDateStart = dateStart;
     return true;
 }
