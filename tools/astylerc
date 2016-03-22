@@ -1,0 +1,26 @@
+#
+# calendar-backend code formatting ruleset for astyle
+#
+# call astyle in the project root as follows:
+# $ astyle --options=tools/astylerc "./*.cpp" "./*.c" "./*.h"
+# 
+# please use this format when doing changes - this will reduce
+#   the amount of differing lines when changing code - thanks
+#
+# for a more in-depth explanation see http://astyle.sourceforge.net/astyle.html
+#
+--mode=c			# language C/C++
+--style=otbs			# use One-True-Brace-Style
+--indent=spaces=4		# indent using 4 spaces
+--break-blocks			# pad empty lines around blocks
+--break-closing-brackets	# break closing headers from preceding closing brackets
+--align-pointer=name		# pointer indicator aligned to name
+--align-reference=name		# reference indicator aligned to name
+--add-brackets			# add missing brackets
+--suffix=none			# do not generate backup files
+--pad-oper			# add spaces around operators
+--unpad-paren			# remove unneeded spaces from parens
+--lineend=linux			# be sure to use *NIX line endings
+--recursive			# recurse into subdirectories
+--formatted			# only show changed files on running
+--verbose			# print some statistics at the end
