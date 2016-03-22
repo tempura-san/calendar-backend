@@ -37,9 +37,8 @@
 #include <cppunit/config/SourcePrefix.h>
 
 #include <iostream>
-#include <string>
 
-#include "test_Utility.h"
+#include "test_CUtility.h"
 
 using namespace std;
 
@@ -48,27 +47,25 @@ int main(int ac, char **av)
     // Create the event manager and test controller
     CPPUNIT_NS::TestResult controller;
 
-    // Add a listener that colllects test result
+    // Add a listener that collects the test results
     CPPUNIT_NS::TestResultCollector result;
     controller.addListener(&result);
 
-    // Add a listener that print dots as test run.
+    // Add a listener that prints dots as the test runs
     CPPUNIT_NS::BriefTestProgressListener progress;
     controller.addListener(&progress);
 
-
+    // Create the runner and add test suites
     CppUnit::TextUi::TestRunner runner;
-    // Add the top runner.to the test runner
     runner.addTest(CUtility_TS1::suite());
     runner.run(controller);
 
-    // Print test in a compiler compatible format.
-    std::ofstream file("cutility.xml");
+    // Output test results as XML
+    ofstream file("cutility.xml");
     CPPUNIT_NS::XmlOutputter xml(&result, file);
     xml.setStyleSheet("report.xsl");
     xml.write();
     file.close();
+
     return result.wasSuccessful() ? 0 : 1;
-
 }
-
