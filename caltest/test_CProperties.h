@@ -31,42 +31,42 @@
 
 class CProperties_TS1 : public CppUnit::TestFixture
 {
-	CPPUNIT_TEST_SUITE( CProperties_TS1 );
-	CPPUNIT_TEST(test_setPropName_Valid);
-	CPPUNIT_TEST(test_setPropValue_ValidInt);
-	CPPUNIT_TEST(test_setPropValue_ValidString);
-	CPPUNIT_TEST(test_getDataType_Valid);
-	CPPUNIT_TEST(test_getDataType_ValidX);
-	CPPUNIT_TEST(test_getDataType_InValid);
-	CPPUNIT_TEST(test_copyConstructor);
-	CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(CProperties_TS1);
+    CPPUNIT_TEST(test_setPropName_Valid);
+    CPPUNIT_TEST(test_setPropValue_ValidInt);
+    CPPUNIT_TEST(test_setPropValue_ValidString);
+    CPPUNIT_TEST(test_getDataType_Valid);
+    CPPUNIT_TEST(test_getDataType_ValidX);
+    CPPUNIT_TEST(test_getDataType_InValid);
+    CPPUNIT_TEST(test_copyConstructor);
+    CPPUNIT_TEST_SUITE_END();
 
-	public:
-		CProperties * pProp;
-		void setUp();
-		void tearDown();
-		void test_setPropName_Valid();
-		void test_setPropValue_ValidInt();
-		void test_setPropValue_ValidString();
-		void test_getDataType_Valid();
-		void test_getDataType_ValidX();
-		void test_getDataType_InValid();
-		void test_copyConstructor();
+public:
+    CProperties *pProp;
+    void setUp();
+    void tearDown();
+    void test_setPropName_Valid();
+    void test_setPropValue_ValidInt();
+    void test_setPropValue_ValidString();
+    void test_getDataType_Valid();
+    void test_getDataType_ValidX();
+    void test_getDataType_InValid();
+    void test_copyConstructor();
 };
 
 class CProperties_TS2 : public CppUnit::TestFixture
 {
-	CPPUNIT_TEST_SUITE( CProperties_TS2 );
-	CPPUNIT_TEST(test_toString);
-	CPPUNIT_TEST(test_toString_NULL);
-	CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(CProperties_TS2);
+    CPPUNIT_TEST(test_toString);
+    CPPUNIT_TEST(test_toString_NULL);
+    CPPUNIT_TEST_SUITE_END();
 
-	public:
-	CProperties * pProp;
-	void setUp();
-	void tearDown();
-	void test_toString();
-	void test_toString_NULL();
+public:
+    CProperties *pProp;
+    void setUp();
+    void tearDown();
+    void test_toString();
+    void test_toString_NULL();
 };
 
 

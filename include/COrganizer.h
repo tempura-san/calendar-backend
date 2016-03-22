@@ -27,29 +27,30 @@
 /* Headers */
 #include "CParticipant.h"
 
-/** 
+/**
  * COrganizer class
  * @brief Class which contains the details of Organizers
  * Inherited from CParticipant
  */
-class COrganizer:public CParticipant {
+class COrganizer: public CParticipant
+{
 
-  public:
+public:
 
     /**
-     * default constructor 
+     * default constructor
      */
     COrganizer();
 
     /**
      * Overloaded assignment operator
      */
-    COrganizer & operator=(COrganizer & right);
+    COrganizer &operator=(COrganizer &right);
 
     /**
-     * copy Constructor 
+     * copy Constructor
      */
-    COrganizer(COrganizer & Orgref);
+    COrganizer(COrganizer &Orgref);
 
     /* Destructor */
     ~COrganizer();

@@ -22,17 +22,17 @@
  */
 
 #include "CAlarmIface.h"
-/* Constructor and destructor can 
- * only be invoked by derived classes 
- * 
+/* Constructor and destructor can
+ * only be invoked by derived classes
+ *
  */
 
 
 CAlarmIface::CAlarmIface()
 {
 
-/* Default constructor for CAlarmIface can be invoked 
- * by the derived classes */
+    /* Default constructor for CAlarmIface can be invoked
+     * by the derived classes */
 
 }
 

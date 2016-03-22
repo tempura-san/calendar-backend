@@ -33,40 +33,40 @@ using namespace std;
 int main()
 {
 #if 0
-	time_t utcint;
-	time_t timeDiff;
+    time_t utcint;
+    time_t timeDiff;
 
-	utcint = time_get_time();
-        timeDiff = mktime(localtime(&utcint)) - mktime(gmtime(&utcint));
+    utcint = time_get_time();
+    timeDiff = mktime(localtime(&utcint)) - mktime(gmtime(&utcint));
 
-	cout << timeDiff << endl;
+    cout << timeDiff << endl;
 
-	struct tm ltm, gtm;
-	time_get_local (&ltm);
-	time_get_utc (&gtm);
+    struct tm ltm, gtm;
+    time_get_local(&ltm);
+    time_get_utc(&gtm);
 
-	timeDiff = time_mktime (&ltm, 0) - time_mktime (&gtm, 0);
+    timeDiff = time_mktime(&ltm, 0) - time_mktime(&gtm, 0);
 
-	cout << timeDiff << endl;
+    cout << timeDiff << endl;
 #endif
 
 #if 0
-	struct tm *ptm = 0;
-	time_t utc = time (0);
-	cout << utc << endl;
-	ptm = localtime (&utc);
-	utc = mktime (ptm);
-	cout << utc << endl;
+    struct tm *ptm = 0;
+    time_t utc = time(0);
+    cout << utc << endl;
+    ptm = localtime(&utc);
+    utc = mktime(ptm);
+    cout << utc << endl;
 #endif
 
-	time_t utc = time (0);
-	struct tm *ptm = 0;
+    time_t utc = time(0);
+    struct tm *ptm = 0;
 
-	cout << utc << endl;
+    cout << utc << endl;
 
-        ptm = gmtime(&utc);
-        utc = mktime(ptm);
-	
-	cout << utc << endl;
+    ptm = gmtime(&utc);
+    utc = mktime(ptm);
+
+    cout << utc << endl;
 }
-		
+

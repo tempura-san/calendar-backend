@@ -35,23 +35,23 @@ using namespace std;
 
 void CAlarm_TS1::setUp()
 {
-    pCa= new CAlarm();
+    pCa = new CAlarm();
 }
 
 void CAlarm_TS1::tearDown()
 {
     delete pCa;
-    pCa=NULL;
+    pCa = NULL;
 }
 void CAlarm_TS2::setUp()
 {
-    pCa1= new CAlarm();
+    pCa1 = new CAlarm();
 }
 
 void CAlarm_TS2::tearDown()
 {
     delete pCa1;
-    pCa1=NULL;
+    pCa1 = NULL;
 }
 
 
@@ -59,46 +59,46 @@ void CAlarm_TS1::test_setTrigger_Valid()
 {
     int iTrig = 102345;
     pCa->setTrigger(iTrig);
-    CPPUNIT_ASSERT_MESSAGE("Error : Failed to set trigger  ",(pCa->getTrigger()==iTrig));
+    CPPUNIT_ASSERT_MESSAGE("Error : Failed to set trigger  ", (pCa->getTrigger() == iTrig));
 }
 
 void CAlarm_TS1 :: test_setTrigger_Invalid()
 {
     pCa->setTrigger(-1);
 
-    CPPUNIT_ASSERT_MESSAGE("Error: Trying to set invalid ID",pCa->getTrigger()!= -1);
+    CPPUNIT_ASSERT_MESSAGE("Error: Trying to set invalid ID", pCa->getTrigger() != -1);
 }
 
 void CAlarm_TS1::test_setRepeat_Valid()
 {
     int iRep = 5;
     pCa->setRepeat(iRep);
-    CPPUNIT_ASSERT_MESSAGE("Error : Failed to set Repeat  ",(pCa->getRepeat()==iRep));
+    CPPUNIT_ASSERT_MESSAGE("Error : Failed to set Repeat  ", (pCa->getRepeat() == iRep));
 }
 
 void CAlarm_TS1 :: test_setRepeat_Invalid()
 {
     pCa->setRepeat(-10);
-    CPPUNIT_ASSERT_MESSAGE("Error: Trying to set invalid Repeat negative!!",(pCa->getRepeat()!=-10));
+    CPPUNIT_ASSERT_MESSAGE("Error: Trying to set invalid Repeat negative!!", (pCa->getRepeat() != -10));
 }
 
 void CAlarm_TS1::test_setDuration_Valid()
 {
     int iDur = 3;
     pCa->setDuration(iDur);
-    CPPUNIT_ASSERT_MESSAGE("Error : Failed to set Duration  ",(pCa->getDuration()==iDur));
+    CPPUNIT_ASSERT_MESSAGE("Error : Failed to set Duration  ", (pCa->getDuration() == iDur));
 }
 
 void CAlarm_TS1 :: test_setDuration_Invalid()
 {
     pCa->setDuration(-1);
-    CPPUNIT_ASSERT_MESSAGE("Error: Trying to set invalid Duration < 0!",(pCa->getDuration()!=-1));
+    CPPUNIT_ASSERT_MESSAGE("Error: Trying to set invalid Duration < 0!", (pCa->getDuration() != -1));
 }
 void CAlarm_TS1 :: test_setAction_Valid()
 {
     int iAct = 1;
     pCa->setAction(iAct);
-    CPPUNIT_ASSERT_MESSAGE("Error: Failed to set Action ",(pCa->getAction()==iAct));
+    CPPUNIT_ASSERT_MESSAGE("Error: Failed to set Action ", (pCa->getAction() == iAct));
 }
 
 //TODO::Action has to be made a enum type. Then invalid test cases for setAction() can be added
@@ -109,7 +109,7 @@ void CAlarm_TS1::test_setCookie_Valid()
 
     cookie_t arg1 = 10000000;
     cookie_t arg2 = 20000000;
-    cookie_t arg3 = 30000000;	
+    cookie_t arg3 = 30000000;
     izCookieList.push_back(arg1);
     izCookieList.push_back(arg2);
     izCookieList.push_back(arg3);
@@ -117,10 +117,10 @@ void CAlarm_TS1::test_setCookie_Valid()
     pCa->setCookie(izCookieList);
     izRetCookieList = pCa->getCookie();
 
-    CPPUNIT_ASSERT_MESSAGE("Error: Failed to set Cookies",(izCookieList.size()==izRetCookieList.size()));
-    CPPUNIT_ASSERT_MESSAGE("Error: Failed to set Cookies",(izCookieList[0]==izRetCookieList[0]));
-    CPPUNIT_ASSERT_MESSAGE("Error: Failed to set Cookies",(izCookieList[1]==izRetCookieList[1]));
-    CPPUNIT_ASSERT_MESSAGE("Error: Failed to set Cookies",(izCookieList[2]==izRetCookieList[2]));
+    CPPUNIT_ASSERT_MESSAGE("Error: Failed to set Cookies", (izCookieList.size() == izRetCookieList.size()));
+    CPPUNIT_ASSERT_MESSAGE("Error: Failed to set Cookies", (izCookieList[0] == izRetCookieList[0]));
+    CPPUNIT_ASSERT_MESSAGE("Error: Failed to set Cookies", (izCookieList[1] == izRetCookieList[1]));
+    CPPUNIT_ASSERT_MESSAGE("Error: Failed to set Cookies", (izCookieList[2] == izRetCookieList[2]));
 }
 
 void CAlarm_TS1::test_setCookie_Invalid()
@@ -128,7 +128,7 @@ void CAlarm_TS1::test_setCookie_Invalid()
     vector <long> izCookieList;
     bool bRet = pCa->setCookie(izCookieList);
 
-    CPPUNIT_ASSERT_MESSAGE("Error: Trying to set invalid Cookies empty!!",(bRet==true));
+    CPPUNIT_ASSERT_MESSAGE("Error: Trying to set invalid Cookies empty!!", (bRet == true));
 }
 
 void CAlarm_TS1 :: test_setAttach_Valid()
@@ -138,14 +138,14 @@ void CAlarm_TS1 :: test_setAttach_Valid()
 
     string szRet = pCa->getAttach();
 
-    CPPUNIT_ASSERT_MESSAGE("Error: Failed to set Attachment",(szS==szRet));
+    CPPUNIT_ASSERT_MESSAGE("Error: Failed to set Attachment", (szS == szRet));
 }
 
 void CAlarm_TS1 :: test_setAttach_Empty()
 {
     string szS = "";
     bool bRet = pCa->setAttach(szS);
-    CPPUNIT_ASSERT_MESSAGE("Error: Trying to set empty!!  Attachment",(bRet==true));
+    CPPUNIT_ASSERT_MESSAGE("Error: Trying to set empty!!  Attachment", (bRet == true));
 }
 
 void CAlarm_TS1 :: test_constructor()
@@ -154,11 +154,11 @@ void CAlarm_TS1 :: test_constructor()
     CAlarm *a1 = new CAlarm(10, 1, 1000, 1, szAttach);
     CAlarm a2(*(a1));
 
-    CPPUNIT_ASSERT_MESSAGE("Error: Geting value Trigger",a2.getTrigger()==10);
-    CPPUNIT_ASSERT_MESSAGE("Error: Geting value Repeat",a2.getRepeat()==1);
-    CPPUNIT_ASSERT_MESSAGE("Error: Geting value Duration",a2.getDuration()==1000);
-    CPPUNIT_ASSERT_MESSAGE("Error: Geting value Action",a2.getAction()==1);
-    CPPUNIT_ASSERT_MESSAGE("Error: Geting value Action",a2.getAttach()==szAttach);
+    CPPUNIT_ASSERT_MESSAGE("Error: Geting value Trigger", a2.getTrigger() == 10);
+    CPPUNIT_ASSERT_MESSAGE("Error: Geting value Repeat", a2.getRepeat() == 1);
+    CPPUNIT_ASSERT_MESSAGE("Error: Geting value Duration", a2.getDuration() == 1000);
+    CPPUNIT_ASSERT_MESSAGE("Error: Geting value Action", a2.getAction() == 1);
+    CPPUNIT_ASSERT_MESSAGE("Error: Geting value Action", a2.getAttach() == szAttach);
 }
 
 void CAlarm_TS2 :: test_toString()
@@ -175,14 +175,14 @@ void CAlarm_TS2 :: test_toString()
 
     a1->setCookie(izCookieList);
 
-    cout<<a1->toString();
+    cout << a1->toString();
 
-} 
+}
 void CAlarm_TS2 :: test_toString_NULL()
 {
-    string szAttach="";
+    string szAttach = "";
     CAlarm *a1 = new CAlarm(10, 1, 1000, 1, szAttach);
-    cout<<a1->toString();
+    cout << a1->toString();
 
 }
 

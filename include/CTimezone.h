@@ -43,19 +43,19 @@ public:
                                     bool haveDst,
                                     int &pErrorCode);
 
-    static CTimezone* getByLocation(std::string Location, int &pErrorCode);
+    static CTimezone *getByLocation(std::string Location, int &pErrorCode);
     static std::string getLocation(int offsetstd, bool dstflag, time_t dstoffset, std::string szDaylight);
 
 
-    const std::string& getLocation() const;
-    const std::string& getId() const;
+    const std::string &getLocation() const;
+    const std::string &getId() const;
     time_t getStartStd() const;
     time_t getStartDst() const;
     time_t getOffsetStd() const;
     time_t getOffsetDst() const;
-    const std::string& getRuleStd() const;
-    const std::string& getRuleDst() const;
-    const std::string& getName() const;
+    const std::string &getRuleStd() const;
+    const std::string &getRuleDst() const;
+    const std::string &getName() const;
     bool getHaveDst() const;
 
 protected:
@@ -65,9 +65,9 @@ protected:
       */
     CTimezone();
 private:
-/*
- #define CREATE_TIMEZONE "CREATE TABLE IF NOT EXISTS TIMEZONE (Location TEXT,TzId TEXT,DtStartStd INTEGER,DtStartDst INTEGER,TzOffsetStd INTEGER,TzOffsetDst INTEGER,RRuleStd TEXT,RRuleDst TEXT,TzName TEXT,DSTFlag INTEGER )"
-*/
+    /*
+     #define CREATE_TIMEZONE "CREATE TABLE IF NOT EXISTS TIMEZONE (Location TEXT,TzId TEXT,DtStartStd INTEGER,DtStartDst INTEGER,TzOffsetStd INTEGER,TzOffsetDst INTEGER,RRuleStd TEXT,RRuleDst TEXT,TzName TEXT,DSTFlag INTEGER )"
+    */
 
     std::string Location;   // Location TEXT
     std::string Id;         // TzId TEXT
@@ -76,14 +76,14 @@ private:
     time_t OffsetStd;       // TzOffsetStd INTEGER
     time_t OffsetDst;       // TzOffsetDst INTEGER
     std::string RuleStd;    // RRuleDst TEXT
-    std::string  RuleDst;   // RRuleDst TEXT 
+    std::string  RuleDst;   // RRuleDst TEXT
     std::string Name;       // TzName TEXT
     bool haveDst;           // DSTFlag INTEGER
 
     std::string toString();
 
-    static CTimezone* createFromSqlQuery(char *pSqlQuery, int &pErrorCode);
-    static CTimezone* createFromSqlData(char **pSqlData);
+    static CTimezone *createFromSqlQuery(char *pSqlQuery, int &pErrorCode);
+    static CTimezone *createFromSqlData(char **pSqlData);
 };
 
 #endif // ifdef __CTIMEZONE_H__

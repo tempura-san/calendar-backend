@@ -43,35 +43,35 @@
 
 using namespace std;
 
-int main(int ac,char **av)
+int main(int ac, char **av)
 {
-   // Create the event manager and test controller
-   CPPUNIT_NS::TestResult controller;
+    // Create the event manager and test controller
+    CPPUNIT_NS::TestResult controller;
 
-   // Add a listener that colllects test result
-   CPPUNIT_NS::TestResultCollector result;
-   controller.addListener( &result );
+    // Add a listener that colllects test result
+    CPPUNIT_NS::TestResultCollector result;
+    controller.addListener(&result);
 
-   // Add a listener that print dots as test run.
-   CPPUNIT_NS::BriefTestProgressListener progress;
-   controller.addListener( &progress );
+    // Add a listener that print dots as test run.
+    CPPUNIT_NS::BriefTestProgressListener progress;
+    controller.addListener(&progress);
 
-  
-   CppUnit::TextUi::TestRunner runner;
-   // Add the top runner.to the test runner
-   runner.addTest( CTodo_TS1::suite() );
-   runner.addTest(new CppUnit::TestCaller<ValidCTodoConstructorTestCase>(
-			   "test_validCTodoConstructor",
-			   &ValidCTodoConstructorTestCase::test_validCTodoConstructor));
-   runner.run( controller );
- 
-   // Print test in a compiler compatible format.
-   std::ofstream file("ctodo.xml");
-   CPPUNIT_NS::XmlOutputter xml( &result, file );
-   xml.setStyleSheet( "report.xsl" );
-   xml.write();
-   file.close();
-   return result.wasSuccessful() ? 0 : 1;
-                               
+
+    CppUnit::TextUi::TestRunner runner;
+    // Add the top runner.to the test runner
+    runner.addTest(CTodo_TS1::suite());
+    runner.addTest(new CppUnit::TestCaller<ValidCTodoConstructorTestCase>(
+                       "test_validCTodoConstructor",
+                       &ValidCTodoConstructorTestCase::test_validCTodoConstructor));
+    runner.run(controller);
+
+    // Print test in a compiler compatible format.
+    std::ofstream file("ctodo.xml");
+    CPPUNIT_NS::XmlOutputter xml(&result, file);
+    xml.setStyleSheet("report.xsl");
+    xml.write();
+    file.close();
+    return result.wasSuccessful() ? 0 : 1;
+
 }
 

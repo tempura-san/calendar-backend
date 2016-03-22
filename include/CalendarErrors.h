@@ -69,7 +69,7 @@ const int CALENDAR_INVALID_ICSFILE = CALENDAR_APP_ERROR + 8;
  */
 const int CALENDAR_CANNOT_BE_DELETED = CALENDAR_APP_ERROR + 9;
 
-/* Duplicate Entry exist in  Database so no new entry will be created 
+/* Duplicate Entry exist in  Database so no new entry will be created
  * old entry will be updated
  */
 const int CALENDAR_ENTRY_DUPLICATED = CALENDAR_APP_ERROR + 10 ;

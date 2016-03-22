@@ -32,39 +32,40 @@ using namespace::std;
 using std::string;
 
 
-typedef struct ParamType{
+typedef struct ParamType {
 
     int i;
     string szString;
     ParamType(): i(0) {};
-}ParamType;
+} ParamType;
 typedef enum {
-    
+
     PARENT = 0,
     CHILD,
     SIBLING
-        
-}RelationshipType;
-    
+
+} RelationshipType;
+
 /**
  * CParameters class
  * @brief This class contains the API's to get/set the parameters for
  * the standard properties of event/todo/journal
  */
-class CParameters {
+class CParameters
+{
 
-  public:
+public:
 
     /**
-     * This is the defult constructor for CParameters class  
+     * This is the defult constructor for CParameters class
      */
     CParameters();
     /**
-     * Copy Constructor 
+     * Copy Constructor
      */
     CParameters(CParameters &);
     /**
-     * This is the defult destructor for CParameters class 
+     * This is the defult destructor for CParameters class
      */
     ~CParameters();
 
@@ -96,38 +97,38 @@ class CParameters {
      *
      * This function is used to return the param value.
      */
-        ParamType getParamValue();
+    ParamType getParamValue();
 
     /**
      * @param szPropParam string
      * @return int
-     * 
+     *
      * This function returns the Type of the the given parameter (INTEGER/STRING/BOOL)
      */
     int getDataType(string szPropParam);
-    
+
     /**
      * @param Constant reference to CParameters
      * @return Reference to CParameters
      *
-     * Overloaded assignment operator for the class 
+     * Overloaded assignment operator for the class
      *
      */
-    const CParameters & operator=(const CParameters & right);
+    const CParameters &operator=(const CParameters &right);
     /**
      * toString
      */
     string toString();
 
-        
 
 
-  private:
+
+private:
 
     string szParamName; /*!< param name */
-    
+
     ParamType valueType; /*!< value Type */
-           
+
 
 };
 

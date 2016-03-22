@@ -30,12 +30,13 @@ class CAttendee;
 class CProperties;
 /**
  * CEvent class
- * @brief This class is used to get/set the event specific properties 
+ * @brief This class is used to get/set the event specific properties
  */
 
-class CEvent:public CComponentDetails {
+class CEvent: public CComponentDetails
+{
 
-  public:
+public:
 
     /**
      * this is the default constructor for CEvent class where all variables are being initialised
@@ -61,7 +62,7 @@ class CEvent:public CComponentDetails {
 
     /**
      * @param :None
-     * @return : string  used to get geographical position  of entry  value is 
+     * @return : string  used to get geographical position  of entry  value is
      *           like "latitude;longitude" eg 12;13
      *
      * This function is used to get the geographical position  of the entry created.
@@ -71,26 +72,26 @@ class CEvent:public CComponentDetails {
     /**
      * @param :None
      * @return : string transp >> used to get transparency of entry
-     *          valid values can be TRANSPARENT/OPAQUE    
+     *          valid values can be TRANSPARENT/OPAQUE
      *
      * This function is used to get the transparency of the entry created.
      */
     string getTransparency();
     /**
      * @param : transp(int) >> used to set transparency of entry
-     *          valid values can be TRANSPARENT/OPAQUE    
+     *          valid values can be TRANSPARENT/OPAQUE
      * @return :bool (SUCCESS/FAILURE)
      *
      * This function is used to set the transparency of the entry created.
-     *  Generally, an entry will take up time on an individual calendar. 
-     *  Hence, the event will appear as an opaque interval in a search for busy time. 
+     *  Generally, an entry will take up time on an individual calendar.
+     *  Hence, the event will appear as an opaque interval in a search for busy time.
      *  Alternately, the event can have its Time Transparency set to "TRANSPARENT" in order to prevent
      *  blocking of the event in searches for busy time.
      */
     bool setTransparency(string szTransparency);
     /**
      * @param :None
-     * @return : int used to get priority of entry 
+     * @return : int used to get priority of entry
      *
      * This function is used to get the priority of the entry created.
      */
@@ -110,20 +111,20 @@ class CEvent:public CComponentDetails {
      * copy constructor
      * for Cevent class
      */
-     CEvent(CEvent & ref);
+    CEvent(CEvent &ref);
 
     /**
-     * overloaded assignment 
-     * operator 
+     * overloaded assignment
+     * operator
      */
-    const CEvent & operator=(const CEvent & right);
+    const CEvent &operator=(const CEvent &right);
     /**
      * toString
      */
     string toString();
 
 
-  private:
+private:
 
     /* Member variables are defined as per RFC */
 

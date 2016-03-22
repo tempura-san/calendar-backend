@@ -53,9 +53,10 @@ using std::vector;
  * @brief This class contains the API's to interact with alarm daemon as well store the
  * alarm data's in the local calendar database
  */
-class CAlarm : public CAlarmIface{
+class CAlarm : public CAlarmIface
+{
 
-  public:
+public:
 
     /**
      * default constructor
@@ -66,7 +67,7 @@ class CAlarm : public CAlarmIface{
     /**
      * copy constructor
      */
-    CAlarm(CAlarm & ref);
+    CAlarm(CAlarm &ref);
 
     /**
      * default destructor
@@ -76,7 +77,7 @@ class CAlarm : public CAlarmIface{
     /**
      * overloaded assignment operator
      */
-    const CAlarm & operator=(const CAlarm & right);
+    const CAlarm &operator=(const CAlarm &right);
 
     /**
      * parameterised constructor
@@ -190,7 +191,7 @@ class CAlarm : public CAlarmIface{
      * @param vector<integer> cookie value of an alarm
      * @return boolean value to indicate success or failure
      *
-     * Sets the cookie value of an Alarm 
+     * Sets the cookie value of an Alarm
      */
     bool setCookie(vector < long > icookie);
 
@@ -207,38 +208,38 @@ class CAlarm : public CAlarmIface{
      * @param compId component Id
      * @param iCalendarId Calendar Id
      * @param szdescription Description of the entry
-     * @param iType Component Type 
-     * @param pErrorCode reference to integer 
-     * 
+     * @param iType Component Type
+     * @param pErrorCode reference to integer
+     *
      * @return long Alarm cookie value
      */
     long addAlarmEvent(time_t event_time, string message,
-                           string location, time_t dateStart,
-                           time_t dateEnd, string compId, int iCalendarId,
-                           string szDescription,int iType,bool allday,
-			   string szZone,int& pErrorCode);
+                       string location, time_t dateStart,
+                       time_t dateEnd, string compId, int iCalendarId,
+                       string szDescription, int iType, bool allday,
+                       string szZone, int &pErrorCode);
 
     /**
      * registerAlarmForAutoDeletion
      * Function to register an alarm for automatic deletion of events.
      *
      * @param alarm_time Event time in time_t format
-     * @param pErrorCode refece to intger error code 
+     * @param pErrorCode refece to intger error code
      *
      * @return long Alarm cookie value
      */
-    long registerAlarmForAutoDeletion (time_t alarm_time,int& pErrorCode);
+    long registerAlarmForAutoDeletion(time_t alarm_time, int &pErrorCode);
 
     /**
      * deleteAlarmEvent
      * Function to delete the alarm event
      *
      * @param long Alarm cookie value
-     * @param pErrorCode refece to intger error code 
-     * 
+     * @param pErrorCode refece to intger error code
+     *
      * @return int Return value for delete alarm event
      */
-    int deleteAlarmEvent(long cookie,int& pErrorCode);
+    int deleteAlarmEvent(long cookie, int &pErrorCode);
 
     /**
      * modifyAlarmEvent
@@ -250,17 +251,17 @@ class CAlarm : public CAlarmIface{
      * @param dateStart Event start date
      * @param dateEnd Event end date
      * @param iCalendarId Calendar Id string
-     * @param iType component type 
-     * @param pErrorCode reference to integer 
+     * @param iType component type
+     * @param pErrorCode reference to integer
      *
      * @return long New Alarm cookie value
      *
      * Function to modify the alarm event
      */
     long modifyAlarmEvent(long oldcookie, time_t modify_time,
-              string message, string location, time_t dateStart,
-                  time_t dateEnd, string sCompId, int iCalendarId,
-		  string szDescription,int iType,bool allday, string szZone,int& pErrorCode);
+                          string message, string location, time_t dateStart,
+                          time_t dateEnd, string sCompId, int iCalendarId,
+                          string szDescription, int iType, bool allday, string szZone, int &pErrorCode);
     /**
      * toString
      */
@@ -268,8 +269,8 @@ class CAlarm : public CAlarmIface{
 
     /**
      *
-     * @param alarmType 
-     * @return 
+     * @param alarmType
+     * @return
      */
     static int getDefaultTimeBefore(dataAlarm alarmType);
 
@@ -278,7 +279,7 @@ class CAlarm : public CAlarmIface{
      * @return >=0 - number of removed alarms, <0 error ossured
      */
     static int purgeAlarms();
-  private:
+private:
 
     /* Private variables are declared as per RFC */
 
@@ -287,7 +288,7 @@ class CAlarm : public CAlarmIface{
     int iRepeat; /*!< Alarm repeat parameter */
 
     int iDuration; /*!< Alarm Duration */
-                   /*! Combined value of "Minutes Before" alarm type (E_AM_XXX) as (MinsBefore * 10 + E_AM_XXX)*/
+    /*! Combined value of "Minutes Before" alarm type (E_AM_XXX) as (MinsBefore * 10 + E_AM_XXX)*/
 
     int iAction; /*!< Alarm action */
 

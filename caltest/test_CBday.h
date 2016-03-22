@@ -33,42 +33,42 @@
 
 class CBday_TS1 : public CppUnit::TestFixture
 {
-	CPPUNIT_TEST_SUITE( CBday_TS1 );
-	CPPUNIT_TEST(test_setEBookUid);
-	CPPUNIT_TEST(test_invalidsetEBookUid);
-	CPPUNIT_TEST(test_setFirstName);
-	CPPUNIT_TEST(test_invalidsetFirstName);
-	CPPUNIT_TEST(test_setBirthDate);
-	CPPUNIT_TEST(test_invalidsetBirthDate);
-	CPPUNIT_TEST(test_defaultConstructor);
-	CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(CBday_TS1);
+    CPPUNIT_TEST(test_setEBookUid);
+    CPPUNIT_TEST(test_invalidsetEBookUid);
+    CPPUNIT_TEST(test_setFirstName);
+    CPPUNIT_TEST(test_invalidsetFirstName);
+    CPPUNIT_TEST(test_setBirthDate);
+    CPPUNIT_TEST(test_invalidsetBirthDate);
+    CPPUNIT_TEST(test_defaultConstructor);
+    CPPUNIT_TEST_SUITE_END();
 
-	public:
-		CBdayEvent *bd;
-		void setUp();
-		void tearDown();
-		void test_setEBookUid();
-		void test_invalidsetEBookUid();
-		void test_setFirstName();
-		void test_invalidsetFirstName();
-		void test_setBirthDate();
-		void test_invalidsetBirthDate();
-		void test_defaultConstructor();
+public:
+    CBdayEvent *bd;
+    void setUp();
+    void tearDown();
+    void test_setEBookUid();
+    void test_invalidsetEBookUid();
+    void test_setFirstName();
+    void test_invalidsetFirstName();
+    void test_setBirthDate();
+    void test_invalidsetBirthDate();
+    void test_defaultConstructor();
 };
 
 class CBday_TS2 : public CppUnit::TestFixture
 {
-	CPPUNIT_TEST_SUITE( CBday_TS2 );
-	CPPUNIT_TEST(test_toString);
-	CPPUNIT_TEST(test_toString_NULL);
-	
-	CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(CBday_TS2);
+    CPPUNIT_TEST(test_toString);
+    CPPUNIT_TEST(test_toString_NULL);
 
-	public:
-		CBdayEvent *bd;
-		void setUp();
-		void tearDown();
-		void test_toString();
-		void test_toString_NULL();
+    CPPUNIT_TEST_SUITE_END();
+
+public:
+    CBdayEvent *bd;
+    void setUp();
+    void tearDown();
+    void test_toString();
+    void test_toString_NULL();
 };
 

@@ -17,78 +17,67 @@ class SQLiteQuery
 {
 public:
     SQLiteQuery(char *query)
-    : pQuery(query)
-    , pResult(0)
-    , iRow(0)
-    , iColumn(0)
-    {
+        : pQuery(query)
+        , pResult(0)
+        , iRow(0)
+        , iColumn(0) {
     }
 
-    ~SQLiteQuery()
-    {
-        if (pQuery)
-        {
+    ~SQLiteQuery() {
+        if(pQuery) {
             sqlite3_free(pQuery);
         }
 
-        if (pResult)
-        {
+        if(pResult) {
             sqlite3_free_table(pResult);
         }
 
     }
 
-    operator const char * () const
-    {
+    operator const char *() const {
         return pQuery;
     }
 
-    int execute(CCalendarDB *pDb)
-    {
+    int execute(CCalendarDB *pDb) {
         char *pErr_msg = 0;
 
         int iRet = sqlite3_exec(pDb->getDb(), pQuery, 0, 0, &pErr_msg);
 
-        if (pErr_msg) {
+        if(pErr_msg) {
             CAL_ERROR_LOG("SQLiteQuery::execute:  SQL error(%d): %s while executing \"%s\"", iRet, pErr_msg, pQuery);
             sqlite3_free(pErr_msg);
         }
-        else
-        {
+        else {
             CAL_DEBUG_LOG("SQLiteQuery::execute \"%s\", result %d",  pQuery, iRet);
         }
 
         return iRet;
     }
 
-    int getRecords(CCalendarDB *pDb)
-    {
+    int getRecords(CCalendarDB *pDb) {
         char *pErr_msg = 0;
 
         CAL_DEBUG_LOG("SQLiteQuery::execute %s",  pQuery);
 
         int iRet = sqlite3_get_table(pDb->getDb(), pQuery, &pResult, &iRow, &iColumn, &pErr_msg);
 
-        if (pErr_msg) {
+        if(pErr_msg) {
             CAL_ERROR_LOG("SQLiteQuery::getRecords:  SQL error(%d): %s while executing \"%s\"", iRet, pErr_msg, pQuery);
             sqlite3_free(pErr_msg);
         }
-        else
-        {
+        else {
             CAL_DEBUG_LOG("SQLiteQuery::getRecords \"%s\" finished with code %d, got %d rows (%d columns)",
-                           pQuery, iRet, iRow, iColumn);
+                          pQuery, iRet, iRow, iColumn);
         }
 
         return iRet;
     }
 
-    int getRowCount() const
-    {
+    int getRowCount() const {
         return iRow;
     }
 
-    int getColumnCount() const
-    {
+    int getColumnCount() const {
         return iColumn;
     }
 
@@ -97,16 +86,13 @@ public:
      * @param row row index
      * @return pointer to (const char *[iColumn]), 0 if no data or row index is invalid
      */
-    const char **operator() (int row) const
-    {
-        const char ** retval = 0;
+    const char **operator()(int row) const {
+        const char **retval = 0;
 
-        if ((pResult != 0) && (row < iRow))
-        {
-            retval =  (const char**)(pResult + ((row + 1) * iColumn));
+        if((pResult != 0) && (row < iRow)) {
+            retval = (const char **)(pResult + ((row + 1) * iColumn));
         }
-        else
-        {
+        else {
             CAL_ERROR_LOG("SQL data have no row #%d. SQL Result is %p and have %d rows", row, pResult, iRow);
         }
 
@@ -114,16 +100,13 @@ public:
     }
 
 
-    const char *operator() (int row, int col) const
-    {
-        const char * retval = 0;
+    const char *operator()(int row, int col) const {
+        const char *retval = 0;
 
-        if ((pResult != 0) && (row < iRow) && (col < iColumn))
-        {
+        if((pResult != 0) && (row < iRow) && (col < iColumn)) {
             retval = pResult[(row + 1) * iColumn + col];
         }
-        else
-        {
+        else {
             CAL_ERROR_LOG("No SQL data at (%d, %d). SQL Result is %p, %dx%d", row, col, pResult, iRow, iColumn);
         }
 
@@ -138,7 +121,7 @@ private:
 };
 
 CCalendarProcs::CCalendarProcs(CCalendarDB *pDb)
-: m_pDb(pDb)
+    : m_pDb(pDb)
 {
     assert(pDb != 0);
 };
@@ -172,25 +155,22 @@ int CCalendarProcs::addBDay(std::string CompId, time_t bday_date)
     time2monthday(bday_date, daymonth, year);
 
     SQLiteQuery query(sqlite3_mprintf("INSERT INTO Birthdays (Id, DayMonth, Year) values (%Q,%d,%d)",
-                                       CompId.c_str(), daymonth, year));
+                                      CompId.c_str(), daymonth, year));
 
     int sql_error = query.execute(m_pDb);
 
-    if (sql_error == SQLITE_CONSTRAINT)
-    {
+    if(sql_error == SQLITE_CONSTRAINT) {
         CAL_DEBUG_LOG("Failed to add Birthday onto cache (error %d), trying to update existing one", sql_error);
 
         SQLiteQuery query(sqlite3_mprintf("UPDATE Birthdays SET DayMonth=%d, Year=%d WHERE Id=%Q",
-                                         daymonth, year, CompId.c_str()));
+                                          daymonth, year, CompId.c_str()));
         sql_error = query.execute(m_pDb);
 
-        if (sql_error != SQLITE_OK)
-        {
+        if(sql_error != SQLITE_OK) {
             CAL_ERROR_LOG("Failed to add Birthday onto cache (error %d)", sql_error);
         }
     }
-    else if (sql_error != SQLITE_OK)
-    {
+    else if(sql_error != SQLITE_OK) {
         CAL_ERROR_LOG("Failed to add Birthday onto cache (error %d)", sql_error);
     }
 
@@ -205,8 +185,7 @@ int CCalendarProcs::getBDays(time_t iStart, time_t iEnd, std::vector< std::strin
     CompIds.clear();
 
     // Validate dates
-    if (iStart > iEnd)
-    {
+    if(iStart > iEnd) {
         CAL_ERROR_LOG("Wrong range specified: start > end");
         return -1;
     }
@@ -217,29 +196,26 @@ int CCalendarProcs::getBDays(time_t iStart, time_t iEnd, std::vector< std::strin
 
     char *query_str = 0;
 
-    if (end_year == start_year)
-    {
+    if(end_year == start_year) {
         // Range is within one year
         query_str = sqlite3_mprintf("SELECT Id FROM Birthdays WHERE Year<=%d"
-                                      " AND DayMonth>=%d AND DayMonth<=%d",
-                                      end_year,
-                                      start_daymonth,
-                                      end_daymonth);
+                                    " AND DayMonth>=%d AND DayMonth<=%d",
+                                    end_year,
+                                    start_daymonth,
+                                    end_daymonth);
     }
-    else if ((end_year - start_year) == 1)
-    {
+    else if((end_year - start_year) == 1) {
         query_str = sqlite3_mprintf("SELECT Id FROM Birthdays WHERE  Year<=%d"
-                                      " AND ((Year<%d AND (DayMonth>=%d OR DayMonth<=%d)) OR "
-                                            "(Year=%d AND DayMonth<=%d))",
-                                      end_year,
-                                      end_year, start_daymonth, end_daymonth,
-                                      end_year, end_daymonth);
+                                    " AND ((Year<%d AND (DayMonth>=%d OR DayMonth<=%d)) OR "
+                                    "(Year=%d AND DayMonth<=%d))",
+                                    end_year,
+                                    end_year, start_daymonth, end_daymonth,
+                                    end_year, end_daymonth);
     }
-    else
-    {
+    else {
         CAL_ERROR_LOG("Range is more than one year. Select everything");
         query_str = sqlite3_mprintf("SELECT Id FROM Birthdays WHERE (Year<%d) "
-                                                    " OR (Year=%d AND DayMonth<=%d)",
+                                    " OR (Year=%d AND DayMonth<=%d)",
                                     end_year,
                                     end_year, end_daymonth);
     }
@@ -248,27 +224,24 @@ int CCalendarProcs::getBDays(time_t iStart, time_t iEnd, std::vector< std::strin
 
     int sql_error = query.getRecords(m_pDb);
 
-    if (sql_error == SQLITE_OK)
-    {
-        for(int i=0; i < query.getRowCount(); i++)
-        {
+    if(sql_error == SQLITE_OK) {
+        for(int i = 0; i < query.getRowCount(); i++) {
             const char *id = query(i, 0);
-            if (id != 0)
-            {
+
+            if(id != 0) {
                 CompIds.push_back(id);
             }
-            else
-            {
+            else {
                 sql_error = -2;
                 CAL_ERROR_LOG("No more data (row = %d)", i);
 
                 break;
             }
         }
+
 //         CAL_ERROR_LOG("Failed to fetch Birthday cache data (error %d)", sql_error);
     }
-    else
-    {
+    else {
         CAL_ERROR_LOG("Failed to fetch Birthday cache data (error %d)", sql_error);
     }
 
@@ -288,15 +261,13 @@ bool CCalendarProcs::time2monthday(time_t t, int &daymonth, int &year)
     struct tm *date = gmtime(&t);
 
 
-    if (date)
-    {
+    if(date) {
         daymonth = date->tm_mday + date->tm_mon * DAYMONTH_MULTIPLIER;
         year = date->tm_year + 1900;
 
         retval = true;
     }
-    else
-    {
+    else {
         CAL_DEBUG_LOG("Failed to convert '%s' ", ctime(&t));
     }
 
@@ -331,22 +302,21 @@ int CCalendarProcs::dropBDays()
 // 16 TzOffset INTEGER
 
 
-CEvent* CCalendarProcs::createComponentFromTableRecord(const char ** pSqlRowData, int columns)
+CEvent *CCalendarProcs::createComponentFromTableRecord(const char **pSqlRowData, int columns)
 {
-    if (columns < 17)
-    {
+    if(columns < 17) {
         CAL_ERROR_LOG("Wrong column number(%d), expected is 17", columns);
         return 0;
     }
 
     CEvent *event = 0; // TODO rename
 
-    /*this function is responsible to retrieve the values stored in 
-     * Component table and uses the set function to add values in 
+    /*this function is responsible to retrieve the values stored in
+     * Component table and uses the set function to add values in
      * to event object*/
     event = new CEvent();
 
-    if (!event) {
+    if(!event) {
         CAL_DEBUG_LOG("Memory allocation error");
         return 0;
     }
@@ -361,35 +331,34 @@ CEvent* CCalendarProcs::createComponentFromTableRecord(const char ** pSqlRowData
     event-> setType(atoi(pSqlRowData[2]));
 
     // 3  Flags INTEGER
-    event-> setFlags(atoi (pSqlRowData[3]));
+    event-> setFlags(atoi(pSqlRowData[3]));
 
     // 4  DateStart INTEGER
-    event-> setDateStart(atoi (pSqlRowData[4]));
+    event-> setDateStart(atoi(pSqlRowData[4]));
 
     // 5  DateEnd INTEGER
-    event-> setDateEnd(atoi (pSqlRowData[5]));
+    event-> setDateEnd(atoi(pSqlRowData[5]));
 
     // 6  Summary TEXT
-    if (pSqlRowData[6]) {
+    if(pSqlRowData[6]) {
         event->setSummary(pSqlRowData[6]);
     }
 
     // 7  Location TEXT
-    if (pSqlRowData[7]) {
+    if(pSqlRowData[7]) {
         event->setLocation(pSqlRowData[7]);
     }
 
     // 8  Description TEXT
-    if (pSqlRowData[8]) {
+    if(pSqlRowData[8]) {
         event->setDescription(pSqlRowData[8]);
     }
 
     // 9  Status INTEGER
-    event-> setStatus(atoi (pSqlRowData[9]));
+    event-> setStatus(atoi(pSqlRowData[9]));
 
     // 10 Uid TEXT
-    if (pSqlRowData[10]) 
-    {
+    if(pSqlRowData[10]) {
         event->setGUid(pSqlRowData[10]);
     }
 
@@ -411,28 +380,26 @@ CEvent* CCalendarProcs::createComponentFromTableRecord(const char ** pSqlRowData
     // 16 TzOffset INTEGER
     // * Ignore *
 
-    /* Flags has the following values 
-     * HAS_RECURRENCE -- 3 
+    /* Flags has the following values
+     * HAS_RECURRENCE -- 3
      * HAS_ALARM ---- 4
      * HAS_RECURRENCE_ALARM - 5 defined in common.h
      */
 
-    if ((event->getFlags() == HAS_RECURRENCE) ||
-        (event->getFlags() == HAS_RECURRENCE_ALARM))
-    {
+    if((event->getFlags() == HAS_RECURRENCE) ||
+            (event->getFlags() == HAS_RECURRENCE_ALARM)) {
         event->getRecurrenceProperties();
     }
 
-    if ((event->getFlags() == HAS_ALARM) ||
-        (event->getFlags() == HAS_RECURRENCE_ALARM))
-    {
+    if((event->getFlags() == HAS_ALARM) ||
+            (event->getFlags() == HAS_RECURRENCE_ALARM)) {
         event->getAlarmProperties();
     }
 
     return event;
 }
 
-int CCalendarProcs::getBDays(time_t iStart, time_t iEnd, std::vector< CBdayEvent * > & Comps)
+int CCalendarProcs::getBDays(time_t iStart, time_t iEnd, std::vector< CBdayEvent * > &Comps)
 {
     int start_daymonth, start_year;
     int end_daymonth, end_year;
@@ -440,8 +407,7 @@ int CCalendarProcs::getBDays(time_t iStart, time_t iEnd, std::vector< CBdayEvent
     Comps.clear();
 
     // Validate dates
-    if (iStart > iEnd)
-    {
+    if(iStart > iEnd) {
         CAL_ERROR_LOG("Wrong range specified: start > end");
         return -1;
     }
@@ -452,34 +418,31 @@ int CCalendarProcs::getBDays(time_t iStart, time_t iEnd, std::vector< CBdayEvent
 
     char *query_str = 0;
 
-    if (end_year == start_year)
-    {
+    if(end_year == start_year) {
         // Range is within one year
         query_str = sqlite3_mprintf("SELECT * FROM Components "
-                                              "WHERE Id in (SELECT Id FROM Birthdays"
-                                                                     " WHERE Year<=%d"
-                                                                      " AND DayMonth>=%d AND DayMonth<=%d)",
-                                      end_year,
-                                      start_daymonth,
-                                      end_daymonth);
-    }
-    else if ((end_year - start_year) == 1)
-    {
-        query_str = sqlite3_mprintf("SELECT * FROM Components "
-                                            "WHERE Id in (SELECT Id FROM Birthdays WHERE  Year<=%d"
-                                                " AND ((Year<%d AND (DayMonth>=%d OR DayMonth<=%d)) OR "
-                                                      "(Year=%d AND DayMonth<=%d)))",
-                                      end_year,
-                                      end_year, start_daymonth, end_daymonth,
-                                      end_year, end_daymonth);
-    }
-    else
-    {
-/*        CAL_ERROR_LOG("Range is more than one year. Select everything");
-        query_str = sqlite3_mprintf("SELECT Id FROM Birthdays WHERE (Year<%d) "
-                                                    " OR (Year=%d AND DayMonth<=%d)",
+                                    "WHERE Id in (SELECT Id FROM Birthdays"
+                                    " WHERE Year<=%d"
+                                    " AND DayMonth>=%d AND DayMonth<=%d)",
                                     end_year,
-                                    end_year, end_daymonth);*/
+                                    start_daymonth,
+                                    end_daymonth);
+    }
+    else if((end_year - start_year) == 1) {
+        query_str = sqlite3_mprintf("SELECT * FROM Components "
+                                    "WHERE Id in (SELECT Id FROM Birthdays WHERE  Year<=%d"
+                                    " AND ((Year<%d AND (DayMonth>=%d OR DayMonth<=%d)) OR "
+                                    "(Year=%d AND DayMonth<=%d)))",
+                                    end_year,
+                                    end_year, start_daymonth, end_daymonth,
+                                    end_year, end_daymonth);
+    }
+    else {
+        /*        CAL_ERROR_LOG("Range is more than one year. Select everything");
+                query_str = sqlite3_mprintf("SELECT Id FROM Birthdays WHERE (Year<%d) "
+                                                            " OR (Year=%d AND DayMonth<=%d)",
+                                            end_year,
+                                            end_year, end_daymonth);*/
         return -1;
     }
 
@@ -487,35 +450,31 @@ int CCalendarProcs::getBDays(time_t iStart, time_t iEnd, std::vector< CBdayEvent
 
     int sql_error = query.getRecords(m_pDb);
 
-    if (sql_error == SQLITE_OK)
-    {
-        for(int i=0; i < query.getRowCount(); i++)
-        {
+    if(sql_error == SQLITE_OK) {
+        for(int i = 0; i < query.getRowCount(); i++) {
             const char **row = query(i);
-            if (row != 0)
-            {
-                CBdayEvent *event = (CBdayEvent*)createComponentFromTableRecord(row, query.getColumnCount());
-                if (event)
-                {
+
+            if(row != 0) {
+                CBdayEvent *event = (CBdayEvent *)createComponentFromTableRecord(row, query.getColumnCount());
+
+                if(event) {
                     Comps.push_back(event);
                 }
-                else
-                {
+                else {
                     CAL_ERROR_LOG("Got NULL CBdayEvent pointer(row)", i);
                 }
             }
-            else
-            {
+            else {
                 sql_error = -2;
                 CAL_ERROR_LOG("No more data (row = %d)", i);
 
                 break;
             }
         }
+
 //         CAL_ERROR_LOG("Failed to fetch Birthday cache data (error %d)", sql_error);
     }
-    else
-    {
+    else {
         CAL_ERROR_LOG("Failed to fetch Birthday cache data (error %d)", sql_error);
     }
 
@@ -529,9 +488,9 @@ int CCalendarProcs::getComponentsAllCalendars(int iStDate, int iEndDate, int iLi
 
     vComponents.clear();
 
-    /* Implementation in getComponents function will be similar for getting 
-     * events /todo / Bdays  (or) fetching all components other than query 
-     * part. So all the functialities are written together in a single 
+    /* Implementation in getComponents function will be similar for getting
+     * events /todo / Bdays  (or) fetching all components other than query
+     * part. So all the functialities are written together in a single
      * function for better code optimization
      **/
     CAL_DEBUG_LOG("stDate is:%d", iStDate);
@@ -549,33 +508,30 @@ int CCalendarProcs::getComponentsAllCalendars(int iStDate, int iEndDate, int iLi
     time2monthday(iStDate, start_daymonth, start_year);
     time2monthday(iEndDate, end_daymonth, end_year);
 
-    if (end_year == start_year)
-    {
+    if(end_year == start_year) {
         // Range is within one year
         bd_query_str = sqlite3_mprintf("SELECT * FROM Components WHERE "
-                                              " ComponentType=%d "
-                                              " AND Id in (SELECT Id FROM Birthdays"
-                                                                     " WHERE Year<=%d"
-                                                                      " AND DayMonth>=%d AND DayMonth<=%d)",
-                                      E_BDAY,
-                                      end_year,
-                                      start_daymonth,
-                                      end_daymonth);
+                                       " ComponentType=%d "
+                                       " AND Id in (SELECT Id FROM Birthdays"
+                                       " WHERE Year<=%d"
+                                       " AND DayMonth>=%d AND DayMonth<=%d)",
+                                       E_BDAY,
+                                       end_year,
+                                       start_daymonth,
+                                       end_daymonth);
     }
-    else if ((end_year - start_year) == 1)
-    {
+    else if((end_year - start_year) == 1) {
         bd_query_str = sqlite3_mprintf("SELECT * FROM Components WHERE "
-                                            " ComponentType=%d "
-                                            " AND Id in (SELECT Id FROM Birthdays WHERE  Year<=%d"
-                                                " AND ((Year<%d AND (DayMonth>=%d OR DayMonth<=%d)) OR "
-                                                      "(Year=%d AND DayMonth<=%d)))",
-                                      E_BDAY,
-                                      end_year,
-                                      end_year, start_daymonth, end_daymonth,
-                                      end_year, end_daymonth);
+                                       " ComponentType=%d "
+                                       " AND Id in (SELECT Id FROM Birthdays WHERE  Year<=%d"
+                                       " AND ((Year<%d AND (DayMonth>=%d OR DayMonth<=%d)) OR "
+                                       "(Year=%d AND DayMonth<=%d)))",
+                                       E_BDAY,
+                                       end_year,
+                                       end_year, start_daymonth, end_daymonth,
+                                       end_year, end_daymonth);
     }
-    else
-    {
+    else {
         bd_query_str = sqlite3_mprintf("SELECT * FROM Components WHERE ComponentType=%d", E_BDAY);
     }
 
@@ -583,39 +539,40 @@ int CCalendarProcs::getComponentsAllCalendars(int iStDate, int iEndDate, int iLi
     SQLiteQuery bd_query(bd_query_str);
 
     char *query_str = 0;
-    switch(iQueryType){
-        case FETCH_SIMPLE_EVENTS_AND_TASKS:
+
+    switch(iQueryType) {
+    case FETCH_SIMPLE_EVENTS_AND_TASKS:
 
 
-            query_str =
+        query_str =
             sqlite3_mprintf("SELECT * from Components WHERE "
                             "(    (ComponentType=%d  AND DateStart<%d AND DateEnd>=%d) "
                             "  OR (ComponentType=%d AND DateStart>=%d AND DateStart <= %d )) "
                             "AND (Flags!=%d AND Flags != %d) "
                             "AND calendarId in (select calendarid from calendars where IsVisible =1 )"
                             "ORDER BY CalendarId LIMIT %d OFFSET %d ",
-                        E_EVENT, iEndDate, iStDate,
-                        E_TODO,  iStDate, iEndDate,
-                        HAS_RECURRENCE, HAS_RECURRENCE_ALARM,
-                        iLimit, iOffset);
-            break;
+                            E_EVENT, iEndDate, iStDate,
+                            E_TODO,  iStDate, iEndDate,
+                            HAS_RECURRENCE, HAS_RECURRENCE_ALARM,
+                            iLimit, iOffset);
+        break;
 
-        case FETCH_REPEATING_EVENTS:
-            query_str =
+    case FETCH_REPEATING_EVENTS:
+        query_str =
             sqlite3_mprintf("SELECT * from Components WHERE "
-                                    "(ComponentType=%d) AND (Flags = %d OR Flags = %d) "
-                                    " AND (Until>%d OR Until=-1) "
-                                    " AND calendarId in (select calendarid from calendars where IsVisible =1) "
-                                    " UNION %s "
-                                    " ORDER BY CalendarId LIMIT %d OFFSET %d ",
-                            E_EVENT, HAS_RECURRENCE, HAS_RECURRENCE_ALARM, 
+                            "(ComponentType=%d) AND (Flags = %d OR Flags = %d) "
+                            " AND (Until>%d OR Until=-1) "
+                            " AND calendarId in (select calendarid from calendars where IsVisible =1) "
+                            " UNION %s "
+                            " ORDER BY CalendarId LIMIT %d OFFSET %d ",
+                            E_EVENT, HAS_RECURRENCE, HAS_RECURRENCE_ALARM,
                             iStDate,
-                            (const char*)bd_query,
+                            (const char *)bd_query,
                             iLimit, iOffset);
 
-            break;
+        break;
 
-        default:
+    default:
 
         query_str =
             sqlite3_mprintf("SELECT * from Components WHERE "
@@ -630,12 +587,12 @@ int CCalendarProcs::getComponentsAllCalendars(int iStDate, int iEndDate, int iLi
                             "UNION "
                             "%s"
                             " ORDER BY CalendarId LIMIT %d OFFSET %d ",
-                E_EVENT, iEndDate, iStDate,
-                E_TODO,  iStDate,  iEndDate,
-                HAS_RECURRENCE, HAS_RECURRENCE_ALARM,
-                E_EVENT, HAS_RECURRENCE, HAS_RECURRENCE_ALARM, iStDate,
-                (const char*)bd_query,
-                iLimit, iOffset);
+                            E_EVENT, iEndDate, iStDate,
+                            E_TODO,  iStDate,  iEndDate,
+                            HAS_RECURRENCE, HAS_RECURRENCE_ALARM,
+                            E_EVENT, HAS_RECURRENCE, HAS_RECURRENCE_ALARM, iStDate,
+                            (const char *)bd_query,
+                            iLimit, iOffset);
         break;
     }
 
@@ -643,40 +600,35 @@ int CCalendarProcs::getComponentsAllCalendars(int iStDate, int iEndDate, int iLi
 
     iSqliteError = query.getRecords(m_pDb);
 
-    if (iSqliteError == SQLITE_OK)
-    {
-        if (query.getRowCount() > 0)
-        {
-            for(int i=0; i < query.getRowCount(); i++)
-            {
+    if(iSqliteError == SQLITE_OK) {
+        if(query.getRowCount() > 0) {
+            for(int i = 0; i < query.getRowCount(); i++) {
                 const char **row = query(i);
-                if (row != 0)
-                {
+
+                if(row != 0) {
                     CEvent *entry = createComponentFromTableRecord(row, query.getColumnCount());
-                    if (entry)
-                    {
+
+                    if(entry) {
                         vComponents.push_back(entry);
                     }
-                    else
-                    {
+                    else {
                         CAL_ERROR_LOG("Got NULL vComponents pointer(row = %d)", i);
                     }
                 }
-                else
-                {
+                else {
                     CAL_ERROR_LOG("No more data (row = %d)", i);
 
                     break;
                 }
             }
+
             retval = CALENDAR_OPERATION_SUCCESSFUL;
         }
         else {
             retval = CALENDAR_FETCH_NOITEMS;
         }
     }
-    else
-    {
+    else {
         m_pDb->sqliteErrorMapper(iSqliteError, retval);
     }
 
@@ -685,7 +637,7 @@ int CCalendarProcs::getComponentsAllCalendars(int iStDate, int iEndDate, int iLi
     return retval;
 }
 
-int CCalendarProcs::getComponentsAllCalendarsBySummary(std::string sSummary, int iLimit, int iOffset, 
+int CCalendarProcs::getComponentsAllCalendarsBySummary(std::string sSummary, int iLimit, int iOffset,
         vector< CComponent * > &vComponents)
 {
     int retval = CALENDAR_APP_ERROR;
@@ -700,52 +652,47 @@ int CCalendarProcs::getComponentsAllCalendarsBySummary(std::string sSummary, int
     char *query_str = 0;
 
     query_str =
-            sqlite3_mprintf("SELECT * from Components WHERE "
-                            "(Summary LIKE '%s') AND "
-                            "(calendarId in (select calendarid from calendars where IsVisible =1 ))"
-                            " ORDER BY CalendarId LIMIT %d OFFSET %d ",
-                sSummary.c_str(),
-                iLimit, iOffset);
+        sqlite3_mprintf("SELECT * from Components WHERE "
+                        "(Summary LIKE '%s') AND "
+                        "(calendarId in (select calendarid from calendars where IsVisible =1 ))"
+                        " ORDER BY CalendarId LIMIT %d OFFSET %d ",
+                        sSummary.c_str(),
+                        iLimit, iOffset);
 
     SQLiteQuery query(query_str);
 
     iSqliteError = query.getRecords(m_pDb);
 
-    if (iSqliteError == SQLITE_OK)
-    {
-        if (query.getRowCount() > 0)
-        {
-            for(int i=0; i < query.getRowCount(); i++)
-            {
+    if(iSqliteError == SQLITE_OK) {
+        if(query.getRowCount() > 0) {
+            for(int i = 0; i < query.getRowCount(); i++) {
                 const char **row = query(i);
-                if (row != 0)
-                {
+
+                if(row != 0) {
                     CEvent *entry = createComponentFromTableRecord(row, query.getColumnCount());
-                    if (entry)
-                    {
+
+                    if(entry) {
                         vComponents.push_back(entry);
-                        CAL_DEBUG_LOG("%s",entry->getSummary().c_str());
+                        CAL_DEBUG_LOG("%s", entry->getSummary().c_str());
                     }
-                    else
-                    {
+                    else {
                         CAL_ERROR_LOG("Got NULL vComponents pointer(row = %d)", i);
                     }
                 }
-                else
-                {
+                else {
                     CAL_ERROR_LOG("No more data (row = %d)", i);
 
                     break;
                 }
             }
+
             retval = CALENDAR_OPERATION_SUCCESSFUL;
         }
         else {
             retval = CALENDAR_FETCH_NOITEMS;
         }
     }
-    else
-    {
+    else {
         m_pDb->sqliteErrorMapper(iSqliteError, retval);
     }
 

@@ -27,39 +27,38 @@
 int main()
 {
 
-	const char *rrule = "FREQ=DAILY;UNTIL=20080820T143500Z"; 
-	icaltimetype dtstart = icaltime_from_timet(time(0) - (2*24*3600), 0);
-	time_t viewend;
+    const char *rrule = "FREQ=DAILY;UNTIL=20080820T143500Z";
+    icaltimetype dtstart = icaltime_from_timet(time(0) - (2 * 24 * 3600), 0);
+    time_t viewend;
 
-	struct icalrecurrencetype recur;
-	time_t utc_tim;
-	time_t dtst_utc;
-	bool loopexit = false;
+    struct icalrecurrencetype recur;
+    time_t utc_tim;
+    time_t dtst_utc;
+    bool loopexit = false;
 
-	recur = icalrecurrencetype_from_string(rrule);
+    recur = icalrecurrencetype_from_string(rrule);
 
-	printf ("date is given by %d:%d:%d\n\n", dtstart.year, dtstart.month, dtstart.day);
-	
-	dtst_utc = icaltime_as_timet(dtstart);
-	icalrecur_iterator *ritr;
-	ritr = icalrecur_iterator_new(recur, dtstart);
+    printf("date is given by %d:%d:%d\n\n", dtstart.year, dtstart.month, dtstart.day);
+
+    dtst_utc = icaltime_as_timet(dtstart);
+    icalrecur_iterator *ritr;
+    ritr = icalrecur_iterator_new(recur, dtstart);
 
 
-	struct icaltimetype next;
-	next = icalrecur_iterator_next(ritr);
+    struct icaltimetype next;
+    next = icalrecur_iterator_next(ritr);
 
-	while ((!icaltime_is_null_time(next)) && (!loopexit)) {
+    while((!icaltime_is_null_time(next)) && (!loopexit)) {
 
-		utc_tim = icaltime_as_timet(next);
+        utc_tim = icaltime_as_timet(next);
 
-		if (time (0) < utc_tim)
-		{
-			printf ("Recurrent time : %s\n", ctime(&utc_tim));
-			loopexit = true;
-		}
+        if(time(0) < utc_tim) {
+            printf("Recurrent time : %s\n", ctime(&utc_tim));
+            loopexit = true;
+        }
 
-		next = icalrecur_iterator_next(ritr);
-	}
+        next = icalrecur_iterator_next(ritr);
+    }
 
-	icalrecur_iterator_free(ritr);
+    icalrecur_iterator_free(ritr);
 }

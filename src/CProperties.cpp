@@ -22,7 +22,7 @@
  */
 
 /**
- *  header files 
+ *  header files
  */
 
 #include "Common.h"
@@ -34,29 +34,29 @@
  */
 CProperties::CProperties()
 {
-    /** since it is union  
-     * it is suficient if we 
+    /** since it is union
+     * it is suficient if we
      * initialize the biggest value */
- valueType.i = 0;
+    valueType.i = 0;
 }
 
 /**
  * overloaded assignment operator
  */
-const CProperties & CProperties::operator=(const CProperties & right)
+const CProperties &CProperties::operator=(const CProperties &right)
 {
-    if (&right != this)        //prevent self assignment
-    {
-	szPropName = right.szPropName;
-	valueType = right.valueType;
+    if(&right != this) {       //prevent self assignment
+        szPropName = right.szPropName;
+        valueType = right.valueType;
     }
+
     return *this;
 }
 
 /**
  * CProperties copy constructor
  */
-CProperties::CProperties(CProperties & ref)
+CProperties::CProperties(CProperties &ref)
 {
     szPropName = ref.szPropName;
     valueType = ref.valueType;
@@ -98,19 +98,24 @@ PropType CProperties::getPropValue()
 
 int CProperties::getDataType(string szProp)
 {
-    if (szProp == DESCRIPTION)
-    return STRING;
-    if (szProp == SUMMARY)
-    return STRING;
+    if(szProp == DESCRIPTION) {
+        return STRING;
+    }
+
+    if(szProp == SUMMARY) {
+        return STRING;
+    }
 
     /* Default type for all X -param and Prop is STRING */
     int found;
     found = szProp.find("X-", 0);
 
-    if (found != (int)string::npos)
-    return STRING;
-    else
-    return NONE_TYPE;
+    if(found != (int)string::npos) {
+        return STRING;
+    }
+    else {
+        return NONE_TYPE;
+    }
 }
 
 CProperties::~CProperties()
@@ -123,22 +128,28 @@ string CProperties::toString()
     string szTemp;
     std::stringstream ss;
     ss << "PropName=";
-    if ((szPropName).c_str()){
-	szTemp= szPropName.substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if((szPropName).c_str()) {
+        szTemp = szPropName.substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     szRet.append(",Type=");
-    ss <<valueType.i;
-    if ((valueType.szString).c_str()){
-	szTemp= valueType.szString.substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+    ss << valueType.i;
+
+    if((valueType.szString).c_str()) {
+        szTemp = valueType.szString.substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     szRet.append(ss.str());
     return szRet;
 }

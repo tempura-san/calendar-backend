@@ -65,88 +65,88 @@
 
 using namespace std;
 
-int main(int ac,char **av)
+int main(int ac, char **av)
 {
-   // Create the event manager and test controller
-   CPPUNIT_NS::TestResult controller;
+    // Create the event manager and test controller
+    CPPUNIT_NS::TestResult controller;
 
-   // Add a listener that colllects test result
-   CPPUNIT_NS::TestResultCollector result;
-   controller.addListener( &result );
+    // Add a listener that colllects test result
+    CPPUNIT_NS::TestResultCollector result;
+    controller.addListener(&result);
 
-   // Add a listener that print dots as test run.
-   CPPUNIT_NS::BriefTestProgressListener progress;
-   controller.addListener( &progress );
+    // Add a listener that print dots as test run.
+    CPPUNIT_NS::BriefTestProgressListener progress;
+    controller.addListener(&progress);
 
-  
-   CppUnit::TextUi::TestRunner runner;
-   // Add the top runner.to the test runner
 
-   runner.addTest( CUtility_TS1::suite() );
-   runner.addTest( CMulticalendar_TS3::suite());
-   runner.addTest( CCalendar_TS3::suite() );
-   runner.addTest( CMulticalendar_TS1::suite());
-   runner.addTest( CCalendar_TS1::suite() );
-   runner.addTest( CEvent_TS1::suite() );
-   runner.addTest( CParticipant_TS1::suite());
-   runner.addTest(new CppUnit::TestCaller<ValidCParticipantConstructorTestCase>(
-			   "test_validCParticipantConstructor",
-			   &ValidCParticipantConstructorTestCase::test_validCParticipantConstructor));
-   runner.addTest( CJournal_TS1::suite() );
-   runner.addTest(new CppUnit::TestCaller<ValidCJournalConstructorTestCase>(
-			   "test_validCJournalConstructor",
-			   &ValidCJournalConstructorTestCase::test_validCJournalConstructor));
-   runner.addTest( COrganizer_TS1::suite() );
-   runner.addTest( CComponent_TS1::suite() );
+    CppUnit::TextUi::TestRunner runner;
+    // Add the top runner.to the test runner
 
-  runner.addTest( ComponentDetails_TS1::suite() );
-   runner.addTest( CAttendee_TS1::suite() );
-   runner.addTest(new CppUnit::TestCaller<ValidCAttendeeConstructorTestCase>(
-			   "test_validCAttendeeConstructor",
-			   &ValidCAttendeeConstructorTestCase::test_validCAttendeeConstructor));
-   runner.addTest( CTodo_TS1::suite() );
-   runner.addTest(new CppUnit::TestCaller<ValidCTodoConstructorTestCase>(
-			   "test_validCTodoConstructor",
-			   &ValidCTodoConstructorTestCase::test_validCTodoConstructor));
-   
-   runner.addTest( CAlarm_TS1::suite());
-   runner.addTest( CRecurrence_TS1::suite());
-   runner.addTest( CalendarAlarms_TS1::suite());
-   runner.addTest( ICalConverter_TS1::suite());
-   runner.addTest( VCalConverter_TS1::suite());
-   runner.addTest( CBday_TS1::suite() );
-   runner.addTest( CRecurrenceRule_TS1::suite());
-   runner.addTest( CProperties_TS1::suite() );
-   runner.addTest( CParameters_TS1::suite() );
-   
-   runner.addTest ( ICalConverter_TS2::suite());
-   
-   runner.addTest( CBday_TS2::suite() );  
-   runner.addTest( CCalendar_TS2::suite() );
-   runner.addTest( CAlarm_TS2::suite());
-   runner.addTest( CRecurrence_TS2::suite());
-   runner.addTest( CEvent_TS2::suite());
-   runner.addTest( CTodo_TS2::suite() );
-   runner.addTest( CJournal_TS2::suite());
-   runner.addTest( ComponentDetails_TS2::suite());
-   runner.addTest( COrganizer_TS2::suite() );
-   runner.addTest( CComponent_TS2::suite() );
-   runner.addTest( CAttendee_TS2::suite() );
-   runner.addTest( CRecurrenceRule_TS2::suite());
-   runner.addTest( CAttendee_TS2::suite() );
-   runner.addTest( CParticipant_TS2::suite());
-   runner.addTest( CParameters_TS2::suite() );
-   runner.addTest( CProperties_TS2::suite() );
-   runner.addTest( CCalendarDB_TS1::suite());
-   runner.addTest( CTimezone_TS1::suite());
-   runner.run( controller );
-   // Print test in a compiler compatible format.
-   std::ofstream file("Caltest.xml");
-   CPPUNIT_NS::XmlOutputter xml( &result, file );
-   xml.setStyleSheet( "report.xsl" );
-   xml.write();
-   file.close();
-   return result.wasSuccessful() ? 0 : 1;
-                               
+    runner.addTest(CUtility_TS1::suite());
+    runner.addTest(CMulticalendar_TS3::suite());
+    runner.addTest(CCalendar_TS3::suite());
+    runner.addTest(CMulticalendar_TS1::suite());
+    runner.addTest(CCalendar_TS1::suite());
+    runner.addTest(CEvent_TS1::suite());
+    runner.addTest(CParticipant_TS1::suite());
+    runner.addTest(new CppUnit::TestCaller<ValidCParticipantConstructorTestCase>(
+                       "test_validCParticipantConstructor",
+                       &ValidCParticipantConstructorTestCase::test_validCParticipantConstructor));
+    runner.addTest(CJournal_TS1::suite());
+    runner.addTest(new CppUnit::TestCaller<ValidCJournalConstructorTestCase>(
+                       "test_validCJournalConstructor",
+                       &ValidCJournalConstructorTestCase::test_validCJournalConstructor));
+    runner.addTest(COrganizer_TS1::suite());
+    runner.addTest(CComponent_TS1::suite());
+
+    runner.addTest(ComponentDetails_TS1::suite());
+    runner.addTest(CAttendee_TS1::suite());
+    runner.addTest(new CppUnit::TestCaller<ValidCAttendeeConstructorTestCase>(
+                       "test_validCAttendeeConstructor",
+                       &ValidCAttendeeConstructorTestCase::test_validCAttendeeConstructor));
+    runner.addTest(CTodo_TS1::suite());
+    runner.addTest(new CppUnit::TestCaller<ValidCTodoConstructorTestCase>(
+                       "test_validCTodoConstructor",
+                       &ValidCTodoConstructorTestCase::test_validCTodoConstructor));
+
+    runner.addTest(CAlarm_TS1::suite());
+    runner.addTest(CRecurrence_TS1::suite());
+    runner.addTest(CalendarAlarms_TS1::suite());
+    runner.addTest(ICalConverter_TS1::suite());
+    runner.addTest(VCalConverter_TS1::suite());
+    runner.addTest(CBday_TS1::suite());
+    runner.addTest(CRecurrenceRule_TS1::suite());
+    runner.addTest(CProperties_TS1::suite());
+    runner.addTest(CParameters_TS1::suite());
+
+    runner.addTest(ICalConverter_TS2::suite());
+
+    runner.addTest(CBday_TS2::suite());
+    runner.addTest(CCalendar_TS2::suite());
+    runner.addTest(CAlarm_TS2::suite());
+    runner.addTest(CRecurrence_TS2::suite());
+    runner.addTest(CEvent_TS2::suite());
+    runner.addTest(CTodo_TS2::suite());
+    runner.addTest(CJournal_TS2::suite());
+    runner.addTest(ComponentDetails_TS2::suite());
+    runner.addTest(COrganizer_TS2::suite());
+    runner.addTest(CComponent_TS2::suite());
+    runner.addTest(CAttendee_TS2::suite());
+    runner.addTest(CRecurrenceRule_TS2::suite());
+    runner.addTest(CAttendee_TS2::suite());
+    runner.addTest(CParticipant_TS2::suite());
+    runner.addTest(CParameters_TS2::suite());
+    runner.addTest(CProperties_TS2::suite());
+    runner.addTest(CCalendarDB_TS1::suite());
+    runner.addTest(CTimezone_TS1::suite());
+    runner.run(controller);
+    // Print test in a compiler compatible format.
+    std::ofstream file("Caltest.xml");
+    CPPUNIT_NS::XmlOutputter xml(&result, file);
+    xml.setStyleSheet("report.xsl");
+    xml.write();
+    file.close();
+    return result.wasSuccessful() ? 0 : 1;
+
 }
 

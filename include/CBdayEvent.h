@@ -39,9 +39,10 @@ using std::vector;
  * Inherited from CComponent class.
  */
 
-class CBdayEvent:public CComponent {
+class CBdayEvent: public CComponent
+{
 
-  public:
+public:
 
     /* Constructor */
     CBdayEvent();
@@ -111,7 +112,7 @@ class CBdayEvent:public CComponent {
      * @return int Birthdate
      */
     int getBirthDate();
-    
+
     /**
      * toString
      */

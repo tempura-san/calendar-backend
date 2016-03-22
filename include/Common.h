@@ -22,7 +22,7 @@
  */
 
 /**
- * common include file for 
+ * common include file for
  * all the classes*/
 
 #ifndef _COMMON_H__
@@ -62,7 +62,7 @@ using std::string;
 
 /** global variables used in Calendar
  */
-//const char SEMI_COLON[] =  ";"; 
+//const char SEMI_COLON[] =  ";";
 const char DEFAULT_CALENDAR[] = "Private";
 const char SYNCHRONIZED_CALENDAR[] = "Synchronized";
 const char OPAQUE[] = "OPAQUE";
@@ -113,9 +113,9 @@ const char PRIVATE[] = "PRIVATE";
 const char CONFIDENTIAL[] = "CONFIDENTIAL";
 const char ALTREP[] = "ALTREP=";
 const char DOUBLE_QUOTE[] = "\"";
-const char T_ICAL[] ="T";
+const char T_ICAL[] = "T";
 const char DAY_ICAL[] = "235959";
-const char SIX_O[] ="T000000";
+const char SIX_O[] = "T000000";
 const char SIX_T_SIX[] = "000000T000000";
 const char WHITE_SPACE[] = " ";
 const char FW_SLASH[] = "/";
@@ -159,10 +159,10 @@ const char FREQ_DAILY[] = "FREQ=DAILY";
 const char FREQ_WEEKLY[] = "FREQ=WEEKLY";
 const char FREQ_MONTHLY[] = "FREQ=MONTHLY";
 const char FREQ_YEARLY[] = "FREQ=YEARLY";
-const char INTERVAL_VCAL[] = ";INTERVAL="; 
-const char BY_MONTH_VCAL[] = ";BYMONTH="; 
+const char INTERVAL_VCAL[] = ";INTERVAL=";
+const char BY_MONTH_VCAL[] = ";BYMONTH=";
 const char BY_MONTHDAY_VCAL[] = ";BYMONTHDAY=";
-const char BY_DAY_VCAL[] = ";BYDAY="; 
+const char BY_DAY_VCAL[] = ";BYDAY=";
 const char WKSTRT_SU_VCAL[] = ";WKST=SU";
 const char UNTIL[] = "UNTIL";
 const char COUNT[] = "COUNT";
@@ -183,16 +183,16 @@ const char DALARM[] = "DALARM";
 const char PALARM[] = "PALARM";
 const char M[] = "M";
 const char P[] = "P";
-const char Y[]= "Y";
+const char Y[] = "Y";
 const char D[] = "D";
 const char W[] = "W";
 const char NEWLINE[] = "\n";
 const char HASH_ZERO[] = "#0";
 const char TIMEZONE[] = "T000000Z";
 const char TRIGGER_VALUE_DATE_TIME[] = "TRIGGER;VALUE=DATE-TIME:";
-const char ALARM_TYPE_WAVE_VALUE[] = "AALARM:"; 
-const char AUDIO_ALARM_DELIMITER[] = ":=;,"; 
-const char DATE_DELIMITER[] = ":=;,/"; 
+const char ALARM_TYPE_WAVE_VALUE[] = "AALARM:";
+const char AUDIO_ALARM_DELIMITER[] = ":=;,";
+const char DATE_DELIMITER[] = ":=;,/";
 const char VCALRULE_DELIMITER[] = ":=;,";
 const char ZEROSEMI[] = "0;";
 const int ZEROSEC =  0;
@@ -214,15 +214,15 @@ const int MAX_SUPPORTED_YEAR_IN_SEC = 2145830400;
 const int MAX_SUPPORTED_YEAR_IN_YEAR = 2037;
 const char ENCODING[] = "ENCODING=";
 const int altime[MAX_ALARM_TIME] = { ZEROSEC,
-    ZEROSEC,
-    THREEOOSEC,
-    NINEOOSEC,
-    HALFHOUR ,
-    ONEHOUR,
-    THREEHOUR ,
-    ONEDAY ,
-    HALFDAY
-};
+                                     ZEROSEC,
+                                     THREEOOSEC,
+                                     NINEOOSEC,
+                                     HALFHOUR ,
+                                     ONEHOUR,
+                                     THREEHOUR ,
+                                     ONEDAY ,
+                                     HALFDAY
+                                   };
 
 /**
  *  Constant definitions */
@@ -246,12 +246,12 @@ const int MAXSIZE = 32;
 const int MACLENGTH = 18;
 const int MAX_RECUR = 6;
 const int ADDRESSLENGTH = 6;
-const int HEX_252 = 0xfc; 
-const int HEX_3 = 0x03; 
-const int HEX_240 = 0xf0; 
-const int HEX_15 = 0x0f; 
-const int HEX_192 = 0xc0; 
-const int HEX_63 = 0x3f; 
+const int HEX_252 = 0xfc;
+const int HEX_3 = 0x03;
+const int HEX_240 = 0xf0;
+const int HEX_15 = 0x0f;
+const int HEX_192 = 0xc0;
+const int HEX_63 = 0x3f;
 const int CAL_VISIBLE = 1;
 /**
  * for ical parsing*/
@@ -299,20 +299,20 @@ const char ATDELEGATOR[] = "DELEGATOR";
 const int ATTDEE_LEN = 6;
 const int ORGZER_LEN = 5;
 const int TWO_ROWS = 2;
-/** 
- * DB related strings 
+/**
+ * DB related strings
  */
 const char COMMIT[] = "commit";
 const char ROLLBACK[] = "rollback";
 const int DEFAULT_SIZE = 50;
 /**
- * Macro for null assertion 
+ * Macro for null assertion
  */
 
 #define ASSERTION(X) assert(X);
 
 /**
- *  fields present in Attendee 
+ *  fields present in Attendee
   and Organizer
  */
 typedef enum {
@@ -320,7 +320,7 @@ typedef enum {
     DIRPARAM,
     SENTBYPARAM,
     ORGLANGUAGE
-}OrganizerParams;
+} OrganizerParams;
 
 typedef enum {
     CALENDAR_USER_TYPE = 0,
@@ -337,7 +337,7 @@ typedef enum {
     MAILTO
 } AttendeeParams;
 
-enum DATATYPE{
+enum DATATYPE {
     STRING = 0,
     INTEGER,
     FLOAT,
@@ -345,7 +345,7 @@ enum DATATYPE{
     NONE_TYPE
 };
 
-enum EntryType{
+enum EntryType {
     ALL_ENTRIES = 0,
     EVENT,
     TODO,
@@ -366,8 +366,8 @@ enum OPTION_TYPE {
     HAS_EXTRA
 };
 
-enum RecurrencType{
-    E_NONE =0 ,
+enum RecurrencType {
+    E_NONE = 0 ,
     E_DAILY,
     E_WEEKDAY,
     E_WEEKLY,
@@ -438,8 +438,7 @@ enum columnId {
     DB_COLUMN_ID49
 };
 
-enum DaysOfWeek
-{
+enum DaysOfWeek {
     Sunday    = 1,
     Monday    = 2,
     Tuesday   = 4,
@@ -449,8 +448,7 @@ enum DaysOfWeek
     Saturday  = 64
 };
 
-enum RecurrenceType
-{
+enum RecurrenceType {
     RecursSecondly = 0,
     RecursMinutely ,
     RecursHourly   ,
@@ -459,15 +457,15 @@ enum RecurrenceType
     RecursMonthly  ,
     RecursMonthNth ,
     RecursYearly   ,
-    RecursYearNth  
+    RecursYearNth
 };
 
 typedef struct {
     RecurrenceType freq;
-    char* interval;
-    char* modifier;    
-    char* duration;
-}RecurrenceItem;
+    char *interval;
+    char *modifier;
+    char *duration;
+} RecurrenceItem;
 
 enum queryId {
     DB_QUERY_INDEX1 = 1,

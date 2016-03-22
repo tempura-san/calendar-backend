@@ -36,53 +36,53 @@ CPPUNIT_TEST_SUITE_REGISTRATION(COrganizer_TS2);
 
 void COrganizer_TS1::setUp()
 {
-	pCo= new COrganizer();
+    pCo = new COrganizer();
 }
 void COrganizer_TS1::tearDown()
 {
-	delete pCo;
-	pCo = NULL;
+    delete pCo;
+    pCo = NULL;
 }
 
 void COrganizer_TS2::setUp()
 {
-	pCo= new COrganizer();
+    pCo = new COrganizer();
 }
 void COrganizer_TS2::tearDown()
 {
-	delete pCo;
-	pCo = NULL;
+    delete pCo;
+    pCo = NULL;
 }
 void COrganizer_TS1::test_dummy()
 {
-	COrganizer p(*(pCo));
+    COrganizer p(*(pCo));
 }
 
 void COrganizer_TS2 ::test_toString()
 {
-	string szLa="OPAQUE";
-	pCo->setLanguage(szLa);
-	pCo->setSentBy(szLa);
-	pCo->setXparameters(szLa);
-	pCo->setCalAddress(szLa);
-	pCo->setCommonName(szLa);
-	pCo->setMailTo(szLa);
-	pCo->setDirectoryParameter(szLa);
-	cout<<pCo->toString();
-	
-	
+    string szLa = "OPAQUE";
+    pCo->setLanguage(szLa);
+    pCo->setSentBy(szLa);
+    pCo->setXparameters(szLa);
+    pCo->setCalAddress(szLa);
+    pCo->setCommonName(szLa);
+    pCo->setMailTo(szLa);
+    pCo->setDirectoryParameter(szLa);
+    cout << pCo->toString();
+
+
 }
 void COrganizer_TS2 ::test_toString_NULL()
 {
-	string szLa="";
-	pCo->setLanguage(szLa);
-	pCo->setSentBy(szLa);
-	pCo->setXparameters(szLa);
-	pCo->setCalAddress(szLa);
-	pCo->setCommonName(szLa);
-	pCo->setMailTo(szLa);
-	cout<<pCo->toString();
-	
-	
+    string szLa = "";
+    pCo->setLanguage(szLa);
+    pCo->setSentBy(szLa);
+    pCo->setXparameters(szLa);
+    pCo->setCalAddress(szLa);
+    pCo->setCommonName(szLa);
+    pCo->setMailTo(szLa);
+    cout << pCo->toString();
+
+
 }
 

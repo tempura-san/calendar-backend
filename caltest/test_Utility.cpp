@@ -35,7 +35,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION(CUtility_TS1);
 
 void CUtility_TS1 :: setUp()
 {
-    pUt=CUtility::Instance();
+    pUt = CUtility::Instance();
 }
 void CUtility_TS1 :: tearDown()
 {
@@ -45,7 +45,7 @@ void CUtility_TS1 :: test_getDateFromTime()
 {
     time_t ret = 0;
     ret = pUt->getDateFromTime(123546986);
-    CPPUNIT_ASSERT_MESSAGE("Error:get DateFromTime ",(ret>123400000));
+    CPPUNIT_ASSERT_MESSAGE("Error:get DateFromTime ", (ret > 123400000));
 }
 
 void CUtility_TS1 :: test_parseId()
@@ -53,7 +53,7 @@ void CUtility_TS1 :: test_parseId()
     string szId = "1,2,3,5,9,13";
     vector<string> vId;
     vId = pUt->parseIds(szId);
-    CPPUNIT_ASSERT_MESSAGE("Error:get DateFromTime ",(vId.size()>0));
+    CPPUNIT_ASSERT_MESSAGE("Error:get DateFromTime ", (vId.size() > 0));
 }
 void CUtility_TS1 :: test_stringReplaceOne()
 {
@@ -61,8 +61,8 @@ void CUtility_TS1 :: test_stringReplaceOne()
     const char *change = "is";
     const char *to = "was";
     bool ret = false;
-    ret = pUt->stringReplaceOne(szId,change,to);
-    CPPUNIT_ASSERT_MESSAGE("Error:get DateFromTime ",(ret == true));
+    ret = pUt->stringReplaceOne(szId, change, to);
+    CPPUNIT_ASSERT_MESSAGE("Error:get DateFromTime ", (ret == true));
 }
 void CUtility_TS1 :: test_encodeQuotedPrintable()
 {
@@ -93,15 +93,15 @@ void CUtility_TS1 :: test_getRecurrentTimes()
     int pErrorCode = -1;
     time_t Dst = 7614000;// "19700329T030000";
     string szRule = "FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU";
-    icaltimezone* pTz= icaltimezone_get_builtin_timezone("EEST");
-    vRet = pUt->getRecurrentTimes(szRule,icaltime_from_timet_with_zone(Dst,1,pTz),0,pTz,pErrorCode);
+    icaltimezone *pTz = icaltimezone_get_builtin_timezone("EEST");
+    vRet = pUt->getRecurrentTimes(szRule, icaltime_from_timet_with_zone(Dst, 1, pTz), 0, pTz, pErrorCode);
     Dst = 7603200;
     szRule = "FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU;UNTIL=20370329T111236Z";
-    vRet = pUt->getRecurrentTimes(szRule,icaltime_from_timet_with_zone(Dst,1,pTz),time_get_time()+500,pTz,pErrorCode);
+    vRet = pUt->getRecurrentTimes(szRule, icaltime_from_timet_with_zone(Dst, 1, pTz), time_get_time() + 500, pTz, pErrorCode);
 }
 void CUtility_TS1 :: test_getApplicationName()
 {
-	pUt->setApplicationName ("AppName");
-    	CPPUNIT_ASSERT_MESSAGE("Error:get Application Name ",(pUt->getApplicationName() == "AppName"));
-	
+    pUt->setApplicationName("AppName");
+    CPPUNIT_ASSERT_MESSAGE("Error:get Application Name ", (pUt->getApplicationName() == "AppName"));
+
 }

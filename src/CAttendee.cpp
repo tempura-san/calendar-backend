@@ -26,9 +26,9 @@
 #include "CalendarLog.h"
 #include "Common.h"
 /**
- * copy Constructor 
+ * copy Constructor
  */
-CAttendee::CAttendee(CAttendee & ref):CParticipant(ref)
+CAttendee::CAttendee(CAttendee &ref): CParticipant(ref)
 {
     szMember = ref.szMember;
     iParticipantRole = ref.iParticipantRole;
@@ -40,36 +40,36 @@ CAttendee::CAttendee(CAttendee & ref):CParticipant(ref)
 }
 
 /**
- * overloaded assignment operator 
+ * overloaded assignment operator
  */
-const CAttendee & CAttendee::operator=(const CAttendee & right)
+const CAttendee &CAttendee::operator=(const CAttendee &right)
 {
-    if (&right != this)        //check for self assignment
-    {
-    CParticipant::operator=(right);
-    szMember = right.szMember;
-    iParticipantRole = right.iParticipantRole;
-    iParticipantStatus = right.iParticipantStatus;
-    bRsvp = right.bRsvp;
-    szDelegatees = right.szDelegatees;
-    szDelegators = right.szDelegators;
-    iCalendarUserType = right.iCalendarUserType;
+    if(&right != this) {       //check for self assignment
+        CParticipant::operator=(right);
+        szMember = right.szMember;
+        iParticipantRole = right.iParticipantRole;
+        iParticipantStatus = right.iParticipantStatus;
+        bRsvp = right.bRsvp;
+        szDelegatees = right.szDelegatees;
+        szDelegators = right.szDelegators;
+        iCalendarUserType = right.iCalendarUserType;
     }
+
     return *this;
 }
 
 
 /**
  * default constructor
- * 
+ *
  */
-CAttendee::CAttendee():CParticipant(), iParticipantRole(ROLE_NONE),
-iParticipantStatus(STATUS_NONE), bRsvp(false),
-iCalendarUserType(INDIVIDUAL)
+CAttendee::CAttendee(): CParticipant(), iParticipantRole(ROLE_NONE),
+    iParticipantStatus(STATUS_NONE), bRsvp(false),
+    iCalendarUserType(INDIVIDUAL)
 {
 }
 
-/** 
+/**
  * default destructor
  */
 CAttendee::~CAttendee()
@@ -79,7 +79,7 @@ CAttendee::~CAttendee()
 
 /**
  * setCalendarUserType
- * 
+ *
  * @param icuType  type of calendar user is an enumerated type
  * @return bool
  *
@@ -102,7 +102,7 @@ bool CAttendee::setCalendarUserType(CalendarUserType iCUType)
 
 /**
  * getCalendarUserType
- * 
+ *
  * @param none
  * @return int type of calendar user
  *
@@ -119,9 +119,9 @@ CalendarUserType CAttendee::getCalendarUserType()
 
 /**
  * setMember
- * 
- * @param string member name 
- * @return bool 
+ *
+ * @param string member name
+ * @return bool
  *
  * This function will be used to set member name.
  * Member indicates the groups that attendee belongs to.
@@ -137,11 +137,11 @@ bool CAttendee::setMember(string szMember)
 
 /**
  * getMember
- * 
+ *
  * @param none
  * @return string name of the member
- * 
- * This function will be used to get the member 
+ *
+ * This function will be used to get the member
  * which has been previously set using setcalendarUserType().
  * member indicates the groups that attendee belongs to.
  */
@@ -155,9 +155,9 @@ string CAttendee::getMember()
 
 /**
  * setRole
- * 
+ *
  * @param int iRole
- * @return bool 
+ * @return bool
  *
  * This function will be used to set role that the attendee
  * will have in the calendar component.
@@ -174,10 +174,10 @@ bool CAttendee::setRole(ParticipantRole iRole)
 
 /**
  * getRole
- * 
+ *
  * @param none
  * @return string role of attendee.
- * 
+ *
  * This function will be used to get the role
  * which has been previously set using setRole().
  */
@@ -190,11 +190,11 @@ ParticipantRole CAttendee::getRole()
 
 /**
  * setParticipationStatus
- * 
- * @param string status of the attendee's participation
- * @return bool 
  *
- * This function will be used to set status of the 
+ * @param string status of the attendee's participation
+ * @return bool
+ *
+ * This function will be used to set status of the
  * attendee's participation.
  * returns true when is status is  set correctly.
  */
@@ -207,10 +207,10 @@ bool CAttendee::setParticipationStatus(ParticipantStatus iStatus)
 
 /**
  * getParticipationStatus
- * 
+ *
  * @param none
  * @return string status of the attendee's participation
- * 
+ *
  * This function will be used to get status
  * of the attendee's participation
  * which has been previously set using setparticipationStatus().
@@ -225,7 +225,7 @@ ParticipantStatus CAttendee::getParticipationStatus()
 
 /**
  * setRSVP
- * 
+ *
  * @param string indicating whether the favour of a reply is requested
  * @return bool rsvp
  *
@@ -242,10 +242,10 @@ bool CAttendee::setRSVP(bool brsvp)
 
 /**
  * getRSVP
- * 
+ *
  * @param none
  * @return bool  RSVP
- * 
+ *
  * This function will be used to get RSVP
  * which has been previously set using setRSVP().
  */
@@ -257,12 +257,12 @@ bool CAttendee::getRSVP()
 
 /**
  * setDelagatees
- * 
+ *
  * @param string list of Delegatees
- * @return bool 
- * 
+ * @return bool
+ *
  * This function will be used to set DELEGATED-TO
- * which indicates the calendar users that the orignal 
+ * which indicates the calendar users that the orignal
  * request was delegated to.
  * returns true when Delegated to is  set correctly.
  */
@@ -274,12 +274,12 @@ bool CAttendee::setDelegatees(string szDelegatees)
 
 /**
  * getDelelegatees
- * 
+ *
  * @param none
  * @return string users
- * 
+ *
  * This function will be used to get calendar users
- * that the original request was delegated to     
+ * that the original request was delegated to
  * which has been previously set using setdelegatees().
  */
 string CAttendee::getDelegatees()
@@ -292,10 +292,10 @@ string CAttendee::getDelegatees()
 
 /**
  * setDelegator
- * 
+ *
  * @param string calendar user
- * @return bool 
- * 
+ * @return bool
+ *
  * This function will be used to set DELEGATED-FROM
  * which indicates whom the request was delegated from
  * returns true when Delegated from is  set correctly.
@@ -310,10 +310,10 @@ bool CAttendee::setDelegator(string szDelegators)
 
 /**
  * getDelegator
- * 
+ *
  * @param none
  * @return string user
- * 
+ *
  * This function will be used to get DELEGATED-FROM
  * which indicates whom the request was delegated from
  * which has been previously set using setdelegators().
@@ -325,7 +325,7 @@ string CAttendee::getDelegator()
 
 
 /* to string function to
-    print the attendee propoerties 
+    print the attendee propoerties
 */
 string CAttendee::toString()
 {
@@ -334,87 +334,115 @@ string CAttendee::toString()
     std::stringstream ss;
 
     ss << "SentBy=";
-    if (getSentBy().c_str()){
-	szTemp= getSentBy().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getSentBy().c_str()) {
+        szTemp = getSentBy().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",CommonName=";
-    if (getCommonName().c_str()){
-	szTemp= getCommonName().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getCommonName().c_str()) {
+        szTemp = getCommonName().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",Directory=";
-    if (getDirectoryParameter().c_str()){
-	szTemp= getDirectoryParameter().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getDirectoryParameter().c_str()) {
+        szTemp = getDirectoryParameter().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",Lang=";
-    if (getLanguage().c_str()){
-	szTemp= getLanguage().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getLanguage().c_str()) {
+        szTemp = getLanguage().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",CalAddr=";
-    if (getCalAddress().c_str()){
-	szTemp= getCalAddress().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getCalAddress().c_str()) {
+        szTemp = getCalAddress().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",CXparam=";
-    if (getXparameters().c_str()){
-	szTemp= getXparameters().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getXparameters().c_str()) {
+        szTemp = getXparameters().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",MailTo=";
-    if (getMailTo().c_str()){
-	szTemp= getMailTo().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getMailTo().c_str()) {
+        szTemp = getMailTo().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
 
 
     ss << ",Member";
-    if (szMember.c_str()){
-	szTemp= szMember.substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(szMember.c_str()) {
+        szTemp = szMember.substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",Delegatee";
-    if (szDelegatees.c_str()){
-	szTemp= szDelegatees.substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(szDelegatees.c_str()) {
+        szTemp = szDelegatees.substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",Delagator";
-    if (szDelegators.c_str()){
-	szTemp= szDelegators.substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(szDelegators.c_str()) {
+        szTemp = szDelegators.substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
 
     ss << ",Role=";
     ss << getRole();

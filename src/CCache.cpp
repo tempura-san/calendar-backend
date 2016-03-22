@@ -27,58 +27,61 @@
 /* default constructor */
 CCache::CCache()
 {
-	//iStartDate = 0;
-	memset(&iStartDate, 0, sizeof(iStartDate));
+    //iStartDate = 0;
+    memset(&iStartDate, 0, sizeof(iStartDate));
 }
 
 string CCache::getCommaSeperatedIdString()
 {
-	string szOutput;
-	int iCount = 0;
-	string szSeparator(",");
-	int iLength = vListId.size();
-	
-	if(iLength == 0) {
-		return szOutput;
-	}
-	
-	for (iCount = 0 ; iCount < iLength; iCount++) {
-		szOutput.append(szSeparator);
-		szOutput.append(vListId[iCount]);
-	 }
-	 //something has been added. 
-	 //Then end it with comma
-	 if(!szOutput.empty())
-	 	szOutput.append(szSeparator);
-	return szOutput;
+    string szOutput;
+    int iCount = 0;
+    string szSeparator(",");
+    int iLength = vListId.size();
+
+    if(iLength == 0) {
+        return szOutput;
+    }
+
+    for(iCount = 0 ; iCount < iLength; iCount++) {
+        szOutput.append(szSeparator);
+        szOutput.append(vListId[iCount]);
+    }
+
+    //something has been added.
+    //Then end it with comma
+    if(!szOutput.empty()) {
+        szOutput.append(szSeparator);
+    }
+
+    return szOutput;
 }
-	
+
 CCache::CCache(time_t startDate, vector <string> vList)
 {
-	iStartDate = startDate;
-	vListId = vList;
+    iStartDate = startDate;
+    vListId = vList;
 }
 
 vector <string> CCache::getCacheIds()
 {
-	return vListId;
+    return vListId;
 }
 
 time_t CCache::getCacheStartDate()
 {
-	return iStartDate;
+    return iStartDate;
 }
 
 void CCache::setCacheStartDate(time_t startDate)
 {
-	iStartDate = startDate;
+    iStartDate = startDate;
 }
 
 void CCache::setCacheIds(vector <string> vList)
 {
-	vListId = vList;
+    vListId = vList;
 }
-	
+
 CCache::~CCache()
 {
 }

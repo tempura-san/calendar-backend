@@ -32,9 +32,10 @@
  * Inherited from CComponentDetails
  */
 
-class CJournal:public CComponentDetails {
+class CJournal: public CComponentDetails
+{
 
-  public:
+public:
 
     /* Paramterized constructor */
     CJournal(string szDescription);
@@ -43,13 +44,13 @@ class CJournal:public CComponentDetails {
     CJournal();
 
     /* Copy constructor */
-    CJournal(CJournal & ref);
+    CJournal(CJournal &ref);
 
     /**
-     * overloaded assignment 
+     * overloaded assignment
      * operator
      */
-    CJournal & operator=(CJournal & right);
+    CJournal &operator=(CJournal &right);
 
     /**
      *This is the default destructor of journal class
@@ -62,6 +63,6 @@ class CJournal:public CComponentDetails {
 
 
 
-  private:
+private:
 };
 #endif

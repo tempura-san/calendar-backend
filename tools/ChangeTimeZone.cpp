@@ -28,18 +28,18 @@
 
 int main()
 {
-	char* string = new char[200];
-	int ret;
-	time_get_synced ();
+    char *string = new char[200];
+    int ret;
+    time_get_synced();
 
 //	time_set_timezone ("Europe/Helsinki");
 
-	time_set_timezone ("Asia/Calcutta");
+    time_set_timezone("Asia/Calcutta");
 
-	ret = time_get_timezone (string, 200);
-	printf ("Current timezone is %s\n",  string);
+    ret = time_get_timezone(string, 200);
+    printf("Current timezone is %s\n",  string);
 
-//	printf ("Current timezone is %s\n",  time_set_timezone(const char *tz)); 
+//	printf ("Current timezone is %s\n",  time_set_timezone(const char *tz));
 
-	return 1;
+    return 1;
 }

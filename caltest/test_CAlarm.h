@@ -31,52 +31,52 @@
 
 class CAlarm_TS1 : public CppUnit::TestFixture
 {
-	CPPUNIT_TEST_SUITE(CAlarm_TS1);
-	CPPUNIT_TEST(test_setTrigger_Valid);
-	CPPUNIT_TEST(test_setTrigger_Invalid);
-	CPPUNIT_TEST(test_setRepeat_Valid);
-	CPPUNIT_TEST(test_setRepeat_Invalid);
-	CPPUNIT_TEST(test_setDuration_Valid);
-	CPPUNIT_TEST(test_setDuration_Invalid);
-	CPPUNIT_TEST(test_setAction_Valid);
-	CPPUNIT_TEST(test_setCookie_Valid);
-	CPPUNIT_TEST(test_setCookie_Invalid);
-	CPPUNIT_TEST(test_setAttach_Valid);
-	CPPUNIT_TEST(test_setAttach_Empty);
-	CPPUNIT_TEST(test_constructor);
-	CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(CAlarm_TS1);
+    CPPUNIT_TEST(test_setTrigger_Valid);
+    CPPUNIT_TEST(test_setTrigger_Invalid);
+    CPPUNIT_TEST(test_setRepeat_Valid);
+    CPPUNIT_TEST(test_setRepeat_Invalid);
+    CPPUNIT_TEST(test_setDuration_Valid);
+    CPPUNIT_TEST(test_setDuration_Invalid);
+    CPPUNIT_TEST(test_setAction_Valid);
+    CPPUNIT_TEST(test_setCookie_Valid);
+    CPPUNIT_TEST(test_setCookie_Invalid);
+    CPPUNIT_TEST(test_setAttach_Valid);
+    CPPUNIT_TEST(test_setAttach_Empty);
+    CPPUNIT_TEST(test_constructor);
+    CPPUNIT_TEST_SUITE_END();
 
-	public:
-	CAlarm * pCa;
-	void setUp();
-	void tearDown();
-	void test_setTrigger_Valid();
-	void test_setTrigger_Invalid();
-	void test_setRepeat_Valid();
-	void test_setRepeat_Invalid();
-	void test_setDuration_Valid();
-	void test_setDuration_Invalid();
-	void test_setAction_Valid();
-	void test_setCookie_Valid();
-	void test_setCookie_Invalid();
-	void test_setAttach_Valid();
-	void test_setAttach_Empty();
-	void test_constructor();
+public:
+    CAlarm *pCa;
+    void setUp();
+    void tearDown();
+    void test_setTrigger_Valid();
+    void test_setTrigger_Invalid();
+    void test_setRepeat_Valid();
+    void test_setRepeat_Invalid();
+    void test_setDuration_Valid();
+    void test_setDuration_Invalid();
+    void test_setAction_Valid();
+    void test_setCookie_Valid();
+    void test_setCookie_Invalid();
+    void test_setAttach_Valid();
+    void test_setAttach_Empty();
+    void test_constructor();
 };
 
 class CAlarm_TS2 : public CppUnit::TestFixture
 {
-	CPPUNIT_TEST_SUITE(CAlarm_TS2);
+    CPPUNIT_TEST_SUITE(CAlarm_TS2);
 
-	CPPUNIT_TEST(test_toString);
-	CPPUNIT_TEST(test_toString_NULL);
-	CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST(test_toString);
+    CPPUNIT_TEST(test_toString_NULL);
+    CPPUNIT_TEST_SUITE_END();
 
-	public:
-	 CAlarm * pCa1;
-	void setUp();
-	void tearDown();
-	void test_toString();
-	 void test_toString_NULL();
+public:
+    CAlarm *pCa1;
+    void setUp();
+    void tearDown();
+    void test_toString();
+    void test_toString_NULL();
 };
 

@@ -46,19 +46,28 @@ static char properties[][12] = {
  * Component()
  * CComponent copy constructor
  */
-CComponentDetails::CComponentDetails(CComponentDetails & ref):CComponent
+CComponentDetails::CComponentDetails(CComponentDetails &ref): CComponent
     (ref)
 {
     iDateStamp = ref.iDateStamp;
     pOrganizer = 0;
-    if (ref.pOrganizer)
-    this->setOrganizer(ref.pOrganizer);
+
+    if(ref.pOrganizer) {
+        this->setOrganizer(ref.pOrganizer);
+    }
+
     vAttachments.clear();
-    if (ref.vAttachments.size())
-    this->setAttachments(ref.vAttachments);
+
+    if(ref.vAttachments.size()) {
+        this->setAttachments(ref.vAttachments);
+    }
+
     vAttendee.clear();
-    if (ref.vAttendee.size())
-    this->setAttendees(ref.vAttendee);
+
+    if(ref.vAttendee.size()) {
+        this->setAttendees(ref.vAttendee);
+    }
+
     iSequence = ref.iSequence;
     iUId = ref.iUId;
     szUrl = ref.szUrl;
@@ -68,8 +77,11 @@ CComponentDetails::CComponentDetails(CComponentDetails & ref):CComponent
     szRelated = ref.szRelated;
     szResources = ref.szResources;
     vXProp.clear();
-    if (ref.vXProp.size())
-    this->setXProperties(ref.vXProp);
+
+    if(ref.vXProp.size()) {
+        this->setXProperties(ref.vXProp);
+    }
+
     szClas = ref.szClas;
     this->copyHashMap(ref.hashMap);
 }
@@ -77,36 +89,48 @@ CComponentDetails::CComponentDetails(CComponentDetails & ref):CComponent
 /**
  * overloaded assignment operator
  */
-const CComponentDetails & CComponentDetails::
-operator=(const CComponentDetails & right)
+const CComponentDetails &CComponentDetails::
+operator=(const CComponentDetails &right)
 {
-    if (&right != this)        //prevent self assignment
-    {
-    CComponent::operator=(right);
-    iDateStamp = right.iDateStamp;
-    removeOrganizer();
-    if (right.pOrganizer)
-        this->setOrganizer(right.pOrganizer);
-    vAttachments.clear();
-    if (right.vAttachments.size())
-        this->setAttachments(right.vAttachments);
-    removeAttendees();
-    if (right.vAttendee.size())
-        this->setAttendees(right.vAttendee);
-    iSequence = right.iSequence;
-    iUId = right.iUId;
-    szUrl = right.szUrl;
-    szCategory = right.szCategory;
-    szComments = right.szComments;
-    szContacts = right.szContacts;
-    szRelated = right.szRelated;
-    szResources = right.szResources;
-    removeXProperties();
-    if (right.vXProp.size())
-        this->setXProperties(right.vXProp);
-    szClas = right.szClas;
-    this->copyHashMap(right.hashMap);
+    if(&right != this) {       //prevent self assignment
+        CComponent::operator=(right);
+        iDateStamp = right.iDateStamp;
+        removeOrganizer();
+
+        if(right.pOrganizer) {
+            this->setOrganizer(right.pOrganizer);
+        }
+
+        vAttachments.clear();
+
+        if(right.vAttachments.size()) {
+            this->setAttachments(right.vAttachments);
+        }
+
+        removeAttendees();
+
+        if(right.vAttendee.size()) {
+            this->setAttendees(right.vAttendee);
+        }
+
+        iSequence = right.iSequence;
+        iUId = right.iUId;
+        szUrl = right.szUrl;
+        szCategory = right.szCategory;
+        szComments = right.szComments;
+        szContacts = right.szContacts;
+        szRelated = right.szRelated;
+        szResources = right.szResources;
+        removeXProperties();
+
+        if(right.vXProp.size()) {
+            this->setXProperties(right.vXProp);
+        }
+
+        szClas = right.szClas;
+        this->copyHashMap(right.hashMap);
     }
+
     return *this;
 }
 
@@ -114,7 +138,7 @@ operator=(const CComponentDetails & right)
  * CComponentDetails
  * Default constructor
  */
-CComponentDetails::CComponentDetails():CComponent()
+CComponentDetails::CComponentDetails(): CComponent()
 {
     initEvent();
 }
@@ -124,7 +148,7 @@ CComponentDetails::CComponentDetails():CComponent()
  * Overloaded parameterized constructor
  */
 
-CComponentDetails::CComponentDetails(string szDescription):CComponent
+CComponentDetails::CComponentDetails(string szDescription): CComponent
     (szDescription)
 {
     initEvent();
@@ -135,7 +159,7 @@ CComponentDetails::CComponentDetails(string szDescription):CComponent
  * Overloaded parameterized constructor
  */
 CComponentDetails::CComponentDetails(string szSummary, int iTodoDue, int iStatus):
-CComponent(szSummary, iTodoDue, iStatus)
+    CComponent(szSummary, iTodoDue, iStatus)
 {
     initEvent();
 
@@ -148,13 +172,13 @@ CComponent(szSummary, iTodoDue, iStatus)
  */
 
 CComponentDetails::CComponentDetails(string szSummary,
-                     string szDescription,
-                     string szLocation, int iDateStart,
-                     int iDateEnd):CComponent(szSummary,
-                                  szDescription,
-                                  szLocation,
-                                  iDateStart,
-                                  iDateEnd)
+                                     string szDescription,
+                                     string szLocation, int iDateStart,
+                                     int iDateEnd): CComponent(szSummary,
+                                                 szDescription,
+                                                 szLocation,
+                                                 iDateStart,
+                                                 iDateEnd)
 {
     initEvent();
 }
@@ -177,7 +201,7 @@ void CComponentDetails::initEvent()
 /**
  * retrieveXPropertyDetails()
  */
-vector<CProperties*> CComponentDetails::retrieveXPropertyDetails()
+vector<CProperties *> CComponentDetails::retrieveXPropertyDetails()
 {
     QueryResult *pQr = NULL;
     CCalendarDB *pDb = NULL;
@@ -192,57 +216,65 @@ vector<CProperties*> CComponentDetails::retrieveXPropertyDetails()
     vPropList.clear();
     pDb = CCalendarDB::Instance();
 
-    if ((pDb == NULL) || (this->getId().empty()))
-	return vPropList;
+    if((pDb == NULL) || (this->getId().empty())) {
+        return vPropList;
+    }
 
     pQuery = sqlite3_mprintf(SELECT_TAB_COND2, XPROP_TABLE,
-                 XPROP_FIELD_ID, this->getId().c_str());
+                             XPROP_FIELD_ID, this->getId().c_str());
 
     ASSERTION(pQuery);
     CAL_DEBUG_LOG("query is %s\n", pQuery);
-    pQr = pDb->getRecords(pQuery,iSqliteError);
+    pQr = pDb->getRecords(pQuery, iSqliteError);
     sqlite3_free(pQuery);
 
-    if (pQr == 0) {
-	CAL_DEBUG_LOG("Query Result is empty");
-	return vPropList;
+    if(pQr == 0) {
+        CAL_DEBUG_LOG("Query Result is empty");
+        return vPropList;
     }
 
     CProperties *pProp = NULL;
-    for (iI_PropCount = 0; iI_PropCount < pQr->iRow; iI_PropCount++) {
-	pProp = new CProperties();
-	ASSERTION(pProp);
-	for (iJ_PropCount = 0; iJ_PropCount < pQr->iColumn; iJ_PropCount++) {
-	    iK_PropCount = pQr->iColumn + (iI_PropCount * pQr->iColumn);
-	    if ((pQr->pResult[iK_PropCount + iJ_PropCount]) == NULL)
-		continue;
 
-	    switch (iJ_PropCount) {
+    for(iI_PropCount = 0; iI_PropCount < pQr->iRow; iI_PropCount++) {
+        pProp = new CProperties();
+        ASSERTION(pProp);
 
-		case DB_COLUMN_ID2:
-		    CAL_DEBUG_LOG("XpropName =  %s",
-			    pQr->pResult[iK_PropCount + iJ_PropCount]);
-		    pProp->setPropName(pQr->
-			    pResult[iK_PropCount + iJ_PropCount]);
-		    break;
+        for(iJ_PropCount = 0; iJ_PropCount < pQr->iColumn; iJ_PropCount++) {
+            iK_PropCount = pQr->iColumn + (iI_PropCount * pQr->iColumn);
 
-		case DB_COLUMN_ID3:
-		   if ((pProp->getDataType(pProp->getPropName())) == STRING)
-		       val.szString =
-		      (pQr->pResult[iK_PropCount + iJ_PropCount]);
-		    if ((pProp->getDataType(pProp->getPropName())) == INTEGER)
-			val.i =
-			    atoi(pQr->pResult[iK_PropCount + iJ_PropCount]);
+            if((pQr->pResult[iK_PropCount + iJ_PropCount]) == NULL) {
+                continue;
+            }
 
-		    pProp->setPropValue(val);
-		    break;
+            switch(iJ_PropCount) {
 
-		default:
-		    break;
-	    }//switch
-	}//j
-	vPropList.push_back(pProp);
-    }//i    
+            case DB_COLUMN_ID2:
+                CAL_DEBUG_LOG("XpropName =  %s",
+                              pQr->pResult[iK_PropCount + iJ_PropCount]);
+                pProp->setPropName(pQr->
+                                   pResult[iK_PropCount + iJ_PropCount]);
+                break;
+
+            case DB_COLUMN_ID3:
+                if((pProp->getDataType(pProp->getPropName())) == STRING)
+                    val.szString =
+                        (pQr->pResult[iK_PropCount + iJ_PropCount]);
+
+                if((pProp->getDataType(pProp->getPropName())) == INTEGER)
+                    val.i =
+                        atoi(pQr->pResult[iK_PropCount + iJ_PropCount]);
+
+                pProp->setPropValue(val);
+                break;
+
+            default:
+                break;
+            }//switch
+        }//j
+
+        vPropList.push_back(pProp);
+    }//i
+
     sqlite3_free_table(pQr->pResult);
     delete pQr;
     pQr = 0;
@@ -258,104 +290,117 @@ vector<CProperties*> CComponentDetails::retrieveXPropertyDetails()
  * This function retrieves details from parameters table and returns a hashmap.
  */
 map < string,
-    vector < CParameters * > >CComponentDetails::retrieveParameterDetails()
+    vector < CParameters * > > CComponentDetails::retrieveParameterDetails()
 {
     QueryResult *pQr = NULL;
     CCalendarDB *pDb = NULL;
     char *pQuery = NULL;
     map < string, vector < CParameters * > >paramHashMap;
     int iSqliteError = 0;
-    int iI_ParamCount = 0; 
-    int iJ_ParamCount = 0; 
-    int iK_ParamCount = 0; 
-    CParameters * pParameter = 0;
-    CProperties * pProperties =0;
+    int iI_ParamCount = 0;
+    int iJ_ParamCount = 0;
+    int iK_ParamCount = 0;
+    CParameters *pParameter = 0;
+    CProperties *pProperties = 0;
     pDb = CCalendarDB::Instance();
 
-    if ((pDb == NULL) || (this->getId().empty()))
-	return paramHashMap;
-
-	pQuery =
-	    sqlite3_mprintf(SELECT_TAB_COND_AND2, PARAMS_TABLE,
-		    PARAM_FIELD_ID, this->getId().c_str());
-
-	ASSERTION(pQuery);
-	CAL_DEBUG_LOG("query is %s\n", pQuery);
-	pQr = pDb->getRecords(pQuery,iSqliteError);
-	sqlite3_free(pQuery);
-
-	if (pQr == 0) {
-	    CAL_DEBUG_LOG("Query Result is empty");
-	    return paramHashMap;
-	}
-
-
-	
-    for (iI_ParamCount = 0; iI_ParamCount < pQr->iRow; iI_ParamCount++) {
-	pParameter = new CParameters();
-	pProperties = new CProperties();
-	ASSERTION(pParameter);
-	ASSERTION(pProperties);
-	for (iJ_ParamCount = 0; iJ_ParamCount < pQr->iColumn; iJ_ParamCount++) {
-	    iK_ParamCount = pQr->iColumn + (iI_ParamCount * pQr->iColumn);
-	    ParamType val; 
-	    PropType valProp;
-	    if ((pQr->pResult[iK_ParamCount + iJ_ParamCount]) == NULL)
-		continue;
-
-	    switch (iJ_ParamCount) {
-
-		case DB_COLUMN_ID2:
-		    CAL_DEBUG_LOG("Prop name  %s\n",
-			    pQr->pResult[iK_ParamCount + iJ_ParamCount]);
-		    pProperties->setPropName(pQr->pResult[iK_ParamCount + iJ_ParamCount]);
-		    break;
-
-		case DB_COLUMN_ID3:
-		    if ((pProperties-> getDataType(pProperties->getPropName())) == STRING)
-			valProp.szString = (pQr-> pResult[iK_ParamCount + iJ_ParamCount]);
-		    if ((pProperties->getDataType(pProperties->getPropName())) == INTEGER)
-			valProp.i = atoi(pQr->pResult[iK_ParamCount + iJ_ParamCount]);
-
-		    pProperties->setPropValue(valProp);
-
-		    break;
-
-		case DB_COLUMN_ID4:
-		    CAL_DEBUG_LOG("Param name  %s\n",
-			    pQr->pResult[iK_ParamCount + iJ_ParamCount]);
-		    pParameter->setParamName(pQr->pResult[iK_ParamCount + iJ_ParamCount]);
-		    break;
-
-		case DB_COLUMN_ID5:
-		    
-		    if ((pParameter-> getDataType(pParameter->getParamName())) == STRING)
-			val.szString = (pQr-> pResult[iK_ParamCount + iJ_ParamCount]);
-		    if ((pParameter->getDataType(pParameter->getParamName())) == INTEGER)
-			val.i = atoi(pQr->pResult[iK_ParamCount + iJ_ParamCount]);
-
-		    pParameter->setParamValue(val);
-		    break;
-
-		default:
-		    break;
-	    }
-	}
-	map<string, vector <CParameters * > >::iterator it;
-	it = paramHashMap.find(pProperties->getPropName());
-	
-	if(it != paramHashMap.end())
-	    (*it).second.push_back(pParameter);
-	    
-	else {
-	    vector < CParameters * >vParamList;
-	    vParamList.push_back(pParameter);
-	    paramHashMap.insert(pair < string, vector <CParameters * > >(pProperties->getPropName(), vParamList));
-	    //pUt->releaseParametersVector (vParamList);
-   	}
-	delete pProperties;
+    if((pDb == NULL) || (this->getId().empty())) {
+        return paramHashMap;
     }
-	
+
+    pQuery =
+        sqlite3_mprintf(SELECT_TAB_COND_AND2, PARAMS_TABLE,
+                        PARAM_FIELD_ID, this->getId().c_str());
+
+    ASSERTION(pQuery);
+    CAL_DEBUG_LOG("query is %s\n", pQuery);
+    pQr = pDb->getRecords(pQuery, iSqliteError);
+    sqlite3_free(pQuery);
+
+    if(pQr == 0) {
+        CAL_DEBUG_LOG("Query Result is empty");
+        return paramHashMap;
+    }
+
+
+
+    for(iI_ParamCount = 0; iI_ParamCount < pQr->iRow; iI_ParamCount++) {
+        pParameter = new CParameters();
+        pProperties = new CProperties();
+        ASSERTION(pParameter);
+        ASSERTION(pProperties);
+
+        for(iJ_ParamCount = 0; iJ_ParamCount < pQr->iColumn; iJ_ParamCount++) {
+            iK_ParamCount = pQr->iColumn + (iI_ParamCount * pQr->iColumn);
+            ParamType val;
+            PropType valProp;
+
+            if((pQr->pResult[iK_ParamCount + iJ_ParamCount]) == NULL) {
+                continue;
+            }
+
+            switch(iJ_ParamCount) {
+
+            case DB_COLUMN_ID2:
+                CAL_DEBUG_LOG("Prop name  %s\n",
+                              pQr->pResult[iK_ParamCount + iJ_ParamCount]);
+                pProperties->setPropName(pQr->pResult[iK_ParamCount + iJ_ParamCount]);
+                break;
+
+            case DB_COLUMN_ID3:
+                if((pProperties-> getDataType(pProperties->getPropName())) == STRING) {
+                    valProp.szString = (pQr-> pResult[iK_ParamCount + iJ_ParamCount]);
+                }
+
+                if((pProperties->getDataType(pProperties->getPropName())) == INTEGER) {
+                    valProp.i = atoi(pQr->pResult[iK_ParamCount + iJ_ParamCount]);
+                }
+
+                pProperties->setPropValue(valProp);
+
+                break;
+
+            case DB_COLUMN_ID4:
+                CAL_DEBUG_LOG("Param name  %s\n",
+                              pQr->pResult[iK_ParamCount + iJ_ParamCount]);
+                pParameter->setParamName(pQr->pResult[iK_ParamCount + iJ_ParamCount]);
+                break;
+
+            case DB_COLUMN_ID5:
+
+                if((pParameter-> getDataType(pParameter->getParamName())) == STRING) {
+                    val.szString = (pQr-> pResult[iK_ParamCount + iJ_ParamCount]);
+                }
+
+                if((pParameter->getDataType(pParameter->getParamName())) == INTEGER) {
+                    val.i = atoi(pQr->pResult[iK_ParamCount + iJ_ParamCount]);
+                }
+
+                pParameter->setParamValue(val);
+                break;
+
+            default:
+                break;
+            }
+        }
+
+        map<string, vector <CParameters * > >::iterator it;
+        it = paramHashMap.find(pProperties->getPropName());
+
+        if(it != paramHashMap.end()) {
+            (*it).second.push_back(pParameter);
+        }
+
+        else {
+            vector < CParameters * >vParamList;
+            vParamList.push_back(pParameter);
+            paramHashMap.insert(pair < string, vector <CParameters * > >(pProperties->getPropName(), vParamList));
+            //pUt->releaseParametersVector (vParamList);
+        }
+
+        delete pProperties;
+    }
+
     /*
      * fetch the parameter found into the 'right' vector
      * fetch the vector based on the property name, from hashmap,
@@ -372,7 +417,7 @@ map < string,
 
 #if 0
 map < string,
-    vector < CParameters * > >CComponentDetails::retrieveXParameterDetails()
+vector < CParameters * > > CComponentDetails::retrieveXParameterDetails()
 {
     QueryResult *pQr = NULL;
     CCalendarDB *pDb = NULL;
@@ -382,87 +427,99 @@ map < string,
     int iI_ParamCount = 0;
     int iJ_ParamCount = 0;
     int iK_ParamCount = 0;
-    CParameters * pParameter = 0;
-    CProperties * pProperties =0;
-    
+    CParameters *pParameter = 0;
+    CProperties *pProperties = 0;
+
     pDb = CCalendarDB::Instance();
 
-    if ((pDb == NULL) || (this->getId().empty()))
-	return paramHashMap;
+    if((pDb == NULL) || (this->getId().empty())) {
+        return paramHashMap;
+    }
 
     pQuery =
-	sqlite3_mprintf(SELECT_TAB_COND_AND2, PARAMS_TABLE,
-		PARAM_FIELD_ID, this->getId().c_str());
+        sqlite3_mprintf(SELECT_TAB_COND_AND2, PARAMS_TABLE,
+                        PARAM_FIELD_ID, this->getId().c_str());
 
     ASSERTION(pQuery);
     CAL_DEBUG_LOG("query is %s\n", pQuery);
-    pQr = pDb->getRecords(pQuery,iSqliteError);
+    pQr = pDb->getRecords(pQuery, iSqliteError);
     sqlite3_free(pQuery);
 
-    for (iI_ParamCount = 0; iI_ParamCount < pQr->iRow; iI_ParamCount++) {
-	pParameter = new CParameters();
-	pProperties = new CProperties();
-	ASSERTION(pParameter);
-	for (iJ_ParamCount = 0; iJ_ParamCount < pQr->iColumn; iJ_ParamCount++) {
-	    iK_ParamCount = pQr->iColumn + (iI_ParamCount * pQr->iColumn);
-	    ParamType val;
-	    PropType valProp;
-	    if ((pQr->pResult[iK_ParamCount + iJ_ParamCount]) == NULL)
-		continue;
+    for(iI_ParamCount = 0; iI_ParamCount < pQr->iRow; iI_ParamCount++) {
+        pParameter = new CParameters();
+        pProperties = new CProperties();
+        ASSERTION(pParameter);
 
-	    switch (iJ_ParamCount) {
+        for(iJ_ParamCount = 0; iJ_ParamCount < pQr->iColumn; iJ_ParamCount++) {
+            iK_ParamCount = pQr->iColumn + (iI_ParamCount * pQr->iColumn);
+            ParamType val;
+            PropType valProp;
 
-		case DB_COLUMN_ID2:
-		    CAL_DEBUG_LOG("Prop name  %s\n",
-			    pQr->pResult[iK_ParamCount + iJ_ParamCount]);
-		    pProperties->setPropName(pQr->pResult[iK_ParamCount + iJ_ParamCount]);
-		    break;
+            if((pQr->pResult[iK_ParamCount + iJ_ParamCount]) == NULL) {
+                continue;
+            }
 
-		case DB_COLUMN_ID3:
-		    if ((pProperties-> getDataType(pProperties->getPropName())) == STRING)
-			valProp.szString = (pQr-> pResult[iK_ParamCount + iJ_ParamCount]);
-		    if ((pProperties->getDataType(pProperties->getPropName())) == INTEGER)
-			valProp.i = atoi(pQr->pResult[iK_ParamCount + iJ_ParamCount]);
+            switch(iJ_ParamCount) {
 
-		    pProperties->setPropValue(valProp);
+            case DB_COLUMN_ID2:
+                CAL_DEBUG_LOG("Prop name  %s\n",
+                              pQr->pResult[iK_ParamCount + iJ_ParamCount]);
+                pProperties->setPropName(pQr->pResult[iK_ParamCount + iJ_ParamCount]);
+                break;
 
-		    break;
+            case DB_COLUMN_ID3:
+                if((pProperties-> getDataType(pProperties->getPropName())) == STRING) {
+                    valProp.szString = (pQr-> pResult[iK_ParamCount + iJ_ParamCount]);
+                }
 
-		case DB_COLUMN_ID4:
-		    CAL_DEBUG_LOG("Param name  %s\n",
-			    pQr->pResult[iK_ParamCount + iJ_ParamCount]);
-		    pParameter->setParamName(pQr->pResult[iK_ParamCount + iJ_ParamCount]);
-		    break;
+                if((pProperties->getDataType(pProperties->getPropName())) == INTEGER) {
+                    valProp.i = atoi(pQr->pResult[iK_ParamCount + iJ_ParamCount]);
+                }
 
-		case DB_COLUMN_ID5:
+                pProperties->setPropValue(valProp);
 
-		    if ((pParameter-> getDataType(pParameter->getParamName())) == STRING)
-			val.szString = (pQr-> pResult[iK_ParamCount + iJ_ParamCount]);
-		    if ((pParameter->getDataType(pParameter->getParamName())) == INTEGER)
-			val.i = atoi(pQr->pResult[iK_ParamCount + iJ_ParamCount]);
+                break;
 
-		    pParameter->setParamValue(val);
-		    break;
+            case DB_COLUMN_ID4:
+                CAL_DEBUG_LOG("Param name  %s\n",
+                              pQr->pResult[iK_ParamCount + iJ_ParamCount]);
+                pParameter->setParamName(pQr->pResult[iK_ParamCount + iJ_ParamCount]);
+                break;
 
-		default:
-		    break;
-	    }
-	}
-	map<string, vector <CParameters * > >::iterator it;
-	it = paramHashMap.find(pProperties->getPropName());
+            case DB_COLUMN_ID5:
 
-	if(it != paramHashMap.end())
-	    (*it).second.push_back(pParameter);
+                if((pParameter-> getDataType(pParameter->getParamName())) == STRING) {
+                    val.szString = (pQr-> pResult[iK_ParamCount + iJ_ParamCount]);
+                }
 
-	else {
-	    vector < CParameters * >vParamList;
-	    vParamList.push_back(pParameter);
-	    paramHashMap.insert(pair < string, vector <CParameters * > >(pProperties->getPropName(), vParamList));
-	    //pUt->releaseParametersVector (vParamList);
-	}
+                if((pParameter->getDataType(pParameter->getParamName())) == INTEGER) {
+                    val.i = atoi(pQr->pResult[iK_ParamCount + iJ_ParamCount]);
+                }
+
+                pParameter->setParamValue(val);
+                break;
+
+            default:
+                break;
+            }
+        }
+
+        map<string, vector <CParameters * > >::iterator it;
+        it = paramHashMap.find(pProperties->getPropName());
+
+        if(it != paramHashMap.end()) {
+            (*it).second.push_back(pParameter);
+        }
+
+        else {
+            vector < CParameters * >vParamList;
+            vParamList.push_back(pParameter);
+            paramHashMap.insert(pair < string, vector <CParameters * > >(pProperties->getPropName(), vParamList));
+            //pUt->releaseParametersVector (vParamList);
+        }
 
     }
-    
+
     pQuery = NULL;
     pQr = NULL;
     sqlite3_free_table(pQr->pResult);
@@ -479,11 +536,11 @@ map < string,
  * getParameter()
  * @param: QueryResult pQr
  * @return: vector < CParameters* >
- * 
+ *
  * This function returns all cparameters.
  */
 
-vector < CParameters * >CComponentDetails::getParameter(QueryResult * pQr)
+vector < CParameters * >CComponentDetails::getParameter(QueryResult *pQr)
 {
 
     vector < CParameters * >vParamList;
@@ -493,44 +550,54 @@ vector < CParameters * >CComponentDetails::getParameter(QueryResult * pQr)
 
     vParamList.clear();
 
-    if (pQr == 0) 
-	    return vParamList;
-    
+    if(pQr == 0) {
+        return vParamList;
+    }
+
     CParameters *pParameter = NULL;
 
-    for (iI_ParamCount = 0; iI_ParamCount < pQr->iRow; iI_ParamCount++) {
-	pParameter = new CParameters();
-	ASSERTION(pParameter);
-	for (iJ_ParamCount = DB_COLUMN_ID4; iJ_ParamCount < pQr->iColumn; iJ_ParamCount++) {
-	    iK_ParamCount = pQr->iColumn + (iI_ParamCount * pQr->iColumn);
-	    ParamType val; 
-	    if ((pQr->pResult[iK_ParamCount + iJ_ParamCount]) == NULL)
-		continue;
+    for(iI_ParamCount = 0; iI_ParamCount < pQr->iRow; iI_ParamCount++) {
+        pParameter = new CParameters();
+        ASSERTION(pParameter);
 
-	    switch (iJ_ParamCount) {
-		case DB_COLUMN_ID4:
-		    CAL_DEBUG_LOG("Param name  %s\n",
-			    pQr->pResult[iK_ParamCount + iJ_ParamCount]);
-		    pParameter->setParamName(pQr->pResult[iK_ParamCount + iJ_ParamCount]);
-		    break;
+        for(iJ_ParamCount = DB_COLUMN_ID4; iJ_ParamCount < pQr->iColumn; iJ_ParamCount++) {
+            iK_ParamCount = pQr->iColumn + (iI_ParamCount * pQr->iColumn);
+            ParamType val;
 
-		case DB_COLUMN_ID5:
-		    /*if string */
-		    
-		    if ((pParameter-> getDataType(pParameter->getParamName())) == STRING)
-			val.szString = (pQr-> pResult[iK_ParamCount + iJ_ParamCount]);
-		    if ((pParameter->getDataType(pParameter->getParamName())) == INTEGER)
-			val.i = atoi(pQr->pResult[iK_ParamCount + iJ_ParamCount]);
+            if((pQr->pResult[iK_ParamCount + iJ_ParamCount]) == NULL) {
+                continue;
+            }
 
-		    pParameter->setParamValue(val);
-		    break;
+            switch(iJ_ParamCount) {
+            case DB_COLUMN_ID4:
+                CAL_DEBUG_LOG("Param name  %s\n",
+                              pQr->pResult[iK_ParamCount + iJ_ParamCount]);
+                pParameter->setParamName(pQr->pResult[iK_ParamCount + iJ_ParamCount]);
+                break;
 
-		default:
-		    break;
-	    }//switch end
-	}//j end
-	vParamList.push_back(pParameter);
+            case DB_COLUMN_ID5:
+
+                /*if string */
+
+                if((pParameter-> getDataType(pParameter->getParamName())) == STRING) {
+                    val.szString = (pQr-> pResult[iK_ParamCount + iJ_ParamCount]);
+                }
+
+                if((pParameter->getDataType(pParameter->getParamName())) == INTEGER) {
+                    val.i = atoi(pQr->pResult[iK_ParamCount + iJ_ParamCount]);
+                }
+
+                pParameter->setParamValue(val);
+                break;
+
+            default:
+                break;
+            }//switch end
+        }//j end
+
+        vParamList.push_back(pParameter);
     }//i end
+
     /* freeing pQr->pResult */
     sqlite3_free_table(pQr->pResult);
     /* freeing pQr*/
@@ -541,25 +608,25 @@ vector < CParameters * >CComponentDetails::getParameter(QueryResult * pQr)
 }
 
 /**
- * getPropertyValues 
- * @param string Property Name 
- * @return vector<string> vector of unique Property values for specific ID 
+ * getPropertyValues
+ * @param string Property Name
+ * @return vector<string> vector of unique Property values for specific ID
  *
  * Function used to retrieve MailTo parameters for attendee
- * 
+ *
  */
 vector < string > CComponentDetails::getPropertyValues(string szProperty)
 {
 
 
-    /* 
+    /*
      * query will be
-     * #define SELECT_DISTINCT_PROP "select distinct PropertyValue from Parameters 
+     * #define SELECT_DISTINCT_PROP "select distinct PropertyValue from Parameters
      * where ComponentId = %s AND PropertyName = %s"
      */
 
     /*
-     * there can be multiple attendees for a single event each of them 
+     * there can be multiple attendees for a single event each of them
      * can be distinguished by the mailto parameter*/
     QueryResult *pQr = NULL;
     int iI_IdCount = 0;
@@ -574,36 +641,42 @@ vector < string > CComponentDetails::getPropertyValues(string szProperty)
     listId.clear();
 
 
-    if (pDb == NULL) {
-    return listId;
+    if(pDb == NULL) {
+        return listId;
     }
+
     pQuery =
-    sqlite3_mprintf(SELECT_DISTINCT_PROP, this->getId().c_str(),
-            szProperty.c_str());
+        sqlite3_mprintf(SELECT_DISTINCT_PROP, this->getId().c_str(),
+                        szProperty.c_str());
     ASSERTION(pQuery);
-    pQr = pDb->getRecords(pQuery,iSqliteError);
+    pQr = pDb->getRecords(pQuery, iSqliteError);
     CAL_DEBUG_LOG("query is given by  %s", pQuery);
     sqlite3_free(pQuery);
 
-    if (pQr == 0) {
-    CAL_DEBUG_LOG("returning back from distinct \n");
+    if(pQr == 0) {
+        CAL_DEBUG_LOG("returning back from distinct \n");
 
-    return listId;
+        return listId;
     }
 
-    for (iI_IdCount = 0; iI_IdCount < pQr->iRow; iI_IdCount++) {
-    for (iJ_IdCount = 0; iJ_IdCount < pQr->iColumn; iJ_IdCount++) {
-        iK_IdCount = pQr->iColumn + (iI_IdCount * pQr->iColumn);
-        if (pQr->pResult[iK_IdCount + iJ_IdCount])
-        listId.push_back(pQr->pResult[iK_IdCount + iJ_IdCount]);
+    for(iI_IdCount = 0; iI_IdCount < pQr->iRow; iI_IdCount++) {
+        for(iJ_IdCount = 0; iJ_IdCount < pQr->iColumn; iJ_IdCount++) {
+            iK_IdCount = pQr->iColumn + (iI_IdCount * pQr->iColumn);
+
+            if(pQr->pResult[iK_IdCount + iJ_IdCount]) {
+                listId.push_back(pQr->pResult[iK_IdCount + iJ_IdCount]);
+            }
+        }
     }
-    }
+
     sqlite3_free_table(pQr->pResult);
-    if (pQr) {
 
-    delete pQr;
-    pQr = 0;
+    if(pQr) {
+
+        delete pQr;
+        pQr = 0;
     }
+
     return (listId);
 
 
@@ -612,7 +685,7 @@ vector < string > CComponentDetails::getPropertyValues(string szProperty)
 }
 
 /**
- * getParameter 
+ * getParameter
  * @param string
  * @param string
  * @return vector <CParameters*>
@@ -621,10 +694,10 @@ vector < string > CComponentDetails::getPropertyValues(string szProperty)
  */
 
 vector < CParameters * >CComponentDetails::getParameter(string szPropName,
-                            string szPropValue)
+        string szPropValue)
 {
     /**
-    * #define SELECT_PROP_AND select * from Parametes where ComponentId=  AND 
+    * #define SELECT_PROP_AND select * from Parametes where ComponentId=  AND
     * PropertyName = %s AND PropertyValue = %s
     */
     QueryResult *pQr = NULL;
@@ -636,19 +709,20 @@ vector < CParameters * >CComponentDetails::getParameter(string szPropName,
     vector < CParameters * >vParam;
     vParam.clear();
 
-    if (pDb == NULL) {
-    return vParam;
+    if(pDb == NULL) {
+        return vParam;
     }
+
     pQuery =
-    sqlite3_mprintf(SELECT_PROP_AND, this->getId().c_str(),
-            szPropName.c_str(), szPropValue.c_str());
+        sqlite3_mprintf(SELECT_PROP_AND, this->getId().c_str(),
+                        szPropName.c_str(), szPropValue.c_str());
     ASSERTION(pQuery);
-    pQr = pDb->getRecords(pQuery,iSqliteError);
+    pQr = pDb->getRecords(pQuery, iSqliteError);
     CAL_DEBUG_LOG("query is given by  %s", pQuery);
     sqlite3_free(pQuery);
 
-    /* pQr and pQr->pResult  will be freed inside 
-     * getParameter procedure*/ 
+    /* pQr and pQr->pResult  will be freed inside
+     * getParameter procedure*/
     vParam = getParameter(pQr);
 
     return vParam;
@@ -657,31 +731,35 @@ vector < CParameters * >CComponentDetails::getParameter(string szPropName,
 
 /**
  * convertParamToOrganizer
- * @param 
+ * @param
  * @return
  *
  * Function to convert vector of parameters to COrganizer
  */
 COrganizer *CComponentDetails::convertParamToOrganizer(vector <
-                               CParameters *
-                               >vParam)
+        CParameters *
+        > vParam)
 {
     COrganizer *pOrg = new COrganizer();
     ASSERTION(pOrg);
 
-    for (unsigned int i = 0; i < vParam.size(); i++) {
+    for(unsigned int i = 0; i < vParam.size(); i++) {
 
-    if (vParam[i]->getParamName() == "SENTBY")
-        pOrg->setSentBy(vParam[i]->getParamValue().szString);
-    else if (vParam[i]->getParamName() == "CNAME")
-        pOrg->setCommonName(vParam[i]->getParamValue().szString);
-    else if (vParam[i]->getParamName() == "DIRPARAM")
-        pOrg->setDirectoryParameter(vParam[i]->getParamValue().
-                    szString);
-    else if (vParam[i]->getParamName() == "LANGUAGE")
-        pOrg->setLanguage(vParam[i]->getParamValue().szString);
-    else if (vParam[i]->getParamName() == "MAILTO")
-        pOrg->setMailTo(vParam[i]->getParamValue().szString);
+        if(vParam[i]->getParamName() == "SENTBY") {
+            pOrg->setSentBy(vParam[i]->getParamValue().szString);
+        }
+        else if(vParam[i]->getParamName() == "CNAME") {
+            pOrg->setCommonName(vParam[i]->getParamValue().szString);
+        }
+        else if(vParam[i]->getParamName() == "DIRPARAM")
+            pOrg->setDirectoryParameter(vParam[i]->getParamValue().
+                                        szString);
+        else if(vParam[i]->getParamName() == "LANGUAGE") {
+            pOrg->setLanguage(vParam[i]->getParamValue().szString);
+        }
+        else if(vParam[i]->getParamName() == "MAILTO") {
+            pOrg->setMailTo(vParam[i]->getParamValue().szString);
+        }
 
     }
 
@@ -692,53 +770,63 @@ COrganizer *CComponentDetails::convertParamToOrganizer(vector <
 
 /**
  * convertParamToAttendee
- * @param vector <CParameters *> 
+ * @param vector <CParameters *>
  * @return CAttendee *
  *
- * Function to convert vector of parameters of attendee to 
- * Cattendee 
+ * Function to convert vector of parameters of attendee to
+ * Cattendee
  */
 CAttendee *CComponentDetails::convertParamToAttendee(vector <
-                             CParameters * >vParam)
+        CParameters * > vParam)
 {
 
     CAttendee *pAtt = new CAttendee();
     ASSERTION(pAtt);
-    
-    for (unsigned int i = 0; i < vParam.size(); i++) {
 
-    if (vParam[i]->getParamName() == "CUTYPE")
+    for(unsigned int i = 0; i < vParam.size(); i++) {
 
-        pAtt->setCalendarUserType((CalendarUserType) vParam[i]->
-                      getParamValue().i);
+        if(vParam[i]->getParamName() == "CUTYPE")
 
-    else if (vParam[i]->getParamName() == ATMEMBER)
-        pAtt->setMember(vParam[i]->getParamValue().szString);
-    else if (vParam[i]->getParamName() == ATROLE)
-        pAtt->setRole((ParticipantRole) vParam[i]->getParamValue().i);
-    else if (vParam[i]->getParamName() == ATPSTAT)
-        pAtt->setParticipationStatus((ParticipantStatus) vParam[i]->
-                     getParamValue().i);
-    else if (vParam[i]->getParamName() == ATRSVP)
-        pAtt->setRSVP(vParam[i]->getParamValue().i);
-    else if (vParam[i]->getParamName() == ATDELEGATEES)
-        pAtt->setDelegatees(vParam[i]->getParamValue().szString);
-    else if (vParam[i]->getParamName() == ATDELEGATOR)
-        pAtt->setDelegator(vParam[i]->getParamValue().szString);
-    else if (vParam[i]->getParamName() == SENT)
-        pAtt->setSentBy(vParam[i]->getParamValue().szString);
-    else if (vParam[i]->getParamName() == CNAME)
-        pAtt->setCommonName(vParam[i]->getParamValue().szString);
-    else if (vParam[i]->getParamName() == DIRPAR)
-        pAtt->setDirectoryParameter(vParam[i]->getParamValue().
-                    szString);
-    else if (vParam[i]->getParamName() == LANGUAGE)
-        pAtt->setLanguage(vParam[i]->getParamValue().szString);
-    else if (vParam[i]->getParamName() == GNMAILTO)
-        pAtt->setMailTo(vParam[i]->getParamValue().szString);
+            pAtt->setCalendarUserType((CalendarUserType) vParam[i]->
+                                      getParamValue().i);
 
-    else
-        CAL_DEBUG_LOG("invalid value\n");
+        else if(vParam[i]->getParamName() == ATMEMBER) {
+            pAtt->setMember(vParam[i]->getParamValue().szString);
+        }
+        else if(vParam[i]->getParamName() == ATROLE) {
+            pAtt->setRole((ParticipantRole) vParam[i]->getParamValue().i);
+        }
+        else if(vParam[i]->getParamName() == ATPSTAT)
+            pAtt->setParticipationStatus((ParticipantStatus) vParam[i]->
+                                         getParamValue().i);
+        else if(vParam[i]->getParamName() == ATRSVP) {
+            pAtt->setRSVP(vParam[i]->getParamValue().i);
+        }
+        else if(vParam[i]->getParamName() == ATDELEGATEES) {
+            pAtt->setDelegatees(vParam[i]->getParamValue().szString);
+        }
+        else if(vParam[i]->getParamName() == ATDELEGATOR) {
+            pAtt->setDelegator(vParam[i]->getParamValue().szString);
+        }
+        else if(vParam[i]->getParamName() == SENT) {
+            pAtt->setSentBy(vParam[i]->getParamValue().szString);
+        }
+        else if(vParam[i]->getParamName() == CNAME) {
+            pAtt->setCommonName(vParam[i]->getParamValue().szString);
+        }
+        else if(vParam[i]->getParamName() == DIRPAR)
+            pAtt->setDirectoryParameter(vParam[i]->getParamValue().
+                                        szString);
+        else if(vParam[i]->getParamName() == LANGUAGE) {
+            pAtt->setLanguage(vParam[i]->getParamValue().szString);
+        }
+        else if(vParam[i]->getParamName() == GNMAILTO) {
+            pAtt->setMailTo(vParam[i]->getParamValue().szString);
+        }
+
+        else {
+            CAL_DEBUG_LOG("invalid value\n");
+        }
 
 
     }
@@ -750,9 +838,9 @@ CAttendee *CComponentDetails::convertParamToAttendee(vector <
 
 /**
  * retrieveAttendeeDetails
- * @param NONE 
- * @return vector<CAttendee*> 
- * Function used to retrieve Attendee details from DB 
+ * @param NONE
+ * @return vector<CAttendee*>
+ * Function used to retrieve Attendee details from DB
  */
 vector < CAttendee * >CComponentDetails::retrieveAttendeeDetails()
 {
@@ -763,47 +851,53 @@ vector < CAttendee * >CComponentDetails::retrieveAttendeeDetails()
     vMailTo.clear();
     listAttendee.clear();
 
-    if (this->getId().empty()) 
-           return listAttendee;
+    if(this->getId().empty()) {
+        return listAttendee;
+    }
 
-    /* first get all existing mailto for attendee 
+    /* first get all existing mailto for attendee
      * select unique PropertyValue  from PARAMETERS
      *  where Id =  and PropType = ATTENDEE
      * put them in to list     */
-    
+
     vMailTo = getPropertyValues(ATTDEE);
-    if (vMailTo.size()) {
 
-    for (iterMailTo = vMailTo.begin(); iterMailTo != vMailTo.end();
-         iterMailTo++) {
+    if(vMailTo.size()) {
 
-        vector < CParameters * >vParam;
-        vector < CParameters * >::iterator vParamIter;
-        vParam.clear();
-        /* here we get a list of CParameters 
-         * corresponding to single Attendee */
-        vParam = getParameter(ATTDEE, (*iterMailTo));
+        for(iterMailTo = vMailTo.begin(); iterMailTo != vMailTo.end();
+                iterMailTo++) {
 
-        CAttendee *pAtemp = 0;
+            vector < CParameters * >vParam;
+            vector < CParameters * >::iterator vParamIter;
+            vParam.clear();
+            /* here we get a list of CParameters
+             * corresponding to single Attendee */
+            vParam = getParameter(ATTDEE, (*iterMailTo));
 
-        pAtemp = convertParamToAttendee(vParam);
-        pAtemp->setMailTo((*iterMailTo));
+            CAttendee *pAtemp = 0;
 
-        listAttendee.push_back(pAtemp);
-        /*free memory allocated for 
-         *  CParameters list*/
-        for (vParamIter = vParam.begin(); vParamIter != vParam.end();
-         vParamIter++) {
-        CAL_DEBUG_LOG
-            ("Freeing the memory allocated for the parameters \n");
-        if (*vParamIter)
-            delete(*vParamIter);
+            pAtemp = convertParamToAttendee(vParam);
+            pAtemp->setMailTo((*iterMailTo));
+
+            listAttendee.push_back(pAtemp);
+
+            /*free memory allocated for
+             *  CParameters list*/
+            for(vParamIter = vParam.begin(); vParamIter != vParam.end();
+                    vParamIter++) {
+                CAL_DEBUG_LOG
+                ("Freeing the memory allocated for the parameters \n");
+
+                if(*vParamIter) {
+                    delete(*vParamIter);
+                }
+
+            }
 
         }
-
     }
-    } else {
-    CAL_DEBUG_LOG("Inside Else \n");
+    else {
+        CAL_DEBUG_LOG("Inside Else \n");
     }
 
 
@@ -813,9 +907,9 @@ vector < CAttendee * >CComponentDetails::retrieveAttendeeDetails()
 
 /**
  * retrieveOrganizerDetails
- * @param NONE 
+ * @param NONE
  * @return COrganizer*
- * Function used to retrieve organizer details 
+ * Function used to retrieve organizer details
  */
 COrganizer *CComponentDetails::retrieveOrganizerDetails()
 {
@@ -823,37 +917,42 @@ COrganizer *CComponentDetails::retrieveOrganizerDetails()
     vector < string > vMailTo;
     vMailTo.clear();
 
-    if (this->getId().empty()) 
-    return NULL;
-    
+    if(this->getId().empty()) {
+        return NULL;
+    }
+
 
     vMailTo = getPropertyValues(ORGZER);
 
-    if (vMailTo.size()) {
-	vector < CParameters * >vParam;
-	vector < CParameters * >::iterator vParamIter;
-	vParam.clear();
-	/* here we get a list of CParameters 
-	 * corresponding to single Attendee */
-	/* There will be only one organizer 
-	 * present in the DB 
-	 */
+    if(vMailTo.size()) {
+        vector < CParameters * >vParam;
+        vector < CParameters * >::iterator vParamIter;
+        vParam.clear();
+        /* here we get a list of CParameters
+         * corresponding to single Attendee */
+        /* There will be only one organizer
+         * present in the DB
+         */
 
-	vParam = getParameter(ORGZER, vMailTo[0]);
+        vParam = getParameter(ORGZER, vMailTo[0]);
 
-	pAtemp = convertParamToOrganizer(vParam);
-	pAtemp->setMailTo(vMailTo[0]);
+        pAtemp = convertParamToOrganizer(vParam);
+        pAtemp->setMailTo(vMailTo[0]);
 
-	/*free memory allocated for 
-	 *  CParameters list*/
-	for (vParamIter = vParam.begin(); vParamIter != vParam.end(); vParamIter++) {
+        /*free memory allocated for
+         *  CParameters list*/
+        for(vParamIter = vParam.begin(); vParamIter != vParam.end(); vParamIter++) {
             CAL_DEBUG_LOG("Freeing the memory allocated for the parameters \n");
-            if (*vParamIter)
-                delete(*vParamIter);
-	}
 
-    } else
-	CAL_DEBUG_LOG("Organizer not present for the id %s ", this->getId().c_str());
+            if(*vParamIter) {
+                delete(*vParamIter);
+            }
+        }
+
+    }
+    else {
+        CAL_DEBUG_LOG("Organizer not present for the id %s ", this->getId().c_str());
+    }
 
     return pAtemp;
 }
@@ -867,8 +966,9 @@ COrganizer *CComponentDetails::retrieveOrganizerDetails()
  */
 bool CComponentDetails::setDateStamp(int iDateStamp)
 {
-    if (iDateStamp <= 0)
-    return false;
+    if(iDateStamp <= 0) {
+        return false;
+    }
 
     this->iDateStamp = iDateStamp;
     return true;
@@ -892,22 +992,23 @@ int CComponentDetails::getDateStamp()
  *
  * This function is used to set organizer
  */
-bool CComponentDetails::setOrganizer(COrganizer * ptrOrganizer)
+bool CComponentDetails::setOrganizer(COrganizer *ptrOrganizer)
 {
 
-    // it is strange that same variable name is used 
+    // it is strange that same variable name is used
     // for class member and the function argument
-    // it might create confusion while reviewing 
+    // it might create confusion while reviewing
     // not sure why it is followed as standard?
 
-    if (ptrOrganizer == NULL)
-    return false;
+    if(ptrOrganizer == NULL) {
+        return false;
+    }
 
     removeOrganizer();
     pOrganizer = new COrganizer;
     ASSERTION(pOrganizer);
     *pOrganizer = *ptrOrganizer;
-    // above assignment should invoke the  overloaded assignment operator 
+    // above assignment should invoke the  overloaded assignment operator
     return true;
 }
 
@@ -930,15 +1031,17 @@ COrganizer *CComponentDetails::getOrganizer()
  */
 void CComponentDetails::removeOrganizer()
 {
-    if (pOrganizer)
+    if(pOrganizer) {
         delete pOrganizer;
+    }
+
     pOrganizer = 0;
 }
 
 /**
  * getHashMap()
  * @param: NONE
- * @return: map <string, vector <CParameters*> > 
+ * @return: map <string, vector <CParameters*> >
  *
  * This function is used to get the hash map
  */
@@ -957,10 +1060,11 @@ map < string, vector < CParameters * > >CComponentDetails::getHashMap()
  * so you mustn't delete them yourself.
  */
 bool CComponentDetails::setHashMap(map < string,
-                   vector < CParameters * > >hashMap)
+                                   vector < CParameters * > > hashMap)
 {
-    if (hashMap.size() == 0)
-    return false;
+    if(hashMap.size() == 0) {
+        return false;
+    }
 
     removeHashMap();
     this->hashMap = hashMap;
@@ -974,20 +1078,23 @@ bool CComponentDetails::setHashMap(map < string,
  *
  * This function is used to set the hashmap.
  */
-void CComponentDetails::copyHashMap(map<string, vector <CParameters*> > hashMap)
+void CComponentDetails::copyHashMap(map<string, vector <CParameters *> > hashMap)
 {
     removeHashMap();
     map < string, vector < CParameters * > >::iterator miter;
     vector < CParameters * >::iterator iter;
-    CParameters* pParameter = 0;
-    for ( miter = hashMap.begin(); miter != hashMap.end(); miter++) {
+    CParameters *pParameter = 0;
+
+    for(miter = hashMap.begin(); miter != hashMap.end(); miter++) {
         vector < CParameters * > vParamList;
-        for ( iter = (*miter).second.begin(); iter != (*miter).second.end(); iter++) {
+
+        for(iter = (*miter).second.begin(); iter != (*miter).second.end(); iter++) {
             pParameter = new CParameters();
             ASSERTION(pParameter);
             *pParameter = *(*iter);
             vParamList.push_back(pParameter);
         }
+
         this->hashMap.insert(pair < string, vector <CParameters * > >((*miter).first, vParamList));
     }
 }
@@ -997,25 +1104,28 @@ void CComponentDetails::copyHashMap(map<string, vector <CParameters*> > hashMap)
  * @param: none
  * @return: none
  *
- * This function is used to remove the hashmap 
+ * This function is used to remove the hashmap
  */
 void CComponentDetails::removeHashMap()
 {
     map < string, vector < CParameters * > >::iterator miter;
     vector < CParameters * >::iterator iter;
-    for ( miter = hashMap.begin(); miter != hashMap.end(); miter++) {
-        for ( iter = (*miter).second.begin(); iter != (*miter).second.end(); iter++) {
-            delete (*iter);
+
+    for(miter = hashMap.begin(); miter != hashMap.end(); miter++) {
+        for(iter = (*miter).second.begin(); iter != (*miter).second.end(); iter++) {
+            delete(*iter);
             (*iter) = 0;
         }
+
         (*miter).second.clear();
     }
+
     hashMap.clear();
 }
 
 /**
  * setAttendees
- * @param vector of pointers to CAttendee class 
+ * @param vector of pointers to CAttendee class
  * @return bool indicating result of operation
  *
  * This function is used to set Attendees
@@ -1023,16 +1133,20 @@ void CComponentDetails::removeHashMap()
 
 bool CComponentDetails::setAttendees(vector < CAttendee * >vAttendee)
 {
-    if (vAttendee.size() == 0)
+    if(vAttendee.size() == 0) {
         return false;
+    }
+
     removeAttendees();
     CAttendee *pAtten = 0;
-    for (unsigned int iCount = 0; iCount < vAttendee.size(); iCount++) {
+
+    for(unsigned int iCount = 0; iCount < vAttendee.size(); iCount++) {
         pAtten = new CAttendee();
         ASSERTION(pAtten);
         *pAtten = *vAttendee[iCount];
         this->vAttendee.push_back(pAtten);
     }
+
     return true;
 }
 
@@ -1040,7 +1154,7 @@ bool CComponentDetails::setAttendees(vector < CAttendee * >vAttendee)
  * getAttendees
  * @param none
  * @return vector of pointers to CAttendee class
- * This function is used to get vector of  pointers to CAttendee class 
+ * This function is used to get vector of  pointers to CAttendee class
  */
 vector < CAttendee * >CComponentDetails::getAttendees()
 {
@@ -1052,21 +1166,23 @@ vector < CAttendee * >CComponentDetails::getAttendees()
  * @param: none
  * @return: none
  *
- * This function is used to remove Attendees 
+ * This function is used to remove Attendees
  */
 void CComponentDetails::removeAttendees()
 {
     vector < CAttendee * >::iterator iter;
-    for ( iter = vAttendee.begin(); iter != vAttendee.end(); iter++) {
-        delete (*iter);
+
+    for(iter = vAttendee.begin(); iter != vAttendee.end(); iter++) {
+        delete(*iter);
         (*iter) = 0;
     }
+
     vAttendee.clear();
 }
 
 /**
  * setAttachments
- * @param vector of pointers to CAttachments class 
+ * @param vector of pointers to CAttachments class
  * @return bool indicating result of operation
  *
  * This function is used to set Attachments
@@ -1075,8 +1191,10 @@ void CComponentDetails::removeAttendees()
 bool CComponentDetails::setAttachments(vector < string > vAttachments)
 {
 
-    if (vAttachments.size() == 0)
-    return false;
+    if(vAttachments.size() == 0) {
+        return false;
+    }
+
     this->vAttachments = vAttachments;
     return true;
 }
@@ -1084,7 +1202,7 @@ bool CComponentDetails::setAttachments(vector < string > vAttachments)
 /**
  * getAttachments
  * @param none
- * @return vector of pointers to attachments 
+ * @return vector of pointers to attachments
  * This function is used to get attachments
  */
 vector < string > CComponentDetails::getAttachments()
@@ -1101,8 +1219,9 @@ vector < string > CComponentDetails::getAttachments()
  */
 bool CComponentDetails::setSequence(int iSequence)
 {
-    if (iSequence < 0)
-    return false;
+    if(iSequence < 0) {
+        return false;
+    }
 
     this->iSequence = iSequence;
     return true;
@@ -1128,8 +1247,9 @@ int CComponentDetails::getSequence()
  */
 bool CComponentDetails::setUid(int iUId)
 {
-    if (iUId < 0)
-    return false;
+    if(iUId < 0) {
+        return false;
+    }
 
     this->iUId = iUId;
     return true;
@@ -1139,7 +1259,7 @@ bool CComponentDetails::setUid(int iUId)
  * getUid
  * @param none
  * @return int Uid
- * This function is used to get Uid might be needed from sync point of view 
+ * This function is used to get Uid might be needed from sync point of view
  */
 int CComponentDetails::getUid()
 {
@@ -1319,19 +1439,22 @@ string CComponentDetails::getResources()
  * @return bool indicating result of operation
  * This function is used to set Xproperties
  */
-bool CComponentDetails::setXProperties(vector <CProperties*> vXProp)
+bool CComponentDetails::setXProperties(vector <CProperties *> vXProp)
 {
-    if (vXProp.size() == 0)
-    return false;
+    if(vXProp.size() == 0) {
+        return false;
+    }
 
     removeXProperties();
     CProperties *pProp = 0;
-    for (unsigned int iCount = 0; iCount < vXProp.size(); iCount++) {
-	pProp = new CProperties();
-	ASSERTION(pProp);
-	*pProp = *vXProp[iCount];
-	this->vXProp.push_back(pProp);
+
+    for(unsigned int iCount = 0; iCount < vXProp.size(); iCount++) {
+        pProp = new CProperties();
+        ASSERTION(pProp);
+        *pProp = *vXProp[iCount];
+        this->vXProp.push_back(pProp);
     }
+
     return true;
 }
 
@@ -1355,12 +1478,14 @@ vector < CProperties * >CComponentDetails::getXProperties()
 * This function is used to remove Xproperties
 */
 void CComponentDetails::removeXProperties()
-{    
+{
     vector < CProperties * >::iterator iter;
-    for ( iter = vXProp.begin(); iter != vXProp.end(); iter++) {
+
+    for(iter = vXProp.begin(); iter != vXProp.end(); iter++) {
         delete(*iter);
         (*iter) = 0;
     }
+
     vXProp.clear();
 }
 
@@ -1384,100 +1509,126 @@ string CComponentDetails::toString()
     COrganizer *pOrg;
     string szRet;
     string szTemp;
-    time_t temp =0 ;
+    time_t temp = 0 ;
     std::stringstream ss;
     ss << "ID=";
-    if (getId().c_str()){
-	szTemp= getId().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getId().c_str()) {
+        szTemp = getId().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
 
-    else
-	ss << NULL_STRING;
-    
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",CalendarId=";
     ss << getCalendarId();
 
     ss << ",summary=";
-    if (getSummary ().c_str()){
-	szTemp= getSummary().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getSummary().c_str()) {
+        szTemp = getSummary().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",description=";
-    if (getDescription().c_str()){
-	szTemp= getDescription().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getDescription().c_str()) {
+        szTemp = getDescription().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
 
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",location=";
-    if (getLocation().c_str()){
-	szTemp= getLocation().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getLocation().c_str()) {
+        szTemp = getLocation().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
 
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",TimeZone=";
-    if (getTzid ().c_str()){
-	szTemp= getTzid().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getTzid().c_str()) {
+        szTemp = getTzid().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
 
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",Type=";
     ss << getType() ;
     ss << ",Flags=";
-    switch (getFlags()){
-	case HAS_ATTENDEE:
-	    ss << "Has Attendee";
-	    break;
-	case HAS_ORGANIZER:
-	    ss << "Has Organizer";
-	    break;
-	case HAS_RECURRENCE:
-	    ss << "Has Recurrence";
-	    break;
-	case HAS_ALARM:
-	    ss << "Has Alarm";
-	    break;
-	case HAS_RECURRENCE_ALARM :
-	    ss << "Has Recurrent Alarm";
-	    break;
-	case HAS_PARTICIPANT :
-	    ss << "Has Participant";
-	    break;
-	case HAS_CATEGORIES :
-	    ss << "Has Categories";
-	    break;
-	case HAS_COMMENT:
-	    ss << "Has Comment ";
-	    break;
-	case HAS_EXTRA:
-	    ss << "Has Extra ";
-	    break;
-	default:
-	    break;
+
+    switch(getFlags()) {
+    case HAS_ATTENDEE:
+        ss << "Has Attendee";
+        break;
+
+    case HAS_ORGANIZER:
+        ss << "Has Organizer";
+        break;
+
+    case HAS_RECURRENCE:
+        ss << "Has Recurrence";
+        break;
+
+    case HAS_ALARM:
+        ss << "Has Alarm";
+        break;
+
+    case HAS_RECURRENCE_ALARM :
+        ss << "Has Recurrent Alarm";
+        break;
+
+    case HAS_PARTICIPANT :
+        ss << "Has Participant";
+        break;
+
+    case HAS_CATEGORIES :
+        ss << "Has Categories";
+        break;
+
+    case HAS_COMMENT:
+        ss << "Has Comment ";
+        break;
+
+    case HAS_EXTRA:
+        ss << "Has Extra ";
+        break;
+
+    default:
+        break;
     }
 
     ss << ",UId=";
-    if (getGUid().c_str()){
-	szTemp= getGUid().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getGUid().c_str()) {
+        szTemp = getGUid().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
 
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
 
     ss << ",Status=";
     ss << getStatus();
@@ -1505,105 +1656,142 @@ string CComponentDetails::toString()
     ss << ",Uid=";
     ss << iUId;
     ss << ",URL=";
-    if (szUrl.c_str()){
-	szTemp= szUrl.substr(0,100);
-	ss << szTemp;
-    	szTemp.clear();
-    }
 
-    else
-	ss << NULL_STRING;
-    ss << ",Category=";
-    if (szCategory.c_str()){
-	szTemp= szCategory.substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
-    }
-
-    else
-	ss << NULL_STRING;
-    ss << ",Comments=";
-    if (szComments.c_str()){
-	szTemp= szComments.substr(0,100);
-	ss << szTemp;
+    if(szUrl.c_str()) {
+        szTemp = szUrl.substr(0, 100);
+        ss << szTemp;
         szTemp.clear();
     }
 
-    else
-	ss << NULL_STRING;
-    ss << ",Contacts=";
-    if (szContacts.c_str()){
-      szTemp= szContacts.substr(0,100);
+    else {
+        ss << NULL_STRING;
+    }
+
+    ss << ",Category=";
+
+    if(szCategory.c_str()) {
+        szTemp = szCategory.substr(0, 100);
         ss << szTemp;
-          szTemp.clear();
+        szTemp.clear();
     }
 
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
+    ss << ",Comments=";
+
+    if(szComments.c_str()) {
+        szTemp = szComments.substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
+    }
+
+    else {
+        ss << NULL_STRING;
+    }
+
+    ss << ",Contacts=";
+
+    if(szContacts.c_str()) {
+        szTemp = szContacts.substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
+    }
+
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",Related=";
-    if (szRelated.c_str()){
-	szTemp= szRelated.substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(szRelated.c_str()) {
+        szTemp = szRelated.substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
 
-    else
-	ss << NULL_STRING;						
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",Resources=";
-    if (szResources.c_str()){
-	szTemp= szResources.substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(szResources.c_str()) {
+        szTemp = szResources.substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
 
-    else
-	ss << NULL_STRING;	
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",Class=";
-    if (szClas.c_str()){
-	szTemp= szClas.substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(szClas.c_str()) {
+        szTemp = szClas.substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
 
-    else
-	ss << NULL_STRING;	
-    pAlarm=getAlarm();
-    if(pAlarm)
-	ss << pAlarm->toString();
-    else
-	ss << ",Alarm=NULL" ;
-    cRec=getRecurrence();
-    if(cRec)
-	ss << cRec->toString();
-    else
-	ss << ",Rec=NULL";
+    else {
+        ss << NULL_STRING;
+    }
+
+    pAlarm = getAlarm();
+
+    if(pAlarm) {
+        ss << pAlarm->toString();
+    }
+    else {
+        ss << ",Alarm=NULL" ;
+    }
+
+    cRec = getRecurrence();
+
+    if(cRec) {
+        ss << cRec->toString();
+    }
+    else {
+        ss << ",Rec=NULL";
+    }
 
 
-    pOrg=getOrganizer();
-    if(pOrg)
-	ss << pOrg->toString();
-    else
-	ss << ",Org=NULL";
-    if((vAttachments).size()>0)
-    {
-	ss << ",Attachments=";
-	vector<string>::iterator it;
-	for(it=vAttachments.begin();it!=vAttachments.end();it++)
-	    ss << (*it) << SEMI_COLON;
+    pOrg = getOrganizer();
+
+    if(pOrg) {
+        ss << pOrg->toString();
     }
-    if((vAttendee).size()>0)
-    {
-	ss << ",Attendee=";
-	vector<CAttendee *>::iterator it;
-	for(it=vAttendee.begin();it!=vAttendee.end();it++)
-	    ss << (*it) << SEMI_COLON;
+    else {
+        ss << ",Org=NULL";
     }
-    if((vXProp).size()>0)
-    {
-	ss << ",Xprop=";
-	vector<CProperties *>::iterator it;
-	for(it=vXProp.begin();it!=vXProp.end();it++)
-	    ss << (*it) << SEMI_COLON;
+
+    if((vAttachments).size() > 0) {
+        ss << ",Attachments=";
+        vector<string>::iterator it;
+
+        for(it = vAttachments.begin(); it != vAttachments.end(); it++) {
+            ss << (*it) << SEMI_COLON;
+        }
+    }
+
+    if((vAttendee).size() > 0) {
+        ss << ",Attendee=";
+        vector<CAttendee *>::iterator it;
+
+        for(it = vAttendee.begin(); it != vAttendee.end(); it++) {
+            ss << (*it) << SEMI_COLON;
+        }
+    }
+
+    if((vXProp).size() > 0) {
+        ss << ",Xprop=";
+        vector<CProperties *>::iterator it;
+
+        for(it = vXProp.begin(); it != vXProp.end(); it++) {
+            ss << (*it) << SEMI_COLON;
+        }
     }
 
     szRet.append(ss.str());

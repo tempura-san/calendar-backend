@@ -53,16 +53,17 @@ typedef enum {
     DECLINED_STATUS,
     DELEGATED_STATUS,
     ACCEPTED_STATUS,
-}statusParam;
-    
+} statusParam;
+
 /**
  * CComponent class
  * @brief This class contains the API's to get/set the basic parameters for any events/todo/notes
  * This holds the basic information for components.
  */
-class CComponent {
+class CComponent
+{
 
-  public:
+public:
 
     /**
      * CComponent()
@@ -70,7 +71,7 @@ class CComponent {
     CComponent();
 
     /**
-     * Copy Constructor 
+     * Copy Constructor
      */
     CComponent(CComponent &);
 
@@ -80,12 +81,12 @@ class CComponent {
     CComponent(string description);
 
     /**
-     * Overloaded constructor 
+     * Overloaded constructor
      */
     CComponent(string summary, time_t tododue, int status);
 
     /**
-     * Overloaded Constructor 
+     * Overloaded Constructor
      */
     CComponent(string summary, string description, string location, time_t dateStart, time_t dateEnd);
 
@@ -96,10 +97,10 @@ class CComponent {
 
     /**
      * @param NONE
-     * @return CRecurrenceRule* pointer to CRecurrenceRule class 
+     * @return CRecurrenceRule* pointer to CRecurrenceRule class
      *          from which UI can access other fields
-     * 
-     * funtion used to retrieve CRecurrenceRule Object 
+     *
+     * funtion used to retrieve CRecurrenceRule Object
      * present in CRecurrence Class
      */
     vector < CRecurrenceRule * >retrieveRecurreceRuleObject();
@@ -108,10 +109,10 @@ class CComponent {
      * @param Constant reference to CComponent
      * @return Reference to CComponent
      *
-     * Overloaded assignment operator for the class 
+     * Overloaded assignment operator for the class
      *
      */
-    const CComponent & operator=(const CComponent & right);
+    const CComponent &operator=(const CComponent &right);
 
     /**
      * @param id entryid
@@ -125,26 +126,26 @@ class CComponent {
      * @param dateEnd End date for event
      * @param lastModified Last modified date for event
      * @return: None
-     * 
+     *
      * This is the parameter constructor of class calEntry where all variables are being initialised
      */
 
-    CComponent(string id, int type,int flags, string summary, string description,
-                       string location, int status, time_t dateStart, time_t dateEnd,
-                       time_t lastModified,time_t iCreatedTime);
+    CComponent(string id, int type, int flags, string summary, string description,
+               string location, int status, time_t dateStart, time_t dateEnd,
+               time_t lastModified, time_t iCreatedTime);
 
 
     /**
-     * @param : string sId Id of the string  
+     * @param : string sId Id of the string
      * @return :bool (SUCCESS/FAILURE)
      *
-     * This function is used to set the id of the entry. 
+     * This function is used to set the id of the entry.
      */
     bool setId(string sId);
 
     /**
      * @param :None
-     * @return :string  id used to get id of entry 
+     * @return :string  id used to get id of entry
      *
      * This function is used to get the  id of the entry created.
      */
@@ -164,7 +165,7 @@ class CComponent {
 
     /**
      * @param :None
-     * @return : int  used to get type of entry 
+     * @return : int  used to get type of entry
      *
      * This function is used to get the type of the entry created.
      */
@@ -196,7 +197,7 @@ class CComponent {
     /**
      * @param : None
      * @return :string it is the summary of the entry
-     * 
+     *
      * This function is used to get the summary of the entry created.
      * The title is in string format
      */
@@ -234,7 +235,7 @@ class CComponent {
     /**
      * @param : None
      * @return :string  it is the location of the entry
-     * 
+     *
      * This function is used to get the location of the entry created.
      * The location is in string format
      */
@@ -306,17 +307,17 @@ class CComponent {
 
 
     /**
-     * @param :CRecurrence * pTrRecur  pointer to recurrence object 
+     * @param :CRecurrence * pTrRecur  pointer to recurrence object
      * @return : bool -status of operation
      *
-     * This function is used to set the pointer to CRecurrence 
+     * This function is used to set the pointer to CRecurrence
      */
-    bool setRecurrence(CRecurrence * ptrRecur);
+    bool setRecurrence(CRecurrence *ptrRecur);
     /**
      * @param :None
      * @return : Used to get pointer to Recurrence
      *
-     * This function is used to get the pointer to CRecurrence 
+     * This function is used to get the pointer to CRecurrence
      */
     CRecurrence *getRecurrence();
 
@@ -349,7 +350,7 @@ class CComponent {
      * @return : bool to indicate the result of operation.
      *
      * This function is used to set the UID  value in Recurrence object.
-     * TODO: NEED TO REMOVE THIS PARAMETER AS GUID IS REDUNDANT WE USE COMPONENT ID 
+     * TODO: NEED TO REMOVE THIS PARAMETER AS GUID IS REDUNDANT WE USE COMPONENT ID
      *       AS GUID
      */
     bool setGUid(string szuid);
@@ -358,7 +359,7 @@ class CComponent {
      * @return : string globally unique ID for each component.
      *
      * This function is used to get the UID  value in Recurrence object.
-     * TODO: NEED TO REMOVE THIS PARAMETER AS GUID IS REDUNDANT WE USE COMPONENT ID 
+     * TODO: NEED TO REMOVE THIS PARAMETER AS GUID IS REDUNDANT WE USE COMPONENT ID
      *       AS GUID
      */
     string getGUid();
@@ -367,7 +368,7 @@ class CComponent {
      * @return : Int Type of internal recurrence.
      *
      * This function is used to get the Recurrence type  value in Recurrence object.
-     * It is used for recurrence events and todos. It can take values like 
+     * It is used for recurrence events and todos. It can take values like
      * 'BY_DAILY' =1
      * 'BY_WEEKLY' =2
      * 'BY_MONTHLY'=3 and so on.
@@ -380,12 +381,12 @@ class CComponent {
      * @return : Int Type of internal recurrence.
      *
      * This function is used to get the Recurrence type  value in Recurrence object.
-     * It is used for recurrence events and todos. It can take values like 
+     * It is used for recurrence events and todos. It can take values like
      * 'BY_DAILY' =1
      * 'BY_WEEKLY' =2
      * 'BY_MONTHLY'=3 and so on.
      *  For external events/todos the value should be set to 0.
-     * 
+     *
      */
     int getRtype();
 
@@ -395,7 +396,7 @@ class CComponent {
      *
      * This function is used to set Alarm properties
      */
-    bool setAlarm(CAlarm * uAlarm);
+    bool setAlarm(CAlarm *uAlarm);
 
     /**
      * @param time_before - Alarm time in seconds before component occurance start time
@@ -432,71 +433,71 @@ class CComponent {
     /**
      * @param  NONE
      * @return value of flag allday stored in DB
-     * 
+     *
      * all day event is one in which time is not required eg Birthday, function (all day event )
      */
     int getAllDay();
 
     /**
-     * @param int (0 not all day ,1 allday event ) 
-     * @return bool result of the operation 
+     * @param int (0 not all day ,1 allday event )
+     * @return bool result of the operation
 
      * all day event is one in which time is not required eg Birthday, function (all day event )
      */
     bool setAllDay(int iAllDay);
 
     /**
-     * @param viewBegin lower range of current view 
-     * @param viewEnd higher range of current view 
+     * @param viewBegin lower range of current view
+     * @param viewEnd higher range of current view
      * @return vector <time_t> values on which event has to happen
      *
-     * Function used to calculate the recurrence dates 
+     * Function used to calculate the recurrence dates
      * DO NOT USE due to performance issues.
      * Use void generateInstanceTimes(time_t,time_t,vector<time_t>&) instead
      */
     vector < time_t > generateInstanceTimes(time_t viewBegin, time_t viewEnd);
 
     /**
-     * @param viewBegin lower range of current view 
-     * @param viewEnd higher range of current view 
+     * @param viewBegin lower range of current view
+     * @param viewEnd higher range of current view
      * @return vector <time_t> values on which event has to happen
      *
-     * Function used to calculate the recurrence dates 
+     * Function used to calculate the recurrence dates
      */
     void generateInstanceTimes(time_t viewBegin, time_t viewEnd, vector<time_t> &instance_times);
 
 
-     /**
-     * @param viewBegin lower range of current view 
-     * @param viewEnd higher range of current view 
-     * @return vector <time_t> values on which event has to happen
-     *
-     * Function used to retrieve the recurrence dates from the DB
-     */
+    /**
+    * @param viewBegin lower range of current view
+    * @param viewEnd higher range of current view
+    * @return vector <time_t> values on which event has to happen
+    *
+    * Function used to retrieve the recurrence dates from the DB
+    */
     vector < time_t > getInstanceTimes(time_t viewBegin, time_t viewEnd);
 
-     /**
-     * @param viewBegin lower range of current view 
-     * @param viewEnd higher range of current view 
-     * @param instance_times values on which event has to happen
-     *
-     * Function used to retrieve the recurrence dates from the DB
-     */
+    /**
+    * @param viewBegin lower range of current view
+    * @param viewEnd higher range of current view
+    * @param instance_times values on which event has to happen
+    *
+    * Function used to retrieve the recurrence dates from the DB
+    */
     void getInstanceTimes(time_t viewBegin, time_t viewEnd, vector<time_t> &instance_times);
 
-     /**
-     * @param viewBegin lower range of current view 
-     * @oaram viewEnd higher range of current view 
-     * @return int number of events 
-     *
-     * Function used to retrieve the number of recurrence events from the DB
-     */
+    /**
+    * @param viewBegin lower range of current view
+    * @oaram viewEnd higher range of current view
+    * @return int number of events
+    *
+    * Function used to retrieve the number of recurrence events from the DB
+    */
 
     int getInstanceNumber(time_t viewBegin, time_t viewEnd);
 
 
     /**
-     * @param NONE 
+     * @param NONE
      * @return duration parameter from alarm class
      *
      * this function is used to return duration value stored in Alarm class
@@ -508,14 +509,14 @@ class CComponent {
      *
      * Function used to get the recurrence properties. This will be used in getEvent function.
      */
-     bool getRecurrenceProperties();
-     /**
-      * @param template can be event todo or Journal pointer
-      * @return boolean result of the operation
-      *
-      * this function is used to retreive Alarm properties from DB
-      */
-     bool getAlarmProperties();
+    bool getRecurrenceProperties();
+    /**
+     * @param template can be event todo or Journal pointer
+     * @return boolean result of the operation
+     *
+     * this function is used to retreive Alarm properties from DB
+     */
+    bool getAlarmProperties();
 
     /**
      * Destructor for CComponent class.
@@ -524,7 +525,7 @@ class CComponent {
 
     /**
      * @param: time_t iCreatedTime time in utc
-     * @return: NONE 
+     * @return: NONE
      *
      * This function is used to set created time
      */
@@ -546,8 +547,8 @@ class CComponent {
      * remove recurrence compoennt
      */
     void removeRecurrence();
-    /* 
-     * getTzid 
+    /*
+     * getTzid
      */
     string  getTzid();
 
@@ -560,11 +561,11 @@ class CComponent {
      */
     time_t getTzOffset(void);
 
-    /** 
+    /**
      * function to set the tzoffset
      */
     void setTzOffset(time_t);
-    
+
     /**
      * to string is used to print the class members
      */
@@ -574,16 +575,16 @@ class CComponent {
      */
     vector < string > extractSubStrings(string SourceString, string byField);
     /**
-      @param string sId  Id of the component 
-      @param time_t until value 
-      @param int& reference to error code   
+      @param string sId  Id of the component
+      @param time_t until value
+      @param int& reference to error code
       @return NONE
 
-      Function to update until value for repeating event which doesn't have unitl 
-      in its rrule. Until value will be updated when event view is opened for the 
+      Function to update until value for repeating event which doesn't have unitl
+      in its rrule. Until value will be updated when event view is opened for the
       first time.
       */
-    void updateUntilInDB(time_t until,int& pErrorCode);
+    void updateUntilInDB(time_t until, int &pErrorCode);
 
     /**
      * Update Alarm trigger time for upcoming event instance
@@ -603,17 +604,17 @@ class CComponent {
     /**
      * @param: None
      * @return int: returns the calendar id
-     * 
+     *
      * This function is called to get the calendar id.
      */
     int getCalendarId();
 
-  private:
+private:
 
     /**
      * generateYearlyInstanceTime()
-     * @param viewBegin lower range of current view 
-     * @param viewEnd higher range of current view 
+     * @param viewBegin lower range of current view
+     * @param viewEnd higher range of current view
      * @param times vector to add generated event time
      * @return bool result of the operation,
      *          true if time was found in interval and added to times vector,
@@ -623,14 +624,14 @@ class CComponent {
      */
     bool generateYearlyInstanceTime(time_t viewBegin, time_t viewEnd, vector<time_t> &time);
 
-  private:
+private:
 
     /**
      * extractSubStrings
-     * @param string which needs to be parsed 
-     * @return vector <strind> sub strings parsed and returned in to 
-     * a vector 
-     * 
+     * @param string which needs to be parsed
+     * @return vector <strind> sub strings parsed and returned in to
+     * a vector
+     *
      * Function to parse a substring in to string
      */
     //vector < string > extractSubStrings(string SourceString, string byField);
@@ -679,7 +680,7 @@ class CComponent {
     time_t iEndDate; /*!< End date of the interval of calculated recurrences */
 
     vector < time_t > rTimes;  /*!< already calculated recurrences */
-    
+
 
 };
 

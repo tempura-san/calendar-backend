@@ -30,57 +30,57 @@
 
 class CParticipant_TS1 : public CppUnit::TestFixture
 {
-	CPPUNIT_TEST_SUITE( CParticipant_TS1 );
-	CPPUNIT_TEST(test_SetLanguage_Valid);
-	CPPUNIT_TEST(test_SetSentBy_Valid);
-	CPPUNIT_TEST(test_SetSentBy_Empty);
-	CPPUNIT_TEST(test_SetXParameters_Valid);
-	CPPUNIT_TEST(test_SetXParameters_Empty);
-	CPPUNIT_TEST(test_SetDirectoryParameter_Valid);
-	CPPUNIT_TEST(test_SetDirectoryParameter_Empty);
-	CPPUNIT_TEST(test_SetCalAddress_Valid);
-	CPPUNIT_TEST(test_SetCommonName_Valid);
-	CPPUNIT_TEST(test_MailTo);
-	CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(CParticipant_TS1);
+    CPPUNIT_TEST(test_SetLanguage_Valid);
+    CPPUNIT_TEST(test_SetSentBy_Valid);
+    CPPUNIT_TEST(test_SetSentBy_Empty);
+    CPPUNIT_TEST(test_SetXParameters_Valid);
+    CPPUNIT_TEST(test_SetXParameters_Empty);
+    CPPUNIT_TEST(test_SetDirectoryParameter_Valid);
+    CPPUNIT_TEST(test_SetDirectoryParameter_Empty);
+    CPPUNIT_TEST(test_SetCalAddress_Valid);
+    CPPUNIT_TEST(test_SetCommonName_Valid);
+    CPPUNIT_TEST(test_MailTo);
+    CPPUNIT_TEST_SUITE_END();
 
-	public:
-		CParticipant * pCp;
-		void setUp();
-		void tearDown();
-		void test_SetLanguage_Valid();
-		void test_SetSentBy_Valid();
-		void test_SetSentBy_Empty();
-		void test_SetXParameters_Valid();
-		void test_SetXParameters_Empty();
-		void test_SetDirectoryParameter_Valid();
-		void test_SetDirectoryParameter_Empty();
-		void test_SetCalAddress_Valid();
-		void test_SetCommonName_Valid();
-		void test_MailTo();
+public:
+    CParticipant *pCp;
+    void setUp();
+    void tearDown();
+    void test_SetLanguage_Valid();
+    void test_SetSentBy_Valid();
+    void test_SetSentBy_Empty();
+    void test_SetXParameters_Valid();
+    void test_SetXParameters_Empty();
+    void test_SetDirectoryParameter_Valid();
+    void test_SetDirectoryParameter_Empty();
+    void test_SetCalAddress_Valid();
+    void test_SetCommonName_Valid();
+    void test_MailTo();
 };
 
 class ValidCParticipantConstructorTestCase : public CppUnit::TestFixture
 {
-        public:
-             CParticipant* p;
-             void setUp();
-             void tearDown();
-             void test_validCParticipantConstructor();
+public:
+    CParticipant *p;
+    void setUp();
+    void tearDown();
+    void test_validCParticipantConstructor();
 
 };
 
 class CParticipant_TS2 : public CppUnit::TestFixture
 {
-	CPPUNIT_TEST_SUITE( CParticipant_TS2 );
-	CPPUNIT_TEST(test_toString);
-	CPPUNIT_TEST(test_toString_NULL);
-		CPPUNIT_TEST_SUITE_END();
-	
-	public:
-		CParticipant * pCp;
-		void setUp();
-		void tearDown();
-		void test_toString();
-		void test_toString_NULL();
+    CPPUNIT_TEST_SUITE(CParticipant_TS2);
+    CPPUNIT_TEST(test_toString);
+    CPPUNIT_TEST(test_toString_NULL);
+    CPPUNIT_TEST_SUITE_END();
+
+public:
+    CParticipant *pCp;
+    void setUp();
+    void tearDown();
+    void test_toString();
+    void test_toString_NULL();
 };
 

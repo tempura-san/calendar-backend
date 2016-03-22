@@ -39,7 +39,7 @@ using namespace std;
 typedef struct _QueryResult QueryResult;
 
 struct _QueryResult {
-  public:
+public:
     char **pResult;
     int iRow;
     int iColumn;
@@ -62,9 +62,10 @@ class CProperties;
  * Will be used when UI/other parties needs the full details of component.
  */
 
-class CComponentDetails:public CComponent {
+class CComponentDetails: public CComponent
+{
 
-  public:
+public:
 
     /* Constructor */
     CComponentDetails();
@@ -76,23 +77,23 @@ class CComponentDetails:public CComponent {
     CComponentDetails(string summary, int tododue, int status);
 
     /* Parametrized contructor */
-     CComponentDetails(string summary, string description, string location, int dateStart,
-                       int dateEnd);
+    CComponentDetails(string summary, string description, string location, int dateStart,
+                      int dateEnd);
 
     void initEvent();
 
     /**
      * CComponent copy constructor
      */
-     CComponentDetails(CComponentDetails & ref);
+    CComponentDetails(CComponentDetails &ref);
 
     /**
      * overloaded assignment operator
      */
-    const CComponentDetails & operator=(const CComponentDetails & right);
+    const CComponentDetails &operator=(const CComponentDetails &right);
 
     /**
-     * @param: string Class 
+     * @param: string Class
      * @return: bool indicating result of operation
      *
      * This function is used to set class parameter for an entry (Event,todo)
@@ -148,7 +149,7 @@ class CComponentDetails:public CComponent {
     void removeOrganizer();
 
     /**
-     * @param: vector<CAttendee*> vector of pointers to CAttendee objets 
+     * @param: vector<CAttendee*> vector of pointers to CAttendee objets
      * @return: bool indicating result of operation
      *
      * This function is used to set Attendees
@@ -159,34 +160,34 @@ class CComponentDetails:public CComponent {
      * @param: none
      * @return: vector<CAttendee*> vector of pointers to CAttendee class
      *
-     * This function is used to get vector of  pointers to CAttendee class 
+     * This function is used to get vector of  pointers to CAttendee class
      */
-     vector < CAttendee * >getAttendees();
+    vector < CAttendee * >getAttendees();
 
     /**
      * @param: none
      * @return: none
      *
-     * This function is used to remove Attendees 
+     * This function is used to remove Attendees
      */
     void removeAttendees();
 
     /**
-     * @param: vector<string> vector of Attachments  
+     * @param: vector<string> vector of Attachments
      * @return: bool indicating result of operation
      *
-     * TODO: have to change this to string 
+     * TODO: have to change this to string
      * This function is used to set Attachments
      */
     bool setAttachments(vector < string > vAttachList);
 
     /**
      * @param: none
-     * @return: vector<string> vector of attachments 
+     * @return: vector<string> vector of attachments
      *
      * This function is used to get attachments
      */
-     vector < string >getAttachments();
+    vector < string >getAttachments();
 
     /**
      * @param: int sequence
@@ -216,7 +217,7 @@ class CComponentDetails:public CComponent {
      * @param: none
      * @return: int Uid
      *
-     * This function is used to get Uid might be needed from sync point of view 
+     * This function is used to get Uid might be needed from sync point of view
      */
     int getUid();
 
@@ -237,7 +238,7 @@ class CComponentDetails:public CComponent {
     string getUrl();
 
     /**
-     * @param: string szCategories 
+     * @param: string szCategories
      * @return: bool indicating result of operation true/false
      *
      * This function is used to set categories
@@ -262,7 +263,7 @@ class CComponentDetails:public CComponent {
 
     /**
      * @param: none
-     * @return: string  comments 
+     * @return: string  comments
      *
      * This function is used to get comments
      */
@@ -279,7 +280,7 @@ class CComponentDetails:public CComponent {
     /**
      * @param: none
      * @return: string contact
-     * 
+     *
      * This function is used to get Contact
      */
     string getContact();
@@ -316,22 +317,22 @@ class CComponentDetails:public CComponent {
      */
     string getResources();
     /**
-     * @param NONE 
+     * @param NONE
      * @return vector<CAttendee*>  vector of CAttendee pointers
      *
-     * Memory is alocated inside the procedure for each of the CAttendee 
-     * has to be freed by the API user. Function used to retrieve Attendee details from DB 
+     * Memory is alocated inside the procedure for each of the CAttendee
+     * has to be freed by the API user. Function used to retrieve Attendee details from DB
      */
     vector <CAttendee *> retrieveAttendeeDetails();
     /**
-     * @param NONE 
-     * @return COrganizer* 
+     * @param NONE
+     * @return COrganizer*
      *
-     * Function used to retrieve organizer details 
-     * Memory is allocated inside the prodcedure for COrganizer has to 
+     * Function used to retrieve organizer details
+     * Memory is allocated inside the prodcedure for COrganizer has to
      * be freed by the API user.
      */
-    COrganizer* retrieveOrganizerDetails();
+    COrganizer *retrieveOrganizerDetails();
 
     /**
      * @param string Xproperties
@@ -339,15 +340,15 @@ class CComponentDetails:public CComponent {
      *
      * This function is used to set Xproperties
      */
-    bool setXProperties(vector < CProperties* >);
+    bool setXProperties(vector < CProperties * >);
 
     /**
      * @param none
      * @return vector <CProperties*> vector of Cpropertied
-     * 
+     *
      * This function is used to get Xproperties
      */
-    vector < CProperties* > getXProperties();
+    vector < CProperties * > getXProperties();
 
     /**
      * @param: none
@@ -359,15 +360,15 @@ class CComponentDetails:public CComponent {
 
     /**
      *  Destructor */
-     virtual ~ CComponentDetails();
+    virtual ~ CComponentDetails();
 
-     /**
-      * @param: NONE
-      * @return: map <string, vector <CParameters*> > 
-      *
-      * This function is used to get the hash map from the CComponentDetails object.
-      */
-     map<string,vector <CParameters*> > getHashMap();
+    /**
+     * @param: NONE
+     * @return: map <string, vector <CParameters*> >
+     *
+     * This function is used to get the hash map from the CComponentDetails object.
+     */
+    map<string, vector <CParameters *> > getHashMap();
 
     /**
      * @param: hashMap
@@ -377,13 +378,13 @@ class CComponentDetails:public CComponent {
      * CComponentDetails takes ownership of the CParameters pointers in hashMap,
      * so you mustn't delete them yourself.
      */
-    bool setHashMap(map<string, vector <CParameters*> > hashMap);
+    bool setHashMap(map<string, vector <CParameters *> > hashMap);
 
     /**
      * @param: none
      * @return: none
      *
-     * This function is used to remove hashmap 
+     * This function is used to remove hashmap
      */
     void removeHashMap();
 
@@ -392,45 +393,45 @@ class CComponentDetails:public CComponent {
      * @return : map with string and vector <CParameters*> as (key,value)
      *
      * This function retrieves details from parameters table and returns a hashmap.
-     * Memory for vector <CParameters*> will be allocated inside this procedure 
+     * Memory for vector <CParameters*> will be allocated inside this procedure
      * has to be freed by the API user.
      */
-    map< string, vector < CParameters* > > retrieveParameterDetails();
-    map < string,vector < CParameters* > > retrieveXParameterDetails();
+    map< string, vector < CParameters * > > retrieveParameterDetails();
+    map < string, vector < CParameters * > > retrieveXParameterDetails();
 
 
     /**
      * @param: QueryResult pQr
      * @return: vector < CParameters* >
-     * 
+     *
      * This function returns all cparameters.
      */
-    vector < CParameters* > getParameter(QueryResult *pQr);
+    vector < CParameters * > getParameter(QueryResult *pQr);
     /**
      * @param: NONE
-     * @return: vector <CProperties*> vector of extra properties if any for this event 
+     * @return: vector <CProperties*> vector of extra properties if any for this event
      *
-     * Memory is allocated for vector <CProperties*> inside this procedure has to be freed 
+     * Memory is allocated for vector <CProperties*> inside this procedure has to be freed
      * by the API user.
      * Function to retrieve xtra properties.
      */
 
-    vector < CProperties* > retrieveXPropertyDetails();
+    vector < CProperties * > retrieveXPropertyDetails();
     /**
-     * @param string Property Name 
-     * @return vector<string> vector of unique Property values for specific ID 
+     * @param string Property Name
+     * @return vector<string> vector of unique Property values for specific ID
      *
      * Function used to retrieve MailTo parameters for attendee
-     * 
+     *
      */
-    vector<string> getPropertyValues( string szProperty);
+    vector<string> getPropertyValues(string szProperty);
     /**
-     * @param vector <CParameters *> 
+     * @param vector <CParameters *>
      * @return CAttendee *
      *
-     * Function to convet vector of parameters to CAttendee 
+     * Function to convet vector of parameters to CAttendee
      */
-    CAttendee*  convertParamToAttendee(vector<CParameters*> vParam);
+    CAttendee  *convertParamToAttendee(vector<CParameters *> vParam);
     /**
      * @param string
      * @param string
@@ -440,22 +441,22 @@ class CComponentDetails:public CComponent {
      * This is an overloaded method.
      */
 
-    vector <CParameters*> getParameter(string szPropName,string szPropValue);
+    vector <CParameters *> getParameter(string szPropName, string szPropValue);
     /**
-     * @param 
+     * @param
      * @return
      *
      * Function to convert vector of parameters to COrganizer
      */
-    COrganizer* convertParamToOrganizer(vector<CParameters*> vParam);
+    COrganizer *convertParamToOrganizer(vector<CParameters *> vParam);
     /**
      * toString
      */
     string toString();
-	
 
 
-  private:
+
+private:
 
 
     /**
@@ -465,45 +466,45 @@ class CComponentDetails:public CComponent {
      * This function is used to set the hashmap in CComponentDetails object.
      */
 
-    void copyHashMap(map<string, vector <CParameters*> > hashMap);
+    void copyHashMap(map<string, vector <CParameters *> > hashMap);
 
 
-  private:
+private:
 
 
 
-     int iDateStamp; /*!< Datestamp */
+    int iDateStamp; /*!< Datestamp */
 
-     COrganizer *pOrganizer; /*!< Organizer details */
+    COrganizer *pOrganizer; /*!< Organizer details */
 
-     /* TODO: Need to change char * to string */
+    /* TODO: Need to change char * to string */
 
-     vector < string >vAttachments; /*!< Attachments */
+    vector < string >vAttachments; /*!< Attachments */
 
-     vector < CAttendee *>vAttendee; /*!< Attendee */
+    vector < CAttendee *>vAttendee; /*!< Attendee */
 
-     int iSequence; /*!< Sequence */
+    int iSequence; /*!< Sequence */
 
-     int iUId; /*!< Uid */
+    int iUId; /*!< Uid */
 
-     string szUrl; /*!< Url */
+    string szUrl; /*!< Url */
 
-     string szCategory; /*!< Component category */
+    string szCategory; /*!< Component category */
 
-     string szComments; /*!< Comments */
+    string szComments; /*!< Comments */
 
-     string szContacts; /*!< Contacts */
+    string szContacts; /*!< Contacts */
 
-     string szRelated; /*!< Related */
+    string szRelated; /*!< Related */
 
-     string szResources; /*!< Resources */
+    string szResources; /*!< Resources */
 
-     vector <CProperties*> vXProp; /*!< XProperties */
+    vector <CProperties *> vXProp; /*!< XProperties */
 
-     string szClas; /*!< Class */
+    string szClas; /*!< Class */
 
-     map< string, vector <CParameters*> > hashMap;
-     
+    map< string, vector <CParameters *> > hashMap;
+
 
 };
 

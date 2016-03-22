@@ -49,12 +49,11 @@ static time_t mktime(int day, int month, int year)
     return mktime(&t);
 };
 
-static void delete_bdays(std::vector<CBdayEvent*> &comps)
+static void delete_bdays(std::vector<CBdayEvent *> &comps)
 {
-    for(std::vector<CBdayEvent*>::iterator it=comps.begin();
-        it != comps.end();
-        it++)
-    {
+    for(std::vector<CBdayEvent *>::iterator it = comps.begin();
+            it != comps.end();
+            it++) {
         delete *it;
     }
 
@@ -69,12 +68,12 @@ void CCalendarProcs_TS1 :: setUp()
 
     pBDayCalendar = CMulticalendar::MCInstance()->getBirthdayCalendar();
 
-    if (pBDayCalendar == 0) {
+    if(pBDayCalendar == 0) {
 
-        CCalendar bdayCal("BdayTestCalendar",COLOUR_RED,0,1,BIRTHDAY_CALENDAR,"Music Tune.yz","Version-1.0");
+        CCalendar bdayCal("BdayTestCalendar", COLOUR_RED, 0, 1, BIRTHDAY_CALENDAR, "Music Tune.yz", "Version-1.0");
 
         int error_code;
-        BDayCalendarId = CMulticalendar::MCInstance()->addCalendar (&bdayCal, error_code);
+        BDayCalendarId = CMulticalendar::MCInstance()->addCalendar(&bdayCal, error_code);
     }
 
     pBDayCalendar = CMulticalendar::MCInstance()->getBirthdayCalendar();
@@ -82,11 +81,12 @@ void CCalendarProcs_TS1 :: setUp()
 void CCalendarProcs_TS1 :: tearDown()
 {
     delete pProcs;
-    if (pBDayCalendar)
-    {
+
+    if(pBDayCalendar) {
         int error_code;
         CMulticalendar::MCInstance()->deleteCalendar(pBDayCalendar->getCalendarId(), error_code);
     }
+
     delete pBDayCalendar;
 }
 
@@ -96,7 +96,7 @@ void CCalendarProcs_TS1 :: tearDown()
 //     ret = pUt->getDateFromTime(123546986);
 //     CPPUNIT_ASSERT_MESSAGE("Error:get DateFromTime ",(ret>123400000));
 // }
-// 
+//
 // void CCalendarProcs_TS1 :: test_parseId()
 // {
 //     string szId = "1,2,3,5,9,13";
@@ -124,7 +124,7 @@ void CCalendarProcs_TS1 :: tearDown()
 //     ret.clear();
 //     szQp.clear();
 //     szQp = "¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿ ¹ º » ¼ ½ ¾ ¿";
-// 
+//
 //     ret = pUt->encodeQuotedPrintable(szQp);
 // }
 // void CCalendarProcs_TS1 :: test_getSystemTimeZone()
@@ -133,9 +133,9 @@ void CCalendarProcs_TS1 :: tearDown()
 //     ret = pUt->getSystemTimeZone();
 //     icaltimezone *pTz;
 //     pTz = pUt->getSystemTimeZoneAsIcalTimeZone();
-// 
+//
 // }
-// 
+//
 // void CCalendarProcs_TS1 :: test_getRecurrentTimes()
 // {
 //     vector <time_t> vRet;
@@ -152,7 +152,7 @@ void CCalendarProcs_TS1 :: tearDown()
 // {
 // 	pUt->setApplicationName ("AppName");
 //     	CPPUNIT_ASSERT_MESSAGE("Error:get Application Name ",(pUt->getApplicationName() == "AppName"));
-// 	
+//
 // }
 
 void CCalendarProcs_TS1::test_Init()
@@ -165,9 +165,9 @@ void CCalendarProcs_TS1::test_AddBDay()
 {
     CPPUNIT_ASSERT(pProcs->dropBDays() == SQLITE_OK);
 
-    time_t d0=1980;
-    time_t d1=345198000;
-    time_t d2=345208800;
+    time_t d0 = 1980;
+    time_t d1 = 345198000;
+    time_t d2 = 345208800;
 
     CPPUNIT_ASSERT(pProcs->addBDay("1980", d0) == SQLITE_OK);
     CPPUNIT_ASSERT(pProcs->addBDay("1980", d1) == SQLITE_OK);
@@ -208,63 +208,62 @@ void CCalendarProcs_TS1::test_GetBDays()
     char s[10];
 
     int id = 1;
-    for (int y=1980; y<=1981; y++)
-    {
-        for (int m=1; m <= 12; m++)
-        {
+
+    for(int y = 1980; y <= 1981; y++) {
+        for(int m = 1; m <= 12; m++) {
             sprintf(s, "%d", id++);
-            CPPUNIT_ASSERT(pProcs->addBDay(s, mktime(1,m,y)) == SQLITE_OK);
+            CPPUNIT_ASSERT(pProcs->addBDay(s, mktime(1, m, y)) == SQLITE_OK);
 
             sprintf(s, "%d", id++);
-            CPPUNIT_ASSERT(pProcs->addBDay(s, mktime(15,m,y)) == SQLITE_OK);
+            CPPUNIT_ASSERT(pProcs->addBDay(s, mktime(15, m, y)) == SQLITE_OK);
 
             sprintf(s, "%d", id++);
-            CPPUNIT_ASSERT(pProcs->addBDay(s, mktime(28,m,y)) == SQLITE_OK);
+            CPPUNIT_ASSERT(pProcs->addBDay(s, mktime(28, m, y)) == SQLITE_OK);
         }
     }
 
     std::vector<std::string> ids;
 
-    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1,1,1979), mktime(31,12,1979), ids) == SQLITE_OK);
+    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1, 1, 1979), mktime(31, 12, 1979), ids) == SQLITE_OK);
     CPPUNIT_ASSERT(ids.size() == 0);
 
-    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1,1,1980), mktime(1,1,1980), ids) == SQLITE_OK);
+    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1, 1, 1980), mktime(1, 1, 1980), ids) == SQLITE_OK);
     CPPUNIT_ASSERT(ids.size() == 1);
     CPPUNIT_ASSERT(ids[0] == "1");
 
 
-    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1,1,1980), mktime(14,1,1980), ids) == SQLITE_OK);
+    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1, 1, 1980), mktime(14, 1, 1980), ids) == SQLITE_OK);
     CPPUNIT_ASSERT(ids.size() == 1);
     CPPUNIT_ASSERT(ids[0] == "1");
 
-    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1,1,1980), mktime(15,1,1980), ids) == SQLITE_OK);
+    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1, 1, 1980), mktime(15, 1, 1980), ids) == SQLITE_OK);
     CPPUNIT_ASSERT(ids.size() == 2);
     CPPUNIT_ASSERT(ids[0] == "1");
     CPPUNIT_ASSERT(ids[1] == "2");
 
-    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1,1,1980), mktime(27,1,1980), ids) == SQLITE_OK);
+    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1, 1, 1980), mktime(27, 1, 1980), ids) == SQLITE_OK);
     CPPUNIT_ASSERT(ids.size() == 2);
     CPPUNIT_ASSERT(ids[0] == "1");
     CPPUNIT_ASSERT(ids[1] == "2");
 
-    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1,1,1980), mktime(28,1,1980), ids) == SQLITE_OK);
+    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1, 1, 1980), mktime(28, 1, 1980), ids) == SQLITE_OK);
     CPPUNIT_ASSERT(ids.size() == 3);
     CPPUNIT_ASSERT(ids[0] == "1");
     CPPUNIT_ASSERT(ids[1] == "2");
     CPPUNIT_ASSERT(ids[2] == "3");
 
-    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1,1,1980), mktime(31,12,1980), ids) == SQLITE_OK);
-    CPPUNIT_ASSERT(ids.size() == 12*3);
+    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1, 1, 1980), mktime(31, 12, 1980), ids) == SQLITE_OK);
+    CPPUNIT_ASSERT(ids.size() == 12 * 3);
 
 
-    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1,4,1980), mktime(1,5,1980), ids) == SQLITE_OK);
+    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1, 4, 1980), mktime(1, 5, 1980), ids) == SQLITE_OK);
     CPPUNIT_ASSERT(ids.size() == 4);
 
-    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1,1,1980), mktime(1,1,1981), ids) == SQLITE_OK);
-    CPPUNIT_ASSERT(ids.size() == 12*3 + 1 );
+    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1, 1, 1980), mktime(1, 1, 1981), ids) == SQLITE_OK);
+    CPPUNIT_ASSERT(ids.size() == 12 * 3 + 1);
 
-    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1,12,1980), mktime(1,1,1981), ids) == SQLITE_OK);
-    CPPUNIT_ASSERT(ids.size() == 5 );
+    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1, 12, 1980), mktime(1, 1, 1981), ids) == SQLITE_OK);
+    CPPUNIT_ASSERT(ids.size() == 5);
 }
 
 void CCalendarProcs_TS1::test_DropBDays()
@@ -285,57 +284,57 @@ void CCalendarProcs_TS1::test_GetBDayEvents()
     CPPUNIT_ASSERT(pBDayCalendar != 0);
     addTestBDayEvents();
 
-    std::vector<CBdayEvent*> events;
+    std::vector<CBdayEvent *> events;
 
-    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1,1,1979), mktime(31,12,1979), events) == SQLITE_OK);
+    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1, 1, 1979), mktime(31, 12, 1979), events) == SQLITE_OK);
     CPPUNIT_ASSERT(events.size() == 0);
     delete_bdays(events);
 
-    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1,1,1980), mktime(1,1,1980), events) == SQLITE_OK);
+    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1, 1, 1980), mktime(1, 1, 1980), events) == SQLITE_OK);
     CPPUNIT_ASSERT(events.size() == 1);
     CPPUNIT_ASSERT(events[0]->getGUid() == "1");
     CPPUNIT_ASSERT(events[0]->getCalendarId() == pBDayCalendar->getCalendarId());
     delete_bdays(events);
 
-    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1,1,1980), mktime(14,1,1980), events) == SQLITE_OK);
+    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1, 1, 1980), mktime(14, 1, 1980), events) == SQLITE_OK);
     CPPUNIT_ASSERT(events.size() == 1);
     CPPUNIT_ASSERT(events[0]->getGUid() == "1");
     delete_bdays(events);
 
-    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1,1,1980), mktime(15,1,1980), events) == SQLITE_OK);
+    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1, 1, 1980), mktime(15, 1, 1980), events) == SQLITE_OK);
     CPPUNIT_ASSERT(events.size() == 2);
     CPPUNIT_ASSERT(events[0]->getGUid() == "1");
     CPPUNIT_ASSERT(events[1]->getGUid() == "2");
     delete_bdays(events);
 
-    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1,1,1980), mktime(27,1,1980), events) == SQLITE_OK);
+    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1, 1, 1980), mktime(27, 1, 1980), events) == SQLITE_OK);
     CPPUNIT_ASSERT(events.size() == 2);
     CPPUNIT_ASSERT(events[0]->getGUid() == "1");
     CPPUNIT_ASSERT(events[1]->getGUid() == "2");
     delete_bdays(events);
 
-    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1,1,1980), mktime(28,1,1980), events) == SQLITE_OK);
+    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1, 1, 1980), mktime(28, 1, 1980), events) == SQLITE_OK);
     CPPUNIT_ASSERT(events.size() == 3);
     CPPUNIT_ASSERT(events[0]->getGUid() == "1");
     CPPUNIT_ASSERT(events[1]->getGUid() == "2");
     CPPUNIT_ASSERT(events[2]->getGUid() == "3");
     delete_bdays(events);
 
-    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1,1,1980), mktime(31,12,1980), events) == SQLITE_OK);
-    CPPUNIT_ASSERT(events.size() == 12*3);
+    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1, 1, 1980), mktime(31, 12, 1980), events) == SQLITE_OK);
+    CPPUNIT_ASSERT(events.size() == 12 * 3);
     delete_bdays(events);
 
 
-    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1,4,1980), mktime(1,5,1980), events) == SQLITE_OK);
+    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1, 4, 1980), mktime(1, 5, 1980), events) == SQLITE_OK);
     CPPUNIT_ASSERT(events.size() == 4);
     delete_bdays(events);
 
-    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1,1,1980), mktime(1,1,1981), events) == SQLITE_OK);
-    CPPUNIT_ASSERT(events.size() == 12*3 + 1 );
+    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1, 1, 1980), mktime(1, 1, 1981), events) == SQLITE_OK);
+    CPPUNIT_ASSERT(events.size() == 12 * 3 + 1);
     delete_bdays(events);
 
-    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1,12,1980), mktime(1,1,1981), events) == SQLITE_OK);
-    CPPUNIT_ASSERT(events.size() == 5 );
+    CPPUNIT_ASSERT(pProcs->getBDays(mktime(1, 12, 1980), mktime(1, 1, 1981), events) == SQLITE_OK);
+    CPPUNIT_ASSERT(events.size() == 5);
     delete_bdays(events);
 }
 
@@ -344,18 +343,18 @@ void CCalendarProcs_TS1::test_GetComponentsAllCalendars_repeating_events()
 {
     addTestBDayEvents();
 
-    std::vector<CComponent*> comps;
+    std::vector<CComponent *> comps;
 
-    CPPUNIT_ASSERT(pProcs->getComponentsAllCalendars(mktime(1,1,1979), mktime(31,12,1979), 1000, 0, comps, 2) == CALENDAR_FETCH_NOITEMS);
+    CPPUNIT_ASSERT(pProcs->getComponentsAllCalendars(mktime(1, 1, 1979), mktime(31, 12, 1979), 1000, 0, comps, 2) == CALENDAR_FETCH_NOITEMS);
     CPPUNIT_ASSERT(comps.size() == 0);
 
-    CPPUNIT_ASSERT(pProcs->getComponentsAllCalendars(mktime(1,1,1980), mktime(31,12,1981), 1000, 0, comps, 2) == CALENDAR_OPERATION_SUCCESSFUL);
-    CPPUNIT_ASSERT(comps.size() == 12*3*2);
+    CPPUNIT_ASSERT(pProcs->getComponentsAllCalendars(mktime(1, 1, 1980), mktime(31, 12, 1981), 1000, 0, comps, 2) == CALENDAR_OPERATION_SUCCESSFUL);
+    CPPUNIT_ASSERT(comps.size() == 12 * 3 * 2);
 
-    CPPUNIT_ASSERT(pProcs->getComponentsAllCalendars(mktime(1,1,1980), mktime(31,12,1980), 1000, 0, comps, 2) == CALENDAR_OPERATION_SUCCESSFUL);
-    CPPUNIT_ASSERT(comps.size() == 12*3);
+    CPPUNIT_ASSERT(pProcs->getComponentsAllCalendars(mktime(1, 1, 1980), mktime(31, 12, 1980), 1000, 0, comps, 2) == CALENDAR_OPERATION_SUCCESSFUL);
+    CPPUNIT_ASSERT(comps.size() == 12 * 3);
 
-    CPPUNIT_ASSERT(pProcs->getComponentsAllCalendars(mktime(1,1,1980), mktime(31,12,1981), 1000, 1000, comps, 2) == CALENDAR_FETCH_NOITEMS);
+    CPPUNIT_ASSERT(pProcs->getComponentsAllCalendars(mktime(1, 1, 1980), mktime(31, 12, 1981), 1000, 1000, comps, 2) == CALENDAR_FETCH_NOITEMS);
     CPPUNIT_ASSERT(comps.size() == 0);
 }
 
@@ -363,18 +362,18 @@ void CCalendarProcs_TS1::test_GetComponentsAllCalendars_all_events()
 {
     addTestBDayEvents();
 
-    std::vector<CComponent*> comps;
+    std::vector<CComponent *> comps;
 
-    CPPUNIT_ASSERT(pProcs->getComponentsAllCalendars(mktime(1,1,1979), mktime(31,12,1979), 1000, 0, comps, 0) == CALENDAR_FETCH_NOITEMS);
+    CPPUNIT_ASSERT(pProcs->getComponentsAllCalendars(mktime(1, 1, 1979), mktime(31, 12, 1979), 1000, 0, comps, 0) == CALENDAR_FETCH_NOITEMS);
     CPPUNIT_ASSERT(comps.size() == 0);
 
-    CPPUNIT_ASSERT(pProcs->getComponentsAllCalendars(mktime(1,1,1980), mktime(31,12,1981), 1000, 0, comps, 0) == CALENDAR_OPERATION_SUCCESSFUL);
-    CPPUNIT_ASSERT(comps.size() == 12*3*2);
+    CPPUNIT_ASSERT(pProcs->getComponentsAllCalendars(mktime(1, 1, 1980), mktime(31, 12, 1981), 1000, 0, comps, 0) == CALENDAR_OPERATION_SUCCESSFUL);
+    CPPUNIT_ASSERT(comps.size() == 12 * 3 * 2);
 
-    CPPUNIT_ASSERT(pProcs->getComponentsAllCalendars(mktime(1,1,1980), mktime(31,12,1980), 1000, 0, comps, 0) == CALENDAR_OPERATION_SUCCESSFUL);
-    CPPUNIT_ASSERT(comps.size() == 12*3);
+    CPPUNIT_ASSERT(pProcs->getComponentsAllCalendars(mktime(1, 1, 1980), mktime(31, 12, 1980), 1000, 0, comps, 0) == CALENDAR_OPERATION_SUCCESSFUL);
+    CPPUNIT_ASSERT(comps.size() == 12 * 3);
 
-    CPPUNIT_ASSERT(pProcs->getComponentsAllCalendars(mktime(1,1,1980), mktime(31,12,1981), 1000, 1000, comps, 0) == CALENDAR_FETCH_NOITEMS);
+    CPPUNIT_ASSERT(pProcs->getComponentsAllCalendars(mktime(1, 1, 1980), mktime(31, 12, 1981), 1000, 1000, comps, 0) == CALENDAR_FETCH_NOITEMS);
     CPPUNIT_ASSERT(comps.size() == 0);
 
 }
@@ -382,28 +381,26 @@ void CCalendarProcs_TS1::test_GetComponentsAllCalendars_all_events()
 void CCalendarProcs_TS1::addTestBDayEvents()
 {
     char s[10];
-    std::vector<CBdayEvent*> bdays2add;
+    std::vector<CBdayEvent *> bdays2add;
     int id = 1;
 
-    for (int y=1980; y<=1981; y++)
-    {
-        for (int m=1; m <= 12; m++)
-        {
+    for(int y = 1980; y <= 1981; y++) {
+        for(int m = 1; m <= 12; m++) {
             CBdayEvent *e = 0;
             int error;
 
             sprintf(s, "%d", id++);
-            e = new CBdayEvent(s, s, mktime(1,m,y));
+            e = new CBdayEvent(s, s, mktime(1, m, y));
             e->setGUid(s);
             bdays2add.push_back(e);
 
             sprintf(s, "%d", id++);
-            e = new CBdayEvent(s, s, mktime(15,m,y));
+            e = new CBdayEvent(s, s, mktime(15, m, y));
             e->setGUid(s);
             bdays2add.push_back(e);
 
             sprintf(s, "%d", id++);
-            e = new CBdayEvent(s, s, mktime(28,m,y));
+            e = new CBdayEvent(s, s, mktime(28, m, y));
             e->setGUid(s);
             bdays2add.push_back(e);
         }

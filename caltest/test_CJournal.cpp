@@ -34,99 +34,99 @@ CPPUNIT_TEST_SUITE_REGISTRATION(CJournal_TS2);
 
 void ValidCJournalConstructorTestCase::setUp()
 {
-	p= new CJournal("abcdefghi...");
+    p = new CJournal("abcdefghi...");
 }
 
 void ValidCJournalConstructorTestCase::tearDown()
 {
-	delete p;
+    delete p;
 }
 
 
 void CJournal_TS2::setUp()
 {
-	p= new CJournal;
+    p = new CJournal;
 }
 
 void CJournal_TS2::tearDown()
 {
-	delete p;
+    delete p;
 }
 
 void ValidCJournalConstructorTestCase::test_validCJournalConstructor()
 {
-	CJournal q(*(p));
-	CJournal r;
-	r=*(p);
-	CPPUNIT_ASSERT_MESSAGE("conflict description",(strcmp((p->getSummary().c_str()),"abcdefghi...")==0));
-	CPPUNIT_ASSERT_MESSAGE("conflict description",(strcmp((q.getSummary().c_str()),"abcdefghi...")==0));
-	CPPUNIT_ASSERT_MESSAGE("conflict description",(strcmp((r.getSummary().c_str()),"abcdefghi...")==0));
+    CJournal q(*(p));
+    CJournal r;
+    r = *(p);
+    CPPUNIT_ASSERT_MESSAGE("conflict description", (strcmp((p->getSummary().c_str()), "abcdefghi...") == 0));
+    CPPUNIT_ASSERT_MESSAGE("conflict description", (strcmp((q.getSummary().c_str()), "abcdefghi...") == 0));
+    CPPUNIT_ASSERT_MESSAGE("conflict description", (strcmp((r.getSummary().c_str()), "abcdefghi...") == 0));
 }
 
 void CJournal_TS2 ::test_toString()
 {
 
-	CJournal *pJournal = new CJournal("summary");
-	CAlarm *alarm = new CAlarm(10000, 1);
-	bool ret = pJournal->setAlarm(alarm);
-	CRecurrence *rec = new CRecurrence();
-	pJournal->setRecurrence(rec);
+    CJournal *pJournal = new CJournal("summary");
+    CAlarm *alarm = new CAlarm(10000, 1);
+    bool ret = pJournal->setAlarm(alarm);
+    CRecurrence *rec = new CRecurrence();
+    pJournal->setRecurrence(rec);
 
-	int duration;
-        duration = pJournal->getDuration();
-	string  szDes ="mails";
-	pJournal->setDescription(szDes);
-	pJournal->setDateStart(45678);
-	pJournal->setDateEnd(45678);
-	pJournal->setFlags(4);
-	pJournal->setType(2);
-	pJournal->setSummary("Summary");
-	pJournal->setLocation("LOC");
-	pJournal->setLastModified(12345678);
-	pJournal->setAllDay(0);
-	pJournal->setRtype(1);
-	pJournal->setCreatedTime(12364589);
+    int duration;
+    duration = pJournal->getDuration();
+    string  szDes = "mails";
+    pJournal->setDescription(szDes);
+    pJournal->setDateStart(45678);
+    pJournal->setDateEnd(45678);
+    pJournal->setFlags(4);
+    pJournal->setType(2);
+    pJournal->setSummary("Summary");
+    pJournal->setLocation("LOC");
+    pJournal->setLastModified(12345678);
+    pJournal->setAllDay(0);
+    pJournal->setRtype(1);
+    pJournal->setCreatedTime(12364589);
 
-	string set = "qwerty";
-	ret = pJournal->setId(set);
-	cout<<pJournal->toString();
+    string set = "qwerty";
+    ret = pJournal->setId(set);
+    cout << pJournal->toString();
 }
 void CJournal_TS2 ::test_toString_NULL()
 {
 
-	string sum="";
-	CJournal *pJournal = new CJournal(sum);
-	cout<<pJournal->toString();
+    string sum = "";
+    CJournal *pJournal = new CJournal(sum);
+    cout << pJournal->toString();
 }
 
 void CJournal_TS2 :: test_toString_flags()
 {
-	CJournal *pJournal = new CJournal("summary");
-	pJournal->setFlags(HAS_ATTENDEE);
-	cout << pJournal->toString();
-	CPPUNIT_ASSERT_MESSAGE("Error: Failed to get flags",pJournal->getFlags() == HAS_ATTENDEE);
-	pJournal->setFlags(HAS_ORGANIZER);
-	cout << pJournal->toString();
-	CPPUNIT_ASSERT_MESSAGE("Error: Failed to get flags",pJournal->getFlags() == HAS_ORGANIZER);
-	pJournal->setFlags(HAS_RECURRENCE);
-	cout << pJournal->toString();
-	CPPUNIT_ASSERT_MESSAGE("Error: Failed to get flags",pJournal->getFlags() == HAS_RECURRENCE);
-	pJournal->setFlags(HAS_ALARM);
-	cout << pJournal->toString();
-	CPPUNIT_ASSERT_MESSAGE("Error: Failed to get flags",pJournal->getFlags() == HAS_ALARM);
-	pJournal->setFlags(HAS_RECURRENCE_ALARM);
-	cout << pJournal->toString();
-	CPPUNIT_ASSERT_MESSAGE("Error: Failed to get flags",pJournal->getFlags() == HAS_RECURRENCE_ALARM);
-	pJournal->setFlags(HAS_PARTICIPANT);
-	cout << pJournal->toString();
-	CPPUNIT_ASSERT_MESSAGE("Error: Failed to get flags",pJournal->getFlags() == HAS_PARTICIPANT);
-	pJournal->setFlags(HAS_CATEGORIES);
-	cout << pJournal->toString();
-	CPPUNIT_ASSERT_MESSAGE("Error: Failed to get flags",pJournal->getFlags() == HAS_CATEGORIES);
-	pJournal->setFlags(HAS_COMMENT);
-	cout << pJournal->toString();
-	CPPUNIT_ASSERT_MESSAGE("Error: Failed to get flags",pJournal->getFlags() == HAS_COMMENT);
-	pJournal->setFlags(HAS_EXTRA);
-	cout << pJournal->toString();
-	CPPUNIT_ASSERT_MESSAGE("Error: Failed to get flags",pJournal->getFlags() == HAS_EXTRA);
+    CJournal *pJournal = new CJournal("summary");
+    pJournal->setFlags(HAS_ATTENDEE);
+    cout << pJournal->toString();
+    CPPUNIT_ASSERT_MESSAGE("Error: Failed to get flags", pJournal->getFlags() == HAS_ATTENDEE);
+    pJournal->setFlags(HAS_ORGANIZER);
+    cout << pJournal->toString();
+    CPPUNIT_ASSERT_MESSAGE("Error: Failed to get flags", pJournal->getFlags() == HAS_ORGANIZER);
+    pJournal->setFlags(HAS_RECURRENCE);
+    cout << pJournal->toString();
+    CPPUNIT_ASSERT_MESSAGE("Error: Failed to get flags", pJournal->getFlags() == HAS_RECURRENCE);
+    pJournal->setFlags(HAS_ALARM);
+    cout << pJournal->toString();
+    CPPUNIT_ASSERT_MESSAGE("Error: Failed to get flags", pJournal->getFlags() == HAS_ALARM);
+    pJournal->setFlags(HAS_RECURRENCE_ALARM);
+    cout << pJournal->toString();
+    CPPUNIT_ASSERT_MESSAGE("Error: Failed to get flags", pJournal->getFlags() == HAS_RECURRENCE_ALARM);
+    pJournal->setFlags(HAS_PARTICIPANT);
+    cout << pJournal->toString();
+    CPPUNIT_ASSERT_MESSAGE("Error: Failed to get flags", pJournal->getFlags() == HAS_PARTICIPANT);
+    pJournal->setFlags(HAS_CATEGORIES);
+    cout << pJournal->toString();
+    CPPUNIT_ASSERT_MESSAGE("Error: Failed to get flags", pJournal->getFlags() == HAS_CATEGORIES);
+    pJournal->setFlags(HAS_COMMENT);
+    cout << pJournal->toString();
+    CPPUNIT_ASSERT_MESSAGE("Error: Failed to get flags", pJournal->getFlags() == HAS_COMMENT);
+    pJournal->setFlags(HAS_EXTRA);
+    cout << pJournal->toString();
+    CPPUNIT_ASSERT_MESSAGE("Error: Failed to get flags", pJournal->getFlags() == HAS_EXTRA);
 }

@@ -31,25 +31,25 @@
 
 class CalendarAlarms_TS1 : public CppUnit::TestFixture
 {
-	CPPUNIT_TEST_SUITE(CalendarAlarms_TS1);
-	CPPUNIT_TEST(test_alarminit);
-	CPPUNIT_TEST(test_setAlarm);
-	CPPUNIT_TEST(test_modifyAlarm);
-	CPPUNIT_TEST(test_deleteAlarm);
-	CPPUNIT_TEST(test_deleteAlarmInvalid);
-	CPPUNIT_TEST(test_registerAlarmForAutoDeletion);
-	CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(CalendarAlarms_TS1);
+    CPPUNIT_TEST(test_alarminit);
+    CPPUNIT_TEST(test_setAlarm);
+    CPPUNIT_TEST(test_modifyAlarm);
+    CPPUNIT_TEST(test_deleteAlarm);
+    CPPUNIT_TEST(test_deleteAlarmInvalid);
+    CPPUNIT_TEST(test_registerAlarmForAutoDeletion);
+    CPPUNIT_TEST_SUITE_END();
 
-	public:
-	CAlarm *pCm;
-	CMulticalendar *mc;
-	void setUp();
-	void tearDown();
-	void test_alarminit();
-	void test_setAlarm();
-	void test_modifyAlarm();
-	void test_deleteAlarm();
-	void test_deleteAlarmInvalid();
-	void test_registerAlarmForAutoDeletion();
+public:
+    CAlarm *pCm;
+    CMulticalendar *mc;
+    void setUp();
+    void tearDown();
+    void test_alarminit();
+    void test_setAlarm();
+    void test_modifyAlarm();
+    void test_deleteAlarm();
+    void test_deleteAlarmInvalid();
+    void test_registerAlarmForAutoDeletion();
 };
 

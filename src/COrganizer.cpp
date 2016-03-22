@@ -21,8 +21,8 @@
  *
  */
 
-/** 
- * Header files 
+/**
+ * Header files
  */
 
 #include "COrganizer.h"
@@ -31,15 +31,15 @@
  * COrganizer
  * Default constructor for COrganizer class
  */
-COrganizer::COrganizer():CParticipant()
+COrganizer::COrganizer(): CParticipant()
 {
 }
 
 /**
  * COrganizer
- * copy constructor for Corganizer 
+ * copy constructor for Corganizer
  */
-COrganizer::COrganizer(COrganizer & ref):CParticipant(ref)
+COrganizer::COrganizer(COrganizer &ref): CParticipant(ref)
 {
 }
 
@@ -47,10 +47,11 @@ COrganizer::COrganizer(COrganizer & ref):CParticipant(ref)
 /**
  * Overloaded assignment operator
  */
-COrganizer & COrganizer::operator=(COrganizer & right)
+COrganizer &COrganizer::operator=(COrganizer &right)
 {
-    if (&right != this)
-    CParticipant::operator=(right);
+    if(&right != this) {
+        CParticipant::operator=(right);
+    }
 
     return *this;
 }
@@ -70,63 +71,84 @@ string COrganizer::toString()
     string szTemp;
     std::stringstream ss;
     ss << "SentBy=";
-    if (getSentBy().c_str()){
-	szTemp= getSentBy().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getSentBy().c_str()) {
+        szTemp = getSentBy().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",CommonName=";
-    if (getCommonName().c_str()){
-	szTemp= getCommonName().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getCommonName().c_str()) {
+        szTemp = getCommonName().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     szRet.append(",Directory=");
-    if (getDirectoryParameter().c_str()){
-	szTemp= getDirectoryParameter().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getDirectoryParameter().c_str()) {
+        szTemp = getDirectoryParameter().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",Lang=";
-    if (getLanguage().c_str()){
-	szTemp= getLanguage().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getLanguage().c_str()) {
+        szTemp = getLanguage().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
 
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",CalAddr=";
-    if (getCalAddress().c_str()){
-	szTemp= getCalAddress().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getCalAddress().c_str()) {
+        szTemp = getCalAddress().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
-    ss << ",CXparam=";
-    if (getXparameters().c_str()){
-	szTemp= getXparameters().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+    else {
+        ss << NULL_STRING;
     }
 
-    else
-	ss << NULL_STRING;
-    ss << ",MailTo=";
-    if (getMailTo().c_str()){
-	szTemp= getMailTo().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+    ss << ",CXparam=";
+
+    if(getXparameters().c_str()) {
+        szTemp = getXparameters().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+
+    else {
+        ss << NULL_STRING;
+    }
+
+    ss << ",MailTo=";
+
+    if(getMailTo().c_str()) {
+        szTemp = getMailTo().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
+    }
+    else {
+        ss << NULL_STRING;
+    }
+
     szRet.append(ss.str());
     return szRet;
 }

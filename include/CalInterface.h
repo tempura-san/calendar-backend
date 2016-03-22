@@ -22,31 +22,31 @@
  */
 
 /*
- * New attributes added 
+ * New attributes added
  *   - "target_time_offset"
- *   - "calendar_event_type" 
+ *   - "calendar_event_type"
  */
-const char* TARGET_TIME_OFFSET =  "target_time_offset";
-const char* CAL_EVENT_TYPE = "calendar_event_type";
- /**
-  * event type values:
-  *   - "normalevent"
-  *   - "allday"
-  *   - "task"
-  *   - "birthday"
-  */
-const char* ANORMALEVENT = "timedevent";
-const char* AALLDAY = "allday";
-const char* ATASK = "task";
-const char* ABIRTHDAY = "birthday";
+const char *TARGET_TIME_OFFSET =  "target_time_offset";
+const char *CAL_EVENT_TYPE = "calendar_event_type";
 /**
- * enumeration fro entryType 
+ * event type values:
+ *   - "normalevent"
+ *   - "allday"
+ *   - "task"
+ *   - "birthday"
+ */
+const char *ANORMALEVENT = "timedevent";
+const char *AALLDAY = "allday";
+const char *ATASK = "task";
+const char *ABIRTHDAY = "birthday";
+/**
+ * enumeration fro entryType
  */
 enum eventType {
-	E_NORMAL_EVENT= 0,
-	E_ALLDAY,
-	E_TASK,
-	E_BIRTHDAY
+    E_NORMAL_EVENT = 0,
+    E_ALLDAY,
+    E_TASK,
+    E_BIRTHDAY
 };
 
 /*constants used in CAlarm.cpp*/
@@ -69,7 +69,7 @@ const int OPEN_TASK_VIEW = 5;
 const int ALARM_ACTION_COUNT = 4;
 const int ALARM_ACTION_ONE = 1;
 const char *ALARM_ICON_PATH =
-"/usr/share/icons/hicolor/128x128/hildon/clock_calendar_alarm.png";
+    "/usr/share/icons/hicolor/128x128/hildon/clock_calendar_alarm.png";
 const int ALARM_ACTION_SNOOZE = 0;
 const int ALARM_ACTION_VIEW = 1;
 const int ALARM_ACTION_STOP = 2;

@@ -34,7 +34,7 @@
 
 class CTimezone_TS1 : public CppUnit::TestFixture
 {
-    CPPUNIT_TEST_SUITE( CTimezone_TS1 );
+    CPPUNIT_TEST_SUITE(CTimezone_TS1);
     CPPUNIT_TEST(test_guessInvalidTZ);
     CPPUNIT_TEST(test_guessZeroes);
     CPPUNIT_TEST(test_getByLocation_invalidLocation);

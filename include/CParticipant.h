@@ -33,13 +33,14 @@ using std::string;
  * CParticipant class
  * @brief This class has get/set API's for various participant parameters
  */
-class CParticipant {
+class CParticipant
+{
 
-  public:
+public:
 
     /**
      * @param string Language parameter
-     * @return bool indicates whether operation is successful or not 
+     * @return bool indicates whether operation is successful or not
      *
      * This function will be used to set the language parameter of participant
      */
@@ -47,7 +48,7 @@ class CParticipant {
 
     /**
      * @param string SentBy parameter
-     * @return bool indicates whether operation is successful or not 
+     * @return bool indicates whether operation is successful or not
      *
      * This function will be used to set the sentby parameter of participant
      */
@@ -55,7 +56,7 @@ class CParticipant {
 
     /**
      * @param string common-name parameter
-     * @return bool indicates whether operation is successful or not 
+     * @return bool indicates whether operation is successful or not
      *
      * This function will be used to set the common-name parameter of participant
      */
@@ -63,7 +64,7 @@ class CParticipant {
 
     /**
      * @param string szxParameters parameter
-     * @return bool indicates whether operation is successful or not 
+     * @return bool indicates whether operation is successful or not
      *
      * This function will be used to set the x-parameter of participant
      */
@@ -71,7 +72,7 @@ class CParticipant {
 
     /**
      * @param string cal-Address parameter
-     * @return bool indicates whether operation is successful or not 
+     * @return bool indicates whether operation is successful or not
      *
      * This function will be used to set the Cal-Address parameter of participant
      */
@@ -79,7 +80,7 @@ class CParticipant {
 
     /**
      * @param string directory name parameter
-     * @return bool indicates whether operation is successful or not 
+     * @return bool indicates whether operation is successful or not
      *
      * This function will be used to set the directory parameter of participant
      */
@@ -88,11 +89,11 @@ class CParticipant {
     /**
      * overloaded assignment operator
      */
-    const CParticipant & operator=(const CParticipant & right);
+    const CParticipant &operator=(const CParticipant &right);
 
     /**
      * @return string directory name parameter
-     * 
+     *
      * This function will be used to get the directory parameter of participant
      */
     string getDirectoryParameter();
@@ -100,7 +101,7 @@ class CParticipant {
     /**
      * @param none
      * @return string cal-Address parameter
-     * 
+     *
      * This function will be used to get the Cal-Address parameter of participant
      */
     string getCalAddress();
@@ -108,7 +109,7 @@ class CParticipant {
     /**
      * @param none
      * @return string X-parameter
-     * 
+     *
      * This function will be used to get the X-parameter of participant
      */
     string getXparameters();
@@ -116,15 +117,15 @@ class CParticipant {
     /**
      * @param none
      * @return string CommonName
-     * 
+     *
      * This function will be used to get the Common-name of participant
      */
     string getCommonName();
 
     /**
      * @param none
-     * @return string sentBy 
-     * 
+     * @return string sentBy
+     *
      * This function will be used to get the sentby of participant
      */
     string getSentBy();
@@ -132,13 +133,13 @@ class CParticipant {
     /**
      *  @param none
      *  @return string Language parameter
-     * 
+     *
      * This function will be used to get the language parameter of participant
      */
     string getLanguage();
     /**
      * @param string szMailTo
-     * @return none 
+     * @return none
      * Function used to set mailto parameter
      */
     void setMailTo(string szMailTo);
@@ -148,7 +149,7 @@ class CParticipant {
      * Function to retrieve MailTo from the class
      */
     string getMailTo();
-    
+
     /**
      *Parameterized  constructor for CParticipant
      */
@@ -163,7 +164,7 @@ class CParticipant {
     /**
      * copy Constructor
      */
-    CParticipant(CParticipant & Cparef);
+    CParticipant(CParticipant &Cparef);
 
     /**
      * destructor for CParticipant
@@ -173,9 +174,9 @@ class CParticipant {
      * toString
      */
     string toString();
-	
 
-  private:
+
+private:
 
     /* Parameters are defined as per RFC */
 

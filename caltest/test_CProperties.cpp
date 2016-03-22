@@ -35,85 +35,85 @@ CPPUNIT_TEST_SUITE_REGISTRATION(CProperties_TS1);
 CPPUNIT_TEST_SUITE_REGISTRATION(CProperties_TS2);
 void CProperties_TS1::setUp()
 {
-	pProp= new CProperties();
+    pProp = new CProperties();
 }
 void CProperties_TS1::tearDown()
 {
-	delete pProp;
-	pProp = NULL;
+    delete pProp;
+    pProp = NULL;
 }
 void CProperties_TS2::setUp()
 {
-	pProp= new CProperties();
+    pProp = new CProperties();
 }
 void CProperties_TS2::tearDown()
 {
-	delete pProp;
-	pProp = NULL;
+    delete pProp;
+    pProp = NULL;
 }
 
 void CProperties_TS1::test_copyConstructor()
 {
-	string szPropName = "SUMMARY";
-	pProp->setPropName("SUMMARY");
-	CProperties prop(*pProp);
-	CPPUNIT_ASSERT_MESSAGE("Error: copy constructor", pProp->getPropName() == prop.getPropName());
+    string szPropName = "SUMMARY";
+    pProp->setPropName("SUMMARY");
+    CProperties prop(*pProp);
+    CPPUNIT_ASSERT_MESSAGE("Error: copy constructor", pProp->getPropName() == prop.getPropName());
 }
 void CProperties_TS1::test_setPropName_Valid()
 {
-	string szPropName = "SUMMARY";
-	pProp->setPropName("SUMMARY");
+    string szPropName = "SUMMARY";
+    pProp->setPropName("SUMMARY");
 
-	CPPUNIT_ASSERT_MESSAGE("Error :setting propName",pProp->getPropName() == szPropName);
+    CPPUNIT_ASSERT_MESSAGE("Error :setting propName", pProp->getPropName() == szPropName);
 }
 void CProperties_TS1::test_setPropValue_ValidInt()
 {
-	PropType uType;
-	PropType uRetType;
-	uType.i = 10;
-	pProp->setPropValue(uType);
-	uRetType = pProp->getPropValue();
-	
-	CPPUNIT_ASSERT_MESSAGE("Error :setting propvalue", uRetType.i == 10);
+    PropType uType;
+    PropType uRetType;
+    uType.i = 10;
+    pProp->setPropValue(uType);
+    uRetType = pProp->getPropValue();
+
+    CPPUNIT_ASSERT_MESSAGE("Error :setting propvalue", uRetType.i == 10);
 }
 void CProperties_TS1::test_setPropValue_ValidString()
 {
-	PropType uType;
-	PropType uRetType;
-	uType.szString = "STRING TYPE";
-	pProp->setPropValue(uType);
-	uRetType = pProp->getPropValue();
-	
-	CPPUNIT_ASSERT_MESSAGE("Error :setting propvalue", uRetType.szString == "STRING TYPE");
+    PropType uType;
+    PropType uRetType;
+    uType.szString = "STRING TYPE";
+    pProp->setPropValue(uType);
+    uRetType = pProp->getPropValue();
+
+    CPPUNIT_ASSERT_MESSAGE("Error :setting propvalue", uRetType.szString == "STRING TYPE");
 }
 void CProperties_TS1::test_getDataType_Valid()
 {
-	string szProp = "SUMMARY";
-	CPPUNIT_ASSERT_MESSAGE("Error :getting property data type", pProp->getDataType(szProp) == 0);
-	szProp = "DESCRIPTION";
-	CPPUNIT_ASSERT_MESSAGE("Error :getting property data type", pProp->getDataType(szProp) == 0);
+    string szProp = "SUMMARY";
+    CPPUNIT_ASSERT_MESSAGE("Error :getting property data type", pProp->getDataType(szProp) == 0);
+    szProp = "DESCRIPTION";
+    CPPUNIT_ASSERT_MESSAGE("Error :getting property data type", pProp->getDataType(szProp) == 0);
 }
 void CProperties_TS1::test_getDataType_ValidX()
 {
-	string szProp = "X-ABC";
-	CPPUNIT_ASSERT_MESSAGE("Error :getting property data type", pProp->getDataType(szProp) == 0);
+    string szProp = "X-ABC";
+    CPPUNIT_ASSERT_MESSAGE("Error :getting property data type", pProp->getDataType(szProp) == 0);
 }
 void CProperties_TS1::test_getDataType_InValid()
 {
-	string szProp = "ABC";
-	CPPUNIT_ASSERT_MESSAGE("Error :getting property data type", pProp->getDataType(szProp) == 4);
+    string szProp = "ABC";
+    CPPUNIT_ASSERT_MESSAGE("Error :getting property data type", pProp->getDataType(szProp) == 4);
 }
 
 void CProperties_TS2::test_toString()
 {
-	pProp->setPropName("SUMMARY");
-	cout<<pProp->toString();
+    pProp->setPropName("SUMMARY");
+    cout << pProp->toString();
 
 }
 void CProperties_TS2::test_toString_NULL()
 {
-	pProp->setPropName("");
-	
-	cout<<pProp->toString();
+    pProp->setPropName("");
+
+    cout << pProp->toString();
 }
 

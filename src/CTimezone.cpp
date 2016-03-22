@@ -33,7 +33,7 @@
 #include <vector>
 
 CTimezone::CTimezone():
-    StartStd(0),StartDst(0),OffsetStd(0),OffsetDst(0),haveDst(false)
+    StartStd(0), StartDst(0), OffsetStd(0), OffsetDst(0), haveDst(false)
 {
 };
 
@@ -67,47 +67,48 @@ CTimezone::~CTimezone()
 #define _GET_INTEGER_FROM_SQLRESULT(INT, SQLRESULT)          \
                 INT = SQLRESULT ? atoi(SQLRESULT) : 0;
 
-CTimezone * CTimezone::guessTimeZone(time_t StartStd,
-                                     time_t StartDst,
-                                     time_t OffsetStd,
-                                     time_t OffsetDst,
-                                     std::string RuleStd,
-                                     std::string RuleDst,
-                                     bool haveDst,
-                                     int &pErrorCode)
+CTimezone *CTimezone::guessTimeZone(time_t StartStd,
+                                    time_t StartDst,
+                                    time_t OffsetStd,
+                                    time_t OffsetDst,
+                                    std::string RuleStd,
+                                    std::string RuleDst,
+                                    bool haveDst,
+                                    int &pErrorCode)
 {
     CTimezone *pTimeZone = 0;
 
     char *pQuery = 0;
 
-    pErrorCode = CALENDAR_SYSTEM_ERROR; // We don't know what will happen. Let be pessimists... 
+    pErrorCode = CALENDAR_SYSTEM_ERROR; // We don't know what will happen. Let be pessimists...
 
     /*
      * Prepare query
      */
-    if (haveDst) {
+    if(haveDst) {
         // TODO move query to DbCalls.h
         pQuery = sqlite3_mprintf("SELECT * from TIMEZONE WHERE DSTFlag=1 "
-                                "AND DtStartStd=%ld "
-                                "AND DtStartDst=%ld "
-                                "AND TzOffsetStd=%ld "
-                                "AND TzOffsetDst=%ld "
-                                "AND RRuleStd='%s' "
-                                "AND RRuleDst='%s'"
-                                "LIMIT 1 ",
-                                (long)StartStd,
-                                (long)StartDst,
-                                (long)OffsetStd,
-                                (long)OffsetDst,
-                                RuleStd.c_str(),
-                                RuleDst.c_str());
-    } else {
+                                 "AND DtStartStd=%ld "
+                                 "AND DtStartDst=%ld "
+                                 "AND TzOffsetStd=%ld "
+                                 "AND TzOffsetDst=%ld "
+                                 "AND RRuleStd='%s' "
+                                 "AND RRuleDst='%s'"
+                                 "LIMIT 1 ",
+                                 (long)StartStd,
+                                 (long)StartDst,
+                                 (long)OffsetStd,
+                                 (long)OffsetDst,
+                                 RuleStd.c_str(),
+                                 RuleDst.c_str());
+    }
+    else {
         // TODO move query to DbCalls.h
         // Query timezone with fixed offset
         pQuery = sqlite3_mprintf("SELECT * from TIMEZONE WHERE DSTFlag=0 AND TzOffsetStd=%ld LIMIT 1", (long)OffsetStd);
     }
 
-    if (!pQuery) {
+    if(!pQuery) {
         CAL_ERROR_LOG("Failed to allocate SQL query");
         return 0;
     }
@@ -126,25 +127,25 @@ std::string CTimezone::toString()
     std::stringstream  s;
 
     s << "Location=" << Location
-        << "#ID=" << Id
-        << "#StartStd=" << StartStd << " (" << ctime(&StartStd) << ")"
-        << "#StartDst=" << StartDst << " (" << ctime(&StartDst) << ")"
-        << "#OffsetStd=" << OffsetStd
-        << "#OffsetDst=" << OffsetStd
-        << "#RuleStd=" << RuleStd
-        << "#RuleDst=" << RuleDst
-        << "#TzName=" << Name
-        << "#DSTFlag" << haveDst;
+      << "#ID=" << Id
+      << "#StartStd=" << StartStd << " (" << ctime(&StartStd) << ")"
+      << "#StartDst=" << StartDst << " (" << ctime(&StartDst) << ")"
+      << "#OffsetStd=" << OffsetStd
+      << "#OffsetDst=" << OffsetStd
+      << "#RuleStd=" << RuleStd
+      << "#RuleDst=" << RuleDst
+      << "#TzName=" << Name
+      << "#DSTFlag" << haveDst;
 
     return s.str();
 }
 
-const std::string & CTimezone::getLocation() const
+const std::string &CTimezone::getLocation() const
 {
     return Location;
 }
 
-const std::string & CTimezone::getId() const
+const std::string &CTimezone::getId() const
 {
     return Id;
 }
@@ -169,17 +170,17 @@ time_t CTimezone::getOffsetDst() const
     return OffsetDst;
 }
 
-const std::string & CTimezone::getRuleStd() const
+const std::string &CTimezone::getRuleStd() const
 {
     return RuleStd;
 }
 
-const std::string & CTimezone::getRuleDst() const
+const std::string &CTimezone::getRuleDst() const
 {
     return RuleDst;
 }
 
-const std::string & CTimezone::getName() const
+const std::string &CTimezone::getName() const
 {
     return Name;
 }
@@ -190,7 +191,7 @@ bool CTimezone::getHaveDst() const
 }
 
 
-CTimezone* CTimezone::createFromSqlQuery(char *pSqlQuery, int &pErrorCode)
+CTimezone *CTimezone::createFromSqlQuery(char *pSqlQuery, int &pErrorCode)
 {
     int iSqliteError;
 
@@ -203,9 +204,9 @@ CTimezone* CTimezone::createFromSqlQuery(char *pSqlQuery, int &pErrorCode)
 
     CAL_DEBUG_LOG("SQL=%s", pSqlQuery);
 
-    pErrorCode = CALENDAR_SYSTEM_ERROR; // We don't know what will happen. Let be pessimists... 
+    pErrorCode = CALENDAR_SYSTEM_ERROR; // We don't know what will happen. Let be pessimists...
 
-    if (!pDb) {
+    if(!pDb) {
         pErrorCode = CALENDAR_DATABASE_ERROR;
         CAL_ERROR_LOG("Failed to get DB instance");
         return 0;
@@ -214,42 +215,45 @@ CTimezone* CTimezone::createFromSqlQuery(char *pSqlQuery, int &pErrorCode)
     pQr = pDb->getRecords(pSqlQuery, iSqliteError);
     pDb->sqliteErrorMapper(iSqliteError, pErrorCode);
 
-    if (pQr) {
+    if(pQr) {
         // Fill run-time data from query
         CAL_DEBUG_LOG("SQL result:  %d row(s), %d column(s), data=%p", pQr->iRow, pQr->iColumn, pQr->pResult);
 
-        if (pQr->iColumn == 10) { // Check fields number
+        if(pQr->iColumn == 10) {  // Check fields number
             char **data = pQr->pResult + pQr->iColumn; // set pointer to first data (e.i. skip column  names)
 
             pTimeZone = createFromSqlData(data);
 
-            if (pTimeZone) {
+            if(pTimeZone) {
                 CAL_DEBUG_LOG("Got timezone: %s", pTimeZone->toString().c_str());
                 pErrorCode = CALENDAR_OPERATION_SUCCESSFUL;
-            } else {
+            }
+            else {
                 CAL_ERROR_LOG("Failed to allocate CTimezone query");
                 pErrorCode = CALENDAR_SYSTEM_ERROR;
             }
-        } else {
+        }
+        else {
             CAL_ERROR_LOG("SQL Result have unexpected number of fileds (%d)", pQr->iColumn);
             pErrorCode = CALENDAR_DATABASE_ERROR;
         }
+
         sqlite3_free_table(pQr->pResult);
         delete pQr;
         pQr = 0;
-    } else {
+    }
+    else {
         CAL_DEBUG_LOG("Got empty SQL result");
     }
 
     return pTimeZone;
 }
 
-CTimezone* CTimezone::createFromSqlData(char ** pSqlData)
+CTimezone *CTimezone::createFromSqlData(char **pSqlData)
 {
-    CTimezone *pTimeZone = new (nothrow) CTimezone;
+    CTimezone *pTimeZone = new(nothrow) CTimezone;
 
-    if (pTimeZone)
-    {
+    if(pTimeZone) {
         GET_TEXT_FROM_SQLRESULT(pTimeZone->Location, pSqlData[0]);        // Location TEXT
         GET_TEXT_FROM_SQLRESULT(pTimeZone->Id, pSqlData[1]);              // TzId TEXT
         GET_INTEGER_FROM_SQLRESULT(pTimeZone->StartStd, pSqlData[2])      // DtStartStd INTEGER
@@ -265,7 +269,7 @@ CTimezone* CTimezone::createFromSqlData(char ** pSqlData)
     return pTimeZone;
 }
 
-CTimezone * CTimezone::getByLocation(std::string Location, int &pErrorCode)
+CTimezone *CTimezone::getByLocation(std::string Location, int &pErrorCode)
 {
     CTimezone *pTimeZone = 0;
 
@@ -273,8 +277,7 @@ CTimezone * CTimezone::getByLocation(std::string Location, int &pErrorCode)
 
     pErrorCode = CALENDAR_SYSTEM_ERROR;
 
-    if (pQuery)
-    {
+    if(pQuery) {
         pTimeZone = createFromSqlQuery(pQuery, pErrorCode);
 
         sqlite3_free(pQuery);
@@ -293,73 +296,77 @@ string CTimezone::getLocation(int offsetstd, bool dstflag, time_t dstoffset, std
     int pErrorCode = CALENDAR_OPERATION_SUCCESSFUL;
     string szRet;
     std::vector <time_t> listtime ;
-    std::string szRuleFromStart,szRuleFromEnd;
+    std::string szRuleFromStart, szRuleFromEnd;
 
     pDb = CCalendarDB::Instance();
-    if (pDb == 0) {
+
+    if(pDb == 0) {
         CAL_ERROR_LOG("Failed to get DB instance");
         pErrorCode = CALENDAR_APP_ERROR;
         return szRet;
     }
 
     /* checks to see if daylight information is consistent in VCAL component*/
-    if ((dstflag  == false &&  !szDaylight.empty()) ||
-        (dstflag == true && szDaylight.empty())) {
+    if((dstflag  == false &&  !szDaylight.empty()) ||
+            (dstflag == true && szDaylight.empty())) {
         CAL_DEBUG_LOG("Invalid timezone information "
                       "Adding event in local timezone");
         return szRet;
     }
 
-    if (szDaylight.find("!") != std::string::npos)
-    {
-         szRuleFromStart = szDaylight.substr (szDaylight.find("!")+1);
-         szRuleFromEnd = szDaylight.substr(0,szDaylight.find("!"));
-         CAL_DEBUG_LOG("Repeat search strings are %s and %s", 
-                         szRuleFromStart.c_str(),szRuleFromEnd.c_str());
+    if(szDaylight.find("!") != std::string::npos) {
+        szRuleFromStart = szDaylight.substr(szDaylight.find("!") + 1);
+        szRuleFromEnd = szDaylight.substr(0, szDaylight.find("!"));
+        CAL_DEBUG_LOG("Repeat search strings are %s and %s",
+                      szRuleFromStart.c_str(), szRuleFromEnd.c_str());
     }
 
-    if (dstflag){
+    if(dstflag) {
         if(!szRuleFromStart.empty() && !szRuleFromEnd.empty()) {
-            pQuery = sqlite3_mprintf(SELECT_LOCATION_FROM_OFFSET_WITH_DST,TIMEZONE_FIELD_DSTFLAG,
-                        dstflag,TIMEZONE_FIELD_TZOFFSTD,offsetstd,TIMEZONE_FIELD_TZOFFDST,
-                        dstoffset,TIMEZONE_FIELD_RRULEDST,szRuleFromStart.c_str(),
-                        TIMEZONE_FIELD_RRULEDST, szRuleFromEnd.c_str());
-        } else {
-            pQuery = sqlite3_mprintf(SELECT_LOCATION_FROM_OFFSET,TIMEZONE_FIELD_DSTFLAG,
-                        dstflag,TIMEZONE_FIELD_TZOFFSTD,offsetstd,TIMEZONE_FIELD_TZOFFDST,
-                        dstoffset);
+            pQuery = sqlite3_mprintf(SELECT_LOCATION_FROM_OFFSET_WITH_DST, TIMEZONE_FIELD_DSTFLAG,
+                                     dstflag, TIMEZONE_FIELD_TZOFFSTD, offsetstd, TIMEZONE_FIELD_TZOFFDST,
+                                     dstoffset, TIMEZONE_FIELD_RRULEDST, szRuleFromStart.c_str(),
+                                     TIMEZONE_FIELD_RRULEDST, szRuleFromEnd.c_str());
         }
-    } else {
-        pQuery = sqlite3_mprintf(SELECT_LOCATION_FROM_OFFSET,TIMEZONE_FIELD_DSTFLAG,
-                        dstflag,TIMEZONE_FIELD_TZOFFSTD,offsetstd,TIMEZONE_FIELD_TZOFFDST,
-                        dstoffset);
+        else {
+            pQuery = sqlite3_mprintf(SELECT_LOCATION_FROM_OFFSET, TIMEZONE_FIELD_DSTFLAG,
+                                     dstflag, TIMEZONE_FIELD_TZOFFSTD, offsetstd, TIMEZONE_FIELD_TZOFFDST,
+                                     dstoffset);
+        }
+    }
+    else {
+        pQuery = sqlite3_mprintf(SELECT_LOCATION_FROM_OFFSET, TIMEZONE_FIELD_DSTFLAG,
+                                 dstflag, TIMEZONE_FIELD_TZOFFSTD, offsetstd, TIMEZONE_FIELD_TZOFFDST,
+                                 dstoffset);
     }
 
-    CAL_DEBUG_LOG("Query: %s",pQuery);
+    CAL_DEBUG_LOG("Query: %s", pQuery);
     ASSERTION(pQuery);
 
-    pQr = pDb->getRecords(pQuery,iSqliteError);
-    pDb->sqliteErrorMapper(iSqliteError,pErrorCode);
+    pQr = pDb->getRecords(pQuery, iSqliteError);
+    pDb->sqliteErrorMapper(iSqliteError, pErrorCode);
     sqlite3_free(pQuery);
 
     if(pErrorCode == CALENDAR_OPERATION_SUCCESSFUL) {
-        if (pQr != 0) {
-            if (pQr->pResult[1]) {
+        if(pQr != 0) {
+            if(pQr->pResult[1]) {
                 szRet = pQr->pResult[1];
-            } else {
+            }
+            else {
                 CAL_ERROR_LOG("Got NULL value as Location for offset std %d and dstflag %d", offsetstd, dstflag);
             }
-        } else {
+        }
+        else {
             CAL_ERROR_LOG("Timezone not found with the input details:"
-                            "offset std %d and dstflag %d", offsetstd, dstflag);
+                          "offset std %d and dstflag %d", offsetstd, dstflag);
         }
 
-    } else {
+    }
+    else {
         CAL_ERROR_LOG("Error occured while reading TIMEZONE table ErrorCode is %d", pErrorCode);
     }
 
-    if (pQr != 0 &&  pQr->pResult != 0)
-    {
+    if(pQr != 0 &&  pQr->pResult != 0) {
         sqlite3_free_table(pQr->pResult);
     }
 

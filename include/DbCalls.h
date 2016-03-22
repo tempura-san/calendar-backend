@@ -314,7 +314,7 @@
 #define SELECT_ACTIVE_ALARM "select Id from Alarm where Id in (select Id from components where calendarid = %d) AND CookieId != \"%s\" AND  Trigger >= %d "
 #define SELECT_VISIBLE_ALARM "select Id from Alarm where Id in (select Id from components where calendarid = %d) AND CookieId = \"%s\" AND  Trigger >= %d "
 #define SELECT_ALL_ENTRIES "select * from %s where %s = %d AND %s=%d LIMIT %d OFFSET %d"
-#define SELECT_RECURSIVE_FUTURE_INSTANCE "select * from components where (Flags = %d OR Flags = %d) AND (Until >= %d OR Until = %d)  AND (calendarId in (select calendarid from calendars where IsVisible =1 ))"	
+#define SELECT_RECURSIVE_FUTURE_INSTANCE "select * from components where (Flags = %d OR Flags = %d) AND (Until >= %d OR Until = %d)  AND (calendarId in (select calendarid from calendars where IsVisible =1 ))"
 #define SELECT_RECURSIVE_PREVIOUS_INSTANCE "select * from components where (Flags = %d OR Flags = %d) AND datestart <= %d  AND (calendarId in (select calendarid from calendars where IsVisible =1 ))"
 #define SELECT_EVENTS_TODOS_OFFSET_LIMIT_UNION "select * from %s where %s = %d AND (%s = %d AND %s < %d AND %s >= %d) AND (%s != %d AND %s != %d)  union select * from %s where %s = %d AND  ((%s = %d OR allday = 1) AND (%s + %s) >= %d AND (%s + %s) <= %d) AND  (%s != %d AND %s != %d) union select * from %s where %s = %d AND %s = %d AND (%s = %d OR %s = %d) AND allday = 0 AND (%d <= %s OR %d = %s) union select * from %s where %s = %d AND (%s = %d OR %s=%d)  AND (%s = %d OR %s = %d) AND allday = 1 AND (%d <= (\"%s\" + \"%s\") OR %d = %s) LIMIT %d OFFSET %d"
 #define GET_EXPIRED_NONRECURSIVE_EVENTS   "select %s from components where %s= %d and %s= %d and  %s < %d and ( %s != %d AND %s!=%d) "
@@ -341,7 +341,7 @@
     delete from Instances where Instances.Id=OLD.Id; \
     delete from Birthdays where Birthdays.Id=OLD.Id; \
     end "
-#define DROP_TRIGGER "DROP TRIGGER  delete_component" 
+#define DROP_TRIGGER "DROP TRIGGER  delete_component"
 
 #define COUNT_NONRECURSIVECOMPONENT "select COUNT(id) from %s where id in (select id from components where \
             componenttype=1 AND dateEnd < %d AND (Flags !=3 AND Flags !=5 ) union select id from components \
@@ -350,18 +350,18 @@
 #define SELECT_ID_CALENDARID_FROM_NONRECURSIVECOMPONENT \
         "select Id,CalendarId from components where componenttype = 1 AND dateEnd < %d AND (Flags !=3 AND Flags !=5 ) \
          union \
-         select Id,CalendarId from components where componenttype = 2 AND status = 1 AND dateStart < %d LIMIT %d" 
+         select Id,CalendarId from components where componenttype = 2 AND status = 1 AND dateStart < %d LIMIT %d"
 
 #define DELETION_NONRECURSIVECOMPONENT "delete from components where id in (select id from components where id in (select id from components where componenttype=1 AND dateEnd < ? AND (Flags !=3 AND Flags !=5 ) union select id from components where componenttype = 2 AND status = 1 AND dateStart < ?) ORDER BY dateStart DESC LIMIT ?)"
 
 #define DELETE_GROUP_ID "delete from Components where id in ("
 #define GET_EXPIRED_RECURSIVE_EVENTS_COUNT   "select COUNT(*) from components where %s= %d and %s= %d and  ( %s = %d OR %s=%d)"
- 
+
 #define SELECT_INNER_JOIN_BATCH "select * from components left join componentdetails on components.Id = componentdetails.Id Left Join alarm on components.Id = alarm.Id Left Join Recursive on components.Id = Recursive.Id where Calendarid = %d AND Components.ComponentType = %d"
 #define SELECT_TAB_COND_AND2    "select * from %s where %s = \"%s\" "
 #define SELECT_BIRTHDAY_COUNT "select COUNT(*) from components where componentType = 4 AND dateStart =%d"
 
-#define  SELECT_ALL_CALCOMP__UNION "select * from %s where ((%s = %d  AND %s < %d AND %s >= %d) OR ( %s = %d AND %s >= %d AND %s <= %d )) AND  (%s != %d AND %s != %d) AND calendarId in (select calendarid from calendars where IsVisible =1 ) union select * from %s where (%s = %d OR %s=%d)  AND (%s = %d OR %s = %d) AND (%d < %s OR %d = %s) AND calendarId in (select calendarid from calendars where IsVisible =1)  ORDER BY CalendarId LIMIT %d OFFSET %d " 
+#define  SELECT_ALL_CALCOMP__UNION "select * from %s where ((%s = %d  AND %s < %d AND %s >= %d) OR ( %s = %d AND %s >= %d AND %s <= %d )) AND  (%s != %d AND %s != %d) AND calendarId in (select calendarid from calendars where IsVisible =1 ) union select * from %s where (%s = %d OR %s=%d)  AND (%s = %d OR %s = %d) AND (%d < %s OR %d = %s) AND calendarId in (select calendarid from calendars where IsVisible =1)  ORDER BY CalendarId LIMIT %d OFFSET %d "
 
 #define SELECT_ALL_IN_INTERVAL_BY_INSTANCES "select * from components where (%s = %d  OR %s = %d OR %s = %d) AND Id IN (select DISTINCT Id from Instances where  DateEnd >= %d and DateStart <= %d ) AND calendarId in (select calendarid from calendars where IsVisible =1)  ORDER BY CalendarId LIMIT %d OFFSET %d "
 
@@ -374,8 +374,8 @@
 #define UPDATE_UNTIL "update components set until = %d where Id = %d"
 #define SELECT_ALL_CALCOMP__UNION_NORMAL "select * from %s where ((%s = %d  AND %s < %d AND %s >= %d) OR ( %s = %d AND %s >= %d AND %s <= %d )) AND  (%s != %d AND %s != %d) AND calendarId in (select calendarid from calendars where IsVisible =1 ) ORDER BY CalendarId LIMIT %d OFFSET %d "
 #define SELECT_ALL_CALCOMP__UNION_RECURSIVE "select * from %s where (%s = %d OR %s=%d)  AND (%s = %d OR %s = %d) AND (%d < %s OR %d = %s) AND calendarId in (select calendarid from calendars where IsVisible =1)  ORDER BY CalendarId LIMIT %d OFFSET %d "
-#define CHECK_PREV_VISIBLE_EVENT "select * from components where  componenttype = 1 and   datestart <= %d and id != %q and calendarId in (select calendarid from calendars where IsVisible =1 )  ORDER BY DateStart ,Summary,CreatedTime LIMIT 1 OFFSET 0 "   
-#define CHECK_NEXT_VISIBLE_EVENT "select * from components where  componenttype = 1 and  (datestart >= %d   OR until >= %d) and Id!= %q AND  calendarId in (select calendarid from calendars where IsVisible =1) ORDER BY DateStart ,Summary,CreatedTime LIMIT 1 OFFSET 0"   
+#define CHECK_PREV_VISIBLE_EVENT "select * from components where  componenttype = 1 and   datestart <= %d and id != %q and calendarId in (select calendarid from calendars where IsVisible =1 )  ORDER BY DateStart ,Summary,CreatedTime LIMIT 1 OFFSET 0 "
+#define CHECK_NEXT_VISIBLE_EVENT "select * from components where  componenttype = 1 and  (datestart >= %d   OR until >= %d) and Id!= %q AND  calendarId in (select calendarid from calendars where IsVisible =1) ORDER BY DateStart ,Summary,CreatedTime LIMIT 1 OFFSET 0"
 #define SELECT_REPEAT_EVENT_UNTIL_MINUSONE  "select * from components where componenttype =1 and (flags = %d OR flags = %d) and until =-1 AND  calendarId in (select calendarid from calendars where IsVisible =1) ORDER BY DateStart ,Summary,CreatedTime"
 
 #define GET_IDS_FROM_COMPONENTS_FOR_CALENDAR "select Id from Components where CalendarId=%d"

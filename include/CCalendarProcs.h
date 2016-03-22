@@ -43,18 +43,18 @@ public:
     void dropInstances(int CompId, int &Error);
 
     /**
-     * 
-     * @param CompId 
-     * @param InstanceTimes 
-     * @param Error 
+     *
+     * @param CompId
+     * @param InstanceTimes
+     * @param Error
      */
     void updateInstances(int CompId, const std::vector<time_t> &InstanceTimes, int &Error);
 
     /**
-     * 
-     * @param CompId 
-     * @param InstanceTimes 
-     * @param Error 
+     *
+     * @param CompId
+     * @param InstanceTimes
+     * @param Error
      */
     void getInstances(int CompId, std::vector<time_t> &InstanceTimes, int &Error);
 
@@ -100,7 +100,7 @@ public:
      * @param CompIds vector of pointers to CBdayEvent
      * @return error code
      */
-    int getBDays(time_t iStart, time_t iEnd, std::vector<CBdayEvent*> &Comps);
+    int getBDays(time_t iStart, time_t iEnd, std::vector<CBdayEvent *> &Comps);
 
     /**
      * Creates CEvent from single row of Components table
@@ -114,30 +114,30 @@ public:
     * @param iStDate start date to do conditional fetching based on start date. -1 in case of no conditions
     * @param iEndDate end date to do conditional fetching based on end date. -1 in case of no conditions
     * @param iLimit Max limit of components to be obtanined by this function call
-    * @param iOffset offset from which we need to fetch 
+    * @param iOffset offset from which we need to fetch
     * @param vComponents Vector for CComponent. If pErrorCode equals to CALENDAR_OPERATION_SUCCESSFUL,
     *           but vector is empty, no component (from offset to limit) meets the conditions,
     *           continue fetching
     * @param iQueryType query type
-    *           value 1 - Indicates simple events and tasks 
-    *           value 2 - indicates Repeating events 
+    *           value 1 - Indicates simple events and tasks
+    *           value 2 - indicates Repeating events
     *           Any other value fetches all ( repeating events , non repeating events and tasks)
     *           Default value is 0.
     * @return error code
     *          CALENDAR_OPERATION_SUCCESSFUL- fetching is successful and can be continued;
     *          CALENDAR_FETCH_NOITEMS- fetching is finished (no more items found in DB);
     *          other error code- fetching is failed.
-    * 
-    * This function is overloaded API for fetching entries for all calendars at a time progressively 
+    *
+    * This function is overloaded API for fetching entries for all calendars at a time progressively
     */
-    int getComponentsAllCalendars( int iStDate, int iEndDate,
-            int iLimit,int iOffset, vector<CComponent*> &vComponents, int iQueryType=0);
+    int getComponentsAllCalendars(int iStDate, int iEndDate,
+                                  int iLimit, int iOffset, vector<CComponent *> &vComponents, int iQueryType = 0);
 
     /**
-    * @param sSummary text for finding in summary of components 
+    * @param sSummary text for finding in summary of components
     *                 (should be specified in format of SQL LIKE operator)
     * @param iLimit Max limit of components to be obtanined by this function call
-    * @param iOffset offset from which we need to fetch 
+    * @param iOffset offset from which we need to fetch
     * @param vComponents Vector for CComponent. If pErrorCode equals to CALENDAR_OPERATION_SUCCESSFUL,
     *           but vector is empty, no component (from offset to limit) meets the conditions,
     *           continue fetching
@@ -145,12 +145,12 @@ public:
     *          CALENDAR_OPERATION_SUCCESSFUL- fetching is successful and can be continued;
     *          CALENDAR_FETCH_NOITEMS- fetching is finished (no more items found in DB);
     *          other error code- fetching is failed.
-    * 
-    * This function is overloaded API for fetching entries for all calendars 
+    *
+    * This function is overloaded API for fetching entries for all calendars
     * with specified word in summary.
     */
-    int getComponentsAllCalendarsBySummary(std::string sSummary, int iLimit,int iOffset, 
-            vector<CComponent*> &vComponents);
+    int getComponentsAllCalendarsBySummary(std::string sSummary, int iLimit, int iOffset,
+                                           vector<CComponent *> &vComponents);
 private:
     CCalendarDB *m_pDb;
 

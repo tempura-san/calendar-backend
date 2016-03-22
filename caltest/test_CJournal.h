@@ -34,31 +34,31 @@
 
 class CJournal_TS1 : public CppUnit::TestFixture
 {
-	CPPUNIT_TEST_SUITE( CJournal_TS1 );
-	CPPUNIT_TEST_SUITE_END();
-	public:
+    CPPUNIT_TEST_SUITE(CJournal_TS1);
+    CPPUNIT_TEST_SUITE_END();
+public:
 };
 
 class ValidCJournalConstructorTestCase : public CppUnit::TestFixture
 {
-        public:
-             CJournal* p;
-             void setUp();
-             void tearDown();
-             void test_validCJournalConstructor();
+public:
+    CJournal *p;
+    void setUp();
+    void tearDown();
+    void test_validCJournalConstructor();
 
 };
 
 class CJournal_TS2 : public CppUnit::TestFixture
 {
-	CPPUNIT_TEST_SUITE( CJournal_TS2 );
-	CPPUNIT_TEST(test_toString);
-	CPPUNIT_TEST(test_toString_NULL);
-	CPPUNIT_TEST(test_toString_flags);
-	CPPUNIT_TEST_SUITE_END();
-	public:
-	CJournal* p;
-	void setUp();
+    CPPUNIT_TEST_SUITE(CJournal_TS2);
+    CPPUNIT_TEST(test_toString);
+    CPPUNIT_TEST(test_toString_NULL);
+    CPPUNIT_TEST(test_toString_flags);
+    CPPUNIT_TEST_SUITE_END();
+public:
+    CJournal *p;
+    void setUp();
     void tearDown();
     void test_toString();
     void test_toString_NULL();

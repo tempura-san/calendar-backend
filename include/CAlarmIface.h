@@ -37,9 +37,10 @@ using std::string;
  * @brief This is a  pure Abstract class
  */
 
-class CAlarmIface{
+class CAlarmIface
+{
 
-  public:
+public:
 
     /**
      * addAlarmEvent
@@ -54,14 +55,14 @@ class CAlarmIface{
      * @param iCalendarId Calendar Id
      * @param szDescription component Id
      * @param iType  component Type
-     * @param pErrorCode reference to error code 
-     * 
+     * @param pErrorCode reference to error code
+     *
      * @return long Alarm cookie value
      */
     virtual long addAlarmEvent(time_t event_time, string message,
-                   string location, time_t dateStart,
-                   time_t dateEnd, string compId, int iCalendarId,
-                   string szDescription,int iType,bool allday,string szZone,int& pErrorCode) = 0;
+                               string location, time_t dateStart,
+                               time_t dateEnd, string compId, int iCalendarId,
+                               string szDescription, int iType, bool allday, string szZone, int &pErrorCode) = 0;
 
 
     /**
@@ -69,11 +70,11 @@ class CAlarmIface{
      * Function to delete the alarm event
      *
      * @param long Alarm cookie value
-     * @param pErrorCode reference to Error code 
-     * 
+     * @param pErrorCode reference to Error code
+     *
      * @return int Return value for delete alarm event
      */
-    virtual int deleteAlarmEvent(long cookie,int& pErrorCode)= 0;
+    virtual int deleteAlarmEvent(long cookie, int &pErrorCode) = 0;
 
     /**
      * modifyAlarmEvent
@@ -87,17 +88,17 @@ class CAlarmIface{
      * @param iCalendarId Calendar Id string
      * @param szDescription  description
      * @param iType  component Type
-     * @param pErrorCode reference to error code 
+     * @param pErrorCode reference to error code
      *
      * @return long New Alarm cookie value
      *
      * Function to modify the alarm event
      */
     virtual long modifyAlarmEvent(long oldcookie, time_t modify_time,
-                  string message, string location, time_t dateStart,
-                  time_t dateEnd, string sCompId, int iCalendarId,
-                  string szDescription,int iType,bool allday,string szZone,
-		  int& pErrorCode)= 0;
+                                  string message, string location, time_t dateStart,
+                                  time_t dateEnd, string sCompId, int iCalendarId,
+                                  string szDescription, int iType, bool allday, string szZone,
+                                  int &pErrorCode) = 0;
     /* default constructor */
     CAlarmIface();
     /* virtual destructor */

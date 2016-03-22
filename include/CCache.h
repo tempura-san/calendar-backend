@@ -29,14 +29,15 @@
 
 using namespace std;
 using std::vector;
-class CCache {
+class CCache
+{
 
-  public:
+public:
 
     /**
      * CCache()
      * This is the defult constructor for CComponent class  */
-     CCache();
+    CCache();
 
 
     /**
@@ -57,7 +58,7 @@ class CCache {
      * This function gives the list of Event/ToDo Ids
      * pertaining to a certain date
      */
-     vector <string> getCacheIds();
+    vector <string> getCacheIds();
 
     /**
      * @param None
@@ -65,7 +66,7 @@ class CCache {
      *
      * This function gives the start date of Event/ToDo
      */
-     time_t getCacheStartDate();
+    time_t getCacheStartDate();
 
 
     /**
@@ -74,7 +75,7 @@ class CCache {
      *
      * This function is used to set start date
      */
-     void setCacheStartDate(time_t startDate);
+    void setCacheStartDate(time_t startDate);
 
     /**
      * @param vector of strings containing the Ids
@@ -82,15 +83,15 @@ class CCache {
      *
      * This function is used to set Ids
      */
-     void setCacheIds(vector <string> vList);
+    void setCacheIds(vector <string> vList);
 
-     /** 
-      * function used to get the Ids in 
-      * comma seperated string 
-      */
-     string getCommaSeperatedIdString();
+    /**
+     * function used to get the Ids in
+     * comma seperated string
+     */
+    string getCommaSeperatedIdString();
 
-  private:
+private:
 
     time_t iStartDate;
     vector <string> vListId;

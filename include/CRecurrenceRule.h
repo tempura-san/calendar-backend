@@ -33,7 +33,7 @@ using std::string;
 using std::vector;
 
 /* Enum definitions */
-enum FREQUENCY{
+enum FREQUENCY {
 
     SECONDLY_RECURRENCE = 0,
     MINUTELY_RECURRENCE = 1,
@@ -64,22 +64,23 @@ typedef enum {
  * CRecurrenceRule class
  * @brief This class contains the information about Recurrence rule for particular component
  */
-class CRecurrenceRule {
+class CRecurrenceRule
+{
 
-  public:
+public:
 
     /**
-     * Copy Constructor 
+     * Copy Constructor
      */
-    CRecurrenceRule(CRecurrenceRule & ref);
+    CRecurrenceRule(CRecurrenceRule &ref);
 
     /**
      * overloaded assignment operator
      */
-    CRecurrenceRule & operator=(CRecurrenceRule & right);
+    CRecurrenceRule &operator=(CRecurrenceRule &right);
 
     /**
-     * Default constructor 
+     * Default constructor
      */
     CRecurrenceRule();
 
@@ -90,9 +91,9 @@ class CRecurrenceRule {
 
     /**
      * setRuleType
-     * @param RuleType  type of recurrence rule 0 - RecurrenceRule ;1 -Exception Rule 
+     * @param RuleType  type of recurrence rule 0 - RecurrenceRule ;1 -Exception Rule
      * @return boolean
-     *     
+     *
      *function used to decide the rule type
      */
     bool setRuleType(RuleType iType);
@@ -100,54 +101,54 @@ class CRecurrenceRule {
     /**
      * getRuleType
      * @param NONE
-     * @return RuleType type of recurrence rule 0 - RecurrenceRule ;1 -Exception Rule 
-     * 
+     * @return RuleType type of recurrence rule 0 - RecurrenceRule ;1 -Exception Rule
+     *
      * function used to retrieve rule type from CRecurrenceRule object
-     * 
+     *
      */
     RuleType getRuleType();
 
     /**
-     * @param string szRule  recurrence rule, can be recurrence rule or exception 
+     * @param string szRule  recurrence rule, can be recurrence rule or exception
      *            rule
-     * @return      bool status of the operation 
+     * @return      bool status of the operation
      *
-     * Function used to parse the recurrence rule and populate 
+     * Function used to parse the recurrence rule and populate
      * the fields in to private members of this class
-     * All other set methods defined in this class will be called inside this 
-     * procedure 
+     * All other set methods defined in this class will be called inside this
+     * procedure
      */
     bool rruleParser(string szRule);
 
     /**
-     * @param : string szRRule - recurrence rule / exception rule 
-     * @return : bool whether  the operation is successful or not 
-     * 
-     * Function to set recurrence rule in class place holder 
+     * @param : string szRRule - recurrence rule / exception rule
+     * @return : bool whether  the operation is successful or not
+     *
+     * Function to set recurrence rule in class place holder
      */
     bool setRrule(string szRRule);
 
     /**
      * @param : NONE
-     * @return : string recurrence rule 
-     * 
+     * @return : string recurrence rule
+     *
      * Function used to retrieve recurrence values from class  members
      */
     string getRrule();
 
     /**
-     * @param  FREQUENCY : ivaluea frequebncy can be daily,monthly etc, valid values 
+     * @param  FREQUENCY : ivaluea frequebncy can be daily,monthly etc, valid values
      *                     defined in FREQUENCY enumeration.
      * @return bool: status
-     *  
+     *
      * to set FREQUENCY of occurrence
      */
     bool setFrequency(FREQUENCY iValue);
 
     /**
      * @param NONE
-     * @return FREQUENCY of occurrence 
-     * 
+     * @return FREQUENCY of occurrence
+     *
      * function returns FREQUENCY parameter set in the class
      */
     FREQUENCY getFrequency();
@@ -156,7 +157,7 @@ class CRecurrenceRule {
      * @param time_t : until value in rrule as time_t
      * @return bool : status of operation performed
      *
-     * function used to set unitl time in CRecurrencRule object 
+     * function used to set unitl time in CRecurrencRule object
      */
     bool setUntil(time_t iUntil);
 
@@ -164,23 +165,23 @@ class CRecurrenceRule {
      * @param : NONE
      * @return unitl  :time_t  status of operation performed
      *
-     * function used to set until time in CRecurrencRule object 
+     * function used to set until time in CRecurrencRule object
      */
     time_t getUntil();
 
     /**
-     * @param : integer Count of occurances 
+     * @param : integer Count of occurances
      * @return : boolean status of operation performed
      *
-     * Function used to set MAX count of instances 
+     * Function used to set MAX count of instances
      */
     bool setCount(int iCount);
 
     /**
-     * @param : NONE 
-     * @return : integer count of occurances 
+     * @param : NONE
+     * @return : integer count of occurances
      *
-     * Function used to retrieve  MAX count of instances 
+     * Function used to retrieve  MAX count of instances
      */
     int getCount();
 
@@ -188,17 +189,17 @@ class CRecurrenceRule {
      * @param vector<short>: seconds list on which the events should occur
      * @return boolean: staus of the operation
      *
-     * Function used to set seconds in list of seconds appearing in 
-     * Recurrence rule 
+     * Function used to set seconds in list of seconds appearing in
+     * Recurrence rule
      */
     bool setSecond(vector < short > vSec);
 
     /**
-     * @param NONE 
+     * @param NONE
      * @return vector<short>: seconds list on which the events should occur
      *
-     * Function used to get seconds list  in 
-     * CRecurrenceRule Class  
+     * Function used to get seconds list  in
+     * CRecurrenceRule Class
      */
     vector < short >getSecond();
 
@@ -206,9 +207,9 @@ class CRecurrenceRule {
      * @param vector<short>: Minute list on which the events should occur
      * @return boolean: staus of the operation
      *
-     * Function used to set Minutes appearig in Recurrence rule to 
+     * Function used to set Minutes appearig in Recurrence rule to
      * CRecurrenceRule class
-     * 
+     *
      */
     bool setMinute(vector < short > vMinute);
 
@@ -217,7 +218,7 @@ class CRecurrenceRule {
      * @param NONE
      *
      * Function used to get Minutes in CRecurrenceRule class
-     * 
+     *
      */
     vector < short >getMinute();
 
@@ -225,8 +226,8 @@ class CRecurrenceRule {
      * @param vector<short>: Hour list on which the events should occur
      * @return boolean: staus of the operation
      *
-     * Function used to set Hours  appearing in  Recurrence rule to CRecurrenceRule 
-     * class 
+     * Function used to set Hours  appearing in  Recurrence rule to CRecurrenceRule
+     * class
      */
     bool setHour(vector < short > vHour);
 
@@ -234,8 +235,8 @@ class CRecurrenceRule {
      * @param NONE
      * @return vector<short>: Hour list on which the events should occur
      *
-     * Function used to get Hours   in   CRecurrenceRule 
-     * class 
+     * Function used to get Hours   in   CRecurrenceRule
+     * class
      */
     vector < short >getHour();
 
@@ -243,9 +244,9 @@ class CRecurrenceRule {
      * @param vector<short>: WeekDay list on which the events should occur
      * @return boolean: staus of the operation
      *
-     * Function used to set WeekDays SU.MO,TU etc  appearing in 
+     * Function used to set WeekDays SU.MO,TU etc  appearing in
      * Recurrence rule to CRecurrenceRule class
-     * 
+     *
      */
     bool setWeekDay(vector < short > vByWeekDay);
 
@@ -253,9 +254,9 @@ class CRecurrenceRule {
      * @param NONE
      * @return vector<short>: WeekDay list on which the events should occur
      *
-     * Function used to get WeekDays SU.MO,TU etc in 
+     * Function used to get WeekDays SU.MO,TU etc in
      *  CRecurrenceRule class
-     * 
+     *
      */
     vector < short >getWeekDay();
 
@@ -263,7 +264,7 @@ class CRecurrenceRule {
      * @param vector<short>: MonthDay list on which the events should occur
      * @return boolean: staus of the operation
      *
-     * Function used to set Month Days appearing in  Recurrence rule to CRecurrenceRule 
+     * Function used to set Month Days appearing in  Recurrence rule to CRecurrenceRule
      */
     bool setMonthDay(vector < short > vByMonthDay);
 
@@ -279,8 +280,8 @@ class CRecurrenceRule {
      * @param vector<short>: YearDay list on which the events should occur
      * @return boolean: staus of the operation
      *
-     * Function used to set YearDay appearing in  Recurrence rule to CRecurrenceRule 
-     * class Eg:  RRULE:FREQ=YEARLY;INTERVAL=3;COUNT=10;BYYEARDAY=1,100,200 
+     * Function used to set YearDay appearing in  Recurrence rule to CRecurrenceRule
+     * class Eg:  RRULE:FREQ=YEARLY;INTERVAL=3;COUNT=10;BYYEARDAY=1,100,200
      */
     bool setYearDay(vector < short > vByYearDay);
 
@@ -296,7 +297,7 @@ class CRecurrenceRule {
      * @param vector<short>: WeekNumeber list on which the events should occur
      * @return boolean: staus of the operation
      *
-     * Function used to set WeekNumber  appearing in 
+     * Function used to set WeekNumber  appearing in
      * Recurrence rule to CRecurrenceRule class
      */
     bool setWeekNumber(vector < short > vByWeekNumber);
@@ -305,7 +306,7 @@ class CRecurrenceRule {
      * @param NONE
      * @return vector<short>: WeekNumeber list on which the events should occur
      *
-     * Function used to get WeekNumber  appearing in 
+     * Function used to get WeekNumber  appearing in
      * CRecurrenceRule class
      */
     vector < short >getWeekNumber();
@@ -314,7 +315,7 @@ class CRecurrenceRule {
      * @param vector<short>: Month list on which the events should occur
      * @return boolean: staus of the operation
      *
-     * Function used to set Month list   appearing in 
+     * Function used to set Month list   appearing in
      * Recurrence rule to CRecurrenceRule class
      */
     bool setMonth(vector < short > vMonth);
@@ -323,7 +324,7 @@ class CRecurrenceRule {
      * @param NONE
      * @return vector<short>: Month list on which the events should occur
      *
-     * Function used to get Month list   appearing in 
+     * Function used to get Month list   appearing in
      * CRecurrenceRule class
      */
     vector < short >getMonth();
@@ -332,7 +333,7 @@ class CRecurrenceRule {
      * @param vector<short>: Position list on which the events should occur
      * @return boolean: staus of the operation
      *
-     * Function used to set Position list   appearing in 
+     * Function used to set Position list   appearing in
      * Recurrence rule to CRecurrenceRule class
      * eg :
      *    The BYSETPOS rule part specifies a COMMA character (US-ASCII decimal
@@ -354,11 +355,11 @@ class CRecurrenceRule {
     vector < short >getPos();
 
     /**
-     * @param int : weekstart  offset day from which week starts in Calendar 
-     *        in our calendar it is either SUNDAY or MONDAY        
+     * @param int : weekstart  offset day from which week starts in Calendar
+     *        in our calendar it is either SUNDAY or MONDAY
      * @return boolean: staus of the operation
      *
-     * Function used to set week start  appearing in 
+     * Function used to set week start  appearing in
      * Recurrence rule to CRecurrenceRule class
      * Eg:
      *      DTSTART;TZID=US-Eastern:19970805T090000
@@ -372,8 +373,8 @@ class CRecurrenceRule {
     bool setWeekStart(icalrecurrencetype_weekday start);
 
     /**
-     * @ int : weekstart  offset day from which week starts in Calendar 
-     *        in our calendar it is either SUNDAY or MONDAY        
+     * @ int : weekstart  offset day from which week starts in Calendar
+     *        in our calendar it is either SUNDAY or MONDAY
      * @return boolean: staus of the operation
      *
      * Function used to get week start day from CRecurrenceRule class
@@ -381,7 +382,7 @@ class CRecurrenceRule {
     icalrecurrencetype_weekday getWeekStart();
 
     /**
-     * @param short : interval between two instances  
+     * @param short : interval between two instances
      * @return      : bool status of the operation
      * Function used to set the interval param
      */
@@ -389,7 +390,7 @@ class CRecurrenceRule {
 
     /**
      * @param NONE
-     * @return short: interval between instances 
+     * @return short: interval between instances
      *
      * Function used to retrieve interval parameter
      */
@@ -402,8 +403,8 @@ class CRecurrenceRule {
 
 
     /**
-     * overloaded Constructor 
-     * type 0-rrule ,1 -exrule 
+     * overloaded Constructor
+     * type 0-rrule ,1 -exrule
      */
     CRecurrenceRule(int iType, string szRRule);
 
@@ -411,23 +412,23 @@ class CRecurrenceRule {
      * Function used for checking whether rule is complex
      */
     bool checkRuleIsComplex();
-  private:
+private:
     /**
-     * @param array of short 
+     * @param array of short
      * @return vector of short;
      *
-     * function to convert array to vector 
+     * function to convert array to vector
      */
 
     vector < short > convertArrayToVector(short array[], int iLengthMax);
-    
+
     FREQUENCY iFreq; /*!< Frequency */
-    
-    string szRule; /*!< RRule or Exception Rule */ 
+
+    string szRule; /*!< RRule or Exception Rule */
 
     int iCount; /*!<integer value */
 
-    short interval; /*!< interval appearing in rrule */ 
+    short interval; /*!< interval appearing in rrule */
 
     time_t iUntil; /*!< Until value */
 
@@ -435,18 +436,18 @@ class CRecurrenceRule {
 
 
     /**
-     * week start as per rfc Ical is 
+     * week start as per rfc Ical is
      * week day  from which recuurenc
      * has to start. Our Calendar app supports SU
-     * or MO for week start. 
+     * or MO for week start.
      */
 
     icalrecurrencetype_weekday weekStart;
 
-    //week start as per rfc Ical is 
+    //week start as per rfc Ical is
     //week day  from which recuurenc
     // has to start. Our Calendar app supports SU
-    // or MO for week start. 
+    // or MO for week start.
     vector < short >vBySecond; /*!< (0-60) second values */
 
     vector < short >vByMinute; /*!< (0-60) Minute values */
@@ -462,7 +463,7 @@ class CRecurrenceRule {
     vector < short >vByWeekNumber; /*!< (1-52) Week Number values */
 
     vector < short >vByMonth; /*!< (1-12) Month values */
-    
+
     vector < short >vBySetPos; /*!< (1-366) SetPosition values */
 };
 

@@ -22,7 +22,7 @@
  */
 
 /**
- *  header files 
+ *  header files
  */
 #include "CParticipant.h"
 #include "Common.h"
@@ -30,7 +30,7 @@
 /**
  * setLanguage
  * @param string Language parameter
- * @return bool indicates whether operation is successful or not 
+ * @return bool indicates whether operation is successful or not
  *
  * This function will be used to set the language parameter of participant
  */
@@ -57,7 +57,7 @@ string CParticipant::getLanguage()
 /**
  * setSentBy
  * @param string SentBy parameter
- * @return bool indicates whether operation is successful or not 
+ * @return bool indicates whether operation is successful or not
  *
  * This function will be used to set the sentby parameter of participant
  */
@@ -70,8 +70,8 @@ bool CParticipant::setSentBy(string szSentBy)
 /**
  * getSentBy
  * @param none
- * @return string sentBy 
- * 
+ * @return string sentBy
+ *
  * This function will be used to get the sentby of participant
  */
 
@@ -84,7 +84,7 @@ string CParticipant::getSentBy()
 /**
  * setCommonName
  * @param string common-name parameter
- * @return bool indicates whether operation is successful or not 
+ * @return bool indicates whether operation is successful or not
  *
  * This function will be used to set the common-name parameter of participant
  */
@@ -98,7 +98,7 @@ bool CParticipant::setCommonName(string szCommonName)
 /**
  * setMailTo
  * @param string szMailTo
- * @return none 
+ * @return none
  * Function used to set mailto parameter
  */
 void CParticipant::setMailTo(string szMailTo)
@@ -121,7 +121,7 @@ string CParticipant::getMailTo()
 /**
  * setXparameters
  * @param string X-PARAMETER parameter
- * @return bool indicates whether operation is successful or not 
+ * @return bool indicates whether operation is successful or not
  *
  * This function will be used to set the x-parameter of participant
  */
@@ -135,7 +135,7 @@ bool CParticipant::setXparameters(string szCXparameter)
 /**
  * setCalAddress
  * @param string cal-Address parameter
- * @return bool indicates whether operation is successful or not 
+ * @return bool indicates whether operation is successful or not
  *
  * This function will be used to set the Cal-Address parameter of participant
  */
@@ -148,7 +148,7 @@ bool CParticipant::setCalAddress(string szCalAddress)
 /**
  * setDirectoryParameter
  * @param string directory name parameter
- * @return bool indicates whether operation is successful or not 
+ * @return bool indicates whether operation is successful or not
  *
  * This function will be used to set the directory parameter of participant
  */
@@ -161,7 +161,7 @@ bool CParticipant::setDirectoryParameter(string szDirectoryParameter)
 /**
  * getDirectoryParameter
  * @return string directory name parameter
- * 
+ *
  * This function will be used to get the directory parameter of participant
  */
 
@@ -174,7 +174,7 @@ string CParticipant::getDirectoryParameter()
  * getCalAddress()
  * @param none
  * @return string cal-Address parameter
- * 
+ *
  * This function will be used to get the Cal-Address parameter of participant
  */
 string CParticipant::getCalAddress()
@@ -186,7 +186,7 @@ string CParticipant::getCalAddress()
  * getXparameters
  * @param none
  * @return string X-parameter
- * 
+ *
  * This function will be used to get the X-parameter of participant
  */
 string CParticipant::getXparameters()
@@ -198,7 +198,7 @@ string CParticipant::getXparameters()
  * getCommonName
  * @param none
  * @return string CommonName
- * 
+ *
  * This function will be used to get the Common-name of participant
  */
 string CParticipant::getCommonName()
@@ -207,11 +207,11 @@ string CParticipant::getCommonName()
 }
 
 /**
- * CParticipant copy constructor 
+ * CParticipant copy constructor
  *
  *
  */
-CParticipant::CParticipant(CParticipant & Cparef)
+CParticipant::CParticipant(CParticipant &Cparef)
 {
 
 
@@ -228,18 +228,18 @@ CParticipant::CParticipant(CParticipant & Cparef)
 /**
  * overloaded assignment operator
  */
-const CParticipant & CParticipant::operator=(const CParticipant & right)
+const CParticipant &CParticipant::operator=(const CParticipant &right)
 {
-    if (&right != this)        //check for self assignment
-    {
-    szSentBy = right.szSentBy;
-    szCommonName = right.szCommonName;
-    szDirectoryParameter = right.szDirectoryParameter;
-    szLanguage = right.szLanguage;
-    szCalAddress = right.szCalAddress;
-    szCXparameter = right.szCXparameter;
-    szMailTo = right.szMailTo;
+    if(&right != this) {       //check for self assignment
+        szSentBy = right.szSentBy;
+        szCommonName = right.szCommonName;
+        szDirectoryParameter = right.szDirectoryParameter;
+        szLanguage = right.szLanguage;
+        szCalAddress = right.szCalAddress;
+        szCXparameter = right.szCXparameter;
+        szMailTo = right.szMailTo;
     }
+
     return *this;
 }
 
@@ -256,10 +256,10 @@ CParticipant::CParticipant()
  *CParticipant
  *parameterised constructor for CParticipant
  */
-CParticipant::CParticipant(string szSentBy, string szCommonName, string szDirectoryParameter, string szLanguage, string szCalAddress, string szCXparameter, string szMailTo):szSentBy(szSentBy), szCommonName(szCommonName),
-szDirectoryParameter(szDirectoryParameter), szLanguage(szLanguage),
-szCalAddress(szCalAddress), szCXparameter(szCXparameter),
-szMailTo(szMailTo)
+CParticipant::CParticipant(string szSentBy, string szCommonName, string szDirectoryParameter, string szLanguage, string szCalAddress, string szCXparameter, string szMailTo): szSentBy(szSentBy), szCommonName(szCommonName),
+    szDirectoryParameter(szDirectoryParameter), szLanguage(szLanguage),
+    szCalAddress(szCalAddress), szCXparameter(szCXparameter),
+    szMailTo(szMailTo)
 {
 }
 
@@ -280,61 +280,82 @@ string CParticipant::toString()
     string szTemp;
     std::stringstream ss;
     ss << "SentBy=";
-    if (szSentBy.c_str()){
-	szTemp= szSentBy.substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(szSentBy.c_str()) {
+        szTemp = szSentBy.substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",CommonName=";
-    if (szCommonName.c_str()){
-	szTemp= szCommonName.substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(szCommonName.c_str()) {
+        szTemp = szCommonName.substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	szRet.append(NULL_STRING); 
+    else {
+        szRet.append(NULL_STRING);
+    }
+
     ss << ",Directory=";
-    if (szDirectoryParameter.c_str()){
-	szTemp= szDirectoryParameter.substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(szDirectoryParameter.c_str()) {
+        szTemp = szDirectoryParameter.substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",Lang=";
-    if (szLanguage.c_str()){
-	szTemp= szLanguage.substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(szLanguage.c_str()) {
+        szTemp = szLanguage.substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",CalAddr=";
-    if (szCalAddress.c_str()){
-	szTemp= szCalAddress.substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(szCalAddress.c_str()) {
+        szTemp = szCalAddress.substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",CXparam=";
-    if (szCXparameter.c_str()){
-	szTemp= szCXparameter.substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(szCXparameter.c_str()) {
+        szTemp = szCXparameter.substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;  
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",MailTo=";
-    if (szMailTo.c_str()){
-	szTemp= szMailTo.substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(szMailTo.c_str()) {
+        szTemp = szMailTo.substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     szRet.append(ss.str());
     return szRet;
 }

@@ -36,38 +36,39 @@ struct PropType {
     string szString;
 
     PropType(): i(0) {};
-}; 
+};
 
 /**
  * CProperties class
  * @brief This class contains the API's to get/set the parameters for
  * the standard properties of event/todo/journal
  */
-class CProperties {
+class CProperties
+{
 
-  public:
+public:
 
     /**
-     * This is the defult constructor for CProperties class 
+     * This is the defult constructor for CProperties class
      */
     CProperties();
-    
+
     /**
      * @param Constant reference to CProperties
      * @return Reference to CProperties
      *
-     * Overloaded assignment operator for the class 
+     * Overloaded assignment operator for the class
      *
      */
-    const CProperties & operator=(const CProperties & right);
-    
+    const CProperties &operator=(const CProperties &right);
+
     /**
-     * Copy Constructor 
+     * Copy Constructor
      */
     CProperties(CProperties &);
 
     /**
-     * This is the defult destructor for CProperties class 
+     * This is the defult destructor for CProperties class
      */
     ~CProperties();
 
@@ -99,12 +100,12 @@ class CProperties {
      *
      * This function is used to return the property value.
      */
-        PropType getPropValue();
-    
+    PropType getPropValue();
+
     /**
      * @param szPropParam string
      * @return int
-     * 
+     *
      * This function returns the Type of the the given property (INTEGER/STRING/BOOL)
      */
     int getDataType(string szProp);
@@ -112,10 +113,10 @@ class CProperties {
      * toString
      */
     string toString();
-	
-        
 
-  private:
+
+
+private:
 
     string szPropName; /*!< prop name */
     PropType valueType; /*!< value Type */

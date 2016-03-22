@@ -31,64 +31,64 @@
 
 class CRecurrenceRule_TS1 : public CppUnit::TestFixture
 {
-	CPPUNIT_TEST_SUITE( CRecurrenceRule_TS1 );
-	CPPUNIT_TEST(test_RuleType);
-	CPPUNIT_TEST(test_RRule);
-	CPPUNIT_TEST(test_frequency);
-	CPPUNIT_TEST(test_Until);
-	CPPUNIT_TEST(test_count);
-	CPPUNIT_TEST(test_second);
-	CPPUNIT_TEST(test_minute);
-	CPPUNIT_TEST(test_hour);
-	CPPUNIT_TEST(test_weekday);
-	CPPUNIT_TEST(test_monthday);
-	CPPUNIT_TEST(test_yearday);
-	CPPUNIT_TEST(test_weeknumber);
-	CPPUNIT_TEST(test_month);
-	CPPUNIT_TEST(test_position);
-	CPPUNIT_TEST(test_WeekStart);
-	CPPUNIT_TEST(test_interval);
-	CPPUNIT_TEST(test_rruleParser);
-	CPPUNIT_TEST(test_operator);
-	CPPUNIT_TEST_SUITE_END();
-	
-	public:
-		CRecurrenceRule * pCrr;
-		void setUp();
-		void tearDown();
-		void test_RuleType();
-		void test_RRule();
-		void test_frequency();
-		void test_Until();
-		void test_count();
-		void test_second();
-		void test_minute();
-		void test_hour();
-		void test_weekday();
-		void test_monthday();
-		void test_yearday();
-		void test_weeknumber();
-		void test_month();
-		void test_position();
-		void test_WeekStart();
-		void test_interval();
-		void test_rruleParser();
-		void test_operator();
+    CPPUNIT_TEST_SUITE(CRecurrenceRule_TS1);
+    CPPUNIT_TEST(test_RuleType);
+    CPPUNIT_TEST(test_RRule);
+    CPPUNIT_TEST(test_frequency);
+    CPPUNIT_TEST(test_Until);
+    CPPUNIT_TEST(test_count);
+    CPPUNIT_TEST(test_second);
+    CPPUNIT_TEST(test_minute);
+    CPPUNIT_TEST(test_hour);
+    CPPUNIT_TEST(test_weekday);
+    CPPUNIT_TEST(test_monthday);
+    CPPUNIT_TEST(test_yearday);
+    CPPUNIT_TEST(test_weeknumber);
+    CPPUNIT_TEST(test_month);
+    CPPUNIT_TEST(test_position);
+    CPPUNIT_TEST(test_WeekStart);
+    CPPUNIT_TEST(test_interval);
+    CPPUNIT_TEST(test_rruleParser);
+    CPPUNIT_TEST(test_operator);
+    CPPUNIT_TEST_SUITE_END();
+
+public:
+    CRecurrenceRule *pCrr;
+    void setUp();
+    void tearDown();
+    void test_RuleType();
+    void test_RRule();
+    void test_frequency();
+    void test_Until();
+    void test_count();
+    void test_second();
+    void test_minute();
+    void test_hour();
+    void test_weekday();
+    void test_monthday();
+    void test_yearday();
+    void test_weeknumber();
+    void test_month();
+    void test_position();
+    void test_WeekStart();
+    void test_interval();
+    void test_rruleParser();
+    void test_operator();
 
 };
 
 class CRecurrenceRule_TS2 : public CppUnit::TestFixture
 {
-	CPPUNIT_TEST_SUITE( CRecurrenceRule_TS2 );
-	CPPUNIT_TEST(test_toString);
-	CPPUNIT_TEST(test_toString_NULL);
-		CPPUNIT_TEST_SUITE_END();
-	
-	public:
-		CRecurrenceRule * pCrr;
-		void setUp();
-		void tearDown();
-		void test_toString();
-		void test_toString_NULL();
+    CPPUNIT_TEST_SUITE(CRecurrenceRule_TS2);
+    CPPUNIT_TEST(test_toString);
+    CPPUNIT_TEST(test_toString_NULL);
+    CPPUNIT_TEST_SUITE_END();
+
+public:
+    CRecurrenceRule *pCrr;
+    void setUp();
+    void tearDown();
+    void test_toString();
+    void test_toString_NULL();
 };
 

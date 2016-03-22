@@ -31,44 +31,44 @@
 
 class CParameters_TS1 : public CppUnit::TestFixture
 {
-	CPPUNIT_TEST_SUITE( CParameters_TS1 );
-	CPPUNIT_TEST(test_setParamName_Valid);
-	CPPUNIT_TEST(test_setParamValue_ValidInt);
-	CPPUNIT_TEST(test_setParamValue_ValidString);
-	CPPUNIT_TEST(test_getDataType_Valid);
-	CPPUNIT_TEST(test_getDataType_ValidX);
-	CPPUNIT_TEST(test_getDataType_InValid);
-	CPPUNIT_TEST (test_validCopyConstructor);
-	CPPUNIT_TEST (test_validAssignementOperator);
-	CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(CParameters_TS1);
+    CPPUNIT_TEST(test_setParamName_Valid);
+    CPPUNIT_TEST(test_setParamValue_ValidInt);
+    CPPUNIT_TEST(test_setParamValue_ValidString);
+    CPPUNIT_TEST(test_getDataType_Valid);
+    CPPUNIT_TEST(test_getDataType_ValidX);
+    CPPUNIT_TEST(test_getDataType_InValid);
+    CPPUNIT_TEST(test_validCopyConstructor);
+    CPPUNIT_TEST(test_validAssignementOperator);
+    CPPUNIT_TEST_SUITE_END();
 
-	public:
-		CParameters * pParam;
-		void setUp();
-		void tearDown();
-		void test_setParamName_Valid();
-		void test_setParamValue_ValidInt();
-		void test_setParamValue_ValidString();
-		void test_getDataType_Valid();
-		void test_getDataType_ValidX();
-		void test_getDataType_InValid();
-		void test_validCopyConstructor();
-		void test_validAssignementOperator();
+public:
+    CParameters *pParam;
+    void setUp();
+    void tearDown();
+    void test_setParamName_Valid();
+    void test_setParamValue_ValidInt();
+    void test_setParamValue_ValidString();
+    void test_getDataType_Valid();
+    void test_getDataType_ValidX();
+    void test_getDataType_InValid();
+    void test_validCopyConstructor();
+    void test_validAssignementOperator();
 };
 
 class CParameters_TS2 : public CppUnit::TestFixture
 {
-	        CPPUNIT_TEST_SUITE( CParameters_TS2 );
-		CPPUNIT_TEST(test_toString);
-		CPPUNIT_TEST(test_toString_NULL);
-		CPPUNIT_TEST_SUITE_END();
-	public:
-		CParameters * pParam;
-		void setUp();
-		void tearDown();
-		void test_toString();
-		void test_toString_NULL();
+    CPPUNIT_TEST_SUITE(CParameters_TS2);
+    CPPUNIT_TEST(test_toString);
+    CPPUNIT_TEST(test_toString_NULL);
+    CPPUNIT_TEST_SUITE_END();
+public:
+    CParameters *pParam;
+    void setUp();
+    void tearDown();
+    void test_toString();
+    void test_toString_NULL();
 };
 
-			
+
 

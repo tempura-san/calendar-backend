@@ -33,28 +33,28 @@
 #include <fstream>
 #include "test_CCalendar.h"
 using namespace std;
-int main(int ac,char** av)
+int main(int ac, char **av)
 {
-	CPPUNIT_NS::TestResult controller;
-	CPPUNIT_NS::TestResultCollector result;
-	controller.addListener( &result );
+    CPPUNIT_NS::TestResult controller;
+    CPPUNIT_NS::TestResultCollector result;
+    controller.addListener(&result);
 
-	CPPUNIT_NS::BriefTestProgressListener progress;
-	controller.addListener( &progress );
+    CPPUNIT_NS::BriefTestProgressListener progress;
+    controller.addListener(&progress);
 
-	CppUnit::TestRunner runner;
-	CppUnit::TestSuite suite;
-	
-	outputter.write();
-	CPPUNIT_NS::CompilerOutputter output( &result, CPPUNIT_NS::stdCOut() );
-	output.write();
+    CppUnit::TestRunner runner;
+    CppUnit::TestSuite suite;
 
-	ofstream stream1;
-	stream1.open(av[1]);
-	CPPUNIT_NS::TextOutputter TextOutputter( &result, stream1 );
-	TextOutputter.write();
+    outputter.write();
+    CPPUNIT_NS::CompilerOutputter output(&result, CPPUNIT_NS::stdCOut());
+    output.write();
 
-	return result.wasSuccessful() ? 0 : 1;
+    ofstream stream1;
+    stream1.open(av[1]);
+    CPPUNIT_NS::TextOutputter TextOutputter(&result, stream1);
+    TextOutputter.write();
+
+    return result.wasSuccessful() ? 0 : 1;
 
 }
 

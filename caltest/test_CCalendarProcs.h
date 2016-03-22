@@ -37,7 +37,7 @@ using namespace std;
 
 class CCalendarProcs_TS1 : public CppUnit::TestFixture
 {
-    CPPUNIT_TEST_SUITE( CCalendarProcs_TS1 );
+    CPPUNIT_TEST_SUITE(CCalendarProcs_TS1);
 
     CPPUNIT_TEST(test_Init);
     CPPUNIT_TEST(test_AddBDay);
@@ -49,19 +49,19 @@ class CCalendarProcs_TS1 : public CppUnit::TestFixture
     CPPUNIT_TEST(test_GetComponentsAllCalendars_all_events);
     CPPUNIT_TEST_SUITE_END();
 
-    public:
-        CCalendarProcs *pProcs;
-        void setUp();
-        void tearDown();
+public:
+    CCalendarProcs *pProcs;
+    void setUp();
+    void tearDown();
 
-        void test_Init();
-        void test_DropBDays();
-        void test_AddBDay();
-        void test_DelBDay();
-        void test_GetBDays();
-        void test_GetBDayEvents();
-        void test_GetComponentsAllCalendars_repeating_events();
-        void test_GetComponentsAllCalendars_all_events();
+    void test_Init();
+    void test_DropBDays();
+    void test_AddBDay();
+    void test_DelBDay();
+    void test_GetBDays();
+    void test_GetBDayEvents();
+    void test_GetComponentsAllCalendars_repeating_events();
+    void test_GetComponentsAllCalendars_all_events();
 
 
     CCalendar *pBDayCalendar;

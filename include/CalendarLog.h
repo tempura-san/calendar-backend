@@ -27,7 +27,7 @@
 #include <syslog.h>
 #include <stdlib.h>
 
-#undef DEBUG_LEVEL_1 
+#undef DEBUG_LEVEL_1
 /* variable for logging Debug messages */
 extern int enable_logging ;
 
@@ -58,7 +58,7 @@ extern int enable_logging ;
     if(X!=CALENDAR_OPERATION_SUCCESSFUL){\
 	syslog(LOG_ERR,"Error Code is : %d Error Message : %s",X,Y);\
 	return FAILURE;\
-    }           
+    }
 
 
 #ifdef DEBUG_LEVEL_2

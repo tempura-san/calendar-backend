@@ -36,7 +36,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION(CBday_TS2);
 
 void CBday_TS1::setUp()
 {
-    bd= new CBdayEvent("qw123","qw123",86321234);
+    bd = new CBdayEvent("qw123", "qw123", 86321234);
 }
 
 void CBday_TS1::tearDown()
@@ -48,7 +48,7 @@ void CBday_TS1::tearDown()
 
 void CBday_TS2::setUp()
 {
-    bd= new CBdayEvent("qw123","qw123",86321234);
+    bd = new CBdayEvent("qw123", "qw123", 86321234);
 }
 
 void CBday_TS2::tearDown()
@@ -59,62 +59,62 @@ void CBday_TS2::tearDown()
 void CBday_TS1::test_setEBookUid()
 {
     bool ret = bd->setEBookUid("qw123");
-    CPPUNIT_ASSERT_MESSAGE("Error: Setting id",(ret==true));
+    CPPUNIT_ASSERT_MESSAGE("Error: Setting id", (ret == true));
     string id = bd->getEBookUid();
-    CPPUNIT_ASSERT_MESSAGE("Error: getting id",(id=="qw123"));
+    CPPUNIT_ASSERT_MESSAGE("Error: getting id", (id == "qw123"));
 }
 
 void CBday_TS1::test_invalidsetEBookUid()
 {
     bool ret = bd->setEBookUid("");
-    CPPUNIT_ASSERT_MESSAGE("Error: Setting id",(ret==false));
+    CPPUNIT_ASSERT_MESSAGE("Error: Setting id", (ret == false));
 }
 
 void CBday_TS1::test_setFirstName()
 {
     bool ret = bd->setFirstName("qw123");
-    CPPUNIT_ASSERT_MESSAGE("Error: Setting FirstName",(ret==true));
+    CPPUNIT_ASSERT_MESSAGE("Error: Setting FirstName", (ret == true));
     string id = bd->getFirstName();
-    CPPUNIT_ASSERT_MESSAGE("Error: getting FirstName",(id=="qw123"));
+    CPPUNIT_ASSERT_MESSAGE("Error: getting FirstName", (id == "qw123"));
 
 }
 
 void CBday_TS1::test_invalidsetFirstName()
 {
     bool ret = bd->setFirstName("");
-    CPPUNIT_ASSERT_MESSAGE("Error: Setting FirstName empty",(ret==false));
+    CPPUNIT_ASSERT_MESSAGE("Error: Setting FirstName empty", (ret == false));
 }
 
 void CBday_TS1::test_setBirthDate()
 {
     bool ret = bd->setBirthDate(86321234);
-    CPPUNIT_ASSERT_MESSAGE("Error: Setting BirthDate",(ret==true));
+    CPPUNIT_ASSERT_MESSAGE("Error: Setting BirthDate", (ret == true));
     int dt =  bd->getBirthDate();
-    CPPUNIT_ASSERT_MESSAGE("Error: getting BirthDate",(dt==86321234));
+    CPPUNIT_ASSERT_MESSAGE("Error: getting BirthDate", (dt == 86321234));
 }
 
 void CBday_TS1::test_invalidsetBirthDate()
 {
     bool ret = bd->setBirthDate(-1);
-    CPPUNIT_ASSERT_MESSAGE("Error: Setting BirthDate",(ret==false));
+    CPPUNIT_ASSERT_MESSAGE("Error: Setting BirthDate", (ret == false));
 }
 void CBday_TS1 :: test_defaultConstructor()
 {
-    CBdayEvent *cbd = new CBdayEvent;	
+    CBdayEvent *cbd = new CBdayEvent;
     delete cbd;
 }
 
 
 void CBday_TS2::test_toString()
 {
-    bd= new CBdayEvent("qw1","qw13",86321234);
+    bd = new CBdayEvent("qw1", "qw13", 86321234);
     CAlarm *alarm = new CAlarm(10000, 1);
     bool ret = bd->setAlarm(alarm);
     CRecurrence *rec = new CRecurrence();
     ret = bd->setRecurrence(rec);
 
     int duration = bd->getDuration();
-    string  szDes ="mails";
+    string  szDes = "mails";
     bd->setDescription(szDes);
     bd->setDateStart(45678);
     bd->setDateEnd(45678);
@@ -130,12 +130,12 @@ void CBday_TS2::test_toString()
     string set = "qwerty";
     ret = bd->setId(set);
 
-    cout<<bd->toString();
+    cout << bd->toString();
 }
 void CBday_TS2::test_toString_NULL()
 {
-    string qw="",qe="";
-    bd= new CBdayEvent(qw,qe,86321234);
-    cout<<bd->toString();
+    string qw = "", qe = "";
+    bd = new CBdayEvent(qw, qe, 86321234);
+    cout << bd->toString();
 }
 

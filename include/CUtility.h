@@ -34,59 +34,62 @@ extern "C" {
 /* Forward declaration*/
 class CProperties;
 
-class CUtility{
-    public:
-	//Extracts the date from date/time value by
-	//discarding the time
-	time_t getDateFromTime(time_t startDate);
-	/**
-	 *Parse ids to vector 
-	 */
-	vector <string> parseIds(string szIds);
+class CUtility
+{
+public:
+    //Extracts the date from date/time value by
+    //discarding the time
+    time_t getDateFromTime(time_t startDate);
+    /**
+     *Parse ids to vector
+     */
+    vector <string> parseIds(string szIds);
 
-	//Check if a string needs to be encoded
-	//using quoted printable
-	bool isEncodingRequired(string szInput, bool syncing);
+    //Check if a string needs to be encoded
+    //using quoted printable
+    bool isEncodingRequired(string szInput, bool syncing);
 
-	//Replace content for string with given content
-	bool stringReplaceOne(string &toChange, const char *changeThis,
-			const char *toThis);
-	    
-	/* function to encode data in quoted printable 
-	*/
-        string  encodeQuotedPrintable(string szInput);
-	template <class T> void releaseVector(std::vector <T*> vec);
-	void releasePropertiesVector(std::vector <CProperties*> vec);
-	std::vector < time_t > getRecurrentTimes(std::string szRRule, 
-						icaltimetype iDtStart,
-						time_t iViewEnd,
-						icaltimezone *pTz,
-						int& pErrorCode);
-	icaltimezone* getSystemTimeZoneAsIcalTimeZone();
-	std::string getSystemTimeZone();
-	string getApplicationName();
-	void setApplicationName(string ApplicationName);
+    //Replace content for string with given content
+    bool stringReplaceOne(string &toChange, const char *changeThis,
+                          const char *toThis);
 
-	CUtility();
-	~CUtility();
-	static CUtility *Instance();
-	    
+    /* function to encode data in quoted printable
+    */
+    string  encodeQuotedPrintable(string szInput);
+    template <class T> void releaseVector(std::vector <T *> vec);
+    void releasePropertiesVector(std::vector <CProperties *> vec);
+    std::vector < time_t > getRecurrentTimes(std::string szRRule,
+            icaltimetype iDtStart,
+            time_t iViewEnd,
+            icaltimezone *pTz,
+            int &pErrorCode);
+    icaltimezone *getSystemTimeZoneAsIcalTimeZone();
+    std::string getSystemTimeZone();
+    string getApplicationName();
+    void setApplicationName(string ApplicationName);
 
-    private :
-	
-	string AppName;
-	static CUtility *pUt;
+    CUtility();
+    ~CUtility();
+    static CUtility *Instance();
+
+
+private :
+
+    string AppName;
+    static CUtility *pUt;
 };
 
 
 template <class T> void CUtility::releaseVector(vector <T *> vec)
 {
-	class std::vector <T *>::iterator iIter;
-	for (iIter = vec.begin(); iIter < vec.end(); iIter++) {
-		delete(*iIter);
-		(*iIter) = 0;
-	}
-	vec.clear();
+    class std::vector <T *>::iterator iIter;
+
+    for(iIter = vec.begin(); iIter < vec.end(); iIter++) {
+        delete(*iIter);
+        (*iIter) = 0;
+    }
+
+    vec.clear();
 }
 
 #endif

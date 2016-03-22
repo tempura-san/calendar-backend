@@ -28,8 +28,8 @@
  * CBdayEvent
  * Parametrized constructor
  */
-CBdayEvent::CBdayEvent(string szUId, string szSummary, int iDateStart):CComponent(szUId, szSummary,
-       iDateStart)
+CBdayEvent::CBdayEvent(string szUId, string szSummary, int iDateStart): CComponent(szUId, szSummary,
+            iDateStart)
 {
 
 }
@@ -63,8 +63,9 @@ CBdayEvent::~CBdayEvent()
  */
 bool CBdayEvent::setEBookUid(string szEbookUid)
 {
-    if (szEbookUid.empty())
-    return false;
+    if(szEbookUid.empty()) {
+        return false;
+    }
 
     return setGUid(szEbookUid);
 }
@@ -94,8 +95,9 @@ bool CBdayEvent::setFirstName(string szName)
  */
 bool CBdayEvent::setBirthDate(int iDate)
 {
-    if (iDate < 0)
-    return false;
+    if(iDate < 0) {
+        return false;
+    }
 
     return setDateStart(iDate);
 }
@@ -136,7 +138,7 @@ int CBdayEvent::getBirthDate()
     return getDateStart();
 }
 
-string CBdayEvent::toString( )
+string CBdayEvent::toString()
 {
     string szRet;
     string szTemp;
@@ -144,63 +146,79 @@ string CBdayEvent::toString( )
     CRecurrence *cRec;
     std::stringstream ss;
     ss << "ID=";
-    if (getId().c_str()){
-	szTemp= getId().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getId().c_str()) {
+        szTemp = getId().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
 
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
 
     ss << ",CalendarId=";
     ss << getCalendarId();
 
     ss << ",summary=";
-    if (getSummary ().c_str()){
-	szTemp= getSummary().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getSummary().c_str()) {
+        szTemp = getSummary().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
 
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",description=";
-    if (getDescription().c_str()){
-	szTemp= getDescription().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getDescription().c_str()) {
+        szTemp = getDescription().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
 
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",location=";
-    if (getLocation().c_str()){
-	szTemp= getLocation().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getLocation().c_str()) {
+        szTemp = getLocation().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
 
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",TimeZone=";
-    if (getTzid().c_str()){
-	szTemp= getTzid().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getTzid().c_str()) {
+        szTemp = getTzid().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
 
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",UId=";
-    if (getGUid().c_str()){
 
-	szTemp= getGUid().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+    if(getGUid().c_str()) {
+
+        szTemp = getGUid().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
 
 
     ss << ",Type=";
@@ -211,7 +229,7 @@ string CBdayEvent::toString( )
     ss << ",Status=";
     ss << getStatus();
     ss << ",Start date=";
-    ss << getDateStart ();
+    ss << getDateStart();
     ss << ",End date=";
     ss << getDateEnd();
     ss << ",Last modified=";
@@ -220,18 +238,25 @@ string CBdayEvent::toString( )
     ss << getCreatedTime();
     ss << ",until=";
     ss << getUntil();
-    ss <<",All day=";
+    ss << ",All day=";
     ss << getAllDay();
-    pAlarm=getAlarm();
-    if(pAlarm)
-	ss << pAlarm->toString();
-    else
-	ss << ",Alarm=NULL" ;
-    cRec=getRecurrence();
-    if(cRec)
-	ss << cRec->toString();
-    else
-	ss << ",Rec=NULL" ;
+    pAlarm = getAlarm();
+
+    if(pAlarm) {
+        ss << pAlarm->toString();
+    }
+    else {
+        ss << ",Alarm=NULL" ;
+    }
+
+    cRec = getRecurrence();
+
+    if(cRec) {
+        ss << cRec->toString();
+    }
+    else {
+        ss << ",Rec=NULL" ;
+    }
 
     szRet.append(ss.str());
     return szRet;

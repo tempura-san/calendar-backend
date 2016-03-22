@@ -31,29 +31,29 @@
 
 class COrganizer_TS1 : public CppUnit::TestFixture
 {
-	CPPUNIT_TEST_SUITE( COrganizer_TS1 );
-	CPPUNIT_TEST(test_dummy);
-	CPPUNIT_TEST_SUITE_END();
+    CPPUNIT_TEST_SUITE(COrganizer_TS1);
+    CPPUNIT_TEST(test_dummy);
+    CPPUNIT_TEST_SUITE_END();
 
-	public:
-		COrganizer * pCo;
-		void setUp();
-		void tearDown();
-		void test_dummy();
+public:
+    COrganizer *pCo;
+    void setUp();
+    void tearDown();
+    void test_dummy();
 };
 
 class COrganizer_TS2 : public CppUnit::TestFixture
 {
-	CPPUNIT_TEST_SUITE( COrganizer_TS2 );
-	CPPUNIT_TEST(test_toString);
-	CPPUNIT_TEST(test_toString_NULL);
-		CPPUNIT_TEST_SUITE_END();
-	
-	public:
-		COrganizer * pCo;
-		void setUp();
-		void tearDown();
-		void test_toString();
-		void test_toString_NULL();
+    CPPUNIT_TEST_SUITE(COrganizer_TS2);
+    CPPUNIT_TEST(test_toString);
+    CPPUNIT_TEST(test_toString_NULL);
+    CPPUNIT_TEST_SUITE_END();
+
+public:
+    COrganizer *pCo;
+    void setUp();
+    void tearDown();
+    void test_toString();
+    void test_toString_NULL();
 };
 

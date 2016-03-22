@@ -22,7 +22,7 @@
  */
 
 /** header files
- * used in this file 
+ * used in this file
  */
 
 #include "Common.h"
@@ -41,20 +41,20 @@ CParameters::CParameters()
 /**
  * overloaded assignment operator
  */
-const CParameters & CParameters::operator=(const CParameters & right)
+const CParameters &CParameters::operator=(const CParameters &right)
 {
-    if (&right != this)        //prevent self assignment
-    {
-    szParamName = right.szParamName;
-    valueType = right.valueType;
+    if(&right != this) {       //prevent self assignment
+        szParamName = right.szParamName;
+        valueType = right.valueType;
     }
+
     return *this;
 }
 
 /**
  * CParameters copy constructor
  */
-CParameters::CParameters(CParameters & ref)
+CParameters::CParameters(CParameters &ref)
 {
     szParamName = ref.szParamName;
     valueType = ref.valueType;
@@ -96,33 +96,39 @@ ParamType CParameters::getParamValue()
 
 int CParameters::getDataType(string szPropParam)
 {
-    if ((szPropParam == "CUTYPE") ||
-    (szPropParam == "ROLE") ||
-    (szPropParam == "PSTAT") || (szPropParam == "RSVP"))
-    return INTEGER;
+    if((szPropParam == "CUTYPE") ||
+            (szPropParam == "ROLE") ||
+            (szPropParam == "PSTAT") || (szPropParam == "RSVP")) {
+        return INTEGER;
+    }
 
-    if ((szPropParam == "MEMBER") ||
-    (szPropParam == "DELEGATEES") ||
-    (szPropParam == "DELEGATOR") ||
-    (szPropParam == "SENTBY") ||
-    (szPropParam == "CNAME") ||
-    (szPropParam == "DIRPARAM") ||
-    (szPropParam == "MAILTO") ||
-    (szPropParam == LANGUAGE) ||
-    (szPropParam == ALTER) || (szPropParam == FMTYPE))
-    return STRING;
-    if (szPropParam == RELTYPE)
-    return INTEGER;
+    if((szPropParam == "MEMBER") ||
+            (szPropParam == "DELEGATEES") ||
+            (szPropParam == "DELEGATOR") ||
+            (szPropParam == "SENTBY") ||
+            (szPropParam == "CNAME") ||
+            (szPropParam == "DIRPARAM") ||
+            (szPropParam == "MAILTO") ||
+            (szPropParam == LANGUAGE) ||
+            (szPropParam == ALTER) || (szPropParam == FMTYPE)) {
+        return STRING;
+    }
+
+    if(szPropParam == RELTYPE) {
+        return INTEGER;
+    }
 
 
     /* Default type for all X -param and Prop is STRING */
     int found;
     found = szPropParam.find("X-", 0);
 
-    if (found != (int)string::npos)
-    return STRING;
-    else
-    return NONE_TYPE;
+    if(found != (int)string::npos) {
+        return STRING;
+    }
+    else {
+        return NONE_TYPE;
+    }
 }
 
 
@@ -141,22 +147,28 @@ string CParameters::toString()
     string szTemp;
     std::stringstream ss;
     ss << "Name=";
-    if (szParamName.c_str()){
-	szTemp= szParamName.substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(szParamName.c_str()) {
+        szTemp = szParamName.substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     szRet.append(",Type=");
-    ss <<valueType.i;
-    if (valueType.szString.c_str()){
-	szTemp= valueType.szString.substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+    ss << valueType.i;
+
+    if(valueType.szString.c_str()) {
+        szTemp = valueType.szString.substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     szRet.append(ss.str());
 
     szRet.append(ss.str());

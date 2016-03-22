@@ -59,31 +59,32 @@ typedef enum {
     STATUS_NONE
 } ParticipantStatus;
 /**
- * enumeration for calendar user type*/ 
+ * enumeration for calendar user type*/
 typedef enum {
 
-         INDIVIDUAL,
-         GROUP,     
-         RESOURCE,     
-          ROOM,
-         UNKNOWN_USER,
-         USER_NONE         
+    INDIVIDUAL,
+    GROUP,
+    RESOURCE,
+    ROOM,
+    UNKNOWN_USER,
+    USER_NONE
 } CalendarUserType;
 
 /**
  * CAttendee
- * @brief This class contains the API's to store the attendee details in database 
+ * @brief This class contains the API's to store the attendee details in database
  */
 
-class CAttendee:public CParticipant {
+class CAttendee: public CParticipant
+{
 
-  public:
+public:
 
     /**
-     * copy Constructor 
+     * copy Constructor
      */
-    CAttendee(CAttendee & ref);
-    
+    CAttendee(CAttendee &ref);
+
     /**
      * CAttendee
      * default constructor
@@ -101,9 +102,9 @@ class CAttendee:public CParticipant {
     ~CAttendee();
 
     /*
-     * overloaded assignment operator 
+     * overloaded assignment operator
      */
-    const CAttendee & operator=(const CAttendee & right);
+    const CAttendee &operator=(const CAttendee &right);
 
     /**
      * @param CalendarUserType  type of calendar user
@@ -131,8 +132,8 @@ class CAttendee:public CParticipant {
     CalendarUserType getCalendarUserType();
 
     /**
-     * @param string szMember member name 
-     * @return bool 
+     * @param string szMember member name
+     * @return bool
      *
      * This function will be used to set member name.
      * Member indicates the groups that attendee belongs to.
@@ -143,8 +144,8 @@ class CAttendee:public CParticipant {
     /**
      * @param none
      * @return string name of the member
-     * 
-     * This function will be used to get the member 
+     *
+     * This function will be used to get the member
      * which has been previously set using setCalendarUserType().
      * member indicates the groups that attendee belongs to.
      */
@@ -152,7 +153,7 @@ class CAttendee:public CParticipant {
 
     /**
      * @param ParticipantRole iParticipantRole role of participant
-     * @return bool 
+     * @return bool
      *
      * This function will be used to set role that the attendee
      * will have in the calendar component.
@@ -163,7 +164,7 @@ class CAttendee:public CParticipant {
     /**
      * @param none
      * @return string role of attendee.
-     * 
+     *
      * This function will be used to get the role
      * which has been previously set using setRole().
      */
@@ -171,9 +172,9 @@ class CAttendee:public CParticipant {
 
     /**
      * @param ParticipantStatus iParticipantStatus status of the attendee's participation
-     * @return bool 
+     * @return bool
      *
-     * This function will be used to set status of the 
+     * This function will be used to set status of the
      * attendee's participation.
      * returns true when is status is  set correctly.
      */
@@ -182,7 +183,7 @@ class CAttendee:public CParticipant {
     /**
      * @param none
      * @return ParticipantStatus status of the attendee's participation
-     * 
+     *
      * This function will be used to get status
      * of the attendee's participation
      * which has been previously set using setParticipationStatus().
@@ -191,8 +192,8 @@ class CAttendee:public CParticipant {
 
     /**
      * @param bool brsvp indicating whether the favour of a reply is requested
-     * @return bool 
-     * 
+     * @return bool
+     *
      * This function will be used to set RSVP
      * which indicates whether the favour of a reply is requested or not.
      * returns true when RSVP is  set correctly.
@@ -202,7 +203,7 @@ class CAttendee:public CParticipant {
     /**
      * @param none
      * @return bool RSVP value
-     * 
+     *
      * This function will be used to get RSVP
      * which has been previously set using setRSVP().
      */
@@ -210,10 +211,10 @@ class CAttendee:public CParticipant {
 
     /**
      * @param string calendar users
-     * @return bool 
-     * 
+     * @return bool
+     *
      * This function will be used to set DELEGATED-TO
-     * which indicates the calendar users that the orignal 
+     * which indicates the calendar users that the orignal
      * request was delegated to.
      * returns true when Delegated to is  set correctly.
      */
@@ -222,9 +223,9 @@ class CAttendee:public CParticipant {
     /**
      * @param none
      * @return string users
-     * 
+     *
      * This function will be used to get calendar users
-     * that the original request was delegated to     
+     * that the original request was delegated to
      * which has been previously set using setDelegatees().
      */
     string getDelegatees();
@@ -232,7 +233,7 @@ class CAttendee:public CParticipant {
     /**
      * @param string calendar user
      * @return bool
-     *  
+     *
      * This function will be used to set DELEGATED-FROM
      * which indicates whom the request was delegated from
      * returns true when Delegated from is  set correctly.
@@ -242,20 +243,20 @@ class CAttendee:public CParticipant {
     /**
      * @param none
      * @return string user
-     * 
+     *
      * This function will be used to get DELEGATED-FROM
      * which indicates whom the request was delegated from
      * which has been previously set using setDelegators().
      */
     string getDelegator();
-        /**
-	 * toString
-	 */
-        string toString();
-	
+    /**
+    * toString
+     */
+    string toString();
 
 
-  private:
+
+private:
 
     /* Parameters are defined as per ICAL rfc */
 

@@ -33,18 +33,18 @@
  */
 
 
-CTodo::CTodo(string szSummary, int iTodoDue, int iStatus):CComponentDetails(szSummary, iTodoDue,
-          iStatus), iDue(-1), iCompleted(-1), iPercentComplete(-1),
-iPriority(-1)
+CTodo::CTodo(string szSummary, int iTodoDue, int iStatus): CComponentDetails(szSummary, iTodoDue,
+            iStatus), iDue(-1), iCompleted(-1), iPercentComplete(-1),
+    iPriority(-1)
 {
 
-    //All other parameters will be initialised in 
+    //All other parameters will be initialised in
     //base clasdd ie CComponent and CComponentDetails.
     this->setType(E_TODO);
 }
 
 /**
- * ~CTodo 
+ * ~CTodo
  * @param none
  * @return none
  * destructor
@@ -56,14 +56,14 @@ CTodo::~CTodo()
 
 /**
  * setGeo
- * @param str  Latitude and Longitude  
+ * @param str  Latitude and Longitude
  * @return bool
  *
- * This function will be used to set geo for a todo entry 
- * The geo is combination of latitude and 
+ * This function will be used to set geo for a todo entry
+ * The geo is combination of latitude and
  * longitude.ex: 120.98;45.64
  * returns true when geo is set correctly.
- * returns false when geo is empty.    
+ * returns false when geo is empty.
 
 */
 bool CTodo::setGeo(string szGeo)
@@ -75,10 +75,10 @@ bool CTodo::setGeo(string szGeo)
 /**
  * getGeo
  * @param none
- * @return geo string 
+ * @return geo string
  *
- * This function will be used to extract geo for a todo entry 
- * which has been previously set using setGeo().The geo is combination of latitude and 
+ * This function will be used to extract geo for a todo entry
+ * which has been previously set using setGeo().The geo is combination of latitude and
  * longitude.ex: 120.98;45.64
  * returns geo string
 
@@ -94,10 +94,10 @@ string CTodo::getGeo()
  * @param int time
  * @return bool
  *
- * This function will be used to set due date for a todo entry 
- * 
+ * This function will be used to set due date for a todo entry
+ *
  * returns true when due date is set correctly.
- * returns false when due date is empty.    
+ * returns false when due date is empty.
 
 */ bool CTodo::setDue(int iDue)
 {
@@ -112,11 +112,11 @@ string CTodo::getGeo()
 /**
  * getDue
  * @param none
- * @return due time int 
+ * @return due time int
  *
- * This function will be used to due time for a todo 
+ * This function will be used to due time for a todo
  *  which has been previously set using setTodoDue()
- * returns due time 
+ * returns due time
 
 
 */
@@ -131,16 +131,18 @@ int CTodo::getDue()
  * @param int time
  * @return bool
  *
- * This function will be used to set completed date for a todo entry 
- * 
+ * This function will be used to set completed date for a todo entry
+ *
  * returns true when  date is set correctly.
- * returns false when  date is empty.    
+ * returns false when  date is empty.
 
 */
 bool CTodo::setCompleted(int iCompleted)
 {
-    if (iCompleted < 0)
-    return false;
+    if(iCompleted < 0) {
+        return false;
+    }
+
     this->iCompleted = iCompleted;
     return true;
 
@@ -150,11 +152,11 @@ bool CTodo::setCompleted(int iCompleted)
 /**
  * getCompleted
  * @param none
- * @return completed time int 
+ * @return completed time int
  *
- * This function will be used to completed time for a todo 
+ * This function will be used to completed time for a todo
  * which has been previously set using setTodoComp()
- * returns completed time 
+ * returns completed time
 
 
 */
@@ -166,16 +168,18 @@ int CTodo::getCompleted()
 /**
  * setPercentComplete
  * @param integer P percentage of todo completed
- * @return bool 
- * This function will be used to set percentage of todo completed for  a todo entry 
+ * @return bool
+ * This function will be used to set percentage of todo completed for  a todo entry
  * returns true when percent  is set correctly.
 
 */
 
 bool CTodo::setPercentComplete(int iPercentComplete)
 {
-    if (iPercentComplete < ZERO || iPercentComplete > HUNDRED)
-    return false;
+    if(iPercentComplete < ZERO || iPercentComplete > HUNDRED) {
+        return false;
+    }
+
     this->iPercentComplete = iPercentComplete;
     return true;
 
@@ -185,7 +189,7 @@ bool CTodo::setPercentComplete(int iPercentComplete)
  * getPercentComplete
  * @param none
  * @return int percentage of todo completed.
- * This function will be used to extract percent of todo completed for a todo entry 
+ * This function will be used to extract percent of todo completed for a todo entry
  * which has been previously set using setPercent().
  */
 int CTodo::getPercentComplete()
@@ -195,19 +199,20 @@ int CTodo::getPercentComplete()
 
 /**
  * setPriority
- * @param integer pripority 
- * @return bool 
+ * @param integer pripority
+ * @return bool
  *
- * This function will be used to set priority of todo 
+ * This function will be used to set priority of todo
  * returns true when priority  is set correctly.
  */
 
 bool CTodo::setPriority(int iPriority)
 {
-    if (iPriority >= ZERO && iPriority <= MAX_PRIORITY) {
-    this->iPriority = iPriority;
-    return true;
+    if(iPriority >= ZERO && iPriority <= MAX_PRIORITY) {
+        this->iPriority = iPriority;
+        return true;
     }
+
     return false;
 
 
@@ -227,13 +232,13 @@ int CTodo::getPriority()
 }
 
 /**
- * calTodo 
+ * calTodo
  * @param  none
- * @return None 
+ * @return None
  * Default constructor
  */
-CTodo::CTodo():CComponentDetails(), iDue(-1), iCompleted(-1), iPercentComplete(-1),
-iPriority(-1)
+CTodo::CTodo(): CComponentDetails(), iDue(-1), iCompleted(-1), iPercentComplete(-1),
+    iPriority(-1)
 {
     this->setType(E_TODO);
 
@@ -242,9 +247,9 @@ iPriority(-1)
 
 
 /**
- * copy Constructor 
+ * copy Constructor
  */
-CTodo::CTodo(CTodo & ref):CComponentDetails(ref)
+CTodo::CTodo(CTodo &ref): CComponentDetails(ref)
 {
 
     szGeo = ref.szGeo;
@@ -256,20 +261,21 @@ CTodo::CTodo(CTodo & ref):CComponentDetails(ref)
 }
 
 /**
- * overloaded assignment operator 
+ * overloaded assignment operator
  */
-CTodo & CTodo::operator=(CTodo & right)
+CTodo &CTodo::operator=(CTodo &right)
 {
-    //avoid self assignment 
+    //avoid self assignment
     //
-    if (&right != this) {
-    CComponentDetails::operator=(right);
-    szGeo = right.szGeo;
-    iDue = right.iDue;
-    iCompleted = right.iCompleted;
-    iPercentComplete = right.iPercentComplete;
-    iPriority = right.iPriority;
+    if(&right != this) {
+        CComponentDetails::operator=(right);
+        szGeo = right.szGeo;
+        iDue = right.iDue;
+        iCompleted = right.iCompleted;
+        iPercentComplete = right.iPercentComplete;
+        iPriority = right.iPriority;
     }
+
     return *this;
 }
 string CTodo::toString()
@@ -281,94 +287,120 @@ string CTodo::toString()
     time_t temp = 0;
     std::stringstream ss;
     ss << "ID=";
-    if (getId().c_str()){
-	szTemp= getId().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getId().c_str()) {
+        szTemp = getId().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
 
     ss << ",CalendarId=";
     ss << getCalendarId();
 
     ss << ",summary=";
-    if (getSummary().c_str()){
-	szTemp= getSummary().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getSummary().c_str()) {
+        szTemp = getSummary().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
 
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",description=";
-    if (getDescription().c_str()){
-	szTemp= getDescription().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getDescription().c_str()) {
+        szTemp = getDescription().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
 
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",location=";
-    if (getLocation().c_str()){
-	szTemp= getLocation().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getLocation().c_str()) {
+        szTemp = getLocation().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
 
-    else
-	ss << NULL_STRING;
-    ss << ",UId=";
-    if (getGUid().c_str()){
-	szTemp= getGUid().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+    else {
+        ss << NULL_STRING;
     }
-    else
-	ss << NULL_STRING;
+
+    ss << ",UId=";
+
+    if(getGUid().c_str()) {
+        szTemp = getGUid().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
+    }
+    else {
+        ss << NULL_STRING;
+    }
 
     ss << ",TimeZone=";
-    if (getTzid().c_str()){
-	szTemp= getTzid().substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(getTzid().c_str()) {
+        szTemp = getTzid().substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
+
     ss << ",Type=";
     ss << getType() ;
     ss << ",Flags=";
-    switch (getFlags()){
-	case HAS_ATTENDEE:
-	    ss << "Has Attendee";
-	    break;
-	case HAS_ORGANIZER:
-	    ss << "Has Organizer";
-	    break;
-	case HAS_RECURRENCE:
-	    ss << "Has Recurrence";
-	    break;
-	case HAS_ALARM:
-	    ss << "Has Alarm";
-	    break;
-	case HAS_RECURRENCE_ALARM :
-	    ss << "Has Recurrent Alarm";
-	    break;
-	case HAS_PARTICIPANT :
-	    ss << "Has Participant";
-	    break;
-	case HAS_CATEGORIES :
-	    ss << "Has Categories";
-	    break;
-	case HAS_COMMENT:
-	    ss << "Has Comment ";
-	    break;
-	case HAS_EXTRA:
-	    ss << "Has Extra ";
-	    break;
-	default:
-	    break;
+
+    switch(getFlags()) {
+    case HAS_ATTENDEE:
+        ss << "Has Attendee";
+        break;
+
+    case HAS_ORGANIZER:
+        ss << "Has Organizer";
+        break;
+
+    case HAS_RECURRENCE:
+        ss << "Has Recurrence";
+        break;
+
+    case HAS_ALARM:
+        ss << "Has Alarm";
+        break;
+
+    case HAS_RECURRENCE_ALARM :
+        ss << "Has Recurrent Alarm";
+        break;
+
+    case HAS_PARTICIPANT :
+        ss << "Has Participant";
+        break;
+
+    case HAS_CATEGORIES :
+        ss << "Has Categories";
+        break;
+
+    case HAS_COMMENT:
+        ss << "Has Comment ";
+        break;
+
+    case HAS_EXTRA:
+        ss << "Has Extra ";
+        break;
+
+    default:
+        break;
     }
 
     ss << ",Status=";
@@ -392,13 +424,15 @@ string CTodo::toString()
     ss << ",All day=";
     ss << getAllDay();
     ss << ",Geo=";
-    if (szGeo.c_str()){
-	szTemp= szGeo.substr(0,100);
-	ss << szTemp;
-	szTemp.clear();
+
+    if(szGeo.c_str()) {
+        szTemp = szGeo.substr(0, 100);
+        ss << szTemp;
+        szTemp.clear();
     }
-    else
-	ss << NULL_STRING;
+    else {
+        ss << NULL_STRING;
+    }
 
     ss << ",TodoDue=";
     ss << iDue;
@@ -408,16 +442,23 @@ string CTodo::toString()
     ss << iPercentComplete;
     ss << ",Priority";
     ss << iPriority;
-    pAlarm=getAlarm();
-    if(pAlarm)
-	ss << pAlarm->toString();
-    else
-	ss << ",Alarm=NULL";
-    cRec=getRecurrence();
-    if(cRec)
-	ss << cRec->toString();
-    else
-	ss << ",Rec=NULL";
+    pAlarm = getAlarm();
+
+    if(pAlarm) {
+        ss << pAlarm->toString();
+    }
+    else {
+        ss << ",Alarm=NULL";
+    }
+
+    cRec = getRecurrence();
+
+    if(cRec) {
+        ss << cRec->toString();
+    }
+    else {
+        ss << ",Rec=NULL";
+    }
 
     szRet.append(ss.str());
     return szRet;
