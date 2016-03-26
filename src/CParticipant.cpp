@@ -21,73 +21,36 @@
  *
  */
 
-/**
- *  header files
- */
 #include "CParticipant.h"
 #include "Common.h"
 
-/**
- * setLanguage
- * @param string Language parameter
- * @return bool indicates whether operation is successful or not
- *
- * This function will be used to set the language parameter of participant
- */
 bool CParticipant::setLanguage(string szLanguage)
 {
     this->szLanguage = szLanguage;
     return true;
 }
 
-/**
- * getLanguage
- * Function to get the value of language parameter
- *
- * @param none
- *
- * @return string String value
- */
 string CParticipant::getLanguage()
 {
-    return (this->szLanguage);
+    return szLanguage;
 }
 
-
-/**
- * setSentBy
- * @param string SentBy parameter
- * @return bool indicates whether operation is successful or not
- *
- * This function will be used to set the sentby parameter of participant
- */
 bool CParticipant::setSentBy(string szSentBy)
 {
-    this->szSentBy = szSentBy;
-    return true;
+    // must start with "mailto:" or be empty
+    if((szSentBy.find("mailto:") == 0) || (szSentBy.empty())) {
+        this->szSentBy = szSentBy;
+        return true;
+    }
+    else {
+        return false;
+    }
 }
-
-/**
- * getSentBy
- * @param none
- * @return string sentBy
- *
- * This function will be used to get the sentby of participant
- */
 
 string CParticipant::getSentBy()
 {
-    return (this->szSentBy);
+    return szSentBy;
 }
-
-
-/**
- * setCommonName
- * @param string common-name parameter
- * @return bool indicates whether operation is successful or not
- *
- * This function will be used to set the common-name parameter of participant
- */
 
 bool CParticipant::setCommonName(string szCommonName)
 {
@@ -95,36 +58,15 @@ bool CParticipant::setCommonName(string szCommonName)
     return true;
 }
 
-/**
- * setMailTo
- * @param string szMailTo
- * @return none
- * Function used to set mailto parameter
- */
 void CParticipant::setMailTo(string szMailTo)
 {
     this->szMailTo = szMailTo;
-
 }
 
-/**
- * getMailTo
- * @param none
- * @return string szMailTo
- * Function to retrieve MailTo from the class
- */
 string CParticipant::getMailTo()
 {
     return this->szMailTo;
 }
-
-/**
- * setXparameters
- * @param string X-PARAMETER parameter
- * @return bool indicates whether operation is successful or not
- *
- * This function will be used to set the x-parameter of participant
- */
 
 bool CParticipant::setXparameters(string szCXparameter)
 {
@@ -132,89 +74,40 @@ bool CParticipant::setXparameters(string szCXparameter)
     return true;
 }
 
-/**
- * setCalAddress
- * @param string cal-Address parameter
- * @return bool indicates whether operation is successful or not
- *
- * This function will be used to set the Cal-Address parameter of participant
- */
 bool CParticipant::setCalAddress(string szCalAddress)
 {
     this->szCalAddress = szCalAddress;
     return true;
 }
 
-/**
- * setDirectoryParameter
- * @param string directory name parameter
- * @return bool indicates whether operation is successful or not
- *
- * This function will be used to set the directory parameter of participant
- */
 bool CParticipant::setDirectoryParameter(string szDirectoryParameter)
 {
     this->szDirectoryParameter = szDirectoryParameter;
     return true;
 }
 
-/**
- * getDirectoryParameter
- * @return string directory name parameter
- *
- * This function will be used to get the directory parameter of participant
- */
-
 string CParticipant::getDirectoryParameter()
 {
-    return (this->szDirectoryParameter);
+    return szDirectoryParameter;
 }
 
-/**
- * getCalAddress()
- * @param none
- * @return string cal-Address parameter
- *
- * This function will be used to get the Cal-Address parameter of participant
- */
 string CParticipant::getCalAddress()
 {
-    return (this->szCalAddress);
+    return szCalAddress;
 }
 
-/**
- * getXparameters
- * @param none
- * @return string X-parameter
- *
- * This function will be used to get the X-parameter of participant
- */
 string CParticipant::getXparameters()
 {
-    return (this->szCXparameter);
+    return szCXparameter;
 }
 
-/**
- * getCommonName
- * @param none
- * @return string CommonName
- *
- * This function will be used to get the Common-name of participant
- */
 string CParticipant::getCommonName()
 {
-    return (this->szCommonName);
+    return szCommonName;
 }
 
-/**
- * CParticipant copy constructor
- *
- *
- */
 CParticipant::CParticipant(CParticipant &Cparef)
 {
-
-
     szSentBy = Cparef.szSentBy;
     szCommonName = Cparef.szCommonName;
     szDirectoryParameter = Cparef.szDirectoryParameter;
@@ -222,15 +115,12 @@ CParticipant::CParticipant(CParticipant &Cparef)
     szCalAddress = Cparef.szCalAddress;
     szCXparameter = Cparef.szCXparameter;
     szMailTo = Cparef.szMailTo;
-
 }
 
-/**
- * overloaded assignment operator
- */
 const CParticipant &CParticipant::operator=(const CParticipant &right)
 {
-    if(&right != this) {       //check for self assignment
+    // check for self assignment
+    if(&right != this) {
         szSentBy = right.szSentBy;
         szCommonName = right.szCommonName;
         szDirectoryParameter = right.szDirectoryParameter;
@@ -243,19 +133,10 @@ const CParticipant &CParticipant::operator=(const CParticipant &right)
     return *this;
 }
 
-
-/**
- * CParticipant
- * Default constructor for CParticipant
- */
 CParticipant::CParticipant()
 {
 }
 
-/**
- *CParticipant
- *parameterised constructor for CParticipant
- */
 CParticipant::CParticipant(string szSentBy, string szCommonName, string szDirectoryParameter, string szLanguage, string szCalAddress, string szCXparameter, string szMailTo): szSentBy(szSentBy), szCommonName(szCommonName),
     szDirectoryParameter(szDirectoryParameter), szLanguage(szLanguage),
     szCalAddress(szCalAddress), szCXparameter(szCXparameter),
@@ -263,100 +144,77 @@ CParticipant::CParticipant(string szSentBy, string szCommonName, string szDirect
 {
 }
 
-
-
-/**
- * ~CParticipant
- * Default destructor for CParticipant
- */
 CParticipant::~CParticipant()
 {
 }
 
-
 string CParticipant::toString()
 {
-    string szRet;
-    string szTemp;
     std::stringstream ss;
-    ss << "SentBy=";
 
-    if(szSentBy.c_str()) {
-        szTemp = szSentBy.substr(0, 100);
-        ss << szTemp;
-        szTemp.clear();
+    ss << "SENT-BY=";
+
+    if(!szSentBy.empty()) {
+        ss << szSentBy.substr(0, 100);
     }
     else {
         ss << NULL_STRING;
     }
 
-    ss << ",CommonName=";
+    ss << ",CN=";
 
-    if(szCommonName.c_str()) {
-        szTemp = szCommonName.substr(0, 100);
-        ss << szTemp;
-        szTemp.clear();
-    }
-    else {
-        szRet.append(NULL_STRING);
-    }
-
-    ss << ",Directory=";
-
-    if(szDirectoryParameter.c_str()) {
-        szTemp = szDirectoryParameter.substr(0, 100);
-        ss << szTemp;
-        szTemp.clear();
+    if(!szCommonName.empty()) {
+        ss << szCommonName.substr(0, 100);
     }
     else {
         ss << NULL_STRING;
     }
 
-    ss << ",Lang=";
+    ss << ",DIR=";
 
-    if(szLanguage.c_str()) {
-        szTemp = szLanguage.substr(0, 100);
-        ss << szTemp;
-        szTemp.clear();
+    if(!szDirectoryParameter.empty()) {
+        ss << szDirectoryParameter.substr(0, 100);
     }
     else {
         ss << NULL_STRING;
     }
 
-    ss << ",CalAddr=";
+    ss << ",LANGUAGE=";
 
-    if(szCalAddress.c_str()) {
-        szTemp = szCalAddress.substr(0, 100);
-        ss << szTemp;
-        szTemp.clear();
+    if(!szLanguage.empty()) {
+        ss << szLanguage.substr(0, 100);
     }
     else {
         ss << NULL_STRING;
     }
 
-    ss << ",CXparam=";
+    ss << ",CAL-ADDR=";
 
-    if(szCXparameter.c_str()) {
-        szTemp = szCXparameter.substr(0, 100);
-        ss << szTemp;
-        szTemp.clear();
+    if(!szCalAddress.empty()) {
+        ss << szCalAddress.substr(0, 100);
     }
     else {
         ss << NULL_STRING;
     }
 
-    ss << ",MailTo=";
+    ss << ",X-PARAM=";
 
-    if(szMailTo.c_str()) {
-        szTemp = szMailTo.substr(0, 100);
-        ss << szTemp;
-        szTemp.clear();
+    if(!szCXparameter.empty()) {
+        ss << szCXparameter.substr(0, 100);
     }
     else {
         ss << NULL_STRING;
     }
 
-    szRet.append(ss.str());
-    return szRet;
+    ss << ",MAIL-TO=";
+
+    if(!szMailTo.empty()) {
+        ss << szMailTo.substr(0, 100);
+    }
+    else {
+        ss << NULL_STRING;
+    }
+
+    return ss.str();
 }
 

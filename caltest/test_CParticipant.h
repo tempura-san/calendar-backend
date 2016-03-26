@@ -83,4 +83,3 @@ public:
     void test_toString();
     void test_toString_NULL();
 };
-

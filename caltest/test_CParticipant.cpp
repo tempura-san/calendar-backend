@@ -32,113 +32,123 @@
 
 #include "test_CParticipant.h"
 
-
 using namespace std;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(CParticipant_TS1);
 CPPUNIT_TEST_SUITE_REGISTRATION(CParticipant_TS2);
+
 void CParticipant_TS1::setUp()
 {
     pCp = new CParticipant();
 }
+
 void CParticipant_TS1::tearDown()
 {
     delete pCp;
     pCp = NULL;
 }
+
 void CParticipant_TS2::setUp()
 {
     pCp = new CParticipant();
 }
+
 void CParticipant_TS2::tearDown()
 {
     delete pCp;
     pCp = NULL;
 }
 
-void CParticipant_TS1 ::test_SetLanguage_Valid()
+void CParticipant_TS1::test_SetLanguage_Valid()
 {
-    string szLa = "OPAQUE";
-    bool ret = pCp->setLanguage(szLa);
+    string szTest = "OPAQUE";
+    bool ret = pCp->setLanguage(szTest);
     string szRet = pCp->getLanguage();
-    CPPUNIT_ASSERT_MESSAGE("Error : setting value", (ret == true));
-    CPPUNIT_ASSERT_MESSAGE("Error : returning the wrong value", (szRet == szLa));
+
+    CPPUNIT_ASSERT_MESSAGE("Set LANGUAGE value", (ret == true));
+    CPPUNIT_ASSERT_MESSAGE("Get LANGUAGE value", (szRet == szTest));
 }
 
-void CParticipant_TS1 ::test_SetSentBy_Valid()
+void CParticipant_TS1::test_SetSentBy_Valid()
 {
-    string szSent = "OPAQUE";
-    bool ret = pCp->setSentBy(szSent);
+    string szTest = "mailto:mail@example.com";
+    bool ret = pCp->setSentBy(szTest);
     string szRet = pCp->getSentBy();
-    CPPUNIT_ASSERT_MESSAGE("Error : setting value", (ret == true));
-    CPPUNIT_ASSERT_MESSAGE("Error : returning the wrong value", (szRet == szSent));
+
+    CPPUNIT_ASSERT_MESSAGE("Set SENT-BY value", (ret == true));
+    CPPUNIT_ASSERT_MESSAGE("Get SENT-BY value", (szRet == szTest));
 }
 
-void CParticipant_TS1 ::test_SetSentBy_Empty()
+void CParticipant_TS1::test_SetSentBy_Empty()
 {
-    bool bRet = pCp->setSentBy("");
-    CPPUNIT_ASSERT_MESSAGE("Error : setting the empty value", (bRet == true));
+    bool ret = pCp->setSentBy("");
+    CPPUNIT_ASSERT_MESSAGE("Set empty SENT-BY value", (ret == true));
 }
 
-void CParticipant_TS1 ::test_SetXParameters_Valid()
+void CParticipant_TS1::test_SetXParameters_Valid()
 {
-    string szTransp = "OPAQUE";
-    bool ret = pCp->setXparameters(szTransp);
+    string szTest = "OPAQUE";
+    bool ret = pCp->setXparameters(szTest);
     string szRet = pCp->getXparameters();
-    CPPUNIT_ASSERT_MESSAGE("Error : setting value", (ret == true));
-    CPPUNIT_ASSERT_MESSAGE("Error : returning the wrong value", (szTransp == szRet));
+
+    CPPUNIT_ASSERT_MESSAGE("Set X-PARAM value", (ret == true));
+    CPPUNIT_ASSERT_MESSAGE("Get X-PARAM value", (szRet == szTest));
 }
 
-void CParticipant_TS1 ::test_SetXParameters_Empty()
+void CParticipant_TS1::test_SetXParameters_Empty()
 {
-    bool bRet = pCp->setXparameters("");
-    CPPUNIT_ASSERT_MESSAGE("Error : setting the NULL value", (bRet == true));
+    bool ret = pCp->setXparameters("");
+    CPPUNIT_ASSERT_MESSAGE("Set empty X-PARAM value", (ret == true));
 }
 
-void CParticipant_TS1 ::test_SetDirectoryParameter_Valid()
+void CParticipant_TS1::test_SetDirectoryParameter_Valid()
 {
-    string szTransp = "OPAQUE";
-    bool ret = pCp->setDirectoryParameter(szTransp);
+    string szTest = "OPAQUE";
+    bool ret = pCp->setDirectoryParameter(szTest);
     string szRet = pCp->getDirectoryParameter();
-    CPPUNIT_ASSERT_MESSAGE("Error : setting value", (ret == true));
-    CPPUNIT_ASSERT_MESSAGE("Error : returning the wrong value", szTransp == szRet);
+
+    CPPUNIT_ASSERT_MESSAGE("Set DIR value", (ret == true));
+    CPPUNIT_ASSERT_MESSAGE("Get DIR value", (szRet == szTest));
 }
 
-void CParticipant_TS1 ::test_SetDirectoryParameter_Empty()
+void CParticipant_TS1::test_SetDirectoryParameter_Empty()
 {
-    bool bRet = pCp->setDirectoryParameter("");
-    CPPUNIT_ASSERT_MESSAGE("Error : setting the NULL value", (bRet == true));
+    bool ret = pCp->setDirectoryParameter("");
+    CPPUNIT_ASSERT_MESSAGE("Set empty DIR value", (ret == true));
 }
 
-void CParticipant_TS1 ::test_SetCalAddress_Valid()
+void CParticipant_TS1::test_SetCalAddress_Valid()
 {
-    string szHey = "hey";
-    bool ret = pCp->setCalAddress(szHey);
+    string szTest = "hey";
+    bool ret = pCp->setCalAddress(szTest);
     string szRet = pCp->getCalAddress();
-    CPPUNIT_ASSERT_MESSAGE("Error : setting value", (ret == true));
-    CPPUNIT_ASSERT_MESSAGE("Error : returning the wrong value", szRet == szHey);
+
+    CPPUNIT_ASSERT_MESSAGE("Set CAL-ADDRESS value", (ret == true));
+    CPPUNIT_ASSERT_MESSAGE("Get CAL-ADDRESS value", (szRet == szTest));
 }
 
-void CParticipant_TS1 ::test_SetCommonName_Valid()
+void CParticipant_TS1::test_SetCommonName_Valid()
 {
-    string szCom = "OPAQUE";
-    bool ret = pCp->setCommonName(szCom);
+    string szTest = "OPAQUE";
+    bool ret = pCp->setCommonName(szTest);
     string szRet = pCp->getCommonName();
-    CPPUNIT_ASSERT_MESSAGE("Error : setting value", (ret == true));
-    CPPUNIT_ASSERT_MESSAGE("Error : returning the wrong value", szRet == szCom);
+
+    CPPUNIT_ASSERT_MESSAGE("Set CN value", (ret == true));
+    CPPUNIT_ASSERT_MESSAGE("Get CN value", (szRet == szTest));
 }
 
-void CParticipant_TS1 ::test_MailTo()
+void CParticipant_TS1::test_MailTo()
 {
-    string szCom = "mailto";
-    pCp->setMailTo(szCom);
+    string szTest = "mailto:mail@example.com";
+    pCp->setMailTo(szTest);
     string szRet = pCp->getMailTo();
-    CPPUNIT_ASSERT_MESSAGE("Error : returning the wrong value", szRet == szCom);
+
+    CPPUNIT_ASSERT_MESSAGE("Get MAIL-TO value", (szRet == szTest));
 }
 
 void ValidCParticipantConstructorTestCase::setUp()
 {
-    p = new CParticipant("sentBy", "commonName", "directoryParameter", "language", "calAddress", "cXparameter", "email@email.com");
+    p = new CParticipant("mailto:sender@example.com", "commonname", "directory", "language", "caladdress", "X-NAME:TEST", "mailto:recipient@example.com");
 }
 
 void ValidCParticipantConstructorTestCase::tearDown()
@@ -148,62 +158,61 @@ void ValidCParticipantConstructorTestCase::tearDown()
 
 void ValidCParticipantConstructorTestCase::test_validCParticipantConstructor()
 {
-    CPPUNIT_ASSERT_MESSAGE("conflict language", (strcmp((p->getLanguage().c_str()), "language") == 0));
-    CPPUNIT_ASSERT_MESSAGE("conflict commonname", (strcmp((p->getCommonName().c_str()), "commonName") == 0));
-    CPPUNIT_ASSERT_MESSAGE("conflict calAddress", (strcmp((p->getCalAddress().c_str()), "calAddress") == 0));
-    CPPUNIT_ASSERT_MESSAGE("conflict sentby", (strcmp((p->getSentBy().c_str()), "sentBy") == 0));
-    CPPUNIT_ASSERT_MESSAGE("conflict cXparameter", (strcmp((p->getXparameters().c_str()), "cXparameter") == 0));
+    // test constructor
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Constructor: conflict LANGUAGE value", string("language"), p->getLanguage());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Constructor: conflict CN value", string("commonname"), p->getCommonName());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Constructor: conflict CAL-ADDRESS value", string("caladdress"), p->getCalAddress());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Constructor: conflict SENT-BY value", string("mailto:sender@example.com"), p->getSentBy());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Constructor: conflict X-PARAM value", string("X-NAME:TEST"), p->getXparameters());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Constructor: conflict DIR value", string("directory"), p->getDirectoryParameter());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Constructor: conflict MAIL-TO value", string("mailto:recipient@example.com"), p->getMailTo());
 
-    CPPUNIT_ASSERT_MESSAGE("conflict directoryParameter", (strcmp((p->getDirectoryParameter().c_str()), "directoryParameter") == 0));
-    CPPUNIT_ASSERT_MESSAGE("conflict email", (strcmp((p->getMailTo().c_str()), "email@email.com") == 0));
-
+    // test assignment operator
     CParticipant r;
     r = *(p);
-    CPPUNIT_ASSERT_MESSAGE("conflict language", (strcmp((r.getLanguage().c_str()), "language") == 0));
-    CPPUNIT_ASSERT_MESSAGE("conflict commonname", (strcmp((r.getCommonName().c_str()), "commonName") == 0));
-    CPPUNIT_ASSERT_MESSAGE("conflict calAddress", (strcmp((r.getCalAddress().c_str()), "calAddress") == 0));
-    CPPUNIT_ASSERT_MESSAGE("conflict sentby", (strcmp((r.getSentBy().c_str()), "sentBy") == 0));
-    CPPUNIT_ASSERT_MESSAGE("conflict cXparameter", (strcmp((r.getXparameters().c_str()), "cXparameter") == 0));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Assignment: conflict LANGUAGE value", string("language"), p->getLanguage());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Assignment: conflict CN value", string("commonname"), p->getCommonName());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Assignment: conflict CAL-ADDRESS value", string("caladdress"), p->getCalAddress());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Assignment: conflict SENT-BY value", string("mailto:sender@example.com"), p->getSentBy());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Assignment: conflict X-PARAM value", string("X-NAME:TEST"), p->getXparameters());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Assignment: conflict DIR value", string("directory"), p->getDirectoryParameter());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Assignment: conflict MAIL-TO value", string("mailto:recipient@example.com"), p->getMailTo());
 
-    CPPUNIT_ASSERT_MESSAGE("conflict directoryParameter", (strcmp((r.getDirectoryParameter().c_str()), "directoryParameter") == 0));
-    CPPUNIT_ASSERT_MESSAGE("conflict email", (strcmp((r.getMailTo().c_str()), "email@email.com") == 0));
+    // test copy constructor
     CParticipant q1(*(p));
-    CPPUNIT_ASSERT_MESSAGE("conflict language", (strcmp((q1.getLanguage().c_str()), "language") == 0));
-    CPPUNIT_ASSERT_MESSAGE("conflict commonname", (strcmp((q1.getCommonName().c_str()), "commonName") == 0));
-    CPPUNIT_ASSERT_MESSAGE("conflict calAddress", (strcmp((q1.getCalAddress().c_str()), "calAddress") == 0));
-    CPPUNIT_ASSERT_MESSAGE("conflict sentby", (strcmp((q1.getSentBy().c_str()), "sentBy") == 0));
-    CPPUNIT_ASSERT_MESSAGE("conflict cXparameter", (strcmp((q1.getXparameters().c_str()), "cXparameter") == 0));
-
-    CPPUNIT_ASSERT_MESSAGE("conflict directoryParameter", (strcmp((q1.getDirectoryParameter().c_str()), "directoryParameter") == 0));
-    CPPUNIT_ASSERT_MESSAGE("conflict email", (strcmp((q1.getMailTo().c_str()), "email@email.com") == 0));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Copy: conflict LANGUAGE value", string("language"), p->getLanguage());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Copy: conflict CN value", string("commonname"), p->getCommonName());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Copy: conflict CAL-ADDRESS value", string("caladdress"), p->getCalAddress());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Copy: conflict SENT-BY value", string("mailto:sender@example.com"), p->getSentBy());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Copy: conflict X-PARAM value", string("X-NAME:TEST"), p->getXparameters());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Copy: conflict DIR value", string("directory"), p->getDirectoryParameter());
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Copy: conflict MAIL-TO value", string("mailto:recipient@example.com"), p->getMailTo());
 }
-
 
 void CParticipant_TS2 ::test_toString()
 {
-    string szLa = "OPAQUE";
-    pCp->setLanguage(szLa);
-    pCp->setSentBy(szLa);
-    pCp->setXparameters(szLa);
-    pCp->setCalAddress(szLa);
-    pCp->setCommonName(szLa);
-    pCp->setMailTo(szLa);
-    pCp->setDirectoryParameter(szLa);
-    cout << pCp->toString();
+    pCp->setLanguage("en");
+    pCp->setSentBy("mailto:jane_doe@example.com");
+    pCp->setXparameters("X-NAME:TEST");
+    pCp->setCalAddress("mailto:jane_doe@example.com");
+    pCp->setCommonName("Jane Doe");
+    pCp->setMailTo("mailto:jane_doe@example.com");
+    pCp->setDirectoryParameter("ldap://example.com");
 
-
+    string result = "SENT-BY=mailto:jane_doe@example.com,CN=Jane Doe,DIR=ldap://example.com,LANGUAGE=en,CAL-ADDR=mailto:jane_doe@example.com,X-PARAM=X-NAME:TEST,MAIL-TO=mailto:jane_doe@example.com";
+    CPPUNIT_ASSERT_EQUAL(result, pCp->toString());
 }
+
 void CParticipant_TS2 ::test_toString_NULL()
 {
     string szLa = "";
-    pCp->setLanguage(szLa);
-    pCp->setSentBy(szLa);
-    pCp->setXparameters(szLa);
-    pCp->setCalAddress(szLa);
-    pCp->setCommonName(szLa);
-    pCp->setMailTo(szLa);
-    cout << pCp->toString();
+    pCp->setLanguage("");
+    pCp->setSentBy("");
+    pCp->setXparameters("");
+    pCp->setCalAddress("");
+    pCp->setCommonName("");
+    pCp->setMailTo("");
 
-
+    string result = "SENT-BY=NULL,CN=NULL,DIR=NULL,LANGUAGE=NULL,CAL-ADDR=NULL,X-PARAM=NULL,MAIL-TO=NULL";
+    CPPUNIT_ASSERT_EQUAL(result, pCp->toString());
 }
-
